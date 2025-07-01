@@ -1,0 +1,17 @@
+.vscode/
+venv/
+myenv*/
+ASM_data/*
+*.DS_Store*
+*.ipynb_checkpoints
+*.$*.bkp
+.DS_Store
+.idea/
+myenv*/
+*venv*/
+*.$*.kp
+**/__pycache__/
+*.cpython-310.pyc
+*.pyc
+*wandb/
+catboost_info/
