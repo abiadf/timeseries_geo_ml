@@ -17,7 +17,7 @@ from sklearn.linear_model import LinearRegression, ElasticNet, Ridge
 from sklearn.metrics import mean_squared_error, root_mean_squared_error
 from sklearn.model_selection import GridSearchCV, KFold, train_test_split
 from sklearn.multioutput import MultiOutputRegressor
-from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 
 class MultiOutputModelPredictor:
@@ -36,7 +36,6 @@ class MultiOutputModelPredictor:
         y_pred_ridge  = model.predict(X_val)
         rmse_ridge    = mean_squared_error(y_val, y_pred_ridge) ** 0.5
         return rmse_ridge, y_pred_ridge
-
 
     def predict_lightgbm(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
         n_targets = y_train.shape[1]
@@ -61,7 +60,6 @@ class MultiOutputModelPredictor:
         
         rmse = mean_squared_error(y_val, y_pred) ** 0.5
         return rmse, y_pred
-
 
     # [to remove] seems i duplicated this one below
     def tune_lightgbm_hyperparams_manual(self, X_train, y_train):
@@ -113,7 +111,6 @@ class MultiOutputModelPredictor:
         print(f"Best params: {best_params}")
         return best_params
 
-
     def predict_catboost(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray):
         """CatBoost only accepts uppercase 'task_type', beware of that"""
         single_model = cb.CatBoostRegressor(iterations         = 50,
@@ -132,9 +129,6 @@ class MultiOutputModelPredictor:
         y_pred_cat   = multi_model.predict(X_val)
         rmse_cat     = mean_squared_error(y_val, y_pred_cat) ** 0.5
         return rmse_cat, y_pred_cat, importances
-
-
-
 
     def tune_catboost_hyperparams(self, X_train: np.ndarray, y_train: np.ndarray):
         param_grid = {
@@ -271,7 +265,6 @@ class MultiOutputModelPredictor:
         print("Best params:", best_params)
         print(f"Best CV RMSE: {best_score:.4f}")
         return best_model
-
 
     @staticmethod
     def predict_xgboost(X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:

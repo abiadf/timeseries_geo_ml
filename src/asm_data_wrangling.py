@@ -11,7 +11,6 @@ modules   = {lib: sys.modules.get(lib) for lib in libraries}
 import numpy as np
 import polars as pl
 import pandas as pd
-import matplotlib.pyplot as plt
 
 from load_and_rename_files import LogFilesProcessor, WaferFilesProcessor
 from prediction_methods import MultiOutputModelPredictor, DataPreprocessor
@@ -24,7 +23,7 @@ device        = torch.device('mps' if torch.backends.mps.is_available() else ('c
 
 def load_spatial_csv_and_create_targets(dict_of_spatial_files, main_folder: str, save: bool = False) -> tuple:
     """Merge wafer files, split by RC, and create y and radius dataframes"""
-    processor       = WaferFilesProcessor()
+    processor         = WaferFilesProcessor()
     master_spatial_df = processor.load_wafer_csv_files_and_merge_to_df(dict_of_spatial_files)
     if save:
         master_spatial_df.write_parquet(f"{main_folder}/{parquet_folder_name}/master_wafer_file.parquet")
@@ -119,64 +118,64 @@ def dont_split_log_df_by_wafer_and_save_to_parquet(log_df, main_folder, overwrit
         log_df.write_parquet(filepath)
 
 # remove below when not using
-def infer_wafer_from_rc_values(log_df: pl.DataFrame, rc_prefix="rc", wafer_col="wafer", overwrite = False) -> pl.DataFrame:
-    # Get all rc# column groups
-    rc_cols = [col for col in log_df.columns if col.startswith(rc_prefix)]
+# def infer_wafer_from_rc_values(log_df: pl.DataFrame, rc_prefix="rc", wafer_col="wafer", overwrite = False) -> pl.DataFrame:
+#     # Get all rc# column groups
+#     rc_cols = [col for col in log_df.columns if col.startswith(rc_prefix)]
 
-    # Map: wafer # → list of its rc columns
-    from collections import defaultdict
-    wafer_rc_map = defaultdict(list)
-    for col in rc_cols:
-        # extract wafer number from column name like rc1_xx
-        wafer_num = int(col[len(rc_prefix)])
-        wafer_rc_map[wafer_num].append(col)
+#     # Map: wafer # → list of its rc columns
+#     from collections import defaultdict
+#     wafer_rc_map = defaultdict(list)
+#     for col in rc_cols:
+#         # extract wafer number from column name like rc1_xx
+#         wafer_num = int(col[len(rc_prefix)])
+#         wafer_rc_map[wafer_num].append(col)
 
-    # For each wafer group, create a mask column: True if any rc# column > 0
-    masks = []
-    for wafer, cols in wafer_rc_map.items():
-        mask = pl.fold(
-            acc=pl.lit(False),
-            function=lambda acc, x: acc | (x > 0),
-            exprs=[pl.col(c) for c in cols]
-        ).alias(f"wafer_{wafer}_active")
-        masks.append(mask)
+#     # For each wafer group, create a mask column: True if any rc# column > 0
+#     masks = []
+#     for wafer, cols in wafer_rc_map.items():
+#         mask = pl.fold(
+#             acc=pl.lit(False),
+#             function=lambda acc, x: acc | (x > 0),
+#             exprs=[pl.col(c) for c in cols]
+#         ).alias(f"wafer_{wafer}_active")
+#         masks.append(mask)
 
-    # Apply the masks to infer wafer number
-    log_df = log_df.with_columns(masks)
+#     # Apply the masks to infer wafer number
+#     log_df = log_df.with_columns(masks)
 
-    # Combine masks into wafer number (only one active assumed)
-    wafer_expr = pl.select(
-        [pl.when(pl.col(f"wafer_{w}_active")).then(w).otherwise(None) for w in sorted(wafer_rc_map)]
-    ).hstack().sum(axis=1).alias(wafer_col)
+#     # Combine masks into wafer number (only one active assumed)
+#     wafer_expr = pl.select(
+#         [pl.when(pl.col(f"wafer_{w}_active")).then(w).otherwise(None) for w in sorted(wafer_rc_map)]
+#     ).hstack().sum(axis=1).alias(wafer_col)
 
-    log_df = log_df.with_columns(wafer_expr)
+#     log_df = log_df.with_columns(wafer_expr)
 
-    # Drop the intermediate boolean columns
-    log_df_no_bool_cols = log_df.drop([f"wafer_{w}_active" for w in wafer_rc_map])
+#     # Drop the intermediate boolean columns
+#     log_df_no_bool_cols = log_df.drop([f"wafer_{w}_active" for w in wafer_rc_map])
 
-    filepath = f"{main_folder}/{parquet_folder_name}/all_wafers_log.parquet"
-    if overwrite or not os.path.exists(filepath):
-        log_df_no_bool_cols.write_parquet(filepath)
+#     filepath = f"{main_folder}/{parquet_folder_name}/all_wafers_log.parquet"
+#     if overwrite or not os.path.exists(filepath):
+#         log_df_no_bool_cols.write_parquet(filepath)
 
-    return log_df_no_bool_cols
+#     return log_df_no_bool_cols
 
-def fast_infer_wafer(df: pl.DataFrame, num_wafers: int) -> pl.DataFrame:
-    wafer_sums    = []
-    wafer_indices = []
+# def fast_infer_wafer(df: pl.DataFrame, num_wafers: int) -> pl.DataFrame:
+#     wafer_sums    = []
+#     wafer_indices = []
 
-    for i in range(1, num_wafers + 1):
-        cols = [col for col in df.columns if col.startswith(f"rc{i}_")]
-        if not cols:
-            continue
-        wafer_sums.append(
-            pl.sum_horizontal([pl.col(c) for c in cols]).alias(f"wafer_{i}"))
-        wafer_indices.append(i)
+#     for i in range(1, num_wafers + 1):
+#         cols = [col for col in df.columns if col.startswith(f"rc{i}_")]
+#         if not cols:
+#             continue
+#         wafer_sums.append(
+#             pl.sum_horizontal([pl.col(c) for c in cols]).alias(f"wafer_{i}"))
+#         wafer_indices.append(i)
 
-    df = df.with_columns(wafer_sums)
-    df = df.with_columns(
-        pl.struct([f"wafer_{i}" for i in wafer_indices]).arg_max().alias("wafer") + 1)
+#     df = df.with_columns(wafer_sums)
+#     df = df.with_columns(
+#         pl.struct([f"wafer_{i}" for i in wafer_indices]).arg_max().alias("wafer") + 1)
 
-    return df.drop([f"wafer_{i}" for i in wafer_indices])
+#     return df.drop([f"wafer_{i}" for i in wafer_indices])
 
 
 def _compute_log_df_grouped_stats(log_df: pl.DataFrame, col_to_group_by: Union[str, List[str]]):
