@@ -62,20 +62,6 @@ class LogFilesProcessor:
         df = df.drop(single_val_cols)
         return df
 
-    # moved to utils file, remove this function if code is working fine
-    # def remove_constant_valued_cols(self, df):
-    #     """Drop numeric columns with a single unique value (constant-valued columns)."""
-    #     if isinstance(df, pl.DataFrame):
-    #         numeric_cols  = df.select(pl.selectors.numeric()).columns
-    #         constant_cols = [col for col in numeric_cols if df[col].n_unique() == 1]
-    #         return df.drop(constant_cols)
-    #     elif isinstance(df, pd.DataFrame):
-    #         constant_cols = [col for col in df.select_dtypes(include='number').columns
-    #                         if df[col].nunique() == 1]
-    #         return df.drop(columns=constant_cols)
-    #     else:
-    #         raise TypeError("Unsupported DataFrame type")
-
     def append_step_suffix_to_cols(self, df: pl.DataFrame, step_col_name: str, step_id: int) -> pl.DataFrame:
         """Rename non-ID columns by appending '_step{step_id}' suffix"""
         append_step_suffix_to_cols = {
