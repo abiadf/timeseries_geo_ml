@@ -1,9 +1,9 @@
 from typing import Tuple
 
-import numpy as np
-import polars as pl
-import pandas as pd
 import catboost as cb
+import numpy as np
+import pandas as pd
+import polars as pl
 import xgboost as xgb
 
 import itertools
@@ -19,6 +19,130 @@ from sklearn.model_selection import GridSearchCV, KFold, train_test_split
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
+
+class PrePredictionProcessor:
+    """Processing before the predictions"""
+
+    def __init__(self):
+        self.y_scaler = StandardScaler()
+        self.x_scaler = StandardScaler()
+
+    def join_logs_and_wafer_df(self, log_df: pl.DataFrame, wafer_df: pl.DataFrame, y_df: pl.DataFrame) -> Tuple[pl.DataFrame, pl.DataFrame]:
+        marathon_run_col = "marathon_run"
+        X_full    = log_df.join(wafer_df, on = marathon_run_col, how = "inner", suffix = "_df2")
+        X_full_pd = X_full.to_pandas()
+        y_full_pd = y_df.sort(marathon_run_col).drop(marathon_run_col).to_pandas()
+        return X_full_pd, y_full_pd
+
+    def drop_certain_cols_from_df(self, df, cols_to_drop):
+        """Drop a set of cols from df. Use this function when unsure of the df type"""
+        if isinstance(df, pl.DataFrame):
+            return df.drop([col for col in cols_to_drop if col in df.columns])
+        elif isinstance(df, pd.DataFrame):
+            existing_cols = [col for col in cols_to_drop if col in df.columns]
+            return df.drop(columns=existing_cols)
+        else:
+            raise TypeError("Unsupported DataFrame type")
+
+    # to remove (replaced with the function below it + built-in train-test split)
+    def scale_and_split_data(self, X_full_pd: pd.DataFrame, y_full_pd: pd.DataFrame) -> Tuple[pd.DataFrame, np.ndarray, pd.DataFrame, np.ndarray, StandardScaler]:
+        test_size = 0.2
+        y_full_scaled_np                     = self.y_scaler.fit_transform(y_full_pd)
+        X_train, X_val, y_train_np, y_val_np = train_test_split(X_full_pd, y_full_scaled_np, test_size=test_size, random_state=42)
+
+        cols_to_scale = [c for c in X_train.select_dtypes(include=np.number).columns]
+
+        X_train.loc[:, cols_to_scale] = self.x_scaler.fit_transform(X_train[cols_to_scale])
+        X_val.loc[:, cols_to_scale]   = self.x_scaler.transform(X_val[cols_to_scale])
+
+        return X_train, y_train_np, X_val, y_val_np, self.y_scaler
+
+    def scale_data_without_splitting(self, X_full_pd: pd.DataFrame, y_full_pd: pd.DataFrame) -> Tuple[pd.DataFrame, np.ndarray, StandardScaler]:
+        """Scale numeric cols only"""
+        y_full_scaled_np = self.y_scaler.fit_transform(y_full_pd)
+        cols_to_scale    = [c for c in X_full_pd.select_dtypes(include=np.number).columns]
+        X_scaled         = X_full_pd.copy()
+        X_scaled.loc[:, cols_to_scale] = self.x_scaler.fit_transform(X_scaled[cols_to_scale])
+        return X_scaled, y_full_scaled_np, self.y_scaler
+
+    def scale_per_wafer_and_split_data(self, X_full_pd: pd.DataFrame, y_full_pd: pd.DataFrame, wafer_col="wafer", test_size=0.2):
+        """Scale features and targets per wafer to avoid data leakage across wafers.
+        Splits data into train/validation sets first, then fits scalers only on train wafers and applies them to validation wafers.
+
+        WARNING: This function's output is NOT compatible with sklearn's cross_val_score,
+        because cross_val_score does not refit scalers per fold, leading to data leakage if used with this per-wafer scaling.
+
+        Use custom group-aware CV with per-fold scaling to avoid leakage in cross-validation"""
+
+        # Split first (to avoid info leak)
+        X_train, X_val, y_train, y_val = train_test_split(X_full_pd, y_full_pd, test_size=test_size, random_state=42)
+
+        # Numeric columns except wafer_col for X
+        cols_to_scale_X = [c for c in X_train.select_dtypes(include="number").columns if c != wafer_col]
+        # Numeric columns for y
+        cols_to_scale_y = [c for c in y_train.select_dtypes(include="number").columns if c != wafer_col]
+
+        wafer_x_scalers = {}
+        wafer_y_scalers = {}
+
+        def scale_df_group(df, cols, scaler=None):
+            if scaler is None:
+                scaler = StandardScaler()
+                scaled_vals = scaler.fit_transform(df[cols])
+            else:
+                scaled_vals = scaler.transform(df[cols])
+            df.loc[:, cols] = scaled_vals
+            return df, scaler
+
+        # Scale X_train and y_train per wafer
+        X_train_scaled_list = []
+        y_train_scaled_list = []
+
+        for wafer_id, X_grp in X_train.groupby(wafer_col):
+            y_grp = y_train.loc[X_grp.index]
+
+            X_grp_scaled, x_scaler = scale_df_group(X_grp.copy(), cols_to_scale_X)
+            y_grp_scaled, y_scaler = scale_df_group(y_grp.copy(), cols_to_scale_y)
+
+            wafer_x_scalers[wafer_id] = x_scaler
+            wafer_y_scalers[wafer_id] = y_scaler
+
+            X_train_scaled_list.append(X_grp_scaled)
+            y_train_scaled_list.append(y_grp_scaled)
+
+        X_train_scaled = pd.concat(X_train_scaled_list).sort_index()
+        y_train_scaled = pd.concat(y_train_scaled_list).sort_index()
+
+        # Scale X_val and y_val per wafer using stored scalers
+        X_val_scaled_list = []
+        y_val_scaled_list = []
+
+        for wafer_id, X_grp in X_val.groupby(wafer_col):
+            y_grp = y_val.loc[X_grp.index]
+
+            x_scaler = wafer_x_scalers.get(wafer_id)
+            y_scaler = wafer_y_scalers.get(wafer_id)
+
+            if x_scaler is not None:
+                X_grp_scaled, _ = scale_df_group(X_grp.copy(), cols_to_scale_X, scaler=x_scaler)
+            else:
+                X_grp_scaled = X_grp.copy()
+
+            if y_scaler is not None:
+                y_grp_scaled, _ = scale_df_group(y_grp.copy(), cols_to_scale_y, scaler=y_scaler)
+            else:
+                y_grp_scaled = y_grp.copy()
+
+            X_val_scaled_list.append(X_grp_scaled)
+            y_val_scaled_list.append(y_grp_scaled)
+
+        X_val_scaled = pd.concat(X_val_scaled_list).sort_index()
+        y_val_scaled = pd.concat(y_val_scaled_list).sort_index()
+
+        # Return X,y as DataFrames, but y can be converted to np.ndarray if needed
+        return X_train_scaled, y_train_scaled, X_val_scaled, y_val_scaled, wafer_x_scalers, wafer_y_scalers
+
+
 
 class MultiOutputModelPredictor:
     def __init__(self, device):
@@ -307,120 +431,4 @@ class MultiOutputModelPredictor:
         return rmse_elas, y_pred_elas
 
 
-class DataPreprocessor:
-    def __init__(self):
-        self.y_scaler = StandardScaler() #RobustScaler()
-        self.x_scaler = StandardScaler() #RobustScaler()
 
-    def join_logs_and_wafer_df(self, log_df: pl.DataFrame, wafer_df: pl.DataFrame, y_df: pl.DataFrame) -> Tuple[pl.DataFrame, pl.DataFrame]:
-        X_full = log_df.join(wafer_df, on="marathon_run", how="inner", suffix="_df2")
-        X_full_pd = X_full.to_pandas()
-        y_full_pd = y_df.sort("marathon_run").drop("marathon_run").to_pandas()
-        return X_full_pd, y_full_pd
-
-    # def _drop_non_numeric_cols_from_df(self, df):
-    #     if type(df) == pl.DataFrame:
-    #         return df.select(pl.all().filter(lambda s: s.dtype.is_numeric()))
-    #     elif type(df) == pd.DataFrame:
-    #         return df.select_dtypes(include=[np.number])
-
-    def drop_certain_cols_from_df(self, df, cols_to_drop):
-        """Drop a set of cols from df. Use this function when unsure of the df type"""
-        if isinstance(df, pl.DataFrame):
-            return df.drop([col for col in cols_to_drop if col in df.columns])
-        elif isinstance(df, pd.DataFrame):
-            existing_cols = [col for col in cols_to_drop if col in df.columns]
-            return df.drop(columns=existing_cols)
-        else:
-            raise TypeError("Unsupported DataFrame type")
-
-    def scale_and_split_data(self, X_full_pd: pd.DataFrame, y_full_pd: pd.DataFrame) -> Tuple[pd.DataFrame, np.ndarray, pd.DataFrame, np.ndarray, StandardScaler]:
-        test_size = 0.2
-        y_full_scaled_np                     = self.y_scaler.fit_transform(y_full_pd)
-        X_train, X_val, y_train_np, y_val_np = train_test_split(X_full_pd, y_full_scaled_np, test_size=test_size, random_state=42)
-
-        cols_to_scale = [c for c in X_train.select_dtypes(include=np.number).columns]
-        # print("Cols to scale:", cols_to_scale)
-
-        X_train.loc[:, cols_to_scale] = self.x_scaler.fit_transform(X_train[cols_to_scale])
-        X_val.loc[:, cols_to_scale]   = self.x_scaler.transform(X_val[cols_to_scale])
-
-        return X_train, y_train_np, X_val, y_val_np, self.y_scaler
-
-
-    def scale_per_wafer_and_split_data(self, X_full_pd: pd.DataFrame, y_full_pd: pd.DataFrame, wafer_col="wafer", test_size=0.2):
-        """Scale features and targets per wafer to avoid data leakage across wafers.
-        Splits data into train/validation sets first, then fits scalers only on train wafers and applies them to validation wafers.
-
-        WARNING: This function's output is NOT compatible with sklearn's cross_val_score,
-        because cross_val_score does not refit scalers per fold, leading to data leakage if used with this per-wafer scaling.
-
-        Use custom group-aware CV with per-fold scaling to avoid leakage in cross-validation"""
-
-        # Split first (to avoid info leak)
-        X_train, X_val, y_train, y_val = train_test_split(X_full_pd, y_full_pd, test_size=test_size, random_state=42)
-
-        # Numeric columns except wafer_col for X
-        cols_to_scale_X = [c for c in X_train.select_dtypes(include="number").columns if c != wafer_col]
-        # Numeric columns for y
-        cols_to_scale_y = [c for c in y_train.select_dtypes(include="number").columns if c != wafer_col]
-
-        wafer_x_scalers = {}
-        wafer_y_scalers = {}
-
-        def scale_df_group(df, cols, scaler=None):
-            if scaler is None:
-                scaler = StandardScaler()
-                scaled_vals = scaler.fit_transform(df[cols])
-            else:
-                scaled_vals = scaler.transform(df[cols])
-            df.loc[:, cols] = scaled_vals
-            return df, scaler
-
-        # Scale X_train and y_train per wafer
-        X_train_scaled_list = []
-        y_train_scaled_list = []
-
-        for wafer_id, X_grp in X_train.groupby(wafer_col):
-            y_grp = y_train.loc[X_grp.index]
-
-            X_grp_scaled, x_scaler = scale_df_group(X_grp.copy(), cols_to_scale_X)
-            y_grp_scaled, y_scaler = scale_df_group(y_grp.copy(), cols_to_scale_y)
-
-            wafer_x_scalers[wafer_id] = x_scaler
-            wafer_y_scalers[wafer_id] = y_scaler
-
-            X_train_scaled_list.append(X_grp_scaled)
-            y_train_scaled_list.append(y_grp_scaled)
-
-        X_train_scaled = pd.concat(X_train_scaled_list).sort_index()
-        y_train_scaled = pd.concat(y_train_scaled_list).sort_index()
-
-        # Scale X_val and y_val per wafer using stored scalers
-        X_val_scaled_list = []
-        y_val_scaled_list = []
-
-        for wafer_id, X_grp in X_val.groupby(wafer_col):
-            y_grp = y_val.loc[X_grp.index]
-
-            x_scaler = wafer_x_scalers.get(wafer_id)
-            y_scaler = wafer_y_scalers.get(wafer_id)
-
-            if x_scaler is not None:
-                X_grp_scaled, _ = scale_df_group(X_grp.copy(), cols_to_scale_X, scaler=x_scaler)
-            else:
-                X_grp_scaled = X_grp.copy()
-
-            if y_scaler is not None:
-                y_grp_scaled, _ = scale_df_group(y_grp.copy(), cols_to_scale_y, scaler=y_scaler)
-            else:
-                y_grp_scaled = y_grp.copy()
-
-            X_val_scaled_list.append(X_grp_scaled)
-            y_val_scaled_list.append(y_grp_scaled)
-
-        X_val_scaled = pd.concat(X_val_scaled_list).sort_index()
-        y_val_scaled = pd.concat(y_val_scaled_list).sort_index()
-
-        # Return X,y as DataFrames, but y can be converted to np.ndarray if needed
-        return X_train_scaled, y_train_scaled, X_val_scaled, y_val_scaled, wafer_x_scalers, wafer_y_scalers

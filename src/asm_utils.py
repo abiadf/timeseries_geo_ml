@@ -3,6 +3,8 @@ import pandas as pd
 import polars as pl
 import matplotlib.pyplot as plt
 from skdim.id import MLE
+import os
+import time
 
 def count_missing_values_in_df(df) -> None:
     """Count NaNs (floats) and nulls (all types) in pandas or Polars DataFrame."""
@@ -94,3 +96,8 @@ def estimate_dataset_dimensionality(dataset, n_neighbors=10):
     else:
         raise TypeError("Unsupported dataset type")
     return MLE().fit(X, n_neighbors=n_neighbors).dimension_
+
+def beep_sound(times=1, delay=0.2):
+    for _ in range(times):
+        os.system('afplay /System/Library/Sounds/Blow.aiff')
+        time.sleep(delay)
