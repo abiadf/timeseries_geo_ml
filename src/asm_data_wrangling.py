@@ -41,7 +41,7 @@ def load_spatial_csv_and_create_targets(dict_of_spatial_files, main_folder: str,
                                                             aggregate_function = "first").sort("marathon_run")
     return master_spatial_df, spatial_df_dict, y_df_dict, wide_radius_df_dict
 
-def load_and_process_and_combine_log_csv_files(dict_of_log_files, log_processor: LogFilesProcessor, unique_marathon_runs_list: list, step_col_name: str,main_folder: str,save: bool = False) -> pl.DataFrame:
+def load_and_process_and_combine_log_csv_files(dict_of_log_files, log_processor: LogFilesProcessor, unique_marathon_runs_list: list, step_col_name: str,main_folder: str, keep_runs_not_in_spatial_df, save: bool = False) -> pl.DataFrame:
     """Read all log step file CSVs, concat, then optionally save to parquet"""
     marathon_col = "marathon"
     df_list = []
@@ -49,7 +49,8 @@ def load_and_process_and_combine_log_csv_files(dict_of_log_files, log_processor:
     for log_file in dict_of_log_files.values():
         df = log_processor.read_csv_and_lowercase_cols_names(log_file['path'])
         df = log_processor.add_marathon_and_step_cols_to_df(df, log_file[marathon_col], log_file['step'], step_col_name)
-        df = log_processor.remove_marathon_runs_not_found_in_wafer_df(df, unique_marathon_runs_list)
+        if keep_runs_not_in_spatial_df:
+            df = log_processor.remove_marathon_runs_not_found_in_wafer_df(df, unique_marathon_runs_list)
         df = log_processor.insert_step_cols_after_run(df, step_col_name)
         df = log_processor.cast_df_cols_to_float64(df)
         df = log_processor.drop_single_value_cols(df, step_col_name)
@@ -274,7 +275,7 @@ def train_models(y_df_dict, radius_wide_dict, main_folder, num_wafers, device):
 if __name__ == '__main__':
     master_spatial_df, spatial_df_dict, y_df_dict, radius_wide_dict = load_spatial_csv_and_create_targets(dict_of_spatial_files, main_folder, save=False)
     unique_marathon_runs_list = list(master_spatial_df["marathon_run"].unique())
-    master_log_df = load_and_process_and_combine_log_csv_files(dict_of_log_files, log_processor, unique_marathon_runs_list, step_col_name, main_folder, save=False)
+    master_log_df = load_and_process_and_combine_log_csv_files(dict_of_log_files, log_processor, unique_marathon_runs_list, step_col_name, main_folder, keep_runs_not_in_spatial_df=False, save=False)
     # master_log_df = master_log_df.fill_null(pl.lit(0))
     master_log_df = remove_constant_valued_cols(master_log_df)
 
