@@ -18,17 +18,18 @@ class PCA_analysis:
         return pca_model
 
     @staticmethod
-    def explain_pca_variance(pca, var_threshold: float = 0.95) -> Tuple[np.ndarray, int]:
+    def explain_pca_variance(pca, var_threshold: float = 0.95, show_plot = False) -> Tuple[np.ndarray, int]:
         """Return top PCA components covering desired variance and plot explained variance"""
         explained_var    = pca.explained_variance_ratio_.cumsum()
         N_pca_components = np.argmax(explained_var >= var_threshold) + 1
 
-        plt.plot(explained_var)
-        plt.axhline(y=var_threshold, color='r', linestyle='--')
-        plt.xlabel("# of PCA Components")
-        plt.ylabel("Fraction of Total Variance in X Explained")
-        plt.title("Cumulative Explained Variance from PCA on X")
-        plt.show()
+        if show_plot:
+            plt.plot(explained_var)
+            plt.axhline(y=var_threshold, color='r', linestyle='--')
+            plt.xlabel("# of PCA Components")
+            plt.ylabel("Fraction of Total Variance in X Explained")
+            plt.title("Cumulative Explained Variance from PCA on X")
+            plt.show()
 
         print(f"# of PCA components covering {var_threshold*100:.1f}% variance: {N_pca_components}")
         top_N_pca_components = pca.components_[:N_pca_components]

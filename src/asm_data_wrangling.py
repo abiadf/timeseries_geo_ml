@@ -9,61 +9,18 @@ libraries = ["torch", "numpy", "polars"]
 modules   = {lib: sys.modules.get(lib) for lib in libraries}
 
 import numpy as np
-import polars as pl
 import pandas as pd
+import polars as pl
 
 from files_processor import LogFilesProcessor, WaferFilesProcessor
 from predictions import MultiOutputModelPredictor, PrePredictionProcessor
-from asm_utils import count_missing_values_in_df, remove_constant_valued_cols
+from asm_utils import Basics
 from key_params import main_folder, NUM_WAFERS, dict_of_spatial_files, dict_of_log_files, step_col_name, COMMON_ID_COLS, COMMON_ID_COLS_MOD, parquet_folder_name
 from sklearn.model_selection import train_test_split
 
-log_processor = LogFilesProcessor(COMMON_ID_COLS_MOD, COMMON_ID_COLS)
+log_processor = LogFilesProcessor(COMMON_ID_COLS_MOD, COMMON_ID_COLS, parquet_folder_name)
 device        = torch.device('mps' if torch.backends.mps.is_available() else ('cuda' if torch.cuda.is_available() else 'cpu'))
 
-
-def load_spatial_csv_and_create_targets(dict_of_spatial_files, main_folder: str, save: bool = False) -> tuple:
-    """Merge wafer files, split by RC, and create y and radius dataframes"""
-    wafer_processor   = WaferFilesProcessor()
-    master_spatial_df = wafer_processor.load_wafer_csv_files_and_merge_to_df(dict_of_spatial_files)
-    if save:
-        master_spatial_df.write_parquet(f"{main_folder}/{parquet_folder_name}/master_wafer_file.parquet")
-    spatial_df_dict = wafer_processor.split_master_spatial_df_by_rc(master_spatial_df, "RC", "wafer")
-
-    y_df_dict, radius_df_dict, wide_radius_df_dict = {}, {}, {}
-    for idx, wafer_df in spatial_df_dict.items():
-        y_df_dict[idx], radius_df_dict[idx] = wafer_processor.split_1_wafer_df_to_y_and_radius_df(wafer_df)
-        radius_df_with_idx = radius_df_dict[idx].sort("marathon_run").with_columns(
-            pl.arange(0, pl.len()).over("marathon_run").alias("radius_idx"))
-        wide_radius_df_dict[idx] = radius_df_with_idx.pivot(values= "Radius (mm)",
-                                                            index = "marathon_run",
-                                                            on    = "radius_idx",
-                                                            aggregate_function = "first").sort("marathon_run")
-    return master_spatial_df, spatial_df_dict, y_df_dict, wide_radius_df_dict
-
-def load_and_process_and_combine_log_csv_files(dict_of_log_files, log_processor: LogFilesProcessor, unique_marathon_runs_list: list, step_col_name: str,main_folder: str, keep_runs_not_in_spatial_df, save: bool = False) -> pl.DataFrame:
-    """Read all log step file CSVs, concat, then optionally save to parquet"""
-    marathon_col = "marathon"
-    df_list = []
-
-    for log_file in dict_of_log_files.values():
-        df = log_processor.read_csv_and_lowercase_cols_names(log_file['path'])
-        df = log_processor.add_marathon_and_step_cols_to_df(df, log_file[marathon_col], log_file['step'], step_col_name)
-        if keep_runs_not_in_spatial_df:
-            df = log_processor.remove_marathon_runs_not_found_in_wafer_df(df, unique_marathon_runs_list)
-        df = log_processor.insert_step_cols_after_run(df, step_col_name)
-        df = log_processor.cast_df_cols_to_float64(df)
-        df = log_processor.drop_single_value_cols(df, step_col_name)
-        df = log_processor.append_step_suffix_to_cols(df, step_col_name, log_file['step'])
-        df_list.append(df)
-
-    master_log_df = pl.concat(df_list, how="diagonal")
-    master_log_df = log_processor.reorder_cols(master_log_df, step_col_name)
-    master_log_df = master_log_df.rename({col: col.strip().lower() for col in master_log_df.columns})
-
-    if save:
-        master_log_df.write_parquet(f"{main_folder}/{parquet_folder_name}/master_log_file.parquet")
-    return master_log_df
 
 def _reorder_cols(df, step_id_col, wafer_col):
     """reorder to put 'wafer' after 'step_id' """
@@ -91,6 +48,14 @@ def split_log_df_by_wafer_and_save_to_parquet(log_df, num_wafers, main_folder, l
         if overwrite or not os.path.exists(filepath):
             df.write_parquet(filepath)
 
+# remove below when not using
+def dont_split_log_df_by_wafer_and_save_to_parquet(log_df, main_folder, overwrite = False) -> None:
+    """DONT Split log_df into parquet files (1 for each wafer) then save to parquet, easier to handle than a dict of dataframes"""
+
+    filepath = f"{main_folder}/{parquet_folder_name}/all_wafers_log.parquet"
+    if overwrite or not os.path.exists(filepath):
+        log_df.write_parquet(filepath)
+
 # new functionality
 def combine_wafer_parquets(num_wafers: int, main_folder, parquet_folder_name, overwrite=False):
     dfs = []
@@ -110,15 +75,6 @@ def combine_wafer_parquets(num_wafers: int, main_folder, parquet_folder_name, ov
     if overwrite or not os.path.exists(outpath):
         combined_df.write_parquet(outpath)
     return combined_df
-
-# remove below when not using
-def dont_split_log_df_by_wafer_and_save_to_parquet(log_df, main_folder, overwrite = False) -> None:
-    """DONT Split log_df into parquet files (1 for each wafer) then save to parquet, easier to handle than a dict of dataframes"""
-    log_with_Wafer_col = log_df.with_columns(pl.lit(wafer_idx).alias(wafer_col))
-
-    filepath = f"{main_folder}/{parquet_folder_name}/all_wafers_log.parquet"
-    if overwrite or not os.path.exists(filepath):
-        log_df.write_parquet(filepath)
 
 def _compute_log_df_grouped_stats(log_df: pl.DataFrame, col_to_group_by: Union[str, List[str]]):
     """Group log_df by specified column(s) and compute stats (mean, std, min, max, median, skew, kurtosis) for numeric columns
@@ -208,7 +164,6 @@ def flatten_last_n_rows_per_wafer(log_df: pl.DataFrame,group_cols: list[str],tim
 
     return pl.DataFrame(data)
 
-
 def train_models(y_df_dict, radius_wide_dict, main_folder, num_wafers, device):
     predictor    = MultiOutputModelPredictor(device)
     preprocessor = PrePredictionProcessor()
@@ -233,9 +188,9 @@ def train_models(y_df_dict, radius_wide_dict, main_folder, num_wafers, device):
         y_train: np.ndarray
         X_val: pd.DataFrame
         y_val: np.ndarray
-        # X_train, y_train, X_val, y_val, y_scaler = preprocessor.scale_and_split_data(X, y)
-        X_scaled, y_scaled, _ = preprocessor.scale_data_without_splitting(X, y)
-        X_train, X_val, y_train, y_val = train_test_split(X_scaled, y_scaled)
+        X_train_scaled, X_val_scaled, y_train_scaled, y_val_scaled = preprocessor.scale_X_after_split(X, y)
+        X_train, X_val, y_train, y_val = train_test_split(X_train_scaled, y_scaled)
+        # REvise the whole scale-split section
 
         zero_var_cols = X_train.columns[X_train.var() == 0].tolist()
         X_train       = X_train.drop(columns=zero_var_cols)
@@ -271,18 +226,18 @@ def train_models(y_df_dict, radius_wide_dict, main_folder, num_wafers, device):
 
 
 """ML predictions"""
-
 if __name__ == '__main__':
-    master_spatial_df, spatial_df_dict, y_df_dict, radius_wide_dict = load_spatial_csv_and_create_targets(dict_of_spatial_files, main_folder, save=False)
+    master_spatial_df, spatial_df_dict, y_df_dict, radius_wide_dict = WaferFilesProcessor.load_spatial_csv_and_create_targets(dict_of_spatial_files, main_folder, parquet_folder_name, save=False)
     unique_marathon_runs_list = list(master_spatial_df["marathon_run"].unique())
-    master_log_df = load_and_process_and_combine_log_csv_files(dict_of_log_files, log_processor, unique_marathon_runs_list, step_col_name, main_folder, keep_runs_not_in_spatial_df=False, save=False)
+    master_log_df = log_processor.load_and_process_and_combine_log_csv_files(dict_of_log_files, unique_marathon_runs_list, step_col_name, main_folder, remove_runs_not_in_spatial_df=True, save_log_df_to_parquet= False)
+
     # master_log_df = master_log_df.fill_null(pl.lit(0))
-    master_log_df = remove_constant_valued_cols(master_log_df)
+    master_log_df = Basics.remove_constant_valued_cols(master_log_df)
 
     # split_log_df_by_wafer_and_save_to_parquet(master_log_df, NUM_WAFERS, main_folder, log_processor, overwrite = False)
-    dont_split_log_df_by_wafer_and_save_to_parquet(master_log_df, main_folder, overwrite = True)
+    # dont_split_log_df_by_wafer_and_save_to_parquet(master_log_df, main_folder, overwrite = True)
 
-    train_models(y_df_dict, radius_wide_dict, main_folder, NUM_WAFERS, device)
+    # train_models(y_df_dict, radius_wide_dict, main_folder, NUM_WAFERS, device)
 
 
 # TODO: null values in log_df_with_wafer_col, what to do with them?

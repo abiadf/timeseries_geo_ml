@@ -57,13 +57,23 @@ class PrePredictionProcessor:
 
         return X_train, y_train_np, X_val, y_val_np, self.y_scaler
 
-    def scale_data_without_splitting(self, X_full_pd: pd.DataFrame, y_full_pd: pd.DataFrame) -> Tuple[pd.DataFrame, np.ndarray, StandardScaler]:
-        """Scale numeric cols only"""
-        y_full_scaled_np = self.y_scaler.fit_transform(y_full_pd)
-        cols_to_scale    = [c for c in X_full_pd.select_dtypes(include=np.number).columns]
-        X_scaled         = X_full_pd.copy()
-        X_scaled.loc[:, cols_to_scale] = self.x_scaler.fit_transform(X_scaled[cols_to_scale])
-        return X_scaled, y_full_scaled_np, self.y_scaler
+    def scale_X_after_split(self, X_train: pd.DataFrame, X_val: pd.DataFrame):#, y_train: pd.DataFrame, y_val: pd.DataFrame):
+        """Important: must always split THEN scale (avoids data leakage). Scale X_train, take the scaling, and apply it to X_val
+        Tree-based models dont care about scaling y, so we only scale X"""
+        cols_to_scale = X_train.select_dtypes(include=np.number).columns
+
+        X_train_scaled = X_train.copy()
+        X_train_scaled.loc[:, cols_to_scale] = self.x_scaler.fit_transform(X_train[cols_to_scale])
+
+        X_val_scaled = X_val.copy()
+        X_val_scaled.loc[:, cols_to_scale] = self.x_scaler.transform(X_val[cols_to_scale])
+        return X_train_scaled, X_val_scaled, self.x_scaler
+
+        # y_train_scaled = self.y_scaler.fit_transform(y_train)
+        # y_val_scaled   = self.y_scaler.transform(y_val)
+
+        # return X_train_scaled, X_val_scaled, y_train_scaled, y_val_scaled, self.x_scaler, self.y_scaler
+
 
     def scale_per_wafer_and_split_data(self, X_full_pd: pd.DataFrame, y_full_pd: pd.DataFrame, wafer_col="wafer", test_size=0.2):
         """Scale features and targets per wafer to avoid data leakage across wafers.
@@ -390,16 +400,14 @@ class MultiOutputModelPredictor:
         print(f"Best CV RMSE: {best_score:.4f}")
         return best_model
 
-    @staticmethod
-    def predict_xgboost(X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
+    def predict_xgboost(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
         model = MultiOutputRegressor(xgb.XGBRegressor(objective='reg:squarederror', verbosity=0))
         model.fit(X_train, y_train)
         y_pred_xgb = model.predict(X_val)
         rmse_xgb = mean_squared_error(y_val, y_pred_xgb) ** 0.5
         return rmse_xgb, y_pred_xgb
 
-    @staticmethod
-    def predict_randomforest(X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
+    def predict_randomforest(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
         rf = RandomForestRegressor(n_estimators = 100,
                                    max_depth    = 15,
                                    max_features = 'sqrt',
@@ -412,16 +420,14 @@ class MultiOutputModelPredictor:
         rmse_rf   = mean_squared_error(y_val, y_pred_rf) ** 0.5
         return rmse_rf, y_pred_rf
 
-    @staticmethod
-    def predict_hgb(X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
+    def predict_hgb(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
         model = MultiOutputRegressor(HistGradientBoostingRegressor(max_iter=100))
         model.fit(X_train, y_train)
         y_pred_hgb = model.predict(X_val)
         rmse_hgb = mean_squared_error(y_val, y_pred_hgb) ** 0.5
         return rmse_hgb, y_pred_hgb
 
-    @staticmethod
-    def predict_elasticnet(X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
+    def predict_elasticnet(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
         imputer = SimpleImputer(strategy="mean")
         base_model = make_pipeline(imputer, ElasticNet(alpha=0.1, l1_ratio=0.5, max_iter=1000))
         model = MultiOutputRegressor(base_model)
@@ -430,5 +436,45 @@ class MultiOutputModelPredictor:
         rmse_elas = mean_squared_error(y_val, y_pred_elas) ** 0.5
         return rmse_elas, y_pred_elas
 
+    def _make_predictions_in_1_function(self, X_train, y_train, X_val, y_val):
+        print(f"======== Results =======")
+        rmse_linreg, _ = self.predict_linear_reg(X_train, y_train, X_val, y_val)
+        print(f"LinReg RMSE: {rmse_linreg:.3f}")
+
+        rmse_ridge, _ = self.predict_linear_reg_ridge(X_train, y_train, X_val, y_val)
+        print(f"Ridge RMSE: {rmse_ridge:.3f}")
+
+        rmse_lgb, _ = self.predict_lightgbm(X_train, y_train, X_val, y_val)
+        print(f"LGBM RMSE: {rmse_lgb:.3f}")
+
+        rmse_cat, _ , importances = self.predict_catboost(X_train, y_train, X_val, y_val)
+        print(f"Catboost RMSE: {rmse_cat:.3f}")
+
+        rmse_rf, _  = self.predict_randomforest(X_train, y_train, X_val, y_val)
+        print(f"RF RMSE: {rmse_rf:.3f}")
 
 
+class SingleOutputModelPredictor:
+    def __init__(self, device):
+        self.device     = device
+        self.device_str = 'GPU' if self.device.type == 'cuda' else 'CPU'
+
+    def predict_catboost_single_model(self, X_train, y_train, X_val, y_val, cat_features=None):
+        """CatBoost only accepts uppercase 'task_type', beware of that"""
+        single_model = cb.CatBoostRegressor(iterations    = 50,
+                                            learning_rate = 0.4,
+                                            depth         = 8,
+                                            l2_leaf_reg   = 3,
+                                            border_count  = 128,
+                                            bagging_temperature=0,
+                                            task_type     = self.device_str,#'CPU',
+                                            verbose       = 0,
+                                            random_seed   = 42,)
+        if cat_features:
+            single_model.fit(X_train, y_train, cat_features=cat_features)
+        else:
+            single_model.fit(X_train, y_train)
+        importances = single_model.get_feature_importance()
+        y_pred_cat  = single_model.predict(X_val)
+        rmse_cat    = mean_squared_error(y_val, y_pred_cat) ** 0.5
+        return rmse_cat, y_pred_cat, importances

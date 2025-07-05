@@ -151,9 +151,10 @@ class LogAndSpatialProcessor:
 
 class LogFilesProcessor:
     """Class dealing with processing log files"""
-    def __init__(self, common_id_cols_mod, common_id_cols):
-        self.COMMON_ID_COLS_MOD = common_id_cols_mod
-        self.COMMON_ID_COLS     = common_id_cols
+    def __init__(self, common_id_cols_mod, common_id_cols, parquet_folder_name):
+        self.COMMON_ID_COLS_MOD  = common_id_cols_mod
+        self.COMMON_ID_COLS      = common_id_cols
+        self.PARQUET_FOLDER_NAME = parquet_folder_name
 
     def read_csv_and_lowercase_cols_names(self, file_path: str) -> pl.DataFrame:
         """Read CSV into Polars DataFrame and title-case column names after stripping spaces
@@ -229,6 +230,31 @@ class LogFilesProcessor:
         master_log_df = master_log_df.select(desired_order)
         return master_log_df
     
+    def load_and_process_and_combine_log_csv_files(self, dict_of_log_files, unique_marathon_runs_list: list, step_col_name: str,main_folder: str, remove_runs_not_in_spatial_df, save_log_df_to_parquet: bool = False) -> pl.DataFrame:
+        """Read all log step file CSVs, concat, then optionally save to parquet"""
+        marathon_col = "marathon"
+        df_list = []
+
+        for log_file in dict_of_log_files.values():
+            df = self.read_csv_and_lowercase_cols_names(log_file['path'])
+            df = self.add_marathon_and_step_cols_to_df(df, log_file[marathon_col], log_file['step'], step_col_name)
+            if remove_runs_not_in_spatial_df == True:
+                df = self.remove_marathon_runs_not_found_in_wafer_df(df, unique_marathon_runs_list)
+            df = self.insert_step_cols_after_run(df, step_col_name)
+            df = self.cast_df_cols_to_float64(df)
+            df = self.drop_single_value_cols(df, step_col_name)
+            df = self.append_step_suffix_to_cols(df, step_col_name, log_file['step'])
+            df_list.append(df)
+
+        master_log_df = pl.concat(df_list, how="diagonal")
+        master_log_df = self.reorder_cols(master_log_df, step_col_name)
+        master_log_df = master_log_df.rename({col: col.strip().lower() for col in master_log_df.columns})
+
+        if save_log_df_to_parquet:
+            master_log_df.write_parquet(f"{main_folder}/{self.PARQUET_FOLDER_NAME}/master_log_file.parquet")
+        return master_log_df
+
+
 
 class WaferFilesProcessor:
     """Class dealing with processing spatial files"""
@@ -295,3 +321,24 @@ class WaferFilesProcessor:
                 pl.col(col_to_group_by).alias(new_col_name)) # keep original RC values in col
             spatial_df_dict[int(rc_val) - 1] = df_subset
         return spatial_df_dict
+
+    @classmethod
+    def load_spatial_csv_and_create_targets(cls, dict_of_spatial_files, main_folder: str, parquet_folder_name: str, save: bool = False) -> tuple:
+        """Merge wafer files, split by RC, and create y and radius dataframes"""
+        wafer_processor   = WaferFilesProcessor()
+        master_spatial_df = wafer_processor.load_wafer_csv_files_and_merge_to_df(dict_of_spatial_files)
+        if save:
+            master_spatial_df.write_parquet(f"{main_folder}/{parquet_folder_name}/master_wafer_file.parquet")
+        spatial_df_dict = wafer_processor.split_master_spatial_df_by_rc(master_spatial_df, "RC", "wafer")
+
+        y_df_dict, radius_df_dict, wide_radius_df_dict = {}, {}, {}
+        for idx, wafer_df in spatial_df_dict.items():
+            y_df_dict[idx], radius_df_dict[idx] = wafer_processor.split_1_wafer_df_to_y_and_radius_df(wafer_df)
+            radius_df_with_idx = radius_df_dict[idx].sort("marathon_run").with_columns(
+                pl.arange(0, pl.len()).over("marathon_run").alias("radius_idx"))
+            wide_radius_df_dict[idx] = radius_df_with_idx.pivot(values= "Radius (mm)",
+                                                                index = "marathon_run",
+                                                                on    = "radius_idx",
+                                                                aggregate_function = "first").sort("marathon_run")
+        return master_spatial_df, spatial_df_dict, y_df_dict, wide_radius_df_dict
+
