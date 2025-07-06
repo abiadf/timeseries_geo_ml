@@ -6,6 +6,8 @@ import pandas as pd
 import polars as pl
 import matplotlib.pyplot as plt
 from skdim.id import MLE
+from typing import Tuple
+from category_encoders import TargetEncoder
 
 class Basics:
 
@@ -109,3 +111,15 @@ class Basics:
         for _ in range(times):
             os.system('afplay /System/Library/Sounds/Blow.aiff')
             time.sleep(delay)
+
+    @staticmethod
+    def apply_target_encoding_to_df(X: pd.DataFrame, y: pd.DataFrame, col_to_encode: str, target_name: str) -> Tuple[pd.DataFrame, TargetEncoder]:
+        """Apply target encoding to a categorical column using the mean of y
+        If y is multi-output, the row-wise mean is used as the target
+        Returns the updated df with the new encoded column + the fitted encoder
+        NOTE: make sure to fit target encoding to trainset, then apply to test set (prevents leakage)"""
+        target         = y.mean(axis=1) if y.ndim > 1 else y
+        te_model       = TargetEncoder(cols = [col_to_encode])
+        X[target_name] = te_model.fit_transform(X[col_to_encode], target)
+        return X.drop(columns = [col_to_encode]), te_model
+
