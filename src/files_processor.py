@@ -96,6 +96,7 @@ class LogAndSpatialProcessor:
         #     master_spatial_df.write_parquet(f"{main_folder}/master_spatial_df.parquet")
         return wide_radius_df, y_df
 
+    # to remove, adding the radii as cols in X does nothing
     @staticmethod
     def join_radius_df_to_exploded_log_df(master_log_df_exploded, wide_radius_df):
         """joining radius_df and exploded_log_df = X (used for predictions)"""

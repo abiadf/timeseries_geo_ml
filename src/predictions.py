@@ -245,23 +245,40 @@ class MultiOutputModelPredictor:
         print(f"Best params: {best_params}")
         return best_params
 
-    def predict_catboost(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray):
+    def predict_catboost(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray, cat_features=None):
         """CatBoost only accepts uppercase 'task_type', beware of that"""
-        single_model = cb.CatBoostRegressor(iterations         = 50,
-                                            learning_rate      = 0.4,
-                                            depth              = 8,
-                                            l2_leaf_reg        = 3,
-                                            border_count       = 128,
-                                            bagging_temperature= 0,
-                                            task_type          = 'CPU',
-                                            verbose            = 0,
-                                            random_seed        = 42)
-        multi_model  = MultiOutputRegressor(single_model)
-        multi_model.fit(X_train, y_train)
-
-        importances  = np.array([est.get_feature_importance() for est in multi_model.estimators_])
-        y_pred_cat   = multi_model.predict(X_val)
-        rmse_cat     = mean_squared_error(y_val, y_pred_cat) ** 0.5
+        single_model = cb.CatBoostRegressor(iterations=50,
+                                            learning_rate=0.4,
+                                            depth=8,
+                                            l2_leaf_reg=3,
+                                            border_count=128,
+                                            bagging_temperature=0,
+                                            task_type='CPU',
+                                            verbose=0,
+                                            random_seed=42)
+        multi_model = MultiOutputRegressor(single_model)
+        
+        if cat_features is None:
+            multi_model.fit(X_train, y_train)
+        else:
+            # Fit each estimator individually with cat_features
+            multi_model.estimators_ = []
+            for i in range(y_train.shape[1]):
+                estimator = cb.CatBoostRegressor(iterations=50,
+                                                learning_rate=0.4,
+                                                depth=8,
+                                                l2_leaf_reg=3,
+                                                border_count=128,
+                                                bagging_temperature=0,
+                                                task_type='CPU',
+                                                verbose=0,
+                                                random_seed=42)
+                estimator.fit(X_train, y_train[:, i], cat_features=cat_features)
+                multi_model.estimators_.append(estimator)
+        
+        importances = np.array([est.get_feature_importance() for est in multi_model.estimators_])
+        y_pred_cat  = multi_model.predict(X_val)
+        rmse_cat    = mean_squared_error(y_val, y_pred_cat) ** 0.5
         return rmse_cat, y_pred_cat, importances
 
     def tune_catboost_hyperparams(self, X_train: np.ndarray, y_train: np.ndarray):
@@ -455,6 +472,7 @@ class MultiOutputModelPredictor:
 
 
 class SingleOutputModelPredictor:
+    """Class dealing with predicting a single y value, instead of a sequence"""
     def __init__(self, device):
         self.device     = device
         self.device_str = 'GPU' if self.device.type == 'cuda' else 'CPU'
