@@ -14,7 +14,7 @@ from lightgbm import LGBMRegressor, early_stopping
 from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LinearRegression, ElasticNet, Ridge
-from sklearn.metrics import mean_squared_error, root_mean_squared_error
+from sklearn.metrics import root_mean_squared_error
 from sklearn.model_selection import GridSearchCV, KFold, train_test_split
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.preprocessing import StandardScaler
@@ -162,13 +162,13 @@ class MultiOutputModelPredictor:
     def predict_linear_reg(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
         model         = MultiOutputRegressor(LinearRegression()).fit(X_train, y_train)
         y_pred_linreg = model.predict(X_val)
-        rmse_linreg   = mean_squared_error(y_val, y_pred_linreg) ** 0.5
+        rmse_linreg   = root_mean_squared_error(y_val, y_pred_linreg)
         return rmse_linreg, y_pred_linreg
 
     def predict_linear_reg_ridge(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
         model         = MultiOutputRegressor(Ridge(alpha=1.0)).fit(X_train, y_train)
         y_pred_ridge  = model.predict(X_val)
-        rmse_ridge    = mean_squared_error(y_val, y_pred_ridge) ** 0.5
+        rmse_ridge    = root_mean_squared_error(y_val, y_pred_ridge)
         return rmse_ridge, y_pred_ridge
 
     def predict_lightgbm(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
@@ -192,7 +192,7 @@ class MultiOutputModelPredictor:
                     callbacks=[early_stopping(stopping_rounds=50, verbose=False)])
             y_pred[:, i] = model.predict(X_val)
         
-        rmse = mean_squared_error(y_val, y_pred) ** 0.5
+        rmse = root_mean_squared_error(y_val, y_pred)
         return rmse, y_pred
 
     # [to remove] seems i duplicated this one below
@@ -234,7 +234,7 @@ class MultiOutputModelPredictor:
                             callbacks=[early_stopping(stopping_rounds=50, verbose=False)])
                     y_pred[:, i] = model.predict(X_val)
 
-                rmse = np.sqrt(mean_squared_error(y_val, y_pred))
+                rmse = root_mean_squared_error(y_val, y_pred)
                 val_scores.append(rmse)
 
             avg_rmse = np.mean(val_scores)
@@ -278,8 +278,63 @@ class MultiOutputModelPredictor:
         
         importances = np.array([est.get_feature_importance() for est in multi_model.estimators_])
         y_pred_cat  = multi_model.predict(X_val)
-        rmse_cat    = mean_squared_error(y_val, y_pred_cat) ** 0.5
+        rmse_cat    = root_mean_squared_error(y_val, y_pred_cat)
         return rmse_cat, y_pred_cat, importances
+
+    def predict_catboost2(self, X, y, X_val=None, y_val=None, cat_features=None, n_splits=1):
+        """Trains CatBoost using optional K-Fold CV. Supports multi-output regression.
+        If n_splits == 1 and X_val/y_val provided: simple train/val split.
+        If n_splits > 1: performs K-Fold CV and averages predictions and importances."""
+
+        model_params = dict(iterations = 50, learning_rate = 0.4, depth = 8,
+                            l2_leaf_reg = 3, border_count = 128, bagging_temperature = 0,
+                            task_type  = 'CPU', verbose = 0, random_seed = 42)
+
+        def fit_model(X_tr, y_tr):
+            base_model = cb.CatBoostRegressor(**model_params)
+            model      = MultiOutputRegressor(base_model)
+            model.fit(X_tr, y_tr) # cat_features not supported in MultiOutput wrapper
+            return model
+
+        if n_splits == 1:
+            model = fit_model(X, y)
+            if (X_val is not None) and (y_val is not None):
+                y_pred = model.predict(X_val)
+                rmse   = root_mean_squared_error(y_val, y_pred)
+            else:
+                y_pred  = model.predict(X)
+                rmse    = root_mean_squared_error(y, y_pred)
+            importances = np.array([est.get_feature_importance() for est in model.estimators_])
+            return rmse, y_pred, importances
+
+        # K-Fold CV
+        kf              = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+        predictions     = []
+        rmse_vals       = []
+        all_importances = []
+
+        for train_idx, val_idx in kf.split(X):
+            X_tr, X_val_fold = X.iloc[train_idx], X.iloc[val_idx]
+            y_tr, y_val_fold = y.iloc[train_idx], y.iloc[val_idx]
+
+        # for train_idx, val_idx in kf.split(X):
+        #     X_tr, X_val_fold = X[train_idx], X[val_idx]
+        #     y_tr, y_val_fold = y[train_idx], y[val_idx]
+            model       = fit_model(X_tr, y_tr)
+            y_pred      = model.predict(X_val_fold)
+            rmse        = root_mean_squared_error(y_val_fold, y_pred)
+            importances = np.array([est.get_feature_importance() for est in model.estimators_])
+
+            predictions.append(y_pred)
+            rmse_vals.append(rmse)
+            all_importances.append(importances)
+
+        avg_rmse        = np.mean(rmse_vals)
+        avg_importances = np.mean(all_importances, axis=0)
+
+        return avg_rmse, predictions, avg_importances
+
+
 
     def tune_catboost_hyperparams(self, X_train: np.ndarray, y_train: np.ndarray):
         param_grid = {
@@ -421,7 +476,7 @@ class MultiOutputModelPredictor:
         model = MultiOutputRegressor(xgb.XGBRegressor(objective='reg:squarederror', verbosity=0))
         model.fit(X_train, y_train)
         y_pred_xgb = model.predict(X_val)
-        rmse_xgb = mean_squared_error(y_val, y_pred_xgb) ** 0.5
+        rmse_xgb   = root_mean_squared_error(y_val, y_pred_xgb)
         return rmse_xgb, y_pred_xgb
 
     def predict_randomforest(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
@@ -434,14 +489,14 @@ class MultiOutputModelPredictor:
         rf_model  = MultiOutputRegressor(rf)
         rf_model.fit(X_train, y_train)
         y_pred_rf = rf_model.predict(X_val)
-        rmse_rf   = mean_squared_error(y_val, y_pred_rf) ** 0.5
+        rmse_rf   = root_mean_squared_error(y_val, y_pred_rf)
         return rmse_rf, y_pred_rf
 
     def predict_hgb(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
         model = MultiOutputRegressor(HistGradientBoostingRegressor(max_iter=100))
         model.fit(X_train, y_train)
         y_pred_hgb = model.predict(X_val)
-        rmse_hgb = mean_squared_error(y_val, y_pred_hgb) ** 0.5
+        rmse_hgb   = root_mean_squared_error(y_val, y_pred_hgb)
         return rmse_hgb, y_pred_hgb
 
     def predict_elasticnet(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Tuple[float, np.ndarray]:
@@ -450,7 +505,7 @@ class MultiOutputModelPredictor:
         model = MultiOutputRegressor(base_model)
         model.fit(X_train, y_train)
         y_pred_elas = model.predict(X_val)
-        rmse_elas = mean_squared_error(y_val, y_pred_elas) ** 0.5
+        rmse_elas = root_mean_squared_error(y_val, y_pred_elas)
         return rmse_elas, y_pred_elas
 
     def _make_predictions_in_1_function(self, X_train, y_train, X_val, y_val):
@@ -494,5 +549,5 @@ class SingleOutputModelPredictor:
             single_model.fit(X_train, y_train)
         importances = single_model.get_feature_importance()
         y_pred_cat  = single_model.predict(X_val)
-        rmse_cat    = mean_squared_error(y_val, y_pred_cat) ** 0.5
+        rmse_cat    = root_mean_squared_error(y_val, y_pred_cat)
         return rmse_cat, y_pred_cat, importances
