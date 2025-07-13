@@ -15,7 +15,7 @@ from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegresso
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LinearRegression, ElasticNet, Ridge
 from sklearn.metrics import root_mean_squared_error
-from sklearn.model_selection import GridSearchCV, KFold, train_test_split
+from sklearn.model_selection import GridSearchCV, KFold, GroupKFold, train_test_split
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
@@ -57,17 +57,23 @@ class PrePredictionProcessor:
 
         return X_train, y_train_np, X_val, y_val_np, self.y_scaler
 
-    def scale_X_after_split(self, X_train: pd.DataFrame, X_val: pd.DataFrame):#, y_train: pd.DataFrame, y_val: pd.DataFrame):
+    def scale_X_after_split(self, X_train: pd.DataFrame, X_val: pd.DataFrame = None, exclude_cols: list = None):
         """Important: must always split THEN scale (avoids data leakage). Scale X_train, take the scaling, and apply it to X_val
-        Tree-based models dont care about scaling y, so we only scale X"""
-        cols_to_scale = X_train.select_dtypes(include=np.number).columns
+        Tree-based models dont care about scaling y, so we only scale X. We make X_val optional for cases where we use the entire X only (no train-test split)
+        exclude_cols allows to set cols that should not be scaled"""
+        if exclude_cols is None:
+            exclude_cols = []
+        cols_to_scale = X_train.select_dtypes(include=np.number).columns.difference(exclude_cols)
 
         X_train_scaled = X_train.copy()
         X_train_scaled.loc[:, cols_to_scale] = self.x_scaler.fit_transform(X_train[cols_to_scale])
 
-        X_val_scaled = X_val.copy()
-        X_val_scaled.loc[:, cols_to_scale] = self.x_scaler.transform(X_val[cols_to_scale])
-        return X_train_scaled, X_val_scaled, self.x_scaler
+        if X_val is not None:
+            X_val_scaled = X_val.copy()
+            X_val_scaled.loc[:, cols_to_scale] = self.x_scaler.transform(X_val[cols_to_scale])
+            return X_train_scaled, X_val_scaled, self.x_scaler
+
+        return X_train_scaled, self.x_scaler
 
         # y_train_scaled = self.y_scaler.fit_transform(y_train)
         # y_val_scaled   = self.y_scaler.transform(y_val)
@@ -282,58 +288,93 @@ class MultiOutputModelPredictor:
         return rmse_cat, y_pred_cat, importances
 
     def predict_catboost2(self, X, y, X_val=None, y_val=None, cat_features=None, n_splits=1):
-        """Trains CatBoost using optional K-Fold CV. Supports multi-output regression.
-        If n_splits == 1 and X_val/y_val provided: simple train/val split.
-        If n_splits > 1: performs K-Fold CV and averages predictions and importances."""
-
-        model_params = dict(iterations = 50, learning_rate = 0.4, depth = 8,
-                            l2_leaf_reg = 3, border_count = 128, bagging_temperature = 0,
-                            task_type  = 'CPU', verbose = 0, random_seed = 42)
+        """Has k-folding cross-validation
+        n_splits: # of cross-val folds"""
+        model_params = dict(iterations=50, learning_rate=0.4, depth=8,
+                            l2_leaf_reg=3, border_count=128, bagging_temperature=0,
+                            task_type='CPU', verbose=0, random_seed=42)
 
         def fit_model(X_tr, y_tr):
-            base_model = cb.CatBoostRegressor(**model_params)
-            model      = MultiOutputRegressor(base_model)
-            model.fit(X_tr, y_tr) # cat_features not supported in MultiOutput wrapper
-            return model
+            if cat_features is None or y_tr.ndim == 1:
+                # Single target or no categorical features: fit MultiOutputRegressor or CatBoost directly
+                base_model = cb.CatBoostRegressor(**model_params)
+                if y_tr.ndim == 1:
+                    base_model.fit(X_tr, y_tr, cat_features=cat_features)
+                    return base_model
+                else:
+                    model = MultiOutputRegressor(base_model)
+                    model.fit(X_tr, y_tr)
+                    return model
+            else:
+                # Multi-output + categorical features: fit one CatBoost per target
+                estimators = []
+                for i in range(y_tr.shape[1]):
+                    est = cb.CatBoostRegressor(**model_params)
+                    est.fit(X_tr, y_tr[:, i], cat_features=cat_features)
+                    estimators.append(est)
+                return estimators
 
         if n_splits == 1:
             model = fit_model(X, y)
             if (X_val is not None) and (y_val is not None):
-                y_pred = model.predict(X_val)
-                rmse   = root_mean_squared_error(y_val, y_pred)
+                if isinstance(model, list):
+                    # list of estimators for multi-output
+                    y_pred = np.column_stack([est.predict(X_val) for est in model])
+                else:
+                    y_pred = model.predict(X_val)
+                rmse = root_mean_squared_error(y_val, y_pred)
             else:
-                y_pred  = model.predict(X)
-                rmse    = root_mean_squared_error(y, y_pred)
-            importances = np.array([est.get_feature_importance() for est in model.estimators_])
+                if isinstance(model, list):
+                    y_pred = np.column_stack([est.predict(X) for est in model])
+                else:
+                    y_pred = model.predict(X)
+                rmse = root_mean_squared_error(y, y_pred)
+
+            if isinstance(model, list):
+                importances = np.array([est.get_feature_importance() for est in model])
+            elif hasattr(model, 'estimators_'):
+                importances = np.array([est.get_feature_importance() for est in model.estimators_])
+            else:
+                importances = model.get_feature_importance()
             return rmse, y_pred, importances
 
         # K-Fold CV
-        kf              = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+        group_kf = GroupKFold(n_splits=n_splits)
+        groups   = X.index  # assuming combined_id is the index
+
         predictions     = []
         rmse_vals       = []
         all_importances = []
 
-        for train_idx, val_idx in kf.split(X):
+        for train_idx, val_idx in group_kf.split(X, y, groups):
             X_tr, X_val_fold = X.iloc[train_idx], X.iloc[val_idx]
             y_tr, y_val_fold = y.iloc[train_idx], y.iloc[val_idx]
 
-        # for train_idx, val_idx in kf.split(X):
-        #     X_tr, X_val_fold = X[train_idx], X[val_idx]
-        #     y_tr, y_val_fold = y[train_idx], y[val_idx]
-            model       = fit_model(X_tr, y_tr)
-            y_pred      = model.predict(X_val_fold)
-            rmse        = root_mean_squared_error(y_val_fold, y_pred)
-            importances = np.array([est.get_feature_importance() for est in model.estimators_])
+            if isinstance(y_tr, pd.DataFrame) and y_tr.shape[1] == 1:
+                y_tr       = y_tr.iloc[:, 0]
+                y_val_fold = y_val_fold.iloc[:, 0]
+
+            model = fit_model(X_tr, y_tr)
+
+            if isinstance(model, list):
+                y_pred      = np.column_stack([est.predict(X_val_fold) for est in model])
+                importances = np.array([est.get_feature_importance() for est in model])
+            elif hasattr(model, 'estimators_'):
+                y_pred      = model.predict(X_val_fold)
+                importances = np.array([est.get_feature_importance() for est in model.estimators_])
+            else:
+                y_pred      = model.predict(X_val_fold)
+                importances = model.get_feature_importance()
+            rmse = root_mean_squared_error(y_val_fold, y_pred)
 
             predictions.append(y_pred)
             rmse_vals.append(rmse)
             all_importances.append(importances)
 
-        avg_rmse        = np.mean(rmse_vals)
-        avg_importances = np.mean(all_importances, axis=0)
+        avg_rmse       = np.mean(rmse_vals)
+        avg_importances= np.mean(all_importances, axis=0)
 
         return avg_rmse, predictions, avg_importances
-
 
 
     def tune_catboost_hyperparams(self, X_train: np.ndarray, y_train: np.ndarray):
