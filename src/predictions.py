@@ -287,56 +287,71 @@ class MultiOutputModelPredictor:
         rmse_cat    = root_mean_squared_error(y_val, y_pred_cat)
         return rmse_cat, y_pred_cat, importances
 
-    def predict_catboost2(self, X, y, X_val=None, y_val=None, cat_features=None, n_splits=1):
-        """Has k-folding cross-validation
-        n_splits: # of cross-val folds"""
+    def predict_catboost2(self, X, y, X_val=None, y_val=None, cat_features=None, n_splits=1, return_final_model: bool = False):
+        """Catboost model + optional k-fold cross-validation
+        - X (pd.DataFrame): Features
+        - y (pd.DataFrame or np.ndarray): target(s), can be multi-output
+        - n_splits: # of cross-val folds
+        - X_val (pd.DataFrame, optional): Validation features for single split (n_splits=1)
+        - y_val (pd.DataFrame or np.ndarray, optional): Validation targets for single split
+        - cat_features (list, optional): Indices or names of categorical features
+        - n_splits (int): Number of CV folds. If 1, no cross-val is performed
+        - return_final_model (bool): If True and n_splits > 1, fits a final model on all (X, y) after CV (CV does multi models, each on part of the data)
+        makes sense only for n_splits > 1
+        Returns:
+        - tuple: (rmse, predictions, importances, final_model), for a multi-target y the final_model is a wrapper around multiple CatBoostRegressor model instances"""
+
         model_params = dict(iterations=50, learning_rate=0.4, depth=8,
                             l2_leaf_reg=3, border_count=128, bagging_temperature=0,
                             task_type='CPU', verbose=0, random_seed=42)
 
         def fit_model(X_tr, y_tr):
-            if cat_features is None or y_tr.ndim == 1:
-                # Single target or no categorical features: fit MultiOutputRegressor or CatBoost directly
-                base_model = cb.CatBoostRegressor(**model_params)
-                if y_tr.ndim == 1:
-                    base_model.fit(X_tr, y_tr, cat_features=cat_features)
-                    return base_model
-                else:
-                    model = MultiOutputRegressor(base_model)
-                    model.fit(X_tr, y_tr)
-                    return model
-            else:
-                # Multi-output + categorical features: fit one CatBoost per target
-                estimators = []
-                for i in range(y_tr.shape[1]):
-                    est = cb.CatBoostRegressor(**model_params)
-                    est.fit(X_tr, y_tr[:, i], cat_features=cat_features)
-                    estimators.append(est)
-                return estimators
+            """Fits a CatBoost model or MultiOutputRegressor based on target shape and categorical features
+                Returns:
+                1) Single CatBoostRegressor for single-target.
+                2) MultiOutputRegressor for multi-target without categorical features.
+                3) List of CatBoostRegressor models for multi-target with categorical features. Why? MultiOutputRegressor doesn't support cat_features"""
+            base_params = model_params.copy()
+            # Single target case
+            if y_tr.ndim == 1:
+                model = cb.CatBoostRegressor(**base_params)
+                model.fit(X_tr, y_tr, cat_features=cat_features)
+                return model
+            # Multi-target, no categorical features > use MultiOutputRegressor
+            if cat_features is None:
+                base_model = cb.CatBoostRegressor(**base_params)
+                model      = MultiOutputRegressor(base_model)
+                model.fit(X_tr, y_tr)
+                return model
+            # Multi-target with categorical features > fit one CatBoost per target manually
+            estimators = []
+            for i in range(y_tr.shape[1]):
+                est = cb.CatBoostRegressor(**base_params)
+                est.fit(X_tr, y_tr[:, i], cat_features = cat_features)
+                estimators.append(est)
+            return estimators
 
         if n_splits == 1:
             model = fit_model(X, y)
-            if (X_val is not None) and (y_val is not None):
-                if isinstance(model, list):
-                    # list of estimators for multi-output
-                    y_pred = np.column_stack([est.predict(X_val) for est in model])
-                else:
-                    y_pred = model.predict(X_val)
-                rmse = root_mean_squared_error(y_val, y_pred)
-            else:
-                if isinstance(model, list):
-                    y_pred = np.column_stack([est.predict(X) for est in model])
-                else:
-                    y_pred = model.predict(X)
-                rmse = root_mean_squared_error(y, y_pred)
 
+            # Predict and evaluate on val or train set
+            if (X_val is not None) and (y_val is not None):
+                y_pred = (np.column_stack([est.predict(X_val) for est in model])
+                         if isinstance(model, list) else model.predict(X_val))
+                rmse   = root_mean_squared_error(y_val, y_pred)
+            else:
+                y_pred = (np.column_stack([est.predict(X) for est in model])
+                         if isinstance(model, list) else model.predict(X))
+                rmse   = root_mean_squared_error(y, y_pred)
+
+            # Feature importance extraction
             if isinstance(model, list):
                 importances = np.array([est.get_feature_importance() for est in model])
             elif hasattr(model, 'estimators_'):
                 importances = np.array([est.get_feature_importance() for est in model.estimators_])
             else:
                 importances = model.get_feature_importance()
-            return rmse, y_pred, importances
+            return rmse, y_pred, importances, model
 
         # K-Fold CV
         group_kf = GroupKFold(n_splits=n_splits)
@@ -354,28 +369,27 @@ class MultiOutputModelPredictor:
                 y_tr       = y_tr.iloc[:, 0]
                 y_val_fold = y_val_fold.iloc[:, 0]
 
-            model = fit_model(X_tr, y_tr)
+            model  = fit_model(X_tr, y_tr)
+            y_pred = (np.column_stack([est.predict(X_val_fold) for est in model])
+                      if isinstance(model, list) else model.predict(X_val_fold))
 
             if isinstance(model, list):
-                y_pred      = np.column_stack([est.predict(X_val_fold) for est in model])
                 importances = np.array([est.get_feature_importance() for est in model])
             elif hasattr(model, 'estimators_'):
-                y_pred      = model.predict(X_val_fold)
                 importances = np.array([est.get_feature_importance() for est in model.estimators_])
             else:
-                y_pred      = model.predict(X_val_fold)
                 importances = model.get_feature_importance()
-            rmse = root_mean_squared_error(y_val_fold, y_pred)
 
+            rmse = root_mean_squared_error(y_val_fold, y_pred)
             predictions.append(y_pred)
             rmse_vals.append(rmse)
             all_importances.append(importances)
 
         avg_rmse       = np.mean(rmse_vals)
         avg_importances= np.mean(all_importances, axis=0)
+        final_model    = fit_model(X, y) if return_final_model else None
 
-        return avg_rmse, predictions, avg_importances
-
+        return avg_rmse, predictions, avg_importances, final_model
 
     def tune_catboost_hyperparams(self, X_train: np.ndarray, y_train: np.ndarray):
         param_grid = {

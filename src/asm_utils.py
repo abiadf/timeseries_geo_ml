@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 from skdim.id import MLE
 from typing import Tuple
 from category_encoders import TargetEncoder
+from catboost import CatBoostRegressor
+from sklearn.multioutput import MultiOutputRegressor
 
 class Basics:
 
@@ -123,3 +125,27 @@ class Basics:
         X[target_name] = te_model.fit_transform(X[col_to_encode], target)
         return X.drop(columns = [col_to_encode]), te_model
 
+    @staticmethod
+    def save_catboost_models(catboost_models, model_dir) -> None:
+        """Saves each CatBoost model in MultiOutputRegressor to a .cbm file. We add a target index to the filename
+        so we can load them in the right order later
+        - catboost_models: MultiOutputRegressor containing CatBoostRegressor models"""
+        if not os.path.exists(model_dir):
+            os.makedirs(model_dir, exist_ok=True)
+        for i, model in enumerate(catboost_models.estimators_):
+            model: CatBoostRegressor
+            model.save_model(f"{model_dir}/catboost_target_{i}.cbm")
+
+    @staticmethod
+    def load_all_catboost_models_in_dir(model_dir) -> MultiOutputRegressor:
+        """Loads CatBoost models from .cbm files in model_dir and returns a MultiOutputRegressor wrapper
+        This function takes ALL .cbm files in the dir (easier than specifying n_targets). We save and
+        load by name-sorted to preserve model order (ie, model for y0 is #1 to be loaded, y10 is #11...)
+        - model_dir: directory containing the .cbm files"""
+        models = []
+        files  = sorted(f for f in os.listdir(model_dir) if f.endswith(".cbm"))
+        for file in files:
+            model = CatBoostRegressor()
+            model.load_model(os.path.join(model_dir, file))
+            models.append(model)
+        return MultiOutputRegressor(models)
