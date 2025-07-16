@@ -15,46 +15,42 @@ class Basics:
 
     @staticmethod
     def count_missing_values_in_df(df) -> None:
-        """Count NaNs (floats) and nulls (all types) in pandas or Polars DataFrame."""
+        """Count NaNs (floats) and nulls (all types) in pandas or Polars df"""
 
         if isinstance(df, pd.DataFrame):
             float_cols = [col for col, dt in df.dtypes.items() if pd.api.types.is_float_dtype(dt)]
 
             # NaNs in float columns
-            nan_per_col   = df[float_cols].isna().sum()
-            cols_with_nan = (nan_per_col > 0).sum()
-            rows_with_nan = df[float_cols].isna().any(axis=1).sum()
-            total_nans    = nan_per_col.sum()
+            nan_per_col    = df[float_cols].isna().sum()
+            cols_with_nan  = (nan_per_col > 0).sum()
+            rows_with_nan  = df[float_cols].isna().any(axis=1).sum()
+            total_nan_cells= nan_per_col.sum()
 
             # Nulls in all columns (in pandas, NaN == null)
             null_per_col    = df.isnull().sum()
             cols_with_nulls = (null_per_col > 0).sum()
             rows_with_nulls = df.isnull().any(axis=1).sum()
-            total_nulls     = null_per_col.sum()
-
+            total_null_cells= null_per_col.sum()
         elif isinstance(df, pl.DataFrame):
             float_cols = [col for col, dt in zip(df.columns, df.dtypes) if dt.is_float()]
-
             if float_cols:
                 nan_per_col   = df.select([pl.col(col).is_nan().sum().alias(col) for col in float_cols])
                 cols_with_nan = sum(val > 0 for val in nan_per_col.row(0))
                 rows_with_nan = df.filter(
                     pl.fold(False, lambda acc, e: acc | e, [pl.col(c).is_nan() for c in float_cols])).height
-                total_nans    = nan_per_col.to_series().sum()
+                total_nan_cells= nan_per_col.to_series().sum()
             else:
-                cols_with_nan = rows_with_nan = total_nans = 0
-
+                cols_with_nan = rows_with_nan = total_nan_cells = 0
             null_per_col    = df.select([pl.col(col).is_null().sum().alias(col) for col in df.columns])
             cols_with_nulls = sum(val > 0 for val in null_per_col.row(0))
             rows_with_nulls = df.filter(
                 pl.fold(False, lambda acc, e: acc | e, [pl.col(c).is_null() for c in df.columns])).height
-            total_nulls     = null_per_col.to_series().sum()
-
+            total_null_cells= null_per_col.to_series().sum()
         else:
             raise TypeError("Unsupported DataFrame type. Pass pandas or Polars DataFrame.")
         print('---------')
-        print(f"NaNs: in {cols_with_nan} cols, {rows_with_nan} rows, {total_nans} in total")
-        print(f"Nulls: in {cols_with_nulls} cols, {rows_with_nulls} rows, {total_nulls} in total")
+        print(f"NaNs: in {cols_with_nan} cols, {rows_with_nan} rows, {total_nan_cells} cells in total")
+        print(f"Nulls: in {cols_with_nulls} cols, {rows_with_nulls} rows, {total_null_cells} cells in total")
 
     @staticmethod
     def remove_constant_valued_cols(df):
@@ -137,15 +133,16 @@ class Basics:
             model.save_model(f"{model_dir}/catboost_target_{i}.cbm")
 
     @staticmethod
-    def load_all_catboost_models_in_dir(model_dir) -> MultiOutputRegressor:
-        """Loads CatBoost models from .cbm files in model_dir and returns a MultiOutputRegressor wrapper
+    def load_all_catboost_models_in_dir(model_dir) -> list[CatBoostRegressor]:
+        """Loads Catboost models from .cbm files in model_dir and returns a list of models
         This function takes ALL .cbm files in the dir (easier than specifying n_targets). We save and
         load by name-sorted to preserve model order (ie, model for y0 is #1 to be loaded, y10 is #11...)
         - model_dir: directory containing the .cbm files"""
-        models = []
-        files  = sorted(f for f in os.listdir(model_dir) if f.endswith(".cbm"))
+        models_list = []
+        files       = sorted(f for f in os.listdir(model_dir) if f.endswith(".cbm"))
         for file in files:
             model = CatBoostRegressor()
             model.load_model(os.path.join(model_dir, file))
-            models.append(model)
-        return MultiOutputRegressor(models)
+            models_list.append(model)
+        return models_list
+

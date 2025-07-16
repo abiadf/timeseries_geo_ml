@@ -176,11 +176,12 @@ class LogFilesProcessor:
             (pl.col(marathon_col).cast(pl.Utf8) + "_" + pl.col(run_col).cast(pl.Utf8)).alias(marathon_run_col)])
         return df
 
-    def remove_marathon_runs_not_found_in_wafer_df(self, df: pl.DataFrame, unique_marathon_runs_list: list) -> pl.DataFrame:
-        """Keep only rows where 'marathon_run' exists in the provided list of valid wafer runs
-        removing runs early on makes the processing faster/lighter"""
-        df = df.filter(pl.col("marathon_run").is_in(unique_marathon_runs_list))
-        return df
+    def split_log_df_by_marathon_run_existence(self, df: pl.DataFrame, unique_marathon_runs_list: list, keep_existing_runs: bool = True) -> pl.DataFrame:
+        """Filter log df based on whether marathon_run is in the list (keep=True) or not (keep=False)
+            - kept_df: rows where 'marathon_run' is in the list
+            - dropped_df: rows where 'marathon_run' is NOT in the list"""
+        condition = pl.col("marathon_run").is_in(unique_marathon_runs_list)
+        return df.filter(condition if keep_existing_runs else ~condition)
 
     def insert_step_cols_after_run(self, df: pl.DataFrame, step_col_name: str) -> pl.DataFrame:
         """Reorder columns to insert step_col_name and 'marathon_run' after '#Run'."""
@@ -230,17 +231,17 @@ class LogFilesProcessor:
             print("Missing columns before select:", missing)
         master_log_df = master_log_df.select(desired_order)
         return master_log_df
-    
-    def load_and_process_and_combine_log_csv_files(self, dict_of_log_files, unique_marathon_runs_list: list, step_col_name: str,main_folder: str, remove_runs_not_in_spatial_df, save_log_df_to_parquet: bool = False) -> pl.DataFrame:
+
+    def load_and_process_and_combine_log_csv_files(self, dict_of_log_files, unique_marathon_runs_list: list, step_col_name: str,
+                                                   main_folder: str, keep_existing_runs: bool = True, save_log_df_to_parquet: bool = False) -> pl.DataFrame:
         """Read all log step file CSVs, concat, then optionally save to parquet"""
         marathon_col = "marathon"
-        df_list = []
+        df_list      = []
 
         for log_file in dict_of_log_files.values():
             df = self.read_csv_and_lowercase_cols_names(log_file['path'])
             df = self.add_marathon_and_step_cols_to_df(df, log_file[marathon_col], log_file['step'], step_col_name)
-            if remove_runs_not_in_spatial_df == True:
-                df = self.remove_marathon_runs_not_found_in_wafer_df(df, unique_marathon_runs_list)
+            df = self.split_log_df_by_marathon_run_existence(df, unique_marathon_runs_list, keep_existing_runs=keep_existing_runs)
             df = self.insert_step_cols_after_run(df, step_col_name)
             df = self.cast_df_cols_to_float64(df)
             df = self.drop_single_value_cols(df, step_col_name)
@@ -254,8 +255,6 @@ class LogFilesProcessor:
         if save_log_df_to_parquet:
             master_log_df.write_parquet(f"{main_folder}/{self.PARQUET_FOLDER_NAME}/master_log_file.parquet")
         return master_log_df
-
-
 
 class WaferFilesProcessor:
     """Class dealing with processing spatial files"""

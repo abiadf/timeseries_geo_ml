@@ -288,18 +288,26 @@ class MultiOutputModelPredictor:
         return rmse_cat, y_pred_cat, importances
 
     def predict_catboost2(self, X, y, X_val=None, y_val=None, cat_features=None, n_splits=1, return_final_model: bool = False):
-        """Catboost model + optional k-fold cross-validation
-        - X (pd.DataFrame): Features
-        - y (pd.DataFrame or np.ndarray): target(s), can be multi-output
-        - n_splits: # of cross-val folds
-        - X_val (pd.DataFrame, optional): Validation features for single split (n_splits=1)
-        - y_val (pd.DataFrame or np.ndarray, optional): Validation targets for single split
-        - cat_features (list, optional): Indices or names of categorical features
-        - n_splits (int): Number of CV folds. If 1, no cross-val is performed
-        - return_final_model (bool): If True and n_splits > 1, fits a final model on all (X, y) after CV (CV does multi models, each on part of the data)
-        makes sense only for n_splits > 1
+        """Trains CatBoost model(s) with optional group-based K-fold CV for single- or multi-target regression.
+        Handles:
+        - Single target: one CatBoost model
+        - Multi-target without categorical features: MultiOutputRegressor with CatBoost base
+        - Multi-target with categorical features: one CatBoost model per target
+
+        Parameters:
+        - X (pd.DataFrame): Feature matrix
+        - y (pd.DataFrame or np.ndarray): Target(s), can be single or multi-output
+        - X_val (pd.DataFrame, optional): Validation features (only used if n_splits == 1)
+        - y_val (pd.DataFrame or np.ndarray, optional): Validation targets (only if n_splits == 1)
+        - cat_features (list, optional): Names or indices of categorical columns
+        - n_splits (int): If >1, runs group-based K-Fold CV using index as group ID
+        - return_final_model (bool): If True and n_splits > 1, retrains final model on all (X, y)
+
         Returns:
-        - tuple: (rmse, predictions, importances, final_model), for a multi-target y the final_model is a wrapper around multiple CatBoostRegressor model instances"""
+        - rmse (float): Average RMSE over folds or on val/train set
+        - predictions (list or np.ndarray): Per-fold predictions or single prediction array
+        - importances (pd.DataFrame): Feature importances with mean/std per target and feature
+        - final_model: Trained model or list of models (if return_final_model is True)"""
 
         model_params = dict(iterations=50, learning_rate=0.4, depth=8,
                             l2_leaf_reg=3, border_count=128, bagging_temperature=0,
@@ -331,6 +339,17 @@ class MultiOutputModelPredictor:
                 estimators.append(est)
             return estimators
 
+        def _get_importances(model, X_cols):
+            """Returns list of (target-wise) importance DataFrames"""
+            if isinstance(model, list):  # multi-target manual
+                return [pd.DataFrame({'feature': X_cols, 'importance': est.get_feature_importance(), 'target_idx': i})
+                        for i, est in enumerate(model)]
+            elif hasattr(model, 'estimators_'):  # MultiOutputRegressor
+                return [pd.DataFrame({'feature': X_cols, 'importance': est.get_feature_importance(), 'target_idx': i})
+                        for i, est in enumerate(model.estimators_)]
+            else:
+                return [pd.DataFrame({'feature': X_cols, 'importance': model.get_feature_importance(), 'target_idx': 0})]
+
         if n_splits == 1:
             model = fit_model(X, y)
 
@@ -345,21 +364,17 @@ class MultiOutputModelPredictor:
                 rmse   = root_mean_squared_error(y, y_pred)
 
             # Feature importance extraction
-            if isinstance(model, list):
-                importances = np.array([est.get_feature_importance() for est in model])
-            elif hasattr(model, 'estimators_'):
-                importances = np.array([est.get_feature_importance() for est in model.estimators_])
-            else:
-                importances = model.get_feature_importance()
-            return rmse, y_pred, importances, model
+            importances_list= _get_importances(model, X.columns)
+            importances_df  = pd.concat(importances_list)
+            importances_df  = importances_df.groupby(['feature', 'target_idx']).agg(['mean', 'std'])
+            importances_df.columns = ['importance_mean', 'importance_std']
+            importances_df  = importances_df.reset_index()
+            return rmse, y_pred, importances_df, model
 
         # K-Fold CV
         group_kf = GroupKFold(n_splits=n_splits)
         groups   = X.index  # assuming combined_id is the index
-
-        predictions     = []
-        rmse_vals       = []
-        all_importances = []
+        predictions, rmse_vals, all_importances = [], [], []
 
         for train_idx, val_idx in group_kf.split(X, y, groups):
             X_tr, X_val_fold = X.iloc[train_idx], X.iloc[val_idx]
@@ -372,24 +387,22 @@ class MultiOutputModelPredictor:
             model  = fit_model(X_tr, y_tr)
             y_pred = (np.column_stack([est.predict(X_val_fold) for est in model])
                       if isinstance(model, list) else model.predict(X_val_fold))
-
-            if isinstance(model, list):
-                importances = np.array([est.get_feature_importance() for est in model])
-            elif hasattr(model, 'estimators_'):
-                importances = np.array([est.get_feature_importance() for est in model.estimators_])
-            else:
-                importances = model.get_feature_importance()
-
-            rmse = root_mean_squared_error(y_val_fold, y_pred)
+            rmse   = root_mean_squared_error(y_val_fold, y_pred)
             predictions.append(y_pred)
             rmse_vals.append(rmse)
-            all_importances.append(importances)
+            # all_importances.append(_get_importances(model, X.columns)['importance'].values)
+            importance_list = _get_importances(model, X.columns)
+            all_importances.extend(importance_list)
 
         avg_rmse       = np.mean(rmse_vals)
-        avg_importances= np.mean(all_importances, axis=0)
-        final_model    = fit_model(X, y) if return_final_model else None
 
-        return avg_rmse, predictions, avg_importances, final_model
+        # If multi-target → all_importances is list of DataFrames (one per fold)
+        importances_df = pd.concat(all_importances)
+        importances_df = importances_df.groupby(['feature', 'target_idx']).agg(['mean', 'std'])
+        importances_df.columns = ['importance_mean', 'importance_std']
+        importances_df = importances_df.reset_index()
+        final_model    = fit_model(X, y) if return_final_model else None
+        return avg_rmse, predictions, importances_df, final_model
 
     def tune_catboost_hyperparams(self, X_train: np.ndarray, y_train: np.ndarray):
         param_grid = {
