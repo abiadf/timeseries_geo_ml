@@ -1,8 +1,7 @@
-
 adjustText
 catboost
+dtype_diet
 einops
-opt-einsum
 # fastdtw
 jupyter
 ipykernel
@@ -10,20 +9,21 @@ lightgbm
 matplotlib
 metasynth
 numpy
+opt-einsum
 pandas
+polars
 scikit-learn
 scikit-dimension
 seaborn
+shap
 statsmodels
 # tensorflow
 torch
 tslearn
-wandb
-PyYAML
 pykeops
-polars
-shap
+PyYAML
 umap-learn # not umap
+wandb
 xgboost
 
 # anyio==4.9.0
