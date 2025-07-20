@@ -390,7 +390,6 @@ class MultiOutputModelPredictor:
             rmse   = root_mean_squared_error(y_val_fold, y_pred)
             predictions.append(y_pred)
             rmse_vals.append(rmse)
-            # all_importances.append(_get_importances(model, X.columns)['importance'].values)
             importance_list = _get_importances(model, X.columns)
             all_importances.extend(importance_list)
 

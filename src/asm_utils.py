@@ -1,6 +1,6 @@
 import os
 import time
-
+from typing import Union, List
 import numpy as np
 import pandas as pd
 import polars as pl
@@ -130,6 +130,28 @@ class Basics:
             os.makedirs(model_dir, exist_ok=True)
         for i, model in enumerate(catboost_models.estimators_):
             model: CatBoostRegressor
+            model.save_model(f"{model_dir}/catboost_target_{i}.cbm")
+
+    @staticmethod
+    def save_catboost_models(catboost_models: Union[List[CatBoostRegressor], object], model_dir: str) -> None:
+        """Save CatBoost models to disk. Supports either:
+            - A list of CatBoostRegressor models (one per target), or
+            - A MultiOutputRegressor-like object with an 'estimators_' attribute
+        Each model is saved as 'catboost_target_i.cbm' in `model_dir`.
+        - catboost_models: List of CatBoostRegressor or MultiOutputRegressor-like object.
+        - model_dir: Directory path where models will be saved."""
+
+        if not os.path.exists(model_dir):
+            os.makedirs(model_dir, exist_ok=True)
+
+        if isinstance(catboost_models, list):
+            models = catboost_models
+        elif hasattr(catboost_models, "estimators_"):
+            models = catboost_models.estimators_
+        else:
+            raise TypeError("Unsupported model type")
+
+        for i, model in enumerate(models):
             model.save_model(f"{model_dir}/catboost_target_{i}.cbm")
 
     @staticmethod

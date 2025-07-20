@@ -20,3 +20,5 @@ catboost_info/
 saved_models/
 parquet_files/
 *.parquet
+pickled/
+src/pickled/
