@@ -168,3 +168,27 @@ class Basics:
             models_list.append(model)
         return models_list
 
+    @staticmethod
+    def optimize_df_memory(df: pd.DataFrame, nan_threshold: float = 0.9) -> pd.DataFrame:
+        """Downcast numeric types, convert low-cardinality objects to category, 
+        and convert sparse-like columns to SparseDtype to reduce memory"""
+
+        df = df.copy()
+        for col, col_data in df.items():
+            if pd.api.types.is_integer_dtype(col_data):
+                df[col] = pd.to_numeric(col_data, downcast='integer')
+            elif pd.api.types.is_float_dtype(col_data):
+                df[col] = pd.to_numeric(col_data, downcast='float')
+
+            # Convert object -> category if few unique values
+            elif col_data.dtype == 'object':
+                num_unique = col_data.nunique(dropna=False)
+                num_total  = len(col_data)
+                if num_unique / num_total < 0.5:
+                    df[col] = col_data.astype('category')
+
+            # Convert sparse-like (mostly NaN or 0) to sparse
+            if df[col].isna().sum() / len(df[col]) > nan_threshold or (df[col] == 0).sum() / len(df[col]) > nan_threshold:
+                df[col] = pd.arrays.SparseArray(df[col])
+        return df
+
