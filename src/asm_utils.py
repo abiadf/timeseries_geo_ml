@@ -121,6 +121,7 @@ class Basics:
         X[target_name] = te_model.fit_transform(X[col_to_encode], target)
         return X.drop(columns = [col_to_encode]), te_model
 
+    # to remove
     @staticmethod
     def save_catboost_models(catboost_models, model_dir) -> None:
         """Saves each CatBoost model in MultiOutputRegressor to a .cbm file. We add a target index to the filename

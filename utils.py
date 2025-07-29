@@ -1,3 +1,4 @@
+from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,7 +14,6 @@ from skdim.id import MLE
 from sklearn.decomposition import PCA
 from statsmodels.tsa.stattools import acf
 from tslearn.metrics import dtw
-
 
 def get_frechet_distance(array1: np.ndarray, array2: np.ndarray) -> float:
     """Compute the Fréchet Inception Distance (FID) between 2 arrays
@@ -101,21 +101,29 @@ class Losses:
 
 class DimensionalityEstimator:
     @staticmethod
-    def estimate_dataset_dimensionality(dataset):
-        """Estimate intrinsic dimensionality using scikit-dimension (ie best latent size)
-        input: dataset (pd or pl df, or np array)
-        output: estimated dataset dimensionality"""
+    def estimate_dataset_dimensionality(dataset, neighbors: int = 10) -> int:
+        """Estimate intrinsic dimensionality using scikit-dimension (ie best latent size). k is usually log(n_rows) to n/2
+        - input: dataset (pd or pl df, or np array)
+        - k: Number of neighbors for MLE estimator (default: 10).
+        - output: estimated dataset dimensionality"""
         if isinstance(dataset, pd.DataFrame):
-            dataset = dataset.select_dtypes(include=[np.number])
-            X = dataset.to_numpy()
+            dataset= dataset.select_dtypes(include=[np.number])
+            X      = dataset.to_numpy()
         elif isinstance(dataset, pl.DataFrame):
-            dataset = dataset.select(pl.col(pl.NUMERIC_DTYPES))
-            X = dataset.to_numpy()
+            dataset= dataset.select(pl.col(pl.NUMERIC_DTYPES))
+            X      = dataset.to_numpy()
         elif isinstance(dataset, (np.ndarray,)):
-            X = dataset
+            X      = dataset
+        elif isinstance(dataset, torch.Tensor):
+            X      = dataset.numpy()
         else:
             raise TypeError("Unsupported dataset type")
-        return MLE().fit(X).dimension_
+
+        X        = X.astype(np.float32)
+        estimator= MLE()
+        estimator.set_params(K = neighbors)
+        dim = estimator.fit_transform(X)
+        return int(dim)
 
     @staticmethod
     def pca_components_explaining_variance(dataset, var: float = 0.95):
