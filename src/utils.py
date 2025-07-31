@@ -98,6 +98,32 @@ class Losses:
         - torch.Tensor: Scalar loss value"""
         return F.l1_loss(x_reconstructed, x_input)
 
+    @staticmethod
+    def get_contrastive_loss(z1: torch.Tensor, z2: torch.Tensor, temperature: float = 0.5) -> torch.Tensor:
+        """Compute NT-Xent contrastive loss between two batches of embeddings z1 and z2.
+            Each row in z1/z2 is an augmented view of the same sample
+            temperature (0.05-0.5), lower = sharper softmax, higher = smoother"""
+
+        z1 = F.normalize(z1, dim=1)
+        z2 = F.normalize(z2, dim=1)
+        N  = z1.size(0)
+
+        z   = torch.cat([z1, z2], dim=0)  # [2N, D]
+        sim = torch.matmul(z, z.T) / temperature  # [2N, 2N]
+        sim_exp = torch.exp(sim)
+
+        # Mask self-similarity
+        mask    = ~torch.eye(2 * N, device=z.device).bool()
+        sim_exp = sim_exp.masked_fill(~mask, 0)
+
+        # Positive pairs: i with i+N and vice versa
+        pos_sim = torch.exp(torch.sum(z1 * z2, dim=-1) / temperature)
+        pos_sim = torch.cat([pos_sim, pos_sim], dim=0)  # [2N]
+
+        denom = sim_exp.sum(dim=1)  # [2N]
+        loss  = -torch.log(pos_sim / denom)
+        return loss.mean()
+
 
 class DimensionalityEstimator:
     @staticmethod

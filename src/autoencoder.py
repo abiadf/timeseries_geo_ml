@@ -4,6 +4,8 @@ Useful hyperparams:
 2. # nodes for each layer
 3. size of latent space (smaller = more info lost)"""
 
+from typing import Union, Tuple
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -23,19 +25,34 @@ class Autoencoder(nn.Module):
         encoder (nn.Sequential): Encoder network
         decoder (nn.Sequential): Decoder network"""
 
-    def __init__(self, layer_dims: list[int], dropout_prob: float = 0.05, projection_dim: int = 16):
+    def __init__(self, layer_dims: list[int], pred_dim: int, dropout_prob: float = 0.05,
+                 projection_dim: int = 16, pred_hidden_dim: int = 32, mode: str = "reconstruct"):
         super().__init__()
-        self.layer_dims   = layer_dims
-        self.dropout_prob = dropout_prob
+        self.layer_dims     = layer_dims
+        self.dropout_prob   = dropout_prob
+        self.mode           = mode
+        self.pred_hidden_dim= pred_hidden_dim
+        self.use_projection = projection_dim > 0
+        self.encoder        = self._build_layers(layer_dims, is_decoder=False)  # full forward pass including latent dim
+        self.decoder        = self._build_layers(layer_dims[::-1], is_decoder=True)  # reverse for decoder
 
-        self.encoder = self._build_layers(layer_dims, is_decoder=False)  # full forward pass including latent dim
-        self.decoder = self._build_layers(layer_dims[::-1], is_decoder=True)  # reverse for decoder
+        if self.use_projection:
+            self.projection_head = nn.Sequential(
+                nn.Linear(layer_dims[-1], projection_dim), # latent space Z -> projection space H
+                nn.BatchNorm1d(projection_dim),
+                nn.ReLU(),
+                nn.Linear(projection_dim, projection_dim)) #residual transformation
+        else:
+            self.projection_head = nn.Identity()
 
-        self.projection_head = nn.Sequential(
-            nn.Linear(layer_dims[-1], projection_dim),
-            nn.BatchNorm1d(projection_dim),
-            nn.ReLU(),
-            nn.Linear(projection_dim, projection_dim))
+        # Prediction head (from latent or projection)
+        if pred_dim > 0:
+            self.prediction_head = nn.Sequential(
+                nn.Linear(layer_dims[-1], pred_hidden_dim), # from latent space Z
+                nn.ReLU(),
+                nn.Linear(pred_hidden_dim, pred_dim)) # final prediction layer
+        else:
+            self.prediction_head = None
 
     def _build_layers(self, dims: list[int], is_decoder: bool = False) -> nn.Sequential:
         """Builds a sequential block (encoder or decoder) from a list of dimensions.
@@ -53,19 +70,39 @@ class Autoencoder(nn.Module):
                     nn.Dropout(self.dropout_prob)])
         return nn.Sequential(*layers)
 
-    def forward(self, x: torch.Tensor, return_latent: bool = False, return_projection: bool = False):
-        """Forward pass through encoder and decoder.
-            - x (torch.Tensor): Input tensor of shape (batch_size, input_dim)
-            - Returns latent code z and reconstruction x̂"""
-        x     = x.to(device)
-        z     = self.encoder(x)
-        x_hat = self.decoder(z)
-        if return_projection:
-            p = self.projection_head(z)
-            return x_hat, z, p
-        if return_latent:
-            return x_hat, z
-        return x_hat
+    def forward(self, x: torch.Tensor, mode: str = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
+        """Forward pass through the autoencoder. Z is latent space, H is projection space (in Z)
+            Args:
+                x (torch.Tensor): Input tensor of shape (batch_size, input_dim)
+                mode (str): One of {"reconstruct", "projection", "latent"}
+                    - "reconstruct": Returns decoded output X̂
+                    - "projection" : Returns projected embedding H (after optional projection head)
+                    - "latent"     : Returns both latent vector Z and projection H
+                    - "predict"    : Returns prediction based on latent Z
+            Returns:
+                Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
+                    - If mode="reconstruct" → X̂
+                    - If mode="projection"  → H
+                    - If mode="latent"      → (Z, H)
+                    - If mode="predict"     → y_pred"""
+        if mode is None:
+            mode = self.mode
+        x = x.to(device)
+        z = self.encoder(x)
+        if mode == "reconstruct":
+            return self.decoder(z)
+        elif mode == "projection":
+            return self.projection_head(z) if self.use_projection else z
+        elif mode == "latent":
+            h = self.projection_head(z) if self.use_projection else z
+            return z, h
+        elif mode == "predict":
+            if not self.prediction_head:
+                raise ValueError("Prediction head not defined")
+            return self.prediction_head(z)
+        else:
+            raise ValueError(f"Invalid mode: {mode}")
+
 
 class TrainAutoencoder:
     """Class dealing with training the autoencoder, measured by the loss"""
@@ -76,7 +113,7 @@ class TrainAutoencoder:
             x_input, _ = data
             x_input    = x_input.to(device)
             optimizer.zero_grad()
-            x_reconstructed, _ = autoencoder(x_input)
+            x_reconstructed = autoencoder(x_input, mode="reconstruct")
             loss = Losses.compute_MSE_loss(x_input, x_reconstructed)
             loss.backward()
             optimizer.step()
@@ -88,11 +125,11 @@ class TrainAutoencoder:
         val_loss_total = 0
         with torch.no_grad(): # disables gradient tracking
             for data in validation_loader:
-                x_input, _         = data
-                x_input            = x_input.to(device)
-                x_reconstructed, _ = autoencoder(x_input)
-                validation_loss    = Losses.compute_MSE_loss(x_input, x_reconstructed)
-                val_loss_total    += validation_loss.item()
+                x_input, _      = data
+                x_input         = x_input.to(device)
+                x_reconstructed = autoencoder(x_input, mode="reconstruct")
+                validation_loss = Losses.compute_MSE_loss(x_input, x_reconstructed)
+                val_loss_total += validation_loss.item()
         return val_loss_total / len(validation_loader)
 
     def train_autoencoder(self, device: torch.device, autoencoder: Autoencoder, epochs: int, train_loader: DataLoader,
@@ -130,6 +167,8 @@ class TrainAutoencoder:
                     break
             else:
                 scheduler.step(avg_epoch_loss)
+                if avg_epoch_loss < best_loss:
+                    best_loss = avg_epoch_loss
         autoencoder.eval()
         return best_loss
 

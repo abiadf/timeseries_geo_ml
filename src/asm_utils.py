@@ -67,6 +67,37 @@ class Basics:
             raise TypeError("Unsupported DataFrame type")
 
     @staticmethod
+    def drop_shared_high_nan_cols(df1: pd.DataFrame, df2: pd.DataFrame, threshold: float = 0.5) -> tuple[pd.DataFrame, pd.DataFrame]:
+        """Drop columns from both df1 and df2 if more than `threshold` fraction of values are NaN in either."""
+        nan_frac_1   = df1.isna().mean()
+        nan_frac_2   = df2.isna().mean()
+        cols_to_drop = nan_frac_1[(nan_frac_1 > threshold)].index.union(nan_frac_2[(nan_frac_2 > threshold)].index)
+        return df1.drop(columns=cols_to_drop), df2.drop(columns=cols_to_drop)
+
+    @staticmethod
+    def drop_and_impute_nan_cols(df, threshold=0.5, impute: str | None = None):
+        """Drop cols with NaN ratio > threshold, then optionally fill remaining NaNs with col's median/mean/0 (see last line in function)
+        - 'mean': fill with column mean
+        - 'median': fill with column median
+        - 'zero': fill with 0
+        - None: leave NaNs as-is
+        NOTE: catboost handles NaNs (so leave them, otherwise we lost info), but methods like PCA cannot"""
+        nan_ratio_df = df.isna().mean()
+        cols_to_keep = nan_ratio_df[nan_ratio_df <= threshold].index
+
+        df = df[cols_to_keep]
+        if impute == 'mean':
+            return df.fillna(df.mean(numeric_only=True))
+        elif impute == 'median':
+            return df.fillna(df.median(numeric_only=True))
+        elif impute == 'zero':
+            return df.fillna(0)
+        elif impute is None:
+            return df
+        else:
+            raise ValueError(f"Unknown imputation method: {impute}")
+
+    @staticmethod
     def plot_all_columns_in_df(df):
         """Given a df, plot all its cols into a figure"""
 
@@ -192,4 +223,3 @@ class Basics:
             if df[col].isna().sum() / len(df[col]) > nan_threshold or (df[col] == 0).sum() / len(df[col]) > nan_threshold:
                 df[col] = pd.arrays.SparseArray(df[col])
         return df
-
