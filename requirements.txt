@@ -3,9 +3,10 @@ catboost
 dtype_diet
 einops
 # fastdtw
-jupyter
 ipykernel
+jupyter
 lightgbm
+lttb
 matplotlib
 metasynth
 numpy

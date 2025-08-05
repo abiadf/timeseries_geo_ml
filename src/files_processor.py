@@ -105,34 +105,31 @@ class LogAndSpatialProcessor:
                                         how = "left")
 
     @staticmethod
-    def expand_y_df_to_match_size_of_log_df(master_log_df_exploded, y_df):
+    def expand_y_df_to_match_size_of_log_df(master_log_df_exploded, y_df, identifiers_list: List[str]) -> pl.DataFrame:
         """This gives us y"""
-        identifiers_list = ["marathon_run", "wafer"]
-        # Step 1: ensure y_df has just the keys and values
         y_lookup = y_df.clone()
-
-        # Step 2: select matching keys from log df in order
-        keys_df = master_log_df_exploded.select(identifiers_list)
+        keys_df  = master_log_df_exploded.select(identifiers_list)
 
         # Step 3: join to align rows in y_df_expanded
         y_df_expanded = keys_df.join(y_lookup, on = identifiers_list, how = "left")
         return y_df_expanded
 
-    @staticmethod
-    def downsample_df_rows(log_df: pl.DataFrame, subsampling_factor: int) -> pl.DataFrame:
-        """Downsamples the # of rows (grouped by marathon_run, wafer) by a factor. Larger factor = smaller resulting dataset
-        NOTE: Grouping by wafer ensures we retain data from all wafers; without it, some wafers might be entirely excluded"""
+    # remove if not used
+    # @staticmethod
+    # def downsample_df_rows(log_df: pl.DataFrame, subsampling_factor: int) -> pl.DataFrame:
+    #     """Downsamples the # of rows (grouped by marathon_run, wafer) by a factor. Larger factor = smaller resulting dataset
+    #     NOTE: Grouping by wafer ensures we retain data from all wafers; without it, some wafers might be entirely excluded"""
 
-        marathon_run_col = "marathon_run"
-        wafer_col        = "wafer"
-        time_col         = "process time"
-        subsampled_parts = []
+    #     marathon_run_col = "marathon_run"
+    #     wafer_col        = "wafer"
+    #     time_col         = "process time"
+    #     subsampled_parts = []
 
-        for (_, _), group_df in log_df.group_by([marathon_run_col, wafer_col]):
-            group_df = group_df.sort(time_col) # preserve time order within group
-            subsampled_parts.append(group_df[::subsampling_factor])
+    #     for (_, _), group_df in log_df.group_by([marathon_run_col, wafer_col]):
+    #         group_df = group_df.sort(time_col) # preserve time order within group
+    #         subsampled_parts.append(group_df[::subsampling_factor])
         
-        return pl.concat(subsampled_parts).sort(time_col)
+    #     return pl.concat(subsampled_parts).sort(time_col)
 
     @staticmethod
     def keep_top_features_by_importance(X_train_clean: pd.DataFrame, X_val_clean: pd.DataFrame, importances: np.ndarray, top_features_fraction: float):

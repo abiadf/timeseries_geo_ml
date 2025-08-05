@@ -253,16 +253,9 @@ class MultiOutputModelPredictor:
 
     def predict_catboost(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray, cat_features=None):
         """CatBoost only accepts uppercase 'task_type', beware of that"""
-        single_model = cb.CatBoostRegressor(iterations=50,
-                                            learning_rate=0.4,
-                                            depth=8,
-                                            l2_leaf_reg=3,
-                                            border_count=128,
-                                            bagging_temperature=0,
-                                            task_type='CPU',
-                                            verbose=0,
-                                            random_seed=42)
-        multi_model = MultiOutputRegressor(single_model)
+        single_model = cb.CatBoostRegressor(iterations=50, learning_rate=0.4, depth=8, l2_leaf_reg=3, border_count=128,
+                                            bagging_temperature=0, task_type='CPU', verbose=0, random_seed=42)
+        multi_model  = MultiOutputRegressor(single_model)
         
         if cat_features is None:
             multi_model.fit(X_train, y_train)
