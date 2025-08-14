@@ -81,7 +81,7 @@ class Basics:
         - 'median': fill with column median
         - 'zero': fill with 0
         - None: leave NaNs as-is
-        NOTE: catboost handles NaNs (so leave them, otherwise we lost info), but methods like PCA cannot"""
+        NOTE: catboost handles NaNs (so leave them, otherwise we lose info), but methods like PCA cannot"""
         nan_ratio_df = df.isna().mean()
         cols_to_keep = nan_ratio_df[nan_ratio_df <= threshold].index
 

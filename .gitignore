@@ -1,8 +1,5 @@
 .vscode/
-venv/
-myenv*/
-myenv*/
-*venv*/
+*venv*/*
 
 *.DS_Store*
 *.ipynb_checkpoints
@@ -14,7 +11,6 @@ myenv*/
 *.cpython-310.pyc
 *.pyc
 
-ASM_data/*
 *wandb/
 catboost_info/
 saved_models/
@@ -22,3 +18,8 @@ parquet_files/
 *.parquet
 pickled/
 src/pickled/
+
+# data
+interim_data/*
+ASM_data/*
+public_datasets/*

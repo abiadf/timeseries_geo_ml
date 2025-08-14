@@ -299,7 +299,7 @@ class MultiOutputModelPredictor:
         Returns:
         - rmse (float): Average RMSE over folds or on val/train set
         - predictions (list or np.ndarray): Per-fold predictions or single prediction array
-        - importances (pd.DataFrame): Feature importances with mean/std per target and feature
+        - importances (pd.DataFrame): Feature importances with mean/std per target and feature. Has (X_rows x targets) rows
         - final_model: Trained model or list of models (if return_final_model is True)"""
 
         model_params = dict(iterations=50, learning_rate=0.4, depth=8,
@@ -359,7 +359,8 @@ class MultiOutputModelPredictor:
             # Feature importance extraction
             importances_list= _get_importances(model, X.columns)
             importances_df  = pd.concat(importances_list)
-            importances_df  = importances_df.groupby(['feature', 'target_idx']).agg(['mean', 'std'])
+            # importances_df  = importances_df.groupby(['feature', 'target_idx']).agg(['mean', 'std'])
+            importances_df  = importances_df.groupby(['feature', 'target_idx'])['importance'].agg(['mean', 'std'])
             importances_df.columns = ['importance_mean', 'importance_std']
             importances_df  = importances_df.reset_index()
             return rmse, y_pred, importances_df, model
@@ -390,7 +391,8 @@ class MultiOutputModelPredictor:
 
         # If multi-target → all_importances is list of DataFrames (one per fold)
         importances_df = pd.concat(all_importances)
-        importances_df = importances_df.groupby(['feature', 'target_idx']).agg(['mean', 'std'])
+        # importances_df = importances_df.groupby(['feature', 'target_idx']).agg(['mean', 'std'])
+        importances_df = importances_df.groupby(['feature', 'target_idx'])['importance'].agg(['mean', 'std'])
         importances_df.columns = ['importance_mean', 'importance_std']
         importances_df = importances_df.reset_index()
         final_model    = fit_model(X, y) if return_final_model else None

@@ -1,6 +1,6 @@
+import numpy as np
 import pandas as pd
 import polars as pl
-import numpy as np
 from typing import Tuple, Union, List, Sequence
 
 class LogAndSpatialProcessor:
@@ -114,23 +114,6 @@ class LogAndSpatialProcessor:
         y_df_expanded = keys_df.join(y_lookup, on = identifiers_list, how = "left")
         return y_df_expanded
 
-    # remove if not used
-    # @staticmethod
-    # def downsample_df_rows(log_df: pl.DataFrame, subsampling_factor: int) -> pl.DataFrame:
-    #     """Downsamples the # of rows (grouped by marathon_run, wafer) by a factor. Larger factor = smaller resulting dataset
-    #     NOTE: Grouping by wafer ensures we retain data from all wafers; without it, some wafers might be entirely excluded"""
-
-    #     marathon_run_col = "marathon_run"
-    #     wafer_col        = "wafer"
-    #     time_col         = "process time"
-    #     subsampled_parts = []
-
-    #     for (_, _), group_df in log_df.group_by([marathon_run_col, wafer_col]):
-    #         group_df = group_df.sort(time_col) # preserve time order within group
-    #         subsampled_parts.append(group_df[::subsampling_factor])
-        
-    #     return pl.concat(subsampled_parts).sort(time_col)
-
     @staticmethod
     def keep_top_features_by_importance(X_train_clean: pd.DataFrame, X_val_clean: pd.DataFrame, importances: np.ndarray, top_features_fraction: float):
         """Select the top fraction of features from the dataframe, based on their mean importance scores (regarding predictions)
@@ -154,7 +137,7 @@ class LogFilesProcessor:
         self.COMMON_ID_COLS      = common_id_cols
         self.PARQUET_FOLDER_NAME = parquet_folder_name
 
-    def read_csv_and_lowercase_cols_names(self, file_path: str) -> pl.DataFrame:
+    def _read_csv_and_lowercase_cols_names(self, file_path: str) -> pl.DataFrame:
         """Read CSV into Polars DataFrame and title-case column names after stripping spaces
         NOTE: a known polars issue that it cant use the 'decimal' parameter in read_csv, so we load into pandas first"""
         pdf = pd.read_csv(file_path, decimal='.')
@@ -162,7 +145,7 @@ class LogFilesProcessor:
         df  = df.rename({c: c.strip().title() for c in df.columns})
         return df
 
-    def add_marathon_and_step_cols_to_df(self, df: pl.DataFrame, marathon: Union[str, int], step_id: int, step_col_name: str) -> pl.DataFrame:
+    def _add_marathon_and_step_cols_to_df(self, df: pl.DataFrame, marathon: Union[str, int], step_id: int, step_col_name: str) -> pl.DataFrame:
         """Add marathon, step_id columns, and create 'marathon_run' by combining marathon and '#Run'."""
         marathon_col     = 'marathon'
         run_col          = '#Run'
@@ -173,14 +156,14 @@ class LogFilesProcessor:
             (pl.col(marathon_col).cast(pl.Utf8) + "_" + pl.col(run_col).cast(pl.Utf8)).alias(marathon_run_col)])
         return df
 
-    def split_log_df_by_marathon_run_existence(self, df: pl.DataFrame, unique_marathon_runs_list: list, keep_existing_runs: bool = True) -> pl.DataFrame:
+    def _split_log_df_by_marathon_run_existence(self, df: pl.DataFrame, unique_marathon_runs_list: list, keep_existing_runs: bool = True) -> pl.DataFrame:
         """Filter log df based on whether marathon_run is in the list (keep=True) or not (keep=False)
             - kept_df: rows where 'marathon_run' is in the list
             - dropped_df: rows where 'marathon_run' is NOT in the list"""
         condition = pl.col("marathon_run").is_in(unique_marathon_runs_list)
         return df.filter(condition if keep_existing_runs else ~condition)
 
-    def insert_step_cols_after_run(self, df: pl.DataFrame, step_col_name: str) -> pl.DataFrame:
+    def _insert_step_cols_after_run(self, df: pl.DataFrame, step_col_name: str) -> pl.DataFrame:
         """Reorder columns to insert step_col_name and 'marathon_run' after '#Run'."""
         run_col          = '#Run'
         marathon_run_col = 'marathon_run'
@@ -194,40 +177,37 @@ class LogFilesProcessor:
         df = df.select(cols)
         return df
 
-    def cast_df_cols_to_float64(self, df: pl.DataFrame) -> pl.DataFrame:
+    def _cast_df_cols_to_float64(self, df: pl.DataFrame) -> pl.DataFrame:
         """Cast integer and float columns to Float64 type."""
         df = df.with_columns([pl.col(col).cast(pl.Float64)
                               for col in df.columns
                               if df[col].dtype in [pl.Int64, pl.Float32, pl.Int32]])
         return df
 
-    def drop_single_value_cols(self, df: pl.DataFrame, step_col_name: str) -> pl.DataFrame:
+    def _drop_single_value_cols(self, df: pl.DataFrame, step_col_name: str) -> pl.DataFrame:
         """Drop columns with a single unique value, excluding common ID columns and step_col_name."""
         single_val_cols = [col for col in df.columns
                            if col not in self.COMMON_ID_COLS_MOD + [step_col_name]
                         #    if df[col].dtype.is_numeric()
                            and df[col].n_unique() == 1]
-        df = df.drop(single_val_cols)
-        return df
+        return df.drop(single_val_cols)
 
-    def append_step_suffix_to_cols(self, df: pl.DataFrame, step_col_name: str, step_id: int) -> pl.DataFrame:
+    def _append_step_suffix_to_cols(self, df: pl.DataFrame, step_col_name: str, step_id: int) -> pl.DataFrame:
         """Rename non-ID columns by appending '_step{step_id}' suffix"""
         append_step_suffix_to_cols = {
             col: f"{col}_step{step_id}"
             for col in df.columns
             if col not in self.COMMON_ID_COLS_MOD + self.COMMON_ID_COLS + [step_col_name]}
-        df = df.rename(append_step_suffix_to_cols)
-        return df
+        return df.rename(append_step_suffix_to_cols)
 
-    def reorder_cols(self, master_log_df: pl.DataFrame, step_col_name: str) -> pl.DataFrame:
+    def _reorder_cols(self, master_log_df: pl.DataFrame, step_col_name: str) -> pl.DataFrame:
         """Reorder columns to have common ID columns, step_col_name first, then others; warn if columns missing."""
         desired_order = self.COMMON_ID_COLS_MOD + [step_col_name] + [
             col for col in master_log_df.columns if col not in self.COMMON_ID_COLS_MOD + [step_col_name]]
         missing = [col for col in desired_order if col not in master_log_df.columns]
         if missing:
             print("Missing columns before select:", missing)
-        master_log_df = master_log_df.select(desired_order)
-        return master_log_df
+        return master_log_df.select(desired_order)
 
     def load_and_process_and_combine_log_csv_files(self, dict_of_log_files, unique_marathon_runs_list: list, step_col_name: str,
                                                    main_folder: str, keep_existing_runs: bool = True, save_log_df_to_parquet: bool = False) -> pl.DataFrame:
@@ -236,17 +216,17 @@ class LogFilesProcessor:
         df_list      = []
 
         for log_file in dict_of_log_files.values():
-            df = self.read_csv_and_lowercase_cols_names(log_file['path'])
-            df = self.add_marathon_and_step_cols_to_df(df, log_file[marathon_col], log_file['step'], step_col_name)
-            df = self.split_log_df_by_marathon_run_existence(df, unique_marathon_runs_list, keep_existing_runs=keep_existing_runs)
-            df = self.insert_step_cols_after_run(df, step_col_name)
-            df = self.cast_df_cols_to_float64(df)
-            df = self.drop_single_value_cols(df, step_col_name)
-            df = self.append_step_suffix_to_cols(df, step_col_name, log_file['step'])
+            df = self._read_csv_and_lowercase_cols_names(log_file['path'])
+            df = self._add_marathon_and_step_cols_to_df(df, log_file[marathon_col], log_file['step'], step_col_name)
+            df = self._split_log_df_by_marathon_run_existence(df, unique_marathon_runs_list, keep_existing_runs=keep_existing_runs)
+            df = self._insert_step_cols_after_run(df, step_col_name)
+            df = self._cast_df_cols_to_float64(df)
+            df = self._drop_single_value_cols(df, step_col_name)
+            df = self._append_step_suffix_to_cols(df, step_col_name, log_file['step'])
             df_list.append(df)
 
         master_log_df = pl.concat(df_list, how="diagonal")
-        master_log_df = self.reorder_cols(master_log_df, step_col_name)
+        master_log_df = self._reorder_cols(master_log_df, step_col_name)
         master_log_df = master_log_df.rename({col: col.strip().lower() for col in master_log_df.columns})
 
         if save_log_df_to_parquet:

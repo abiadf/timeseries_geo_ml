@@ -13,6 +13,7 @@ numpy
 opt-einsum
 pandas
 polars
+rdp # Ramer-Douglas-Peucker Algorithm
 scikit-learn
 scikit-dimension
 seaborn
