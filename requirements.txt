@@ -3,6 +3,7 @@ catboost
 dtype_diet
 einops
 # fastdtw
+huggingface_hub
 ipykernel
 jupyter
 lightgbm
