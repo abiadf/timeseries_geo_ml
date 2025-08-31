@@ -27,6 +27,7 @@ pykeops
 PyYAML
 umap-learn # not umap
 wandb
+wfdb
 xgboost
 
 # anyio==4.9.0

@@ -11,7 +11,6 @@ from utils import Losses
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
-
 class TrainAutoencoder:
     """Class dealing with training the autoencoder, measured by the loss. NOTE: include X in training"""
     def _train_epoch(self, device: torch.device, autoencoder, train_loader: DataLoader, optimizer: optim.Optimizer) -> float:
@@ -156,8 +155,9 @@ class TrainVAE:
 
 
 class TrainConditionalVAE:
-    """Trainer class for Conditional Variational Autoencoder (CVAE). NOTE: always train with X, infer with or without X"""
-    def _train_epoch(self, device, cvae, train_loader, optimizer):
+    """Trainer class for Conditional Variational Autoencoder (CVAE). NOTE: always train with X, infer with or without X.
+    Note: this class accommodates β-VAE, where β is an optional hyperparam to control the weight of the KL divergence term in the loss function."""
+    def _train_epoch(self, device, cvae, train_loader, optimizer, use_beta: bool = False, beta: float = 2.0):
         cvae.train()
         epoch_loss = 0
         for batch in train_loader:
@@ -175,7 +175,7 @@ class TrainConditionalVAE:
             # reconstruction + KL
             recon_loss  = nn.functional.mse_loss(y_hat, y, reduction='mean') * y.size(0)
             kl_div_loss = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-            loss        = recon_loss + kl_div_loss
+            loss        = recon_loss + (beta * kl_div_loss if use_beta else kl_div_loss) # to make it beta-VAE
             loss.backward()
             optimizer.step()
             epoch_loss += loss.item()
