@@ -3,6 +3,7 @@ catboost
 dtype_diet
 einops
 # fastdtw
+h5py
 huggingface_hub
 ipykernel
 jupyter
@@ -28,7 +29,9 @@ PyYAML
 umap-learn # not umap
 wandb
 wfdb
+xarray
 xgboost
+zarr
 
 # anyio==4.9.0
 # argon2-cffi==23.1.0
