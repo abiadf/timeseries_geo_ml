@@ -35,7 +35,7 @@ class ECGLoader:
 
     @staticmethod
     def parse_scp_codes(s: str) -> dict[str, float]:
-        """Parse SCP code string into a dictionary of code → confidence (0–100)."""
+        """Parse SCP code string into a dictionary of code → confidence (0-100)."""
         try:
             return json.loads(s)
         except json.JSONDecodeError:
@@ -44,9 +44,9 @@ class ECGLoader:
     @staticmethod
     def extract_superclasses(scp_codes_str: str, scp_super) -> List[str]:
         """Return list of diagnostic conditions 'superclasses' present in SCP string."""
-        d = ECGLoader.parse_scp_codes(scp_codes_str)
+        d            = ECGLoader.parse_scp_codes(scp_codes_str)
         present_scps = [k for k, v in d.items() if float(v) > 0]
-        supers = [scp_super[s] for s in present_scps if s in scp_super]
+        supers       = [scp_super[s] for s in present_scps if s in scp_super]
         return sorted(set(supers))
 
     @staticmethod
