@@ -26,6 +26,7 @@ torch
 tslearn
 pykeops
 PyYAML
+ts2vec
 umap-learn # not umap
 wandb
 wfdb
