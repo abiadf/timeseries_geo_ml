@@ -89,8 +89,7 @@ class ECGLoader:
         scp_super    = scp.loc[scp_diag, "diagnostic_class"].to_dict()
         classes      = sorted(set(scp_super.values()))
         class_to_idx = {c: i for i, c in enumerate(classes)}
-        rec_supers: List[List[str]] = meta["scp_codes"].map(
-            lambda s: ECGLoader.extract_superclasses(s, scp_super)).tolist()
+        rec_supers: List[List[str]] = meta["scp_codes"].map(lambda s: ECGLoader.extract_superclasses(s, scp_super)).tolist()
 
         if continuous_target:
             all_codes = sorted({code for scp_str in meta["scp_codes"] for code in ECGLoader.parse_scp_codes(scp_str)})
