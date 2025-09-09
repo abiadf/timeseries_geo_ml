@@ -10,3 +10,98 @@ catboost:
   task_type:           "CPU"
   verbose:             0
   random_seed:         42
+
+ecg:
+  timevae:
+    params : "none"
+
+  ts2vec:
+    test_size          : 0.2
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 32 # units in each layer (> than latent dim)
+    ts2vec_output_dims : 16 # latent dim
+    ts2vec_depth       : 4 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.009
+    predictor_epochs   : 150
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [32, 68]
+
+
+india_catchment:
+  timevae:
+    params : "none"
+
+  ts2vec:
+    test_size          : 0.2
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 12 # units in each layer (> than latent dim)
+    ts2vec_output_dims : 8 # latent dim
+    ts2vec_depth       : 2 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.009
+    predictor_epochs   : 150
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [16, 28, 36]
+
+germany_catchment:
+  timevae:
+    params: "none"
+
+  ts2vec:
+    test_size          : 0.2
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 3 # units in each layer (> than latent dim)
+    ts2vec_output_dims : 2 # latent dim
+    ts2vec_depth       : 2 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.009
+    predictor_epochs   : 150
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [3]
+
+
+china_weather:
+  timevae:
+    params: "none"
+
+  ts2vec:
+    test_size          : 0.2
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
+    ts2vec_output_dims : 8 # latent dim
+    ts2vec_depth       : 2 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.009
+    predictor_epochs   : 150
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [16, 48, 64] # latent to y output
+
+
+weatherbench:
+  timevae:
+    params: "none"
+
+  ts2vec:
+    test_size          : 0.2
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 3 # units in each layer (> than latent dim)
+    ts2vec_output_dims : 2 # latent dim
+    ts2vec_depth       : 2 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.009
+    predictor_epochs   : 150
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [3]
+
+
