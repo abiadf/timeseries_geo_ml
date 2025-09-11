@@ -85,6 +85,13 @@ china_weather:
     predictor_dropout  : 0.05
     predictor_hidden_sizes : [16, 48, 64] # latent to y output
 
+  moment:
+    model_name         : "MOMENT-1-large"
+    task_name          : "embedding" # "classification" or "embedding"
+    predictor_lr       : 0.009
+    predictor_epochs   : 100
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [256, 64, 16] # latent to y output
 
 weatherbench:
   timevae:
