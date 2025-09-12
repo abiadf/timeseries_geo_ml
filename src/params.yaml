@@ -12,11 +12,17 @@ catboost:
   random_seed:         42
 
 ecg:
+  downsampling: (0.25, 0.05)
+
   timevae:
-    params : "none"
+    epochs : 150 #timevae repo
+    nn:
+      predictor_lr      : 0.008
+      predictor_epochs  : 150
+      predictor_dropout : 0.05
+      predictor_hidden_sizes : [16, 8] # latent to y output
 
   ts2vec:
-    test_size          : 0.2
     z_pooling_method   : "mean"
     ts2vec_hidden_dims : 32 # units in each layer (> than latent dim)
     ts2vec_output_dims : 16 # latent dim
@@ -24,18 +30,25 @@ ecg:
     ts2vec_batch_size  : 32
     ts2vec_epochs      : 20
 
-    predictor_lr       : 0.009
-    predictor_epochs   : 150
+    predictor_lr       : 0.02
+    predictor_epochs   : 300
     predictor_dropout  : 0.05
-    predictor_hidden_sizes : [32, 68]
+    predictor_hidden_sizes : [16, 48, 64]
+
+  moment:
+    classification:
+      predictor_lr      : 0.009
+      predictor_epochs  : 100
+      predictor_dropout : 0.05
+      predictor_hidden_sizes : [2048, 256, 128] # latent to y output
 
 
 india_catchment:
+  downsampling: (0.3, 0.08)
   timevae:
     params : "none"
 
   ts2vec:
-    test_size          : 0.2
     z_pooling_method   : "mean"
     ts2vec_hidden_dims : 12 # units in each layer (> than latent dim)
     ts2vec_output_dims : 8 # latent dim
@@ -53,7 +66,6 @@ germany_catchment:
     params: "none"
 
   ts2vec:
-    test_size          : 0.2
     z_pooling_method   : "mean"
     ts2vec_hidden_dims : 3 # units in each layer (> than latent dim)
     ts2vec_output_dims : 2 # latent dim
@@ -69,10 +81,14 @@ germany_catchment:
 
 china_weather:
   timevae:
-    params: "none"
+    epochs: 300
+    nn:
+      predictor_lr      : 0.008
+      predictor_epochs  : 150
+      predictor_dropout : 0.05
+      predictor_hidden_sizes : [16, 8] # latent to y output
 
   ts2vec:
-    test_size          : 0.2
     z_pooling_method   : "mean"
     ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
     ts2vec_output_dims : 8 # latent dim
@@ -84,6 +100,8 @@ china_weather:
     predictor_epochs   : 150
     predictor_dropout  : 0.05
     predictor_hidden_sizes : [16, 48, 64] # latent to y output
+
+    downsampling: (0.25, 0.05)
 
   moment:
     model_name         : "MOMENT-1-large"
@@ -98,7 +116,6 @@ weatherbench:
     params: "none"
 
   ts2vec:
-    test_size          : 0.2
     z_pooling_method   : "mean"
     ts2vec_hidden_dims : 3 # units in each layer (> than latent dim)
     ts2vec_output_dims : 2 # latent dim
