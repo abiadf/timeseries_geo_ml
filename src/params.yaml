@@ -65,10 +65,15 @@ germany_catchment:
   timevae:
     params: "none"
 
+    predictor_lr      : 0.007
+    predictor_epochs  : 200
+    predictor_dropout : 0.05
+    predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
   ts2vec:
     z_pooling_method   : "mean"
-    ts2vec_hidden_dims : 3 # units in each layer (> than latent dim)
-    ts2vec_output_dims : 2 # latent dim
+    ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
+    ts2vec_output_dims : 8 # latent dim
     ts2vec_depth       : 2 # num layers
     ts2vec_batch_size  : 32
     ts2vec_epochs      : 20
@@ -76,7 +81,21 @@ germany_catchment:
     predictor_lr       : 0.009
     predictor_epochs   : 150
     predictor_dropout  : 0.05
-    predictor_hidden_sizes : [3]
+    predictor_hidden_sizes : [32, 48, 64]
+
+  moment:
+    model_name         : "MOMENT-1-base"
+    task_name          : "classification" # "classification" or "embedding"
+    predictor_lr       : 0.009
+    predictor_epochs   : 200
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [2048, 512, 128] # latent to y output
+
+    task_name          : "repres_learning" # "classification" or "embedding"
+    predictor_lr       : 0.008
+    predictor_epochs   : 200
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [256, 128] # latent to y output
 
 
 china_weather:
@@ -104,8 +123,8 @@ china_weather:
     downsampling: (0.25, 0.05)
 
   moment:
-    model_name         : "MOMENT-1-large"
-    task_name          : "embedding" # "classification" or "embedding"
+    model_name         : "MOMENT-1-base"
+    task_name          : "repres_learning" # "classification" or "embedding"
     predictor_lr       : 0.009
     predictor_epochs   : 100
     predictor_dropout  : 0.05
@@ -115,6 +134,12 @@ weatherbench:
   timevae:
     params: "none"
 
+    nn:
+      predictor_lr      : 0.007
+      predictor_epochs  : 200
+      predictor_dropout : 0.05
+      predictor_hidden_sizes : [8, 4] # latent to y output
+
   ts2vec:
     z_pooling_method   : "mean"
     ts2vec_hidden_dims : 3 # units in each layer (> than latent dim)
@@ -123,9 +148,16 @@ weatherbench:
     ts2vec_batch_size  : 32
     ts2vec_epochs      : 20
 
-    predictor_lr       : 0.009
+    predictor_lr       : 0.007
     predictor_epochs   : 150
     predictor_dropout  : 0.05
-    predictor_hidden_sizes : [3]
+    predictor_hidden_sizes : [8]
+
+  moment:
+    predictor_lr      : 0.009
+    predictor_epochs  : 100
+    predictor_dropout : 0.05
+    predictor_hidden_sizes : [8] # latent to y output
+
 
 
