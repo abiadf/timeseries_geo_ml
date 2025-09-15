@@ -32,10 +32,14 @@ class TS2VecEncoder:
         self.ts_model.fit(X_train, n_epochs=n_epochs, verbose=True)
 
     def encode(self, X, pooling=None):
-        """Encode X into latent embeddings with pooling."""
+        """Encode X into latent embeddings with pooling (accepts NumPy array or torch tensor)."""
         if self.ts_model is None:
             raise ValueError("TS2Vec model not trained. Call fit first.")
+        
+        if isinstance(X, torch.Tensor):
+            X = X.cpu().numpy()
         z = self.ts_model.encode(X.astype(np.float32))
+
         p = pooling or self.z_pooling
         if p == "mean":
             return z.mean(axis=1)
