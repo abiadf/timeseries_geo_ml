@@ -3,7 +3,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from ts2vec import TS2Vec
+from ts2vec import TS2Vec # library
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -51,11 +51,13 @@ class TS2VecEncoder:
         else:
             raise ValueError(f"Unknown pooling: {p}")
 
-class TS2VecTorchWrapper(nn.Module):
-    """Wrap TS2Vec model for use as a torch.nn.Module so we can access its params"""
-    def __init__(self, ts_model):
-        super().__init__()
-        self.net = ts_model.net   # grab the internal network (nn.Module)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.net(x)
+# class TS2VecTorchWrapper(nn.Module):
+#     """Wrap TS2Vec model for use as a torch.nn.Module so we can access its params"""
+#     def __init__(self, ts_model):
+#         super().__init__()
+#         self.net = ts_model.net   # grab the internal network (nn.Module)
+
+#     def forward(self, x: torch.Tensor) -> torch.Tensor:
+#         return self.net(x)
+

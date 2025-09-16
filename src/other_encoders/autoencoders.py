@@ -99,7 +99,7 @@ class FlexibleAutoencoder(BaseAutoencoder):
         self.projection_head = (
             nn.Sequential(
                 nn.Linear(layer_dims[-1], projection_dim),
-                nn.BatchNorm1d(projection_dim),
+                nn.LayerNorm(projection_dim), #nn.BatchNorm1d(projection_dim),
                 nn.ReLU(),
                 nn.Linear(projection_dim, projection_dim))
             if self.use_projection else nn.Identity())
@@ -123,7 +123,7 @@ class FlexibleAutoencoder(BaseAutoencoder):
             is_last = (i == len(dims) - 2)
             if not is_last:
                 layers_list.extend([
-                    nn.BatchNorm1d(out_dim),
+                    nn.LayerNorm(out_dim), # nn.BatchNorm1d(out_dim),
                     nn.LeakyReLU(self.negative_slope),
                     nn.Dropout(self.dropout_prob)])
         return nn.Sequential(*layers_list)
