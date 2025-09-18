@@ -1,0 +1,156 @@
+{
+    "run_id": 1,
+    "pretrain_epochs": 150,
+    "train_epochs": 10,
+    "batch_size": 16,
+    "decoder_hidden_dims": [
+        16,
+        64,
+        128
+    ],
+    "projection_dim": 16,
+    "lr_pretrain": 0.001,
+    "lr_train": 0.001,
+    "results": {
+        "1.0": 1.0251
+    },
+    "timestamp": "2025-09-17T18:04:31.986062"
+}
+{
+    "run_id": 19,
+    "pretrain_epochs": 150,
+    "train_epochs": 10,
+    "batch_size": 16,
+    "decoder_hidden_dims": [
+        16,
+        64,
+        128
+    ],
+    "projection_dim": 16,
+    "lr_pretrain": 0.001,
+    "lr_train": 0.001,
+    "results": {
+        "1.0": 1.0251,
+        "linreg_rmse": 0.9968,
+        "catboost_rmse": 0.9538,
+        "unsupervised_rmse": 0.9624,
+        "rf_rmse": 0.9711,
+        "el_rmse": 0.9261
+    },
+    "timestamp": "2025-09-17T18:06:46.298801"
+}
+{
+    "run_id": 42,
+    "pretrain_epochs": 150,
+    "train_epochs": 150,
+    "batch_size": 16,
+    "decoder_hidden_dims": [
+        16,
+        64,
+        128
+    ],
+    "projection_dim": 16,
+    "lr_pretrain": 0.001,
+    "lr_train": 0.001,
+    "results": {
+        "1.0": 1.1135,
+        "linreg_rmse": 0.8483,
+        "catboost_rmse": 0.8199,
+        "unsupervised_rmse": 0.938,
+        "rf_rmse": 0.8446,
+        "el_rmse": 0.814
+    },
+    "timestamp": "2025-09-17T18:19:17.143298"
+}
+{
+    "run_id": 65,
+    "pretrain_epochs": 150,
+    "train_epochs": 150,
+    "batch_size": 16,
+    "decoder_hidden_dims": [
+        16,
+        64,
+        128
+    ],
+    "projection_dim": 16,
+    "lr_pretrain": 0.001,
+    "lr_train": 0.001,
+    "results": {
+        "1.0": 1.1135,
+        "linreg_rmse": 0.8483,
+        "catboost_rmse": 0.8199,
+        "unsupervised_rmse": 0.938,
+        "rf_rmse": 0.8446,
+        "el_rmse": 0.814
+    },
+    "timestamp": "2025-09-18T14:02:55.388497"
+}
+{
+    "run_id": 88,
+    "pretrain_epochs": 150,
+    "train_epochs": 10,
+    "batch_size": 16,
+    "decoder_hidden_dims": [
+        16,
+        64,
+        128
+    ],
+    "projection_dim": 16,
+    "lr_pretrain": 0.001,
+    "lr_train": 0.001,
+    "results": {
+        "1.0": 1.0251,
+        "linreg_rmse": 0.9968,
+        "catboost_rmse": 0.9538,
+        "unsupervised_rmse": 0.9624,
+        "rf_rmse": 0.9711,
+        "el_rmse": 0.9261
+    },
+    "timestamp": "2025-09-18T15:09:22.737161"
+}
+{
+    "run_id": 111,
+    "pretrain_epochs": 150,
+    "train_epochs": 30,
+    "batch_size": 16,
+    "decoder_hidden_dims": [
+        16,
+        64,
+        128
+    ],
+    "projection_dim": 16,
+    "lr_pretrain": 0.001,
+    "lr_train": 0.001,
+    "results": {
+        "1.0": 0.946,
+        "linreg_rmse": 0.8973,
+        "catboost_rmse": 0.8888,
+        "unsupervised_rmse": 0.9458,
+        "rf_rmse": 0.8884,
+        "el_rmse": 0.8861
+    },
+    "timestamp": "2025-09-18T15:12:39.323198"
+}
+{
+    "run_id": 134,
+    "pretrain_epochs": 200,
+    "train_epochs": 31,
+    "batch_size": 16,
+    "decoder_hidden_dims": [
+        16,
+        64,
+        128
+    ],
+    "projection_dim": 16,
+    "lr_pretrain": 0.001,
+    "lr_train": 0.001,
+    "results": {
+        "1.0": 0.9748,
+        "linreg_rmse": 0.9039,
+        "catboost_rmse": 0.8863,
+        "unsupervised_rmse": 0.9327,
+        "rf_rmse": 0.8679,
+        "el_rmse": 0.885
+    },
+    "timestamp": "2025-09-18T15:34:07.551443"
+}
