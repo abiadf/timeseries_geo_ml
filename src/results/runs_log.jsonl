@@ -478,3 +478,27 @@
     },
     "timestamp": "2025-09-18T23:57:46.957217"
 }
+{
+    "run_id": 481,
+    "pretrain_epochs": 306,
+    "train_epochs": 35,
+    "batch_size_pretrain": 16,
+    "batch_size_train": 16,
+    "decoder_hidden_dims": [
+        16,
+        64,
+        128
+    ],
+    "projection_dim": 16,
+    "lr_pretrain": 0.001,
+    "lr_train": 0.0001,
+    "results": {
+        "1.0": 1.0111,
+        "linreg_rmse": 0.9158,
+        "catboost_rmse": 0.9224,
+        "unsupervised_rmse": 0.9738,
+        "rf_rmse": 0.9054,
+        "el_rmse": 0.9008
+    },
+    "timestamp": "2025-09-19 11:42"
+}
