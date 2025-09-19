@@ -86,7 +86,10 @@ class MLPHead:
 
 
 class ProjectionHead(nn.Module):
-    """MLP projection head: maps latent z to projected space H"""
+    """MLP projection head: maps latent z to projected space H for contrastive learning
+    Notes:
+    - Last layer is Linear only, **no BatchNorm** (kills contrastive loss), which is important for NT-Xent / cosine similarity loss.
+    - Outputs are normalized with F.normalize to unit vectors for contrastive similarity."""
     def __init__(self, input_dim: int, proj_dim: int, hidden_sizes: list[int] = [256], dropout: float = 0.0):
         super().__init__()
         layers   = []
@@ -97,13 +100,16 @@ class ProjectionHead(nn.Module):
             if dropout > 0:
                 layers.append(nn.Dropout(dropout))
             prev_dim = h
+        # Final projection layer: NO BatchNorm here!
         layers.append(nn.Linear(prev_dim, proj_dim))  # final projection
         self.net = nn.Sequential(*layers)
 
     def forward(self, z: torch.Tensor) -> torch.Tensor:
-        """Project latent z into normalized space H"""
+        """Project latent z into normalized space H for contrastive loss.
+        - z: (batch, latent_dim)
+        - h: (batch, proj_dim), L2-normalized"""
         h = self.net(z)
-        h = F.normalize(h, dim=1)  # optional: normalize for contrastive loss
+        h = F.normalize(h, dim=1)  # normalize to unit vectors; ensures cosine similarity is meaningful
         return h
 
 
