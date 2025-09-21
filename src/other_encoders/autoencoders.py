@@ -267,6 +267,52 @@ class ConditionalVAE(nn.Module):
         return y_hat, mu, logvar
 
 
+class DenoisingAE(BaseAutoencoder):
+    """Denoising Autoencoder for timeseries. Adds Gaussian noise to input during training."""
+    def __init__(self, input_size: int, hidden_dims: list[int], latent_dim: int,
+                 dropout_prob: float = 0.05, noise_std: float = 0.1):
+        super().__init__()
+        self.noise_std    = noise_std
+        self.dropout_prob = dropout_prob
+
+        # Encoder
+        dims         = [input_size] + hidden_dims + [latent_dim]
+        self.encoder = self._build_layers(dims, is_decoder=False)
+
+        # Decoder
+        dims_decoder = [latent_dim] + hidden_dims[::-1] + [input_size]
+        self.decoder = self._build_layers(dims_decoder, is_decoder=True)
+
+    def _build_layers(self, dims: list[int], is_decoder: bool = False) -> nn.Sequential:
+        layers = []
+        for i, (in_dim, out_dim) in enumerate(zip(dims, dims[1:])):
+            layers.append(nn.Linear(in_dim, out_dim))
+            is_last = (i == len(dims) - 2)
+            if not is_last:
+                layers.extend([nn.LayerNorm(out_dim),
+                               nn.LeakyReLU(self.negative_slope),
+                               nn.Dropout(self.dropout_prob)])
+        return nn.Sequential(*layers)
+
+    def encode(self, x: torch.Tensor) -> torch.Tensor:
+        return self.encoder(x)
+
+    def decode(self, z: torch.Tensor) -> torch.Tensor:
+        return self.decoder(z)
+
+    def forward(self, x: torch.Tensor, add_noise: bool = True) -> torch.Tensor:
+        """Forward pass. Adds Gaussian noise if add_noise=True (training)."""
+        if self.training and add_noise and self.noise_std > 0:
+            noise   = torch.randn_like(x) * self.noise_std
+            x_noisy = x + noise
+        else:
+            x_noisy = x
+        z = self.encode(x_noisy)
+        return self.decode(z)
+
+
+
+
 # class TrainAutoencoder:
 #     """Class dealing with training the autoencoder, measured by the loss"""
 #     def _train_epoch(self, device: torch.device, autoencoder: BaseAutoencoder, train_loader: DataLoader, optimizer: optim.Optimizer) -> float:
