@@ -149,7 +149,6 @@ class TorchWrapper(nn.Module):
     Exposes the internal network as `.net` and also `.model` for compatibility."""
     def __init__(self, ts_model):
         super().__init__()
-        # self.net = ts_model.net   # grab the internal network (nn.Module)
         self.net = ts_model.net if hasattr(ts_model, "net") else ts_model
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
