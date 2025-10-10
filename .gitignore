@@ -18,6 +18,8 @@ parquet_files/
 *.parquet
 pickled/
 src/pickled/
+src/figures/
+src/model/
 
 # data
 interim_data/*

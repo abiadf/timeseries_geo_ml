@@ -27,10 +27,9 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
-
-class MLPHead:
+# old, remove later
+class X_MLPHead:
     """Supervised MLP predictor for embeddings with variable hidden layers. Predicts y from z"""
-
     def __init__(self, input_dim, output_dim, hidden_sizes=[64], lr=0.01, epochs=20, dropout=0.0, device="cpu"):
         self.device  = device
         self.epochs  = epochs
@@ -82,6 +81,96 @@ class MLPHead:
 
     def evaluate(self, z_test, y_test):
         y_pred = self.predict(z_test)
+        return root_mean_squared_error(y_test, y_pred)
+
+class MLPHead:
+    """Supervised MLP predictor for embeddings OR raw X. Avoids redundant tensor conversion."""
+
+    def __init__(self, input_dim, output_dim, hidden_sizes=[64], lr=0.01,
+                 epochs=20, dropout=0.0, device=None, early_stop_patience=10):
+        self.PRINT_EVERY = 20
+        self.device = device
+        self.epochs = epochs
+        self.early_stop_patience = early_stop_patience
+
+        layers   = []
+        prev_dim = input_dim
+        for h in hidden_sizes:
+            layers.append(nn.Linear(prev_dim, h))
+            layers.append(nn.ReLU())
+            if dropout > 0:
+                layers.append(nn.Dropout(dropout))
+            prev_dim = h
+        layers.append(nn.Linear(prev_dim, output_dim))
+
+        self.model     = nn.Sequential(*layers).to(device)
+        self.optimizer = optim.AdamW(self.model.parameters(), lr=lr)
+        self.loss_fn   = nn.MSELoss()
+
+    def _ensure_tensor(self, x):
+        if isinstance(x, torch.Tensor):
+            # Move to correct device and float32 if needed
+            if x.device != torch.device(self.device) or x.dtype != torch.float32:
+                return x.float().to(self.device)
+            return x
+        return torch.tensor(x, dtype=torch.float32, device=self.device)
+
+    def train(self, X_train, y_train, X_test=None, y_test=None):
+        X_train_t = self._ensure_tensor(X_train)
+        y_train_t = self._ensure_tensor(y_train)
+        X_test_t  = self._ensure_tensor(X_test)  if X_test is not None else None
+        y_test_t  = self._ensure_tensor(y_test)  if y_test is not None else None
+
+        best_loss = float('inf')
+        epochs_no_improve = 0
+
+        for epoch in range(self.epochs):
+            self.optimizer.zero_grad()
+            y_pred = self.model(X_train_t)
+            loss   = self.loss_fn(y_pred, y_train_t)
+            loss.backward()
+            self.optimizer.step()
+
+            # if epoch % self.PRINT_EVERY == 0 or epoch == self.epochs - 1:
+            #     if X_test_t is not None:
+            #         with torch.no_grad():
+            #             test_pred = self.model(X_test_t)
+            #             test_loss = self.loss_fn(test_pred, y_test_t)
+            #         print(f"Epoch {epoch}: Train {loss.item():.4f}, Test {test_loss.item():.4f}")
+            #     else:
+            #         print(f"Epoch {epoch}: Train {loss.item():.4f}")
+
+            monitor_loss = loss.item()
+            if X_test_t is not None:
+                with torch.no_grad():
+                    val_pred = self.model(X_test_t)
+                    val_loss = self.loss_fn(val_pred, y_test_t).item()
+                monitor_loss = val_loss
+
+            # Early stopping
+            if self.early_stop_patience is not None:
+                if monitor_loss < best_loss:
+                    best_loss = monitor_loss
+                    epochs_no_improve = 0
+                else:
+                    epochs_no_improve += 1
+                    if epochs_no_improve >= self.early_stop_patience:
+                        print(f"Early stopping at epoch {epoch}")
+                        break
+
+            if epoch % self.PRINT_EVERY == 0 or epoch == self.epochs - 1:
+                if X_test_t is not None:
+                    print(f"Epoch {epoch}: Train {loss.item():.4f}, Test {val_loss:.4f}")
+                else:
+                    print(f"Epoch {epoch}: Train {loss.item():.4f}")
+
+    def predict(self, X):
+        X_t = self._ensure_tensor(X)
+        with torch.no_grad():
+            return self.model(X_t).cpu().numpy()
+
+    def evaluate(self, X_test, y_test):
+        y_pred = self.predict(X_test)
         return root_mean_squared_error(y_test, y_pred)
 
 

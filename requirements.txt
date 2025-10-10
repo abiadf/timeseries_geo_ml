@@ -25,6 +25,7 @@ statsmodels
 torch
 tslearn
 pykeops
+pykan
 PyYAML
 ts2vec
 umap-learn # not umap

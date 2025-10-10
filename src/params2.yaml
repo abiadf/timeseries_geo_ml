@@ -1,0 +1,217 @@
+
+basics:
+  label_frac: 1  # fraction of labeled training data
+  desired_dataset: "china_weather" # "ecg", "india_catchment", "germany_catchment", "china_weather", "weatherbench"
+
+ts2vec:
+  z_pooling_method   : "mean"
+  ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
+  ts2vec_latent_dims : 8 # latent dim
+  ts2vec_depth       : 2 # num layers
+  ts2vec_batch_size  : 32
+  ts2vec_epochs      : 20
+
+  predictor_lr       : 0.009
+  predictor_epochs   : 150
+  predictor_dropout  : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+moment:
+  predictor_lr      : 0.009
+  predictor_epochs  : 100
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+  model_type   : "repres_learning" # options: classification (= regression), repres_learning
+  model_name   : "MOMENT-1-base" #"MOMENT-1-large"
+  reload_model : "True"
+
+timevae:
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+cellsup:
+  label_frac  : 1  # labelled fraction of training data
+  num_epochs  : 25
+  AE_lr       : 1e-3
+  weight_decay: 1e-5
+  dropout     : 0.1
+  # hidden_dim  : X_train.shape[2]//2
+  swav_iters  : 5
+  swav_temp   : 0.1
+  encoders_dims_list : [32, 64, 128]
+  clustering:
+    cluster_min: 4
+    cluster_max: 8
+
+barlow:
+  cnn:
+    SSL_LAMBDA  : 0.005 # value from BT paper
+    SSL_WEIGHT  : 0.8   # Weight for recon vs. SSL
+    CHANNELS_1  : 64
+    CHANNELS_2  : 128
+    KERNEL_SIZE : 5
+    POOL_KERNEL : 2
+    latent_dim  : 32
+    augment_const: 0.1
+  ae:
+    latent_dim : 32
+    ssl_weight : 1.0
+    augment_const: 0.1
+
+
+
+
+
+# ============================
+ecg:
+  downsampling: (0.25, 0.05)
+
+  timevae:
+    epochs : 150 #timevae repo
+    nn:
+      predictor_lr      : 0.008
+      predictor_epochs  : 150
+      predictor_dropout : 0.05
+      predictor_hidden_sizes : [16, 8] # latent to y output
+
+  ts2vec:
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 32 # units in each layer (> than latent dim)
+    ts2vec_latent_dims : 16 # latent dim
+    ts2vec_depth       : 4 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.02
+    predictor_epochs   : 300
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [16, 48, 64]
+
+  moment:
+    classification:
+      predictor_lr      : 0.009
+      predictor_epochs  : 100
+      predictor_dropout : 0.05
+      predictor_hidden_sizes : [2048, 256, 128] # latent to y output
+
+
+india_catchment:
+  downsampling: (0.3, 0.08)
+  timevae:
+    params : "none"
+
+  ts2vec:
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 12 # units in each layer (> than latent dim)
+    ts2vec_latent_dims : 8 # latent dim
+    ts2vec_depth       : 2 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.009
+    predictor_epochs   : 150
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [16, 28, 36]
+
+germany_catchment:
+  timevae:
+    params: "none"
+
+    predictor_lr      : 0.007
+    predictor_epochs  : 200
+    predictor_dropout : 0.05
+    predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+  ts2vec:
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
+    ts2vec_latent_dims : 8 # latent dim
+    ts2vec_depth       : 2 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.009
+    predictor_epochs   : 150
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [32, 48, 64]
+
+  moment:
+    model_name         : "MOMENT-1-base"
+    task_name          : "classification" # "classification" or "embedding"
+    predictor_lr       : 0.009
+    predictor_epochs   : 200
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [2048, 512, 128] # latent to y output
+
+    task_name          : "repres_learning" # "classification" or "embedding"
+    predictor_lr       : 0.008
+    predictor_epochs   : 200
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [256, 128] # latent to y output
+
+
+china_weather:
+  timevae:
+    epochs: 300
+    nn:
+      predictor_lr      : 0.008
+      predictor_epochs  : 150
+      predictor_dropout : 0.05
+      predictor_hidden_sizes : [16, 8] # latent to y output
+
+  ts2vec:
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
+    ts2vec_latent_dims : 8 # latent dim
+    ts2vec_depth       : 2 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.009
+    predictor_epochs   : 150
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [16, 48, 64] # latent to y output
+
+    downsampling: (0.25, 0.05)
+
+  moment:
+    model_name         : "MOMENT-1-base"
+    task_name          : "repres_learning" # "classification" or "embedding"
+    predictor_lr       : 0.009
+    predictor_epochs   : 100
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [256, 64, 16] # latent to y output
+
+weatherbench:
+  timevae:
+    params: "none"
+
+    nn:
+      predictor_lr      : 0.007
+      predictor_epochs  : 200
+      predictor_dropout : 0.05
+      predictor_hidden_sizes : [8, 4] # latent to y output
+
+  ts2vec:
+    z_pooling_method   : "mean"
+    ts2vec_hidden_dims : 3 # units in each layer (> than latent dim)
+    ts2vec_latent_dims : 2 # latent dim
+    ts2vec_depth       : 2 # num layers
+    ts2vec_batch_size  : 32
+    ts2vec_epochs      : 20
+
+    predictor_lr       : 0.007
+    predictor_epochs   : 150
+    predictor_dropout  : 0.05
+    predictor_hidden_sizes : [8]
+
+  moment:
+    predictor_lr      : 0.009
+    predictor_epochs  : 100
+    predictor_dropout : 0.05
+    predictor_hidden_sizes : [8] # latent to y output
+
+
+

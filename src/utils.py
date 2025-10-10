@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Generator, Tuple
 import math
 
 import matplotlib.pyplot as plt
@@ -16,6 +16,13 @@ from skdim.id import MLE
 from sklearn.decomposition import PCA
 from statsmodels.tsa.stattools import acf
 from tslearn.metrics import dtw
+
+import yaml
+
+def read_params(file_path: str) -> dict:
+    """Read parameters from a YAML file."""
+    with open(file_path, "r") as f:
+        return yaml.safe_load(f)
 
 def get_frechet_distance(array1: np.ndarray, array2: np.ndarray) -> float:
     """Compute the Fréchet Inception Distance (FID) between 2 arrays
@@ -309,3 +316,29 @@ class ForecastUtils:
                 windows_list.append((train_df, test_df))
         return windows_list
     
+def make_sample_splits(X: np.ndarray, y: np.ndarray, method: str = "holdout", train_ratio: float = 0.8, n_splits: int = 5,
+                       random_state: int = None) -> Generator[Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray], None, None]:
+    """Make random train/test splits across samples (pages). Each page is a separate time series. Methods:
+    - 'holdout': first train_ratio of pages for training, rest for test
+    - 'blocked': non-overlapping contiguous folds along pages"""
+    n_pages = X.shape[0]
+    rng     = np.random.default_rng(random_state)
+    indices = rng.permutation(n_pages) 
+
+    if method == "holdout":
+        split_idx = int(n_pages * train_ratio)
+        train_idx, test_idx = indices[:split_idx], indices[split_idx:]
+        X_train, X_test     = X[train_idx], X[test_idx]
+        y_train, y_test     = y[train_idx], y[test_idx]
+        yield X_train, X_test, y_train, y_test
+    elif method == "kfold":
+        fold_size = n_pages // n_splits
+        for split_i in range(n_splits):
+            test_idx        = indices[split_i * fold_size : (split_i + 1) * fold_size]
+            train_idx       = np.concatenate([indices[:split_i * fold_size], indices[(split_i + 1) * fold_size:]])
+            X_train, X_test = X[train_idx], X[test_idx]
+            y_train, y_test = y[train_idx], y[test_idx]
+            yield X_train, X_test, y_train, y_test
+    else:
+        raise ValueError("method must be 1 of {'holdout', 'kfold'}")
+
