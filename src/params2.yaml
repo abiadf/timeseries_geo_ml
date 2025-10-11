@@ -1,7 +1,8 @@
 
 basics:
-  label_frac: 1  # fraction of labeled training data
-  desired_dataset: "china_weather" # "ecg", "india_catchment", "germany_catchment", "china_weather", "weatherbench"
+  label_frac:      1  # fraction of labeled training data
+  desired_dataset: "germany_catchment" # "ecg", "india_catchment", "germany_catchment", "china_weather", "weatherbench"
+  runs:            5  # times to run the whole code
 
 ts2vec:
   z_pooling_method   : "mean"
@@ -9,7 +10,7 @@ ts2vec:
   ts2vec_latent_dims : 8 # latent dim
   ts2vec_depth       : 2 # num layers
   ts2vec_batch_size  : 32
-  ts2vec_epochs      : 20
+  ts2vec_epochs      : 5
 
   predictor_lr       : 0.009
   predictor_epochs   : 150
@@ -23,7 +24,7 @@ moment:
   predictor_hidden_sizes : [32, 48, 64] # latent to y output
   model_type   : "repres_learning" # options: classification (= regression), repres_learning
   model_name   : "MOMENT-1-base" #"MOMENT-1-large"
-  reload_model : "True"
+  reload_model : true
 
 timevae:
   predictor_lr      : 0.006
@@ -32,10 +33,9 @@ timevae:
   predictor_hidden_sizes : [32, 48, 64] # latent to y output
 
 cellsup:
-  label_frac  : 1  # labelled fraction of training data
   num_epochs  : 25
-  AE_lr       : 1e-3
-  weight_decay: 1e-5
+  AE_lr       : 0.001
+  weight_decay: 0.00001
   dropout     : 0.1
   # hidden_dim  : X_train.shape[2]//2
   swav_iters  : 5
@@ -60,8 +60,13 @@ barlow:
     ssl_weight : 1.0
     augment_const: 0.1
 
-
-
+run_console:
+  moment : true
+  ts2vec : true
+  timevae: true
+  # cellsup : false
+  # barlow : false
+  kan    : false
 
 
 # ============================
