@@ -1,4 +1,4 @@
-from typing import Union, Generator, Tuple
+from typing import Union, Generator, Tuple, Optional
 import math
 
 import matplotlib.pyplot as plt
@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 import polars as pl
 import torch
-from torch import nn
 import torch.nn.functional as F
 
 from scipy.interpolate import PchipInterpolator
@@ -16,7 +15,6 @@ from skdim.id import MLE
 from sklearn.decomposition import PCA
 from statsmodels.tsa.stattools import acf
 from tslearn.metrics import dtw
-
 import yaml
 
 def read_params(file_path: str) -> dict:
@@ -153,6 +151,33 @@ def evaluate_and_plot_autoencoder_metrics(X_scaled, X_reconstructed, should_we_p
         plt.show()
 
     return ks_stats, wasserstein_dists, real_acfs, generated_acfs, dtw_distances
+
+def make_sample_splits(X: np.ndarray, y: np.ndarray, method: str = "holdout", train_ratio: float = 0.8, n_splits: int = 5,
+                       random_state: int = None) -> Generator[Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray], None, None]:
+    """Make random train/test splits across samples (pages). Each page is a separate time series. Methods:
+    - 'holdout': first train_ratio of pages for training, rest for test
+    - 'blocked': non-overlapping contiguous folds along pages"""
+    n_pages = X.shape[0]
+    rng     = np.random.default_rng(random_state)
+    indices = rng.permutation(n_pages) 
+
+    if method == "holdout":
+        split_idx = int(n_pages * train_ratio)
+        train_idx, test_idx = indices[:split_idx], indices[split_idx:]
+        X_train, X_test     = X[train_idx], X[test_idx]
+        y_train, y_test     = y[train_idx], y[test_idx]
+        yield X_train, X_test, y_train, y_test
+    elif method == "kfold":
+        fold_size = n_pages // n_splits
+        for split_i in range(n_splits):
+            test_idx        = indices[split_i * fold_size : (split_i + 1) * fold_size]
+            train_idx       = np.concatenate([indices[:split_i * fold_size], indices[(split_i + 1) * fold_size:]])
+            X_train, X_test = X[train_idx], X[test_idx]
+            y_train, y_test = y[train_idx], y[test_idx]
+            yield X_train, X_test, y_train, y_test
+    else:
+        raise ValueError("method must be 1 of {'holdout', 'kfold'}")
+
 
 class AutocorrMetrics:
     @staticmethod
@@ -315,30 +340,123 @@ class ForecastUtils:
             if len(test_df) == horizon_len:
                 windows_list.append((train_df, test_df))
         return windows_list
-    
-def make_sample_splits(X: np.ndarray, y: np.ndarray, method: str = "holdout", train_ratio: float = 0.8, n_splits: int = 5,
-                       random_state: int = None) -> Generator[Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray], None, None]:
-    """Make random train/test splits across samples (pages). Each page is a separate time series. Methods:
-    - 'holdout': first train_ratio of pages for training, rest for test
-    - 'blocked': non-overlapping contiguous folds along pages"""
-    n_pages = X.shape[0]
-    rng     = np.random.default_rng(random_state)
-    indices = rng.permutation(n_pages) 
 
-    if method == "holdout":
-        split_idx = int(n_pages * train_ratio)
-        train_idx, test_idx = indices[:split_idx], indices[split_idx:]
-        X_train, X_test     = X[train_idx], X[test_idx]
-        y_train, y_test     = y[train_idx], y[test_idx]
-        yield X_train, X_test, y_train, y_test
-    elif method == "kfold":
-        fold_size = n_pages // n_splits
-        for split_i in range(n_splits):
-            test_idx        = indices[split_i * fold_size : (split_i + 1) * fold_size]
-            train_idx       = np.concatenate([indices[:split_i * fold_size], indices[(split_i + 1) * fold_size:]])
-            X_train, X_test = X[train_idx], X[test_idx]
-            y_train, y_test = y[train_idx], y[test_idx]
-            yield X_train, X_test, y_train, y_test
-    else:
-        raise ValueError("method must be 1 of {'holdout', 'kfold'}")
+
+
+
+from sklearn.neural_network import MLPRegressor
+from sklearn.metrics import mean_squared_error, mean_absolute_error, root_mean_squared_error
+from sklearn.linear_model import LinearRegression, ElasticNet
+from sklearn.multioutput import MultiOutputRegressor
+from catboost import CatBoostRegressor
+from sklearn.cluster import KMeans
+from sklearn.ensemble import RandomForestRegressor
+
+class Preds():
+    "Class of predictors to predict y from X"
+
+    @staticmethod
+    def predict_linreg(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> float:
+        """Train linear predictor"""
+        model  = LinearRegression()
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        return root_mean_squared_error(y_test, y_pred)
+
+    @staticmethod
+    def predict_catboost_multioutput(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> Tuple[Optional[MultiOutputRegressor], np.ndarray, float]:
+        """Train multi-output CatBoost models and predict test set.
+        Returns:
+            model: trained MultiOutputRegressor (or None if all targets constant)
+            y_pred: predictions on test set
+            rmse: RMSE across all targets"""
+        y_pred           = np.zeros_like(y_test, dtype=float)
+        non_constant_idx = [i for i in range(y_train.shape[1])
+                            if not np.all(y_train[:, i] == y_train[0, i])]
+        if non_constant_idx:
+            model = MultiOutputRegressor(CatBoostRegressor(iterations=500, learning_rate=0.1, depth=4, verbose=0))
+            model.fit(X_train, y_train[:, non_constant_idx])
+            y_pred[:, non_constant_idx] = model.predict(X_test)
+            for i in range(y_train.shape[1]):
+                if np.all(y_train[:, i] == y_train[0, i]):
+                    y_pred[:, i] = y_train[0, i]
+        else:
+            model = None
+        rmse = root_mean_squared_error(y_test, y_pred)
+        return model, y_pred, rmse, non_constant_idx
+
+    @staticmethod
+    def cluster_and_label(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray,
+                        y_test: np.ndarray, n_clusters: int = 10, random_state: int = 42) -> float:
+        """Cluster train features with KMeans, assign representative y (mean per cluster), predict test labels by cluster assignment,
+        and compute RMSE. this is considered unsupervised, as the clustering happens to X only
+        - X_train: Training features (N_train, D).
+        - y_train: Training targets (N_train, T).
+        - X_test: Test features (N_test, D).
+        - y_test: Test targets (N_test, T).
+        - n_clusters: Number of KMeans clusters.
+        - random_state: Random seed for reproducibility.
+        Returns: Mean squared error on test set."""
+        try:
+            kmeans         = KMeans(n_clusters=n_clusters, random_state=random_state)
+            train_clusters = kmeans.fit_predict(X_train)
+
+            # mean target vector per cluster
+            y_cluster     = {cluster: y_train[train_clusters == cluster].mean(axis=0)
+                            for cluster in range(n_clusters)}
+            test_clusters = kmeans.predict(X_test)
+            y_pred        = np.stack([y_cluster[cluster] for cluster in test_clusters], axis=0)
+            return root_mean_squared_error(y_test, y_pred)
+        except Exception:
+            return float('nan')
+
+    @staticmethod
+    def predict_rf_multioutput(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> float:
+        """Train multi-output Random Forest and compute RMSE."""
+        model  = MultiOutputRegressor(RandomForestRegressor(n_estimators=100, random_state=42, n_jobs=-1))
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        return root_mean_squared_error(y_test, y_pred)
+
+    @staticmethod
+    def predict_elasticnet_multioutput(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray,
+                                       alpha: float = 0.1, l1_ratio: float = 0.5) -> Tuple[MultiOutputRegressor, np.ndarray, float]:
+        """Train multi-output ElasticNet (L1+L2) and predict test set.
+        Returns:
+            model: trained MultiOutputRegressor
+            y_pred: predictions on test set
+            rmse: root mean squared error"""
+        model  = MultiOutputRegressor(ElasticNet(alpha=alpha, l1_ratio=l1_ratio, max_iter=1000, random_state=42))
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        rmse   = root_mean_squared_error(y_test, y_pred)
+        return model, y_pred, rmse
+
+    @staticmethod
+    def predict_mlp_multioutput(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray,
+                                hidden_layer_sizes: Tuple[int, ...] = (128, 64), max_iter: int = 500,
+                                random_state: int = 42) -> Tuple[MultiOutputRegressor, np.ndarray, float]:
+        """Train multi-output MLPRegressor and predict test set.
+        Returns:
+            model: trained MultiOutputRegressor
+            y_pred: predictions on test set
+            rmse: root mean squared error"""
+        base_mlp = MLPRegressor(hidden_layer_sizes=hidden_layer_sizes,
+                                max_iter=max_iter,
+                                random_state=random_state)
+        model    = MultiOutputRegressor(base_mlp)
+        model.fit(X_train, y_train)
+        y_pred   = model.predict(X_test)
+        rmse     = root_mean_squared_error(y_test, y_pred)
+        return model, y_pred, rmse
+
+    @staticmethod
+    def evaluate_models_on_dataset(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray):
+        """Evaluate various models on the dataset and print RMSE results."""
+        linreg_loss       = Preds.predict_linreg(X_train, y_train, X_test, y_test)
+        _, _, catboost_loss, _ = Preds.predict_catboost_multioutput(X_train, y_train, X_test, y_test)
+        # unsupervised_rmse = Preds.cluster_and_label(X_train, y_train, X_test, y_test, n_clusters=5)
+        rf_rmse           = Preds.predict_rf_multioutput(X_train, y_train, X_test, y_test)
+        # _, _, el_rmse     = Preds.predict_elasticnet_multioutput(X_train, y_train, X_test, y_test, alpha=0.1, l1_ratio=0.5)
+        return linreg_loss, catboost_loss, rf_rmse,# unsupervised_rmse #, el_rmse
 
