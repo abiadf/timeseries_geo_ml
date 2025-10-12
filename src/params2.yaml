@@ -1,7 +1,8 @@
 
 basics:
   label_frac:      1  # fraction of labeled training data
-  desired_dataset: "germany_catchment" # "ecg", "india_catchment", "germany_catchment", "china_weather", "weatherbench"
+  desired_dataset: "china_weather" # ecg, india_catchment, germany_catchment, china_weather, weather
+  data_splitting:  "reduced_data" # normal, reduced_data
   runs:            5  # times to run the whole code
 
 ts2vec:
@@ -11,7 +12,6 @@ ts2vec:
   ts2vec_depth       : 2 # num layers
   ts2vec_batch_size  : 32
   ts2vec_epochs      : 5
-
   predictor_lr       : 0.009
   predictor_epochs   : 150
   predictor_dropout  : 0.05
@@ -63,7 +63,7 @@ barlow:
 run_console:
   moment : true
   ts2vec : true
-  timevae: true
+  timevae: false
   # cellsup : false
   # barlow : false
   kan    : false
