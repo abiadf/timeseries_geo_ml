@@ -233,6 +233,7 @@ class LogFilesProcessor:
             master_log_df.write_parquet(f"{main_folder}/{self.PARQUET_FOLDER_NAME}/master_log_file.parquet")
         return master_log_df
 
+
 class WaferFilesProcessor:
     """Class dealing with processing spatial files"""
 
