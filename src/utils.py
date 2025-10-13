@@ -7,12 +7,20 @@ import pandas as pd
 import polars as pl
 import torch
 import torch.nn.functional as F
+from catboost import CatBoostRegressor
+
+from sklearn.neural_network import MLPRegressor
+from sklearn.metrics import root_mean_squared_error
+from sklearn.linear_model import LinearRegression, ElasticNet
+from sklearn.multioutput import MultiOutputRegressor
+from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
+from sklearn.ensemble import RandomForestRegressor
 
 from scipy.interpolate import PchipInterpolator
 from scipy.linalg import sqrtm
 from scipy.stats import kstest, wasserstein_distance as wasserstein
 from skdim.id import MLE
-from sklearn.decomposition import PCA
 from statsmodels.tsa.stattools import acf
 from tslearn.metrics import dtw
 import yaml
@@ -341,16 +349,6 @@ class ForecastUtils:
                 windows_list.append((train_df, test_df))
         return windows_list
 
-
-
-
-from sklearn.neural_network import MLPRegressor
-from sklearn.metrics import mean_squared_error, mean_absolute_error, root_mean_squared_error
-from sklearn.linear_model import LinearRegression, ElasticNet
-from sklearn.multioutput import MultiOutputRegressor
-from catboost import CatBoostRegressor
-from sklearn.cluster import KMeans
-from sklearn.ensemble import RandomForestRegressor
 
 class Preds():
     "Class of predictors to predict y from X"

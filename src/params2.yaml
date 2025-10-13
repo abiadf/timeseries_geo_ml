@@ -1,9 +1,18 @@
 
 basics:
-  label_frac:      1  # fraction of labeled training data
-  desired_dataset: "weather" # ecg, india_catchment, germany_catchment, china_weather, weather
+  label_frac:      .25  # fraction of labeled training data
+  desired_dataset: "germany_catchment" # ecg, india_catchment, germany_catchment, china_weather, weather
   data_splitting:  "reduced_data" # normal, reduced_data
   runs:            5  # times to run the whole code
+
+run_console:
+  mean   : false
+  timevae: true
+  moment : false
+  ts2vec : false
+  cellsup: false
+  barlow : false
+  kan    : false
 
 ts2vec:
   z_pooling_method   : "mean"
@@ -27,6 +36,8 @@ moment:
   reload_model : true
 
 timevae:
+  train_epochs: 100
+
   predictor_lr      : 0.006
   predictor_epochs  : 200
   predictor_dropout : 0.05
@@ -60,16 +71,18 @@ barlow:
     ssl_weight : 1.0
     augment_const: 0.1
 
-run_console:
-  moment : true
-  ts2vec : true
-  timevae: false
-  # cellsup : false
-  # barlow : false
-  kan    : false
+germany_catchment:
+  train_epochs: 100
+  batch_size  : 16
+  latent_dim  : 8
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
 
 
-# ============================
+# ====================================================================================
+# ====================================================================================
 ecg:
   downsampling: (0.25, 0.05)
 
@@ -102,7 +115,7 @@ ecg:
       predictor_hidden_sizes : [2048, 256, 128] # latent to y output
 
 
-india_catchment:
+india_catchment2:
   downsampling: (0.3, 0.08)
   timevae:
     params : "none"
@@ -120,7 +133,7 @@ india_catchment:
     predictor_dropout  : 0.05
     predictor_hidden_sizes : [16, 28, 36]
 
-germany_catchment:
+germany_catchment2:
   timevae:
     params: "none"
 
@@ -157,7 +170,7 @@ germany_catchment:
     predictor_hidden_sizes : [256, 128] # latent to y output
 
 
-china_weather:
+china_weather2:
   timevae:
     epochs: 300
     nn:
@@ -189,7 +202,7 @@ china_weather:
     predictor_dropout  : 0.05
     predictor_hidden_sizes : [256, 64, 16] # latent to y output
 
-weatherbench:
+weatherbench2:
   timevae:
     params: "none"
 
