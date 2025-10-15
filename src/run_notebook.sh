@@ -1,17 +1,9 @@
 #!/bin/bash
 WEBHOOK_URL="https://canary.discord.com/api/webhooks/1426232166441811978/88Gy60hLuqc6u0UNDo9RCO-Itn0YYJoMG2lfpC4UHt-uxBIFx_w3v00IFoiotLcxEbrB"
 
-# for i in {1..5}; do
-#     echo "Run $i"
-#     jupyter nbconvert --to notebook --execute dataset_notebook.ipynb \
-#         --output "run_$i.ipynb" \
-#         --ExecutePreprocessor.allow_errors=False || {
-#             echo "Run $i failed, skipping..."
-#             continue
-#         }
-# done
-
-for i in {1..5}; do
+runs=$(yq '.basics.runs' params2.yaml)
+for ((i=1; i<=runs; i++)); do
+# for i in {1..4}; do
     echo ">>> Starting notebook run #$i"
     jupyter nbconvert --to notebook --execute dataset_notebook.ipynb \
         --output "run_$i.ipynb" \

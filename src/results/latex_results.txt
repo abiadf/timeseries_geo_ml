@@ -161,3 +161,25 @@ TimeVAE & \val{0.931}{0.255} & \val{0.891}{0.259} & \val{0.900}{0.268}
 TimeVAE & \val{0.911}{0.202} & \val{0.849}{0.205} & \val{0.865}{0.204}
 ---- germany_catchment, 10:01, data_splitting='reduced_data', label_frac=0.25 ----
 TimeVAE & \val{0.890}{0.235} & \val{0.892}{0.247} & \val{0.894}{0.251}
+---- india_catchment, 11:04, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.732}{0.224} & \val{0.649}{0.242} & \val{0.666}{0.255}
+---- india_catchment, 11:52, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{1.021}{0.482} & \val{0.729}{0.042} & \val{0.756}{0.066}
+---- india_catchment, 12:09, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{0.786}{0.231} & \val{0.685}{0.154} & \val{0.733}{0.135}
+---- china_weather, 12:23, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.796}{0.132} & \val{0.712}{0.112} & \val{0.715}{0.094}
+---- china_weather, 12:25, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.868}{0.099} & \val{0.726}{0.081} & \val{0.717}{0.078}
+---- china_weather, 12:32, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{0.750}{0.051} & \val{0.707}{0.043} & \val{0.699}{0.048}
+---- china_weather, 12:40, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{0.906}{0.213} & \val{0.793}{0.078} & \val{0.769}{0.075}
+---- weather, 12:47, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{9.307}{16.710} & \val{0.845}{0.119} & \val{0.818}{0.133}
+---- weather, 12:59, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{0.894}{0.109} & \val{0.928}{0.151} & \val{0.919}{0.142}
+---- weather, 13:04, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{2.670}{3.326} & \val{0.995}{0.112} & \val{0.975}{0.083}
+---- weather, 13:14, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{1.011}{0.160} & \val{1.044}{0.167} & \val{1.004}{0.154}
