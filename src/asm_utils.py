@@ -136,12 +136,6 @@ class Basics:
         return MLE().fit(X, n_neighbors=n_neighbors).dimension_
 
     @staticmethod
-    def beep_sound(times=1, delay=0.2):
-        for _ in range(times):
-            os.system('afplay /System/Library/Sounds/Blow.aiff')
-            time.sleep(delay)
-
-    @staticmethod
     def apply_target_encoding_to_df(X: pd.DataFrame, y: pd.DataFrame, col_to_encode: str, target_name: str) -> Tuple[pd.DataFrame, TargetEncoder]:
         """Apply target encoding to a categorical column using the mean of y
         If y is multi-output, the row-wise mean is used as the target

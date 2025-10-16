@@ -1,5 +1,7 @@
 from typing import Union, Generator, Tuple, Optional
 import math
+import os
+import time
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -37,6 +39,10 @@ def send_discord_message(webhook_url: str, message: str) -> None:
     r    = requests.post(webhook_url, json=data)
     r.raise_for_status()
 
+def make_beep_sound(times=1, delay=0.2):
+    for _ in range(times):
+        os.system('afplay /System/Library/Sounds/Blow.aiff')
+        time.sleep(delay)
 
 def get_frechet_distance(array1: np.ndarray, array2: np.ndarray) -> float:
     """Compute the Fréchet Inception Distance (FID) between 2 arrays
