@@ -1,17 +1,18 @@
-
 basics:
   label_frac:      1  # fraction of labeled training data
-  desired_dataset: "asm" # ecg, india_catchment, germany_catchment, china_weather, weather
+  desired_dataset: "china_weather" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
   data_splitting:  "reduced_data" # normal, reduced_data
   runs:            5  # times to run the whole code
 
 run_console:
   direct_pred: true
   timevae: false
-  moment : false
+  moment : true
   ts2vec : false
   cellsup: false
-  barlow : false
+  barlow_cnn: false
+  barlow_ae: false
+  barlow_ae_ssl: false
   kan    : false
 
 ts2vec:
@@ -32,7 +33,7 @@ moment:
   predictor_dropout : 0.05
   predictor_hidden_sizes : [32, 48, 64] # latent to y output
   model_type   : "repres_learning" # options: classification (= regression), repres_learning
-  model_name   : "MOMENT-1-base" #"MOMENT-1-large"
+  model_name   : "MOMENT-1-small" # options: MOMENT-1-base, MOMENT-1-large, MOMENT-1-small
   reload_model : true
 
 timevae:

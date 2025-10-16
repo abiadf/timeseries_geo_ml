@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import polars as pl
 
-from files_processor import LogFilesProcessor, WaferFilesProcessor
+from asm_files_processor import LogFilesProcessor, WaferFilesProcessor
 from predictions import MultiOutputModelPredictor, PrePredictionProcessor
 from asm_utils import Basics
 from key_params import main_folder, NUM_WAFERS, dict_of_spatial_files, dict_of_log_files, step_col_name, COMMON_ID_COLS, COMMON_ID_COLS_MOD, parquet_folder_name
