@@ -30,7 +30,8 @@ ts2vec:
 moment:
   epochs_finetune: 20
   batch_size  : 32
-  lr: 0.0005
+  lr_head: 0.0005
+  lr_encoder: 1e-3
 
   predictor_lr      : 0.009
   predictor_epochs  : 100
