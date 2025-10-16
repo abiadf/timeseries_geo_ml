@@ -23,12 +23,20 @@ from scipy.stats import kstest, wasserstein_distance as wasserstein
 from skdim.id import MLE
 from statsmodels.tsa.stattools import acf
 from tslearn.metrics import dtw
+import requests
 import yaml
 
-def read_params(file_path: str) -> dict:
+def read_yaml_params(file_path: str) -> dict:
     """Read parameters from a YAML file."""
     with open(file_path, "r") as f:
         return yaml.safe_load(f)
+
+def send_discord_message(webhook_url: str, message: str) -> None:
+    "send discord message via webhook"
+    data = {"content": message}
+    r    = requests.post(webhook_url, json=data)
+    r.raise_for_status()
+
 
 def get_frechet_distance(array1: np.ndarray, array2: np.ndarray) -> float:
     """Compute the Fréchet Inception Distance (FID) between 2 arrays
