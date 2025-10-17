@@ -183,3 +183,13 @@ TimeVAE & \val{0.894}{0.109} & \val{0.928}{0.151} & \val{0.919}{0.142}
 TimeVAE & \val{2.670}{3.326} & \val{0.995}{0.112} & \val{0.975}{0.083}
 ---- weather, 13:14, data_splitting='reduced_data', label_frac=0.25 ----
 TimeVAE & \val{1.011}{0.160} & \val{1.044}{0.167} & \val{1.004}{0.154}
+---- asm, 00:38, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{2.217}{0.924} & \val{1.447}{0.408} & \val{1.332}{0.378}
+Moment (cent) & \val{1.438}{0.382} & \val{1.426}{0.406} & \val{1.325}{0.373}
+Moment (fed, dim=0) & \val{1.614}{0.345} & \val{1.385}{0.447} & \val{1.301}{0.383}
+Barlow (CNN) & \val{3.257}{2.631} & \val{1.451}{0.415} & \val{1.330}{0.414}
+---- asm, 00:59, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{2.694}{1.455} & \val{1.476}{0.377} & \val{1.368}{0.348}
+Moment (cent) & \val{1.454}{0.368} & \val{1.461}{0.371} & \val{1.369}{0.336}
+Moment (fed, dim=0) & \val{1.643}{0.325} & \val{1.448}{0.385} & \val{1.349}{0.345}
+Barlow (CNN) & \val{13.318}{20.123} & \val{1.463}{0.402} & \val{1.363}{0.385}

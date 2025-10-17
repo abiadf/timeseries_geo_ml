@@ -5,9 +5,9 @@ basics:
   runs:            5  # times to run the whole code
 
 run_console:
-  direct_pred:   true
+  direct_pred:   false
   timevae:       false
-  moment :       true
+  moment :       false
   moment_fed:    true
   ts2vec :       false
   cellsup:       false
@@ -33,9 +33,13 @@ ts2vec:
 
 moment:
   epochs_finetune: 5
-  batch_size  : 32
-  lr_head: 0.0005
-  lr_encoder: 1e-3
+  batch_size  : 64
+  lr_head:      0.0005
+  lr_encoder:   0.001
+  layer1_dim: 64
+  layer2_dim: 32
+  unfreeze_last_n: 1
+  fine_tune: True
 
   predictor_lr      : 0.009
   predictor_epochs  : 100
@@ -49,6 +53,7 @@ moment_fed:
   epochs_finetune: 5
   dim_splitting: 2 # which dim to split X along, for FL 
   fine_tune: True
+  num_splits: 4
 
 timevae:
   train_epochs: 100
