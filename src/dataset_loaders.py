@@ -76,7 +76,8 @@ class DatasetPreprocessor:
         y_test_small  = y_test
         return X_train_small, y_train_small, X_test_small, y_test_small
 
-    def _encode_categorical(self, y_train, y_test):
+    # old
+    def X_encode_categorical(self, y_train, y_test):
         if len(self.cat_cols) > 0:
             idx         = [self.y_df.columns.get_loc(c) for c in self.cat_cols]
             y_train_df  = pd.DataFrame(y_train[:, idx], columns=self.cat_cols)
@@ -87,6 +88,22 @@ class DatasetPreprocessor:
             y_train[:, idx] = y_train_enc.values
             y_test[:, idx]  = y_test_enc.values
         return y_train.astype(float), y_test.astype(float)
+
+    def _encode_categorical(self, y_train, y_test):
+        from sklearn.preprocessing import LabelEncoder
+        y_train_df = pd.DataFrame(y_train, columns=self.y_df.columns)
+        y_test_df  = pd.DataFrame(y_test, columns=self.y_df.columns)
+
+        # detect categorical columns
+        cat_cols = self.cat_cols if hasattr(self, 'cat_cols') else y_train_df.select_dtypes(include=['object','category']).columns.tolist()
+
+        # encode categorical columns
+        for c in cat_cols:
+            le = LabelEncoder()
+            y_train_df[c] = le.fit_transform(y_train_df[c])
+            y_test_df[c]  = le.transform(y_test_df[c])
+        return y_train_df.values.astype(float), y_test_df.values.astype(float)
+
 
     def _scale_targets(self, y_train, y_test):
         self.y_mean    = y_train.mean(axis=0)
@@ -179,7 +196,7 @@ class DatasetPreprocessor:
         else:
             return X_train, X_test, y_train_scaled, y_test_scaled
 
-    def fit_transform(self, X: np.ndarray, y: np.ndarray, scale_y: bool = True) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    def fit_transform(self, X: np.ndarray, y, scale_y: bool = True) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         """Train-test split, then downsample training set, encode, and scale dataset. X always stays 3D."""
         self._prepare_targets(y)
 
@@ -192,7 +209,10 @@ class DatasetPreprocessor:
         test_indices  = indices[:n_test]
 
         X_train, X_test         = X[train_indices], X[test_indices]
-        y_train_raw, y_test_raw = y[train_indices], y[test_indices]
+        # y_train_raw = y.iloc[train_indices] # <-- use iloc for rows
+        # y_test_raw  = y.iloc[test_indices]  # <-- use iloc for rows
+        y_train_raw = y.iloc[train_indices] if hasattr(y, "iloc") else y[train_indices]
+        y_test_raw  = y.iloc[test_indices]  if hasattr(y, "iloc") else y[test_indices]
 
         # 2. Downsample only training data
         # X_train_small, y_train_small = self._downsample_pages_and_rows(X_train, y_train_raw)
@@ -201,6 +221,7 @@ class DatasetPreprocessor:
             X_train, y_train_raw, X_test, y_test_raw)
 
         # 3. Encode + scale targets
+        print(type(y_train_small), type(y_test_small))
         y_train, y_test = self._encode_categorical(y_train_small, y_test_small)
         if scale_y:
             y_train_scaled, y_test_scaled = self._scale_targets(y_train, y_test)

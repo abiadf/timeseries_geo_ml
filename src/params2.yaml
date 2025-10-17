@@ -1,6 +1,6 @@
 basics:
   label_frac:      1  # fraction of labeled training data
-  desired_dataset: "china_weather" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
+  desired_dataset: "germany_catchment" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
   data_splitting:  "reduced_data" # normal, reduced_data
   runs:            5  # times to run the whole code
 
