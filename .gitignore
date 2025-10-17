@@ -26,3 +26,4 @@ src/messager.yaml
 interim_data/*
 ASM_data/*
 public_datasets/*
+!public_datasets/.gitkeep

@@ -364,8 +364,12 @@ class ForecastUtils:
         return windows_list
 
 
-class Preds():
+class Preds:
     "Class of predictors to predict y from X"
+    def __init__(self):
+        self.device     = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device_str = "GPU" if self.device.type == "cuda" else "CPU"
+        print(f"Using device: {self.device} ({self.device_str})")
 
     @staticmethod
     def predict_linreg(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> float:
@@ -375,18 +379,28 @@ class Preds():
         y_pred = model.predict(X_test)
         return root_mean_squared_error(y_test, y_pred)
 
-    @staticmethod
-    def predict_catboost_multioutput(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> Tuple[Optional[MultiOutputRegressor], np.ndarray, float]:
+    def predict_catboost_multioutput(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> Tuple[Optional[MultiOutputRegressor], np.ndarray, float]:
         """Train multi-output CatBoost models and predict test set.
         Returns:
             model: trained MultiOutputRegressor (or None if all targets constant)
             y_pred: predictions on test set
             rmse: RMSE across all targets"""
+        # flatten if X is 3D
+        # if X_train.ndim == 3:
+        #     X_train = X_train.reshape(X_train.shape[0], -1)
+        #     X_test  = X_test.reshape(X_test.shape[0], -1)
+
         y_pred           = np.zeros_like(y_test, dtype=float)
         non_constant_idx = [i for i in range(y_train.shape[1])
                             if not np.all(y_train[:, i] == y_train[0, i])]
         if non_constant_idx:
-            model = MultiOutputRegressor(CatBoostRegressor(iterations=500, learning_rate=0.1, depth=4, verbose=0))
+            if self.device_str == "GPU":
+                cb_params = dict(iterations=300, learning_rate=0.1, depth=4,
+                                 task_type="GPU", devices='0', verbose=0, early_stopping_rounds=50)
+            else:
+                cb_params = dict(iterations=300, learning_rate=0.1, depth=4,
+                                 thread_count=-1, verbose=0)
+            model = MultiOutputRegressor(CatBoostRegressor(**cb_params))
             model.fit(X_train, y_train[:, non_constant_idx])
             y_pred[:, non_constant_idx] = model.predict(X_test)
             for i in range(y_train.shape[1]):
@@ -422,10 +436,21 @@ class Preds():
         except Exception:
             return float('nan')
 
-    @staticmethod
-    def predict_rf_multioutput(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> float:
+    def predict_rf_multioutput(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> float:
         """Train multi-output Random Forest and compute RMSE."""
-        model  = MultiOutputRegressor(RandomForestRegressor(n_estimators=100, random_state=42, n_jobs=-1))
+        # flatten if X is 3D
+        if X_train.ndim == 3:
+            X_train = X_train.reshape(X_train.shape[0], -1)
+            X_test  = X_test.reshape(X_test.shape[0], -1)
+
+        n_samples   = X_train.shape[0]
+        max_depth   = int(np.log2(n_samples))  # reasonable default
+        max_depth   = min(16, int(np.log2(n_samples)))  # cap at 16
+        max_samples = min(5_000, n_samples)
+
+        model  = MultiOutputRegressor(RandomForestRegressor(n_estimators=100, random_state=42, max_depth=max_depth, n_jobs=-1,
+                                                            bootstrap=True, max_samples=max_samples, max_features="sqrt",
+                                                            min_samples_leaf=2, min_samples_split=4))
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
         return root_mean_squared_error(y_test, y_pred)
@@ -462,13 +487,15 @@ class Preds():
         rmse     = root_mean_squared_error(y_test, y_pred)
         return model, y_pred, rmse
 
-    @staticmethod
-    def evaluate_models_on_dataset(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray):
+    def evaluate_models_on_dataset(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray):
         """Evaluate various models on the dataset and print RMSE results."""
-        linreg_loss       = Preds.predict_linreg(X_train, y_train, X_test, y_test)
-        _, _, catboost_loss, _ = Preds.predict_catboost_multioutput(X_train, y_train, X_test, y_test)
+        linreg_loss       = self.predict_linreg(X_train, y_train, X_test, y_test)
+        print(f"Linear Regression done")
+        _, _, catboost_loss, _ = self.predict_catboost_multioutput(X_train, y_train, X_test, y_test)
+        print(f"CatBoost done")
         # unsupervised_rmse = Preds.cluster_and_label(X_train, y_train, X_test, y_test, n_clusters=5)
-        rf_rmse           = Preds.predict_rf_multioutput(X_train, y_train, X_test, y_test)
+        rf_rmse           = self.predict_rf_multioutput(X_train, y_train, X_test, y_test)
+        print(f"Random Forest done")
         # _, _, el_rmse     = Preds.predict_elasticnet_multioutput(X_train, y_train, X_test, y_test, alpha=0.1, l1_ratio=0.5)
         return linreg_loss, catboost_loss, rf_rmse,# unsupervised_rmse #, el_rmse
 

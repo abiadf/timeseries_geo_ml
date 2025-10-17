@@ -221,7 +221,7 @@ class DatasetPreprocessor:
             X_train, y_train_raw, X_test, y_test_raw)
 
         # 3. Encode + scale targets
-        print(type(y_train_small), type(y_test_small))
+        # print(type(y_train_small), type(y_test_small))
         y_train, y_test = self._encode_categorical(y_train_small, y_test_small)
         if scale_y:
             y_train_scaled, y_test_scaled = self._scale_targets(y_train, y_test)
@@ -239,6 +239,12 @@ class DatasetPreprocessor:
             self.X_scaler  = StandardScaler()
             X_train_scaled = self.X_scaler.fit_transform(X_train_flat).reshape(ns, nr, nf)
             X_test_scaled  = self.X_scaler.transform(X_test_flat).reshape(ns_test, nr_test, nf_test)
+
+            # convert to float32
+            X_train_scaled = X_train_scaled.astype(np.float32)
+            X_test_scaled  = X_test_scaled.astype(np.float32)
+            y_train_scaled = y_train_scaled.astype(np.float32)
+            y_test_scaled  = y_test_scaled.astype(np.float32)
             return X_train_scaled, X_test_scaled, y_train_scaled, y_test_scaled
         else:
             return X_train_small, X_test_small, y_train_scaled, y_test_scaled

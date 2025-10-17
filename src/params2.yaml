@@ -1,6 +1,6 @@
 basics:
   label_frac:      1  # fraction of labeled training data
-  desired_dataset: "germany_catchment" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
+  desired_dataset: "asm" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
   data_splitting:  "reduced_data" # normal, reduced_data
   runs:            5  # times to run the whole code
 
@@ -16,6 +16,9 @@ run_console:
   barlow_ae_ssl: false
   kan:           false
 
+general_params:
+  top_features_pct: 30  # % of top features to select via mutual info
+
 ts2vec:
   z_pooling_method   : "mean"
   ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
@@ -29,7 +32,7 @@ ts2vec:
   predictor_hidden_sizes : [32, 48, 64] # latent to y output
 
 moment:
-  epochs_finetune: 20
+  epochs_finetune: 5
   batch_size  : 32
   lr_head: 0.0005
   lr_encoder: 1e-3
@@ -41,6 +44,11 @@ moment:
   model_type   : "repres_learning" # options: classification (= regression), repres_learning
   model_name   : "MOMENT-1-small" # options: MOMENT-1-base, MOMENT-1-large, MOMENT-1-small
   reload_model : true
+
+moment_fed:
+  epochs_finetune: 5
+  dim_splitting: 2 # which dim to split X along, for FL 
+  fine_tune: True
 
 timevae:
   train_epochs: 100
