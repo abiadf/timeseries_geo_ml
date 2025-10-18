@@ -193,3 +193,15 @@ mean(X) & \val{2.694}{1.455} & \val{1.476}{0.377} & \val{1.368}{0.348}
 Moment (cent) & \val{1.454}{0.368} & \val{1.461}{0.371} & \val{1.369}{0.336}
 Moment (fed, dim=0) & \val{1.643}{0.325} & \val{1.448}{0.385} & \val{1.349}{0.345}
 Barlow (CNN) & \val{13.318}{20.123} & \val{1.463}{0.402} & \val{1.363}{0.385}
+---- asm, 01:36, data_splitting='reduced_data', label_frac=1 ----
+Moment (fed, dim=2) & \val{1.335}{0.125} & \val{1.363}{0.096} & \val{1.235}{0.234}
+---- asm, 02:10, data_splitting='reduced_data', label_frac=0.5 ----
+Moment (fed, dim=2) & \val{1.598}{0.385} & \val{1.225}{0.175} & \val{1.062}{0.173}
+---- asm, 02:31, data_splitting='reduced_data', label_frac=0.5 ----
+Moment (fed, dim=2) & \val{1.598}{0.385} & \val{1.225}{0.175} & \val{1.062}{0.173}
+Moment (fed, dim=0) & \val{2.963}{1.275} & \val{1.381}{0.396} & \val{1.296}{0.254}
+---- asm, 02:57, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{19.673}{29.643} & \val{1.073}{0.467} & \val{0.910}{0.396}
+Moment (cent) & \val{7.972}{12.195} & \val{1.077}{0.467} & \val{0.939}{0.402}
+---- asm, 03:01mean(X) & \val{4.925}{3.304} & \val{1.001}{0.496} & \val{0.830}{0.405}
+Moment (cent) & \val{1.919}{1.647} & \val{1.016}{0.504} & \val{0.854}{0.407}

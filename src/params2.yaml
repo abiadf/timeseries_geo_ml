@@ -8,10 +8,10 @@ run_console:
   direct_pred:   false
   timevae:       false
   moment :       false
-  moment_fed:    true
+  moment_fed:    false
   ts2vec :       false
   cellsup:       false
-  barlow_cnn:    false
+  barlow_cnn:    true
   barlow_ae:     false
   barlow_ae_ssl: false
   kan:           false
@@ -51,7 +51,7 @@ moment:
 
 moment_fed:
   epochs_finetune: 5
-  dim_splitting: 2 # which dim to split X along, for FL 
+  dim_splitting: 0 # which dim to split X along, for FL 
   fine_tune: True
   num_splits: 4
 

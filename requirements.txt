@@ -12,6 +12,7 @@ lightgbm
 lttb
 matplotlib
 metasynth
+momentfm
 nixtla
 numpy<2.0.0,>=1.23.5 # numpy
 opt-einsum
@@ -31,6 +32,7 @@ tensorflow-macos==2.15.0; sys_platform == "darwin"
 protobuf==4.25.3 #this is with tensorflow
 # ==
 torch
+tqdm
 tslearn
 pykeops
 pykan

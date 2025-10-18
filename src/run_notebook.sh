@@ -5,7 +5,10 @@ runs=$(yq '.basics.runs' params2.yaml)
 for ((i=1; i<=runs; i++)); do
 # for i in {1..4}; do
     echo ">>> Starting notebook run #$i"
-    jupyter nbconvert --to notebook --execute dataset_notebook.ipynb \
+
+    jupyter nbconvert --to notebook \
+        --ClearOutputPreprocessor.enabled=True \
+        --execute dataset_notebook.ipynb \
         --output "run_$i.ipynb" \
         --ExecutePreprocessor.allow_errors=False || RUN_FAILED=true
 
