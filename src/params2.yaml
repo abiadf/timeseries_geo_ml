@@ -1,23 +1,23 @@
 basics:
   label_frac:      1  # fraction of labeled training data
-  desired_dataset: "asm" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
+  desired_dataset: "weather" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
   data_splitting:  "reduced_data" # normal, reduced_data
-  runs:            5  # times to run the whole code
+  runs:            3  # times to run the whole code
 
 run_console:
-  direct_pred:   false
+  direct_pred:   false #true
   timevae:       false
-  moment :       false
-  moment_fed:    false
+  moment :       false #true
+  moment_fed:    true
   ts2vec :       false
   cellsup:       false
-  barlow_cnn:    true
+  barlow_cnn:    false #true
   barlow_ae:     false
   barlow_ae_ssl: false
   kan:           false
 
 general_params:
-  top_features_pct: 30  # % of top features to select via mutual info
+  top_features_pct: 20  # % of top features to select via mutual info
 
 ts2vec:
   z_pooling_method   : "mean"

@@ -2,6 +2,7 @@ from typing import Union, Generator, Tuple, Optional
 import math
 import os
 import time
+import json
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -43,6 +44,18 @@ def make_beep_sound(times=1, delay=0.2):
     for _ in range(times):
         os.system('afplay /System/Library/Sounds/Blow.aiff')
         time.sleep(delay)
+
+def clean_notebook(path: str) -> None:
+    """Remove all outputs and execution counts from a .ipynb file."""
+    with open(path) as f:
+        nb = json.load(f)
+    for cell in nb.get("cells", []):
+        if "outputs" in cell:
+            cell["outputs"] = []
+        if "execution_count" in cell:
+            cell["execution_count"] = None
+    with open(path, "w") as f:
+        json.dump(nb, f, indent=2)
 
 def get_frechet_distance(array1: np.ndarray, array2: np.ndarray) -> float:
     """Compute the Fréchet Inception Distance (FID) between 2 arrays
