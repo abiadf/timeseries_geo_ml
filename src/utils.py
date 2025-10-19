@@ -449,7 +449,8 @@ class Preds:
         except Exception:
             return float('nan')
 
-    def predict_rf_multioutput(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> float:
+    def predict_rf_multioutput(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray,
+                               y_test: np.ndarray, return_model: bool = False):
         """Train multi-output Random Forest and compute RMSE."""
         # flatten if X is 3D
         if X_train.ndim == 3:
@@ -466,7 +467,11 @@ class Preds:
                                                             min_samples_leaf=2, min_samples_split=4))
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        return root_mean_squared_error(y_test, y_pred)
+        # return root_mean_squared_error(y_test, y_pred), model
+        rmse = root_mean_squared_error(y_test, y_pred)
+        if return_model:
+            return rmse, model
+        return rmse
 
     @staticmethod
     def predict_elasticnet_multioutput(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray,
@@ -507,8 +512,8 @@ class Preds:
         _, _, catboost_loss, _ = self.predict_catboost_multioutput(X_train, y_train, X_test, y_test)
         print(f"CatBoost done")
         # unsupervised_rmse = Preds.cluster_and_label(X_train, y_train, X_test, y_test, n_clusters=5)
-        rf_rmse           = self.predict_rf_multioutput(X_train, y_train, X_test, y_test)
+        rf_rmse, rf_model      = self.predict_rf_multioutput(X_train, y_train, X_test, y_test, return_model=True)
         print(f"Random Forest done")
         # _, _, el_rmse     = Preds.predict_elasticnet_multioutput(X_train, y_train, X_test, y_test, alpha=0.1, l1_ratio=0.5)
-        return linreg_loss, catboost_loss, rf_rmse,# unsupervised_rmse #, el_rmse
+        return [linreg_loss, catboost_loss, rf_rmse], rf_model # unsupervised_rmse #, el_rmse
 

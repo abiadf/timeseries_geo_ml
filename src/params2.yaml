@@ -51,7 +51,7 @@ moment:
 
 moment_fed:
   epochs_finetune: 5
-  dim_splitting: 0 # which dim to split X along, for FL 
+  dim_splitting: 2 # which dim to split X along, 0 = HFL, 1 = VFL
   fine_tune: True
   num_splits: 4
 
