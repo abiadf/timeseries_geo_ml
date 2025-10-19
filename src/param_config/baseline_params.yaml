@@ -1,0 +1,99 @@
+# file for the params of BASELINE METHODS
+basics:
+  label_frac:      1  # fraction of labeled training data
+  desired_dataset: "india_catchment" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
+  data_splitting:  "reduced_data" # normal, reduced_data
+  runs:            5  # times to run the whole code
+
+run_console:
+  direct_pred:   false #true
+  timevae:       true
+  ts2vec :       false
+  moment :       false
+  moment_fed:    false
+  cellsup:       false
+  barlow_cnn:    false #true
+  barlow_ae:     false
+  barlow_ae_ssl: false
+  kan:           false
+
+general_params:
+  top_features_pct: 20  # % of top features to select via mutual info
+  regressor:
+    epochs_regressor: 5  # foe finetuning/training head
+    layer1_dim : 64
+    layer2_dim : 32
+    layer3_dim : 16
+    lr         : 0.001
+
+ts2vec:
+  z_pooling_method   : "mean"
+  ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
+  ts2vec_latent_dims : 8 # latent dim
+  ts2vec_depth       : 3 # num layers
+  patience           : 10
+  ts2vec_batch_size  : 16
+  ts2vec_epochs      : 100
+  predictor_lr       : 0.009
+  predictor_epochs   : 150
+  predictor_dropout  : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+timevae:
+  train_epochs      : 100
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+moment:
+  epochs_finetune: 5
+  batch_size  : 64
+  lr_head:      0.0005
+  lr_encoder:   0.001
+  layer1_dim: 64
+  layer2_dim: 32
+  unfreeze_last_n: 1
+  fine_tune: True
+
+  predictor_lr      : 0.009
+  predictor_epochs  : 100
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+  model_type   : "repres_learning" # options: classification (= regression), repres_learning
+  model_name   : "MOMENT-1-small" # options: MOMENT-1-base, MOMENT-1-large, MOMENT-1-small
+  reload_model : true
+
+moment_fed:
+  epochs_finetune: 5
+  dim_splitting: 2 # which dim to split X along, 0 = HFL, 1 = VFL
+  fine_tune: True
+  num_splits: 4
+
+cellsup:
+  num_epochs  : 25
+  AE_lr       : 0.001
+  weight_decay: 0.00001
+  dropout     : 0.1
+  # hidden_dim  : X_train.shape[2]//2
+  swav_iters  : 5
+  swav_temp   : 0.1
+  encoders_dims_list : [32, 64, 128]
+  clustering:
+    cluster_min: 4
+    cluster_max: 8
+
+barlow:
+  cnn:
+    SSL_LAMBDA  : 0.005 # value from BT paper
+    SSL_WEIGHT  : 0.8   # Weight for recon vs. SSL
+    CHANNELS_1  : 64
+    CHANNELS_2  : 128
+    KERNEL_SIZE : 5
+    POOL_KERNEL : 2
+    latent_dim  : 32
+    augment_const: 0.1
+  ae:
+    latent_dim : 32
+    ssl_weight : 1.0
+    augment_const: 0.1

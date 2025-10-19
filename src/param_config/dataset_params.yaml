@@ -1,0 +1,49 @@
+# file for the params of DATASETS
+
+general:
+  train_epochs: 100
+
+germany_catchment:
+  # train_epochs: 100
+  batch_size  : 16
+  latent_dim  : 8
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+india_catchment:
+  # train_epochs: 100
+  batch_size  : 16
+  latent_dim  : 8
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+china_weather:
+  # train_epochs: 100
+  batch_size  : 16
+  latent_dim  : 6
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+weather:
+  # train_epochs: 100
+  batch_size  : 16
+  latent_dim  : 3
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+asm:
+  # train_epochs: 100
+  batch_size  : 16
+  latent_dim  : 32
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output

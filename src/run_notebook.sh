@@ -1,7 +1,7 @@
 #!/bin/bash
 WEBHOOK_URL="https://canary.discord.com/api/webhooks/1426232166441811978/88Gy60hLuqc6u0UNDo9RCO-Itn0YYJoMG2lfpC4UHt-uxBIFx_w3v00IFoiotLcxEbrB"
 
-runs=$(yq '.basics.runs' params2.yaml)
+runs=$(yq '.basics.runs' param_config/baseline_params.yaml)
 for ((i=1; i<=runs; i++)); do
 # for i in {1..4}; do
     echo ">>> Starting notebook run #$i"

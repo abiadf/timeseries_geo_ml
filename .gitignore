@@ -20,7 +20,8 @@ pickled/
 src/pickled/
 src/figures/
 src/model/
-src/messager.yaml
+src/param_config/messager.yaml
+src/results/*
 
 # data
 interim_data/*
