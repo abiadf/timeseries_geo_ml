@@ -25,9 +25,10 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 class DatasetPreprocessor:
     """Preprocess datasets: downsample, train/test split, categorical encoding, and scaling."""
 
-    def __init__(self, row_frac=0.4, test_size=0.2, scale_X=True, random_seed=None):
+    def __init__(self, page_num, page_frac=0.4, test_size=0.2, scale_X=True, random_seed=None):
         # self.page_frac  = page_frac
-        self.row_frac   = row_frac
+        self.page_num   = page_num
+        # self.row_frac   = row_frac
         self.test_size  = test_size
         self.scale_X    = scale_X
         self.random_seed= random_seed
@@ -47,34 +48,66 @@ class DatasetPreprocessor:
 
     # old
     def _X_downsample_pages_and_rows(self, X, y_df):
-        n_pages, n_rows, _ = X.shape
-        # num_pages = max(1, int(n_pages * self.page_frac))
-        num_rows  = max(1, int(n_rows * self.row_frac))
+        n_pages, _, _ = X.shape
+        num_pages     = max(1, int(n_pages * self.page_frac))
+        # num_rows  = max(1, int(n_rows * self.row_frac))
         # page_idx  = np.linspace(0, n_pages-1, num_pages, dtype=int)
         # row_idx   = np.linspace(0, n_rows-1, num_rows, dtype=int)
         # X_small   = X[page_idx][:, row_idx, :]
         # y_small   = y_df.iloc[page_idx].values if isinstance(y_df, pd.DataFrame) else y_df[page_idx]
         # Randomly choose pages/rows instead of linspace
-        rng = np.random.default_rng(self.random_seed)
+        rng      = np.random.default_rng(self.random_seed)
         page_idx = rng.choice(n_pages, size=num_pages, replace=False)
-        row_idx  = rng.choice(n_rows, size=num_rows, replace=False)
+        # row_idx  = rng.choice(n_rows, size=num_rows, replace=False)
         
-        X_small = X[page_idx][:, row_idx, :]
+        X_small = X[page_idx][page_idx, :, :]
         y_small = y_df.iloc[page_idx].values if isinstance(y_df, pd.DataFrame) else y_df[page_idx]
         return X_small, y_small
 
-    def _downsample_train_test(self, X_train, y_train, X_test, y_test):
-        "downsamples rows only, not pages. X_train and X_test are downsampled by the same rows"
-        rng      = np.random.default_rng(self.random_seed)
-        n_rows   = X_train.shape[1]
-        num_rows = max(1, int(n_rows * self.row_frac))
-        row_idx  = rng.choice(n_rows, size=num_rows, replace=False)
+    # old
+    def _downsample_before_train_test(self, X_train, y_train, X_test, y_test):
+        """downsamples rows only, not pages. X_train and X_test are downsampled by the same rows
+        X_train_small: (page_num, n_rows, n_features)
+        y_train_small: (page_num, n_targets)"""
+        # rng       = np.random.default_rng(self.random_seed)
+        # n_rows   = X_train.shape[1]
+        # num_rows = max(1, int(n_rows * self.row_frac))
+        # row_idx  = rng.choice(n_rows, size=num_rows, replace=False)
+        # num_pages = max(1, int(n_pages * self.page_frac))
+        # page_idx  = rng.choice(n_pages, size=num_pages, replace=False)
+        # page_idx  = range(0, self.page_num)
+        n_pages  = X_train.shape[0]
+        page_num = min(self.page_num, n_pages)
+        page_idx = range(page_num)
+        X_train_small = X_train[page_idx, :, :]
+        X_test_small  = X_test[page_idx, :, :]
+        y_train_small = y_train[page_idx]
+        y_test_small  = y_test[page_idx]
+        # return X_train_small, y_train_small, X_test_small, y_test_small
 
-        X_train_small = X_train[:, row_idx, :]
-        X_test_small  = X_test[:, row_idx, :]
-        y_train_small = y_train
-        y_test_small  = y_test
-        return X_train_small, y_train_small, X_test_small, y_test_small
+    def _downsample_first_pages_and_split(self, X, y):
+        """downsamples pages only, not rows. Takes first few pages and randomly  train-test splits it
+        X_train_small: (page_num, n_rows, n_features)
+        y_train_small: (page_num, n_targets)"""
+
+        n_pages  = X.shape[0]
+        page_num = min(self.page_num, n_pages)
+
+        X_small = X[:page_num]
+        y_small = y[:page_num]
+
+        rng     = np.random.default_rng(self.random_seed)
+        indices = rng.permutation(page_num)
+        n_test  = int(page_num * self.test_size)
+
+        test_idx  = indices[:n_test]
+        train_idx = indices[n_test:]
+
+        X_train = X_small[train_idx]
+        X_test  = X_small[test_idx]
+        y_train = y_small[train_idx]
+        y_test  = y_small[test_idx]
+        return X_train, y_train, X_test, y_test
 
     # old
     def X_encode_categorical(self, y_train, y_test):
@@ -103,7 +136,6 @@ class DatasetPreprocessor:
             y_train_df[c] = le.fit_transform(y_train_df[c])
             y_test_df[c]  = le.transform(y_test_df[c])
         return y_train_df.values.astype(float), y_test_df.values.astype(float)
-
 
     def _scale_targets(self, y_train, y_test):
         self.y_mean    = y_train.mean(axis=0)
@@ -200,25 +232,27 @@ class DatasetPreprocessor:
         """Train-test split, then downsample training set, encode, and scale dataset. X always stays 3D."""
         self._prepare_targets(y)
 
-        # 1. Split
-        n_samples     = X.shape[0]
-        n_test        = int(n_samples * self.test_size)
-        rng           = np.random.default_rng(self.random_seed)
-        indices       = rng.permutation(n_samples)
-        train_indices = indices[n_test:]
-        test_indices  = indices[:n_test]
+        # # 1. Split
+        # n_samples     = X.shape[0]
+        # n_test        = int(n_samples * self.test_size)
+        # rng           = np.random.default_rng(self.random_seed)
+        # indices       = rng.permutation(n_samples)
+        # train_indices = indices[n_test:]
+        # test_indices  = indices[:n_test]
 
-        X_train, X_test         = X[train_indices], X[test_indices]
-        # y_train_raw = y.iloc[train_indices] # <-- use iloc for rows
-        # y_test_raw  = y.iloc[test_indices]  # <-- use iloc for rows
-        y_train_raw = y.iloc[train_indices] if hasattr(y, "iloc") else y[train_indices]
-        y_test_raw  = y.iloc[test_indices]  if hasattr(y, "iloc") else y[test_indices]
+        # X_train, X_test         = X[train_indices], X[test_indices]
+        # # y_train_raw = y.iloc[train_indices] # <-- use iloc for rows
+        # # y_test_raw  = y.iloc[test_indices]  # <-- use iloc for rows
+        # y_train_raw = y.iloc[train_indices] if hasattr(y, "iloc") else y[train_indices]
+        # y_test_raw  = y.iloc[test_indices]  if hasattr(y, "iloc") else y[test_indices]
 
         # 2. Downsample only training data
         # X_train_small, y_train_small = self._downsample_pages_and_rows(X_train, y_train_raw)
         # X_test_small,  y_test_small  = self._downsample_pages_and_rows(X_test, y_test_raw)
-        X_train_small, y_train_small, X_test_small, y_test_small = self._downsample_train_test(
-            X_train, y_train_raw, X_test, y_test_raw)
+        # X_train_small, y_train_small, X_test_small, y_test_small = self._downsample_before_train_test(
+        #     X_train, y_train_raw, X_test, y_test_raw)
+        X_train_small, y_train_small, X_test_small, y_test_small = \
+            self._downsample_first_pages_and_split(X, y)
 
         # 3. Encode + scale targets
         # print(type(y_train_small), type(y_test_small))
@@ -389,11 +423,17 @@ class GermanyDataset:
         return X_da_lazy
 
     @staticmethod
-    def load_y_from_scratch(attributes_folder):
-        """Also removed str cols"""
-        attr_files = glob(os.path.join(attributes_folder, "CAMELS_DE_*.csv"))
-        y_list     = [pd.read_csv(f, index_col=0) for f in attr_files]
-        y_germany  = pd.concat(y_list, axis=1)
+    # def load_y_from_scratch(attributes_folder):
+    #     """Also removed str cols"""
+    #     attr_files = glob(os.path.join(attributes_folder, "CAMELS_DE_*.csv"))
+    #     y_list     = [pd.read_csv(f, index_col=0) for f in attr_files]
+    #     y_germany  = pd.concat(y_list, axis=1)
+    #     y_germany  = y_germany.select_dtypes(exclude='object').to_numpy()
+    #     return y_germany
+    def load_y_from_scratch(attributes_folder: str) -> np.ndarray:
+        """Load only hydrogeology attributes (numeric columns only)."""
+        file_path = os.path.join(attributes_folder, "CAMELS_DE_hydrogeology_attributes.csv")
+        y_germany = pd.read_csv(file_path, index_col=0)
         y_germany = y_germany.select_dtypes(exclude='object').to_numpy()
         return y_germany
 

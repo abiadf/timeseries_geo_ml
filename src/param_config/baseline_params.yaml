@@ -1,27 +1,26 @@
 # file for the params of BASELINE METHODS
 basics:
-  label_frac:      0.05  # fraction of labeled training data
-  desired_dataset: "china_weather" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
+  label_frac:      1  # fraction of labeled training data
+  runs:            5  # times to run the whole code
+  desired_dataset: "china_weather" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm
   dataset_list:
-    - china_weather
     # - ecg
     - india_catchment
     - germany_catchment
     - china_weather
     - weather
     # - asm
-
-
   data_splitting:  "reduced_data" # normal, reduced_data
-  runs:            5  # times to run the whole code
+  pages:          50  # number of pages to use from dataset (otherwise it's too big/slow)
 
 run_console:
-  direct_pred:   true #true
+  mean_X:        false
+  flatten_X:     true
   timevae:       false
-  ts2vec :       true
-  moment :       true
+  ts2vec :       false #true
+  moment :       false #true
   moment_fed:    false
-  barlow_cnn:    true
+  barlow_cnn:    false #true
   cellsup:       false
   barlow_ae:     false
   barlow_ae_ssl: false

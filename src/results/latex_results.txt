@@ -345,3 +345,17 @@ mean(X) & \val{0.747}{0.037} & \val{0.636}{0.031} & \val{0.670}{0.030} & \val{1.
 TS2Vec & \val{0.713}{0.045} & \val{0.641}{0.055} & \val{0.669}{0.049} & \val{1.007}{0.017}
 Moment (cent) & \val{0.955}{0.078} & \val{0.788}{0.023} & \val{0.799}{0.017} & \val{1.008}{0.016}
 Barlow (CNN) & \val{0.890}{0.258} & \val{0.615}{0.036} & \val{0.630}{0.037} & \val{0.950}{0.019}
+---- china_weather, 16:20, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.799}{0.335} & \val{0.870}{0.044} & \val{0.899}{0.045} & \val{0.988}{0.018}
+---- china_weather, 16:21, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.377}{0.405} & \val{0.778}{0.031} & \val{0.796}{0.034} & \val{0.988}{0.027}
+---- china_weather, 16:22, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.454}{0.455} & \val{0.839}{0.008} & \val{0.862}{0.031} & \val{0.993}{0.009}
+---- china_weather, 16:24, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.132}{0.176} & \val{0.831}{0.064} & \val{0.838}{0.070} & \val{0.999}{0.021}
+---- india_catchment, 16:26, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.005}{0.108} & \val{0.872}{0.091} & \val{0.920}{0.108} & \val{0.986}{0.023}
+---- weather, 18:14, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.989}{0.170} & \val{0.921}{0.230} & \val{0.982}{0.232} & \val{1.040}{0.133}
+---- germany_catchment, 18:52, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.863}{0.241} & \val{0.698}{0.272} & \val{0.719}{0.264} & \val{1.189}{0.347}

@@ -7,6 +7,9 @@ runs=$(yq -r '.basics.runs' param_config/baseline_params.yaml)
 total_runs=$(( ${#datasets[@]} * runs ))
 counter=0
 
+# set env var to let notebook know it is run from bash
+export BASH_RUN="1"
+
 for ds in "${datasets[@]}"; do
     echo "=== Starting runs for dataset: $ds ==="
     

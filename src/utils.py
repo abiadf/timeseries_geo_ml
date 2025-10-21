@@ -10,7 +10,7 @@ import pandas as pd
 import polars as pl
 import torch
 import torch.nn.functional as F
-from catboost import CatBoostRegressor
+from catboost import CatBoostRegressor, MetricVisualizer
 
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import root_mean_squared_error
@@ -408,13 +408,14 @@ class Preds:
                             if not np.all(y_train[:, i] == y_train[0, i])]
         if non_constant_idx:
             if self.device_str == "GPU":
-                cb_params = dict(iterations=300, learning_rate=0.1, depth=4,
-                                 task_type="GPU", devices='0', verbose=0, early_stopping_rounds=50)
+                cb_params = dict(iterations=200, learning_rate=0.1, depth=4,
+                                 task_type="GPU", devices='0', verbose=50, early_stopping_rounds=50)
             else:
-                cb_params = dict(iterations=300, learning_rate=0.1, depth=4,
-                                 thread_count=-1, verbose=0)
+                cb_params = dict(iterations=200, learning_rate=0.1, depth=4,
+                                 thread_count=-1, verbose=50)
             model = MultiOutputRegressor(CatBoostRegressor(**cb_params))
             model.fit(X_train, y_train[:, non_constant_idx])
+            # model.fit(X_train, y_train, eval_set=(X_val, y_val), )
             y_pred[:, non_constant_idx] = model.predict(X_test)
             for i in range(y_train.shape[1]):
                 if np.all(y_train[:, i] == y_train[0, i]):
