@@ -1,18 +1,28 @@
 # file for the params of BASELINE METHODS
 basics:
-  label_frac:      1  # fraction of labeled training data
-  desired_dataset: "india_catchment" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
+  label_frac:      0.05  # fraction of labeled training data
+  desired_dataset: "china_weather" # ecg, india_catchment, germany_catchment, china_weather, weather, asm
+  dataset_list:
+    - china_weather
+    # - ecg
+    - india_catchment
+    - germany_catchment
+    - china_weather
+    - weather
+    # - asm
+
+
   data_splitting:  "reduced_data" # normal, reduced_data
   runs:            5  # times to run the whole code
 
 run_console:
-  direct_pred:   false #true
-  timevae:       true
-  ts2vec :       false
-  moment :       false
+  direct_pred:   true #true
+  timevae:       false
+  ts2vec :       true
+  moment :       true
   moment_fed:    false
+  barlow_cnn:    true
   cellsup:       false
-  barlow_cnn:    false #true
   barlow_ae:     false
   barlow_ae_ssl: false
   kan:           false
@@ -40,7 +50,7 @@ ts2vec:
   predictor_hidden_sizes : [32, 48, 64] # latent to y output
 
 timevae:
-  train_epochs      : 100
+  train_epochs      : 50
   predictor_lr      : 0.006
   predictor_epochs  : 200
   predictor_dropout : 0.05

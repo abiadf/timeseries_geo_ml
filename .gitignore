@@ -21,7 +21,9 @@ src/pickled/
 src/figures/
 src/model/
 src/param_config/messager.yaml
+src/param_config/tmp.yaml
 src/results/*
+src/cuda*
 
 # data
 interim_data/*
