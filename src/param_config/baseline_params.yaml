@@ -2,25 +2,27 @@
 basics:
   label_frac:      1  # fraction of labeled training data
   runs:            5  # times to run the whole code
-  desired_dataset: "china_weather" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm
+  desired_dataset: "gas" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas
   dataset_list:
     # - ecg
     - india_catchment
     - germany_catchment
     - china_weather
     - weather
+    # - nasa
     # - asm
   data_splitting:  "reduced_data" # normal, reduced_data
-  pages:          50  # number of pages to use from dataset (otherwise it's too big/slow)
+  num_pages:       20  # number of pages to use from dataset (otherwise it's too big/slow)
+  random_seed:     42  # for reproducibility
 
 run_console:
-  mean_X:        false
-  flatten_X:     true
+  mean_X:        true
+  flatten_X:     false
   timevae:       false
   ts2vec :       false #true
-  moment :       false #true
+  moment :       true
   moment_fed:    false
-  barlow_cnn:    false #true
+  barlow_cnn:    true
   cellsup:       false
   barlow_ae:     false
   barlow_ae_ssl: false

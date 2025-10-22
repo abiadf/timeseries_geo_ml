@@ -37,59 +37,65 @@ class DatasetPreprocessor:
         self.X_scaler   = None
 
     def _prepare_targets(self, y):
+        # if isinstance(y, np.ndarray):
+        #     self.y_df         = pd.DataFrame(y)
+        #     self.cat_cols     = []
+        #     self.numeric_cols = self.y_df.columns.tolist()
+        # else:
+        #     self.y_df         = y.copy()
+        #     self.numeric_cols = self.y_df.select_dtypes(include=[np.number]).columns.tolist()
+        #     self.cat_cols     = self.y_df.select_dtypes(include=['object','category']).columns.tolist()
         if isinstance(y, np.ndarray):
-            self.y_df         = pd.DataFrame(y)
-            self.cat_cols     = []
-            self.numeric_cols = self.y_df.columns.tolist()
+            self.y_df = None  # no DataFrame needed
+            self.cat_cols = []
+            self.numeric_cols = list(range(y.shape[1] if y.ndim > 1 else 1))
         else:
-            self.y_df         = y.copy()
+            self.y_df = y.copy()
             self.numeric_cols = self.y_df.select_dtypes(include=[np.number]).columns.tolist()
             self.cat_cols     = self.y_df.select_dtypes(include=['object','category']).columns.tolist()
 
-    # old
-    def _X_downsample_pages_and_rows(self, X, y_df):
-        n_pages, _, _ = X.shape
-        num_pages     = max(1, int(n_pages * self.page_frac))
-        # num_rows  = max(1, int(n_rows * self.row_frac))
-        # page_idx  = np.linspace(0, n_pages-1, num_pages, dtype=int)
-        # row_idx   = np.linspace(0, n_rows-1, num_rows, dtype=int)
-        # X_small   = X[page_idx][:, row_idx, :]
-        # y_small   = y_df.iloc[page_idx].values if isinstance(y_df, pd.DataFrame) else y_df[page_idx]
-        # Randomly choose pages/rows instead of linspace
-        rng      = np.random.default_rng(self.random_seed)
-        page_idx = rng.choice(n_pages, size=num_pages, replace=False)
-        # row_idx  = rng.choice(n_rows, size=num_rows, replace=False)
+    # # old
+    # def _X_downsample_pages_and_rows(self, X, y_df):
+    #     n_pages, _, _ = X.shape
+    #     num_pages     = max(1, int(n_pages * self.page_frac))
+    #     # num_rows  = max(1, int(n_rows * self.row_frac))
+    #     # page_idx  = np.linspace(0, n_pages-1, num_pages, dtype=int)
+    #     # row_idx   = np.linspace(0, n_rows-1, num_rows, dtype=int)
+    #     # X_small   = X[page_idx][:, row_idx, :]
+    #     # y_small   = y_df.iloc[page_idx].values if isinstance(y_df, pd.DataFrame) else y_df[page_idx]
+    #     # Randomly choose pages/rows instead of linspace
+    #     rng      = np.random.default_rng(self.random_seed)
+    #     page_idx = rng.choice(n_pages, size=num_pages, replace=False)
+    #     # row_idx  = rng.choice(n_rows, size=num_rows, replace=False)
         
-        X_small = X[page_idx][page_idx, :, :]
-        y_small = y_df.iloc[page_idx].values if isinstance(y_df, pd.DataFrame) else y_df[page_idx]
-        return X_small, y_small
+    #     X_small = X[page_idx][page_idx, :, :]
+    #     y_small = y_df.iloc[page_idx].values if isinstance(y_df, pd.DataFrame) else y_df[page_idx]
+    #     return X_small, y_small
 
-    # old
-    def _downsample_before_train_test(self, X_train, y_train, X_test, y_test):
-        """downsamples rows only, not pages. X_train and X_test are downsampled by the same rows
-        X_train_small: (page_num, n_rows, n_features)
-        y_train_small: (page_num, n_targets)"""
-        # rng       = np.random.default_rng(self.random_seed)
-        # n_rows   = X_train.shape[1]
-        # num_rows = max(1, int(n_rows * self.row_frac))
-        # row_idx  = rng.choice(n_rows, size=num_rows, replace=False)
-        # num_pages = max(1, int(n_pages * self.page_frac))
-        # page_idx  = rng.choice(n_pages, size=num_pages, replace=False)
-        # page_idx  = range(0, self.page_num)
-        n_pages  = X_train.shape[0]
-        page_num = min(self.page_num, n_pages)
-        page_idx = range(page_num)
-        X_train_small = X_train[page_idx, :, :]
-        X_test_small  = X_test[page_idx, :, :]
-        y_train_small = y_train[page_idx]
-        y_test_small  = y_test[page_idx]
-        # return X_train_small, y_train_small, X_test_small, y_test_small
+    # # old
+    # def _downsample_before_train_test(self, X_train, y_train, X_test, y_test):
+    #     """downsamples rows only, not pages. X_train and X_test are downsampled by the same rows
+    #     X_train_small: (page_num, n_rows, n_features)
+    #     y_train_small: (page_num, n_targets)"""
+    #     # rng       = np.random.default_rng(self.random_seed)
+    #     # n_rows   = X_train.shape[1]
+    #     # num_rows = max(1, int(n_rows * self.row_frac))
+    #     # row_idx  = rng.choice(n_rows, size=num_rows, replace=False)
+    #     # num_pages = max(1, int(n_pages * self.page_frac))
+    #     # page_idx  = rng.choice(n_pages, size=num_pages, replace=False)
+    #     # page_idx  = range(0, self.page_num)
+    #     n_pages  = X_train.shape[0]
+    #     page_num = min(self.page_num, n_pages)
+    #     page_idx = range(page_num)
+    #     X_train_small = X_train[page_idx, :, :]
+    #     X_test_small  = X_test[page_idx, :, :]
+    #     y_train_small = y_train[page_idx]
+    #     y_test_small  = y_test[page_idx]
+    #     # return X_train_small, y_train_small, X_test_small, y_test_small
 
     def _downsample_first_pages_and_split(self, X, y):
-        """downsamples pages only, not rows. Takes first few pages and randomly  train-test splits it
-        X_train_small: (page_num, n_rows, n_features)
-        y_train_small: (page_num, n_targets)"""
-
+        """Downsample first few pages, then randomly train-test split.
+        Works for both numpy arrays and pandas DataFrames."""
         n_pages  = X.shape[0]
         page_num = min(self.page_num, n_pages)
 
@@ -105,36 +111,61 @@ class DatasetPreprocessor:
 
         X_train = X_small[train_idx]
         X_test  = X_small[test_idx]
-        y_train = y_small[train_idx]
-        y_test  = y_small[test_idx]
+
+        if hasattr(y_small, "iloc"):        # Pandas DataFrame/Series
+            y_train = y_small.iloc[train_idx]
+            y_test  = y_small.iloc[test_idx]
+        else:                               # NumPy array
+            y_train = y_small[train_idx]
+            y_test  = y_small[test_idx]
+
+        # Ensure 2D for later scaling
+        if y_train.ndim == 1:
+            y_train = y_train[:, None]
+        if y_test.ndim == 1:
+            y_test = y_test[:, None]
         return X_train, y_train, X_test, y_test
 
-    # old
-    def X_encode_categorical(self, y_train, y_test):
-        if len(self.cat_cols) > 0:
-            idx         = [self.y_df.columns.get_loc(c) for c in self.cat_cols]
-            y_train_df  = pd.DataFrame(y_train[:, idx], columns=self.cat_cols)
-            y_test_df   = pd.DataFrame(y_test[:, idx], columns=self.cat_cols)
-            encoder     = ce.TargetEncoder(cols=self.cat_cols)
-            y_train_enc = encoder.fit_transform(y_train_df, y_train[:,0])
-            y_test_enc  = encoder.transform(y_test_df)
-            y_train[:, idx] = y_train_enc.values
-            y_test[:, idx]  = y_test_enc.values
-        return y_train.astype(float), y_test.astype(float)
+
+    # # old
+    # def X_encode_categorical(self, y_train, y_test):
+    #     if len(self.cat_cols) > 0:
+    #         idx         = [self.y_df.columns.get_loc(c) for c in self.cat_cols]
+    #         y_train_df  = pd.DataFrame(y_train[:, idx], columns=self.cat_cols)
+    #         y_test_df   = pd.DataFrame(y_test[:, idx], columns=self.cat_cols)
+    #         encoder     = ce.TargetEncoder(cols=self.cat_cols)
+    #         y_train_enc = encoder.fit_transform(y_train_df, y_train[:,0])
+    #         y_test_enc  = encoder.transform(y_test_df)
+    #         y_train[:, idx] = y_train_enc.values
+    #         y_test[:, idx]  = y_test_enc.values
+    #     return y_train.astype(float), y_test.astype(float)
 
     def _encode_categorical(self, y_train, y_test):
         from sklearn.preprocessing import LabelEncoder
+ 
+        if len(self.cat_cols) == 0:
+            return y_train.astype(float), y_test.astype(float)  # nothing to encode
         y_train_df = pd.DataFrame(y_train, columns=self.y_df.columns)
         y_test_df  = pd.DataFrame(y_test, columns=self.y_df.columns)
 
         # detect categorical columns
-        cat_cols = self.cat_cols if hasattr(self, 'cat_cols') else y_train_df.select_dtypes(include=['object','category']).columns.tolist()
+        # cat_cols = self.cat_cols if hasattr(self, 'cat_cols') else y_train_df.select_dtypes(include=['object','category']).columns.tolist()
 
-        # encode categorical columns
-        for c in cat_cols:
-            le = LabelEncoder()
-            y_train_df[c] = le.fit_transform(y_train_df[c])
-            y_test_df[c]  = le.transform(y_test_df[c])
+        # # encode categorical columns
+        # for c in cat_cols:
+        #     le = LabelEncoder()
+        #     y_train_df[c] = le.fit_transform(y_train_df[c])
+        #     y_test_df[c]  = le.transform(y_test_df[c])
+        # return y_train_df.values.astype(float), y_test_df.values.astype(float)
+
+        y_train_df = pd.DataFrame(y_train, columns=self.y_df.columns[:y_train.shape[1]])
+        y_test_df  = pd.DataFrame(y_test, columns=self.y_df.columns[:y_test.shape[1]])
+
+        for c in self.cat_cols:
+            if c in y_train_df.columns:
+                le = LabelEncoder()
+                y_train_df[c] = le.fit_transform(y_train_df[c])
+                y_test_df[c]  = le.transform(y_test_df[c])
         return y_train_df.values.astype(float), y_test_df.values.astype(float)
 
     def _scale_targets(self, y_train, y_test):
@@ -147,86 +178,86 @@ class DatasetPreprocessor:
         y_test_scaled  = np.atleast_2d(y_test_scaled)
         return y_train_scaled, y_test_scaled
 
-    # [old]
-    def X_fit_transform(self, X: np.ndarray, y: np.ndarray, split_X: bool = True) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        """Downsample, split, encode, and scale dataset. X always stays 3D."""
-        self._prepare_targets(y)
-        X_small, y_small = self._downsample_pages_and_rows(X, self.y_df)
+    # # [old]
+    # def X_fit_transform(self, X: np.ndarray, y: np.ndarray, split_X: bool = True) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    #     """Downsample, split, encode, and scale dataset. X always stays 3D."""
+    #     self._prepare_targets(y)
+    #     X_small, y_small = self._downsample_pages_and_rows(X, self.y_df)
 
-        n_samples = X_small.shape[0]
-        n_test    = int(n_samples * self.test_size)
+    #     n_samples = X_small.shape[0]
+    #     n_test    = int(n_samples * self.test_size)
 
-        # 1. Shuffle samples then traintest split (based on random seed)
-        rng           = np.random.default_rng(self.random_seed)
-        indices       = rng.permutation(n_samples)
-        train_indices = indices[n_test:]
-        test_indices  = indices[:n_test]
+    #     # 1. Shuffle samples then traintest split (based on random seed)
+    #     rng           = np.random.default_rng(self.random_seed)
+    #     indices       = rng.permutation(n_samples)
+    #     train_indices = indices[n_test:]
+    #     test_indices  = indices[:n_test]
 
-        # 3. Split X and Y simultaneously using the shared indices
-        y_train_raw, y_test_raw = y_small[train_indices], y_small[test_indices]
-        X_train, X_test         = X_small[train_indices], X_small[test_indices]
-        y_train, y_test         = self._encode_categorical(y_train_raw, y_test_raw)
-        y_train_scaled, y_test_scaled = self._scale_targets(y_train, y_test)
-        # =======
-        # y_train, y_test  = train_test_split(y_small, test_size=self.test_size, shuffle=False)
-        # y_train, y_test  = self._encode_categorical(y_train, y_test)
-        # y_train_scaled, y_test_scaled = self._scale_targets(y_train, y_test)
+    #     # 3. Split X and Y simultaneously using the shared indices
+    #     y_train_raw, y_test_raw = y_small[train_indices], y_small[test_indices]
+    #     X_train, X_test         = X_small[train_indices], X_small[test_indices]
+    #     y_train, y_test         = self._encode_categorical(y_train_raw, y_test_raw)
+    #     y_train_scaled, y_test_scaled = self._scale_targets(y_train, y_test)
+    #     # =======
+    #     # y_train, y_test  = train_test_split(y_small, test_size=self.test_size, shuffle=False)
+    #     # y_train, y_test  = self._encode_categorical(y_train, y_test)
+    #     # y_train_scaled, y_test_scaled = self._scale_targets(y_train, y_test)
 
-        if not split_X:
-            return X_small, y_train_scaled, y_test_scaled, None
+    #     if not split_X:
+    #         return X_small, y_train_scaled, y_test_scaled, None
 
-        # Split X along first axis (pages) without flattening
-        # X_train, X_test = train_test_split(X_small, test_size=self.test_size, shuffle=False)
+    #     # Split X along first axis (pages) without flattening
+    #     # X_train, X_test = train_test_split(X_small, test_size=self.test_size, shuffle=False)
 
-        if self.scale_X:
-            # Optionally scale while keeping 3D shape
-            ns, nr, nf = X_train.shape
-            ns_test, nr_test, nf_test = X_test.shape
+    #     if self.scale_X:
+    #         # Optionally scale while keeping 3D shape
+    #         ns, nr, nf = X_train.shape
+    #         ns_test, nr_test, nf_test = X_test.shape
 
-            # Flatten temporarily for StandardScaler
-            X_train_flat   = X_train.reshape(ns, -1)
-            X_test_flat    = X_test.reshape(ns_test, -1)
-            self.X_scaler  = StandardScaler()
-            X_train_scaled = self.X_scaler.fit_transform(X_train_flat).reshape(ns, nr, nf)
-            X_test_scaled  = self.X_scaler.transform(X_test_flat).reshape(ns_test, nr_test, nf_test)
-            return X_train_scaled, X_test_scaled, y_train_scaled, y_test_scaled
-        else:
-            return X_train, X_test, y_train_scaled, y_test_scaled
+    #         # Flatten temporarily for StandardScaler
+    #         X_train_flat   = X_train.reshape(ns, -1)
+    #         X_test_flat    = X_test.reshape(ns_test, -1)
+    #         self.X_scaler  = StandardScaler()
+    #         X_train_scaled = self.X_scaler.fit_transform(X_train_flat).reshape(ns, nr, nf)
+    #         X_test_scaled  = self.X_scaler.transform(X_test_flat).reshape(ns_test, nr_test, nf_test)
+    #         return X_train_scaled, X_test_scaled, y_train_scaled, y_test_scaled
+    #     else:
+    #         return X_train, X_test, y_train_scaled, y_test_scaled
 
-    # [old]
-    def XX_fit_transform(self, X: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        """Downsample, split, encode, and scale dataset. X always stays 3D."""
-        self._prepare_targets(y)
-        X_small, y_small = self._downsample_pages_and_rows(X, self.y_df)
+    # # [old]
+    # def XX_fit_transform(self, X: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    #     """Downsample, split, encode, and scale dataset. X always stays 3D."""
+    #     self._prepare_targets(y)
+    #     X_small, y_small = self._downsample_pages_and_rows(X, self.y_df)
 
-        n_samples = X_small.shape[0]
-        n_test    = int(n_samples * self.test_size)
+    #     n_samples = X_small.shape[0]
+    #     n_test    = int(n_samples * self.test_size)
 
-        # 1. Shuffle samples then traintest split (based on random seed)
-        rng           = np.random.default_rng(self.random_seed)
-        indices       = rng.permutation(n_samples)
-        train_indices = indices[n_test:]
-        test_indices  = indices[:n_test]
+    #     # 1. Shuffle samples then traintest split (based on random seed)
+    #     rng           = np.random.default_rng(self.random_seed)
+    #     indices       = rng.permutation(n_samples)
+    #     train_indices = indices[n_test:]
+    #     test_indices  = indices[:n_test]
 
-        # 3. Split X and Y simultaneously using the shared indices
-        y_train_raw, y_test_raw = y_small[train_indices], y_small[test_indices]
-        X_train, X_test         = X_small[train_indices], X_small[test_indices]
-        y_train, y_test         = self._encode_categorical(y_train_raw, y_test_raw)
-        y_train_scaled, y_test_scaled = self._scale_targets(y_train, y_test)
+    #     # 3. Split X and Y simultaneously using the shared indices
+    #     y_train_raw, y_test_raw = y_small[train_indices], y_small[test_indices]
+    #     X_train, X_test         = X_small[train_indices], X_small[test_indices]
+    #     y_train, y_test         = self._encode_categorical(y_train_raw, y_test_raw)
+    #     y_train_scaled, y_test_scaled = self._scale_targets(y_train, y_test)
 
-        if self.scale_X:
-            ns, nr, nf = X_train.shape
-            ns_test, nr_test, nf_test = X_test.shape
+    #     if self.scale_X:
+    #         ns, nr, nf = X_train.shape
+    #         ns_test, nr_test, nf_test = X_test.shape
 
-            # Flatten temporarily for StandardScaler
-            X_train_flat   = X_train.reshape(ns, -1)
-            X_test_flat    = X_test.reshape(ns_test, -1)
-            self.X_scaler  = StandardScaler()
-            X_train_scaled = self.X_scaler.fit_transform(X_train_flat).reshape(ns, nr, nf)
-            X_test_scaled  = self.X_scaler.transform(X_test_flat).reshape(ns_test, nr_test, nf_test)
-            return X_train_scaled, X_test_scaled, y_train_scaled, y_test_scaled
-        else:
-            return X_train, X_test, y_train_scaled, y_test_scaled
+    #         # Flatten temporarily for StandardScaler
+    #         X_train_flat   = X_train.reshape(ns, -1)
+    #         X_test_flat    = X_test.reshape(ns_test, -1)
+    #         self.X_scaler  = StandardScaler()
+    #         X_train_scaled = self.X_scaler.fit_transform(X_train_flat).reshape(ns, nr, nf)
+    #         X_test_scaled  = self.X_scaler.transform(X_test_flat).reshape(ns_test, nr_test, nf_test)
+    #         return X_train_scaled, X_test_scaled, y_train_scaled, y_test_scaled
+    #     else:
+    #         return X_train, X_test, y_train_scaled, y_test_scaled
 
     def fit_transform(self, X: np.ndarray, y, scale_y: bool = True) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         """Train-test split, then downsample training set, encode, and scale dataset. X always stays 3D."""
@@ -256,7 +287,13 @@ class DatasetPreprocessor:
 
         # 3. Encode + scale targets
         # print(type(y_train_small), type(y_test_small))
-        y_train, y_test = self._encode_categorical(y_train_small, y_test_small)
+        # y_train, y_test = self._encode_categorical(y_train_small, y_test_small)
+
+        if len(self.cat_cols) > 0:
+            y_train, y_test = self._encode_categorical(y_train_small, y_test_small)
+        else:
+            y_train, y_test = y_train_small, y_test_small
+
         if scale_y:
             y_train_scaled, y_test_scaled = self._scale_targets(y_train, y_test)
         else:

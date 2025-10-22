@@ -312,7 +312,6 @@ class DenoisingAE(BaseAutoencoder):
 
 
 
-
 # class TrainAutoencoder:
 #     """Class dealing with training the autoencoder, measured by the loss"""
 #     def _train_epoch(self, device: torch.device, autoencoder: BaseAutoencoder, train_loader: DataLoader, optimizer: optim.Optimizer) -> float:
