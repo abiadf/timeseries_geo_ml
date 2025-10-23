@@ -1,48 +1,74 @@
 # file for the params of DATASETS
-
 general:
   train_epochs: 100
 
-germany_catchment:
+asm:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+
   # train_epochs: 100
-  batch_size  : 16
-  latent_dim  : 8
+  batch_size        : 16
+  latent_dim        : 32
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+beijing:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+
+china_weather:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+
+  # train_epochs: 100
+  batch_size        : 16
+  latent_dim        : 6
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+gas:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+
+germany_catchment:
+  num_window_splits: 10 # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+
+  # train_epochs: 100
+  batch_size        : 16
+  latent_dim        : 8
   predictor_lr      : 0.006
   predictor_epochs  : 200
   predictor_dropout : 0.05
   predictor_hidden_sizes : [32, 48, 64] # latent to y output
 
 india_catchment:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+
   # train_epochs: 100
-  batch_size  : 16
-  latent_dim  : 8
+  batch_size        : 16
+  latent_dim        : 8
   predictor_lr      : 0.006
   predictor_epochs  : 200
   predictor_dropout : 0.05
   predictor_hidden_sizes : [32, 48, 64] # latent to y output
 
-china_weather:
-  # train_epochs: 100
-  batch_size  : 16
-  latent_dim  : 6
-  predictor_lr      : 0.006
-  predictor_epochs  : 200
-  predictor_dropout : 0.05
-  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+nasa:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 300  # number of rows per page to use from dataset
 
 weather:
-  # train_epochs: 100
-  batch_size  : 16
-  latent_dim  : 3
-  predictor_lr      : 0.006
-  predictor_epochs  : 200
-  predictor_dropout : 0.05
-  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
 
-asm:
   # train_epochs: 100
-  batch_size  : 16
-  latent_dim  : 32
+  batch_size        : 16
+  latent_dim        : 3
   predictor_lr      : 0.006
   predictor_epochs  : 200
   predictor_dropout : 0.05

@@ -1,5 +1,5 @@
 
-This folder is empty, please download the datasets from the provided links
+This folder is empty from datasets, please download the datasets from the provided links
 
 # # Dataset 1: ECG
 - Downloaded the entire dataset from https://physionet.org/content/ptb-xl/1.0.3/
@@ -119,7 +119,7 @@ y: (1866, 5)
 
 
 
-# # Dataset 3: NASA engine
+# # Dataset 7: NASA engine
 From [this page](https://www.kaggle.com/datasets/behrad3d/nasa-cmaps) and [this page](https://data.nasa.gov/dataset/phm-2008-challenge)
 @article{Saxena2008DamagePM,
   title={Damage propagation modeling for aircraft engine run-to-failure simulation},
@@ -136,17 +136,23 @@ This dataset is different from the rest in that it has train and test sets at 50
 We apply our algorithm on scenario 1
 
 
+# # Dataset 8: Turkey Gas turbine
+[Source](https://archive.ics.uci.edu/dataset/551/gas+turbine+co+and+nox+emission+data+set)
+
+
+# # Dataset 9: Milling
+https://www.kaggle.com/datasets/tonylschmitz/digital-machining-database?select=Dataset+6+mat
+
+
+# # Dataset 10: Beijing air quality
+[Data](https://archive.ics.uci.edu/dataset/501/beijing+multi+site+air+quality+data), [Source](https://www.semanticscholar.org/paper/Cautionary-tales-on-air-quality-improvement-in-Zhang-Guo/59c99a7bf19617b43be0aa9f492def8c80ffae19)
+
+Consists of 6 pollutants and 6 relevant meteo variables, of size (12 stations, 35065 timesteps, 18 cols).
+Main target y is `PM2.5`.
+
+
 # # General data preprocessing
 For all datasets, we take the first 50 `pages` (which are equivalent to files) in the dir, then apply a random train-test split (except for the NASA dataset), maintaining the timeseries component intact.
 
 After train-test splitting we scale, after which we run a feature selection based on mutual information between X and y, selecting the 20-30% most correlated features; this helps reduce the effect of poorly-correlated or noisy features.
-
-
-# # Turkey Gas turbine
-https://archive.ics.uci.edu/dataset/551/gas+turbine+co+and+nox+emission+data+set
-
-
-# # Milling
-https://www.kaggle.com/datasets/tonylschmitz/digital-machining-database?select=Dataset+6+mat
-
 
