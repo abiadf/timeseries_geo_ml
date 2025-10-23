@@ -97,27 +97,27 @@ class DatasetPreprocessor:
         """Downsample first few pages, then randomly train-test split.
         Works for both numpy arrays and pandas DataFrames."""
         n_pages  = X.shape[0]
-        page_num = min(self.page_num, n_pages)
+        # page_num = min(self.page_num, n_pages)
 
-        X_small = X[:page_num]
-        y_small = y[:page_num]
+        # X_small = X[:page_num]
+        # y_small = y[:page_num]
 
         rng     = np.random.default_rng(self.random_seed)
-        indices = rng.permutation(page_num)
-        n_test  = int(page_num * self.test_size)
+        indices = rng.permutation(n_pages)
+        n_test  = int(n_pages * self.test_size)
 
         test_idx  = indices[:n_test]
         train_idx = indices[n_test:]
 
-        X_train = X_small[train_idx]
-        X_test  = X_small[test_idx]
+        X_train = X[train_idx]
+        X_test  = X[test_idx]
 
-        if hasattr(y_small, "iloc"):        # Pandas DataFrame/Series
-            y_train = y_small.iloc[train_idx]
-            y_test  = y_small.iloc[test_idx]
+        if hasattr(y, "iloc"):        # Pandas DataFrame/Series
+            y_train = y.iloc[train_idx]
+            y_test  = y.iloc[test_idx]
         else:                               # NumPy array
-            y_train = y_small[train_idx]
-            y_test  = y_small[test_idx]
+            y_train = y[train_idx]
+            y_test  = y[test_idx]
 
         # Ensure 2D for later scaling
         if y_train.ndim == 1:
@@ -524,7 +524,7 @@ class WeatherDataset:
         else:
             raise ValueError("mode must be one of ['autoencoder','3d','lstm','catboost']")
 
-    @staticmethod
+    @staticmethod#, old remove
     def prepare_y_targets(y_ds: xr.Dataset, mode: str = "3d") -> np.ndarray:
         """Convert xarray.Dataset of targets to NumPy array"""
         y_arr  = np.stack([y_ds[var].values for var in y_ds.data_vars], axis=0)  # (vars, time, lat, lon)
