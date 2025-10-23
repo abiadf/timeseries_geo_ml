@@ -24,7 +24,7 @@ run_console:
   flatten_X:     false
   cnn_lstm:      true
   timevae:       false
-  ts2vec :       false #true
+  ts2vec :       true
   moment :       true
   moment_fed:    false
   barlow_cnn:    true
