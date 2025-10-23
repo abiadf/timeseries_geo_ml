@@ -1,7 +1,7 @@
 # file for the params of BASELINE METHODS
 basics:
   label_frac:      1  # fraction of labeled training data
-  num_runs:        1  # times to run the whole code
+  num_runs:        5  # times to run the whole code
   desired_dataset: "beijing" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing
   dataset_list:
     # - ecg
@@ -21,17 +21,17 @@ basics:
 
 run_console:
   mean_X:        true
-  flatten_X:     false
-  cnn_lstm:      true
-  timevae:       false
-  ts2vec :       true
-  moment :       true
-  moment_fed:    false
   barlow_cnn:    true
-  cellsup:       false
   barlow_ae:     false
   barlow_ae_ssl: false
+  cellsup:       false
+  cnn_lstm:      true
+  flatten_X:     false
   kan:           false
+  moment :       true
+  moment_fed:    false
+  timevae:       true
+  ts2vec :       true
 
 general_params:
   top_features_pct: 20  # % of top features to select via mutual info
@@ -42,25 +42,33 @@ general_params:
     layer3_dim : 16
     lr         : 0.001
 
-ts2vec:
-  z_pooling_method   : "mean"
-  ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
-  ts2vec_latent_dims : 8 # latent dim
-  ts2vec_depth       : 3 # num layers
-  patience           : 10
-  ts2vec_batch_size  : 16
-  ts2vec_epochs      : 100
-  predictor_lr       : 0.009
-  predictor_epochs   : 150
-  predictor_dropout  : 0.05
-  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+barlow:
+  cnn:
+    SSL_LAMBDA  : 0.005 # value from BT paper
+    SSL_WEIGHT  : 0.8   # Weight for recon vs. SSL
+    CHANNELS_1  : 64
+    CHANNELS_2  : 128
+    KERNEL_SIZE : 5
+    POOL_KERNEL : 2
+    latent_dim  : 32
+    augment_const: 0.1
+  ae:
+    latent_dim : 32
+    ssl_weight : 1.0
+    augment_const: 0.1
 
-timevae:
-  train_epochs      : 50
-  predictor_lr      : 0.006
-  predictor_epochs  : 200
-  predictor_dropout : 0.05
-  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+cellsup:
+  num_epochs  : 25
+  AE_lr       : 0.001
+  weight_decay: 0.00001
+  dropout     : 0.1
+  # hidden_dim  : X_train.shape[2]//2
+  swav_iters  : 5
+  swav_temp   : 0.1
+  encoders_dims_list : [32, 64, 128]
+  clustering:
+    cluster_min: 4
+    cluster_max: 8
 
 moment:
   epochs_finetune: 5
@@ -86,30 +94,22 @@ moment_fed:
   fine_tune: True
   num_splits: 4
 
-cellsup:
-  num_epochs  : 25
-  AE_lr       : 0.001
-  weight_decay: 0.00001
-  dropout     : 0.1
-  # hidden_dim  : X_train.shape[2]//2
-  swav_iters  : 5
-  swav_temp   : 0.1
-  encoders_dims_list : [32, 64, 128]
-  clustering:
-    cluster_min: 4
-    cluster_max: 8
+timevae:
+  train_epochs      : 100
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
 
-barlow:
-  cnn:
-    SSL_LAMBDA  : 0.005 # value from BT paper
-    SSL_WEIGHT  : 0.8   # Weight for recon vs. SSL
-    CHANNELS_1  : 64
-    CHANNELS_2  : 128
-    KERNEL_SIZE : 5
-    POOL_KERNEL : 2
-    latent_dim  : 32
-    augment_const: 0.1
-  ae:
-    latent_dim : 32
-    ssl_weight : 1.0
-    augment_const: 0.1
+ts2vec:
+  z_pooling_method   : "None" # options: "mean", "max", "None" (None = no pooling, return full time embeddings)
+  ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
+  ts2vec_latent_dims : 8 # latent dim
+  ts2vec_depth       : 3 # num layers
+  patience           : 10
+  ts2vec_batch_size  : 16
+  ts2vec_epochs      : 100
+  predictor_lr       : 0.009
+  predictor_epochs   : 150
+  predictor_dropout  : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output

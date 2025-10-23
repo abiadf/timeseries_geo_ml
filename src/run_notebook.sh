@@ -26,6 +26,12 @@ for ds in "${datasets[@]}"; do
             --output "run_${ds}_$i.ipynb" \
             --ExecutePreprocessor.allow_errors=False || RUN_FAILED=true
 
+        # jupyter nbconvert --to notebook \
+        #     --execute dataset_notebook.ipynb \
+        #     --output "run_${ds}_$i.ipynb" \
+        #     --ExecutePreprocessor.allow_errors=False \
+        #     --ExecutePreprocessor.timeout=3600
+
         if [ "$RUN_FAILED" = true ]; then
             echo "Run $i failed for $ds, skipping..."
             curl -H "Content-Type: application/json" \

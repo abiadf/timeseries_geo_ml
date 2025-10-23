@@ -1,10 +1,10 @@
-
+""""TS2Vec encoder backend (calls the TS2Vec class) + early stopping"""
 import numpy as np
 import torch
-import torch.nn as nn
+# import torch.nn as nn
 # from torch.utils.data import DataLoader, TensorDataset
 
-from ts2vec import TS2Vec # library
+from ts2vec import TS2Vec # the real ts2vec library
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -92,13 +92,13 @@ class TS2VecEncoder:
         if isinstance(X, torch.Tensor):
             X = X.cpu().numpy()
         X = X.astype(np.float32)
-
-        # TS2Vec encode
-        z = self.ts_model.encode(X)
+        z = self.ts_model.encode(X)  # shape: (B, T, latent_dim)
 
         # pooling using NumPy (TS2Vec returns NumPy array)
         p = pooling or self.z_pooling
-        if p == "mean":
+        if pooling is None:
+            return z  # **return full time embeddings**
+        elif p == "mean":
             return z.mean(axis=1)
         elif p == "max":
             return z.max(axis=1)
@@ -106,6 +106,7 @@ class TS2VecEncoder:
             return z[:, -1, :]
         else:
             raise ValueError(f"Unknown pooling: {p}")
+
 
 # class TS2VecTorchWrapper(nn.Module):
 #     """Wrap TS2Vec model for use as a torch.nn.Module so we can access its params"""
@@ -115,4 +116,3 @@ class TS2VecEncoder:
 
 #     def forward(self, x: torch.Tensor) -> torch.Tensor:
 #         return self.net(x)
-
