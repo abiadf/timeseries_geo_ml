@@ -2,7 +2,7 @@
 basics:
   label_frac:      1  # fraction of labeled training data
   num_runs:        1  # times to run the whole code
-  desired_dataset: "india_catchment" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas
+  desired_dataset: "gas" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas
   dataset_list:
     # - ecg
     - india_catchment
@@ -13,7 +13,7 @@ basics:
     # - nasa
     # - asm
   data_splitting:    "reduced_data" # normal, reduced_data
-  num_pages:         50  # number of pages to use from dataset (otherwise it's too big/slow)
+  num_pages:         100  # number of pages to use from dataset (otherwise it's too big/slow)
   num_rows_per_page: 500  # number of rows per page to use from dataset
   random_seed:       42  # for reproducibility
 
