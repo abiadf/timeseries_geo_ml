@@ -1,10 +1,10 @@
 # file for the params of BASELINE METHODS
 basics:
   label_frac:      1  # fraction of labeled training data
+  data_splitting:  "reduced_data" # normal, reduced_data
   num_runs:        5  # times to run the whole code
   desired_dataset: "beijing" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing
   dataset_list:
-    # - ecg
     - india_catchment
     - germany_catchment
     - china_weather
@@ -13,25 +13,26 @@ basics:
     - nasa
     - beijing
     # - asm
-  data_splitting:    "reduced_data" # normal, reduced_data
   num_pages:         100  # number of pages to use from dataset (otherwise it's too big/slow)
   # num_rows_per_page: 500  # number of rows per page to use from dataset
   # num_splits       : 10
   random_seed:       42  # for reproducibility
 
 run_console:
-  mean_X:        true
-  barlow_cnn:    true
+  mean_X:        false #true
+  barlow_cnn:    false #true
   barlow_ae:     false
   barlow_ae_ssl: false
   cellsup:       false
-  cnn_lstm:      true
-  flatten_X:     false
+  cnn_lstm:      false
+  flatten_X:     true #false
   kan:           false
-  moment :       true
+  moment :       false
   moment_fed:    false
-  timevae:       true
-  ts2vec :       true
+  timevae:       false
+  ts2vec :       false #true
+  ts2vec_fed:    false #true
+
 
 general_params:
   top_features_pct: 20  # % of top features to select via mutual info
@@ -72,13 +73,13 @@ cellsup:
 
 moment:
   epochs_finetune: 5
-  batch_size  : 64
-  lr_head:      0.0005
-  lr_encoder:   0.001
-  layer1_dim: 64
-  layer2_dim: 32
+  batch_size  :    64
+  lr_head:         0.0005
+  lr_encoder:      0.001
+  layer1_dim:      64
+  layer2_dim:      32
   unfreeze_last_n: 1
-  fine_tune: True
+  fine_tune:       true
 
   predictor_lr      : 0.009
   predictor_epochs  : 100
@@ -90,9 +91,9 @@ moment:
 
 moment_fed:
   epochs_finetune: 5
-  dim_splitting: 2 # which dim to split X along, 0 = HFL, 1 = VFL
-  fine_tune: True
-  num_splits: 4
+  dim_splitting:   2 # which dim to split X along, 0 = HFL, 1 = VFL
+  fine_tune:       true
+  num_splits:      4
 
 timevae:
   train_epochs      : 100
@@ -113,3 +114,9 @@ ts2vec:
   predictor_epochs   : 150
   predictor_dropout  : 0.05
   predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+ts2vec_fed:
+  epochs_finetune: 5
+  dim_splitting:   2 # which dim to split X along, 0 = HFL, 1 = VFL
+  fine_tune:       true
+  num_splits:      4

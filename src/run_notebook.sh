@@ -1,9 +1,12 @@
 #!/bin/bash
 # WEBHOOK_URL="https://canary.discord.com/api/webhooks/1426232166441811978/88Gy60hLuqc6u0UNDo9RCO-Itn0YYJoMG2lfpC4UHt-uxBIFx_w3v00IFoiotLcxEbrB"
 
+set -euo pipefail
+# set -x  # print every command as it runs
+
 WEBHOOK_URL=$(yq -r '.webhook_url' param_config/messager.yaml)
 datasets=($(yq -r '.basics.dataset_list[]' param_config/baseline_params.yaml))
-runs=$(yq -r '.basics.runs' param_config/baseline_params.yaml)
+runs=$(yq -r '.basics.num_runs' param_config/baseline_params.yaml)
 total_runs=$(( ${#datasets[@]} * runs ))
 counter=0
 
