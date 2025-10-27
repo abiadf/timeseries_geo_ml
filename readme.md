@@ -150,6 +150,10 @@ https://www.kaggle.com/datasets/tonylschmitz/digital-machining-database?select=D
 Consists of 6 pollutants and 6 relevant meteo variables, of size (12 stations, 35065 timesteps, 18 cols).
 Main target y is `PM2.5`.
 
+# # Dataset 11: Panama Electricity
+[Source](https://www.kaggle.com/competitions/rossmann-store-sales/data)
+
+
 
 # # General data preprocessing
 For all datasets, we take the first 50 `pages` (which are equivalent to files) in the dir, then apply a random train-test split (except for the NASA dataset), maintaining the timeseries component intact.

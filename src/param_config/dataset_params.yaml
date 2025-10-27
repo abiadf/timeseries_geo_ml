@@ -18,6 +18,11 @@ beijing:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
 
+panama:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+
+
 china_weather:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset

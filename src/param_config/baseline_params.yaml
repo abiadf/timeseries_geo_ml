@@ -1,9 +1,9 @@
 # file for the params of BASELINE METHODS
 basics:
   label_frac:      1  # fraction of labeled training data
-  data_splitting:  "reduced_data" # normal, reduced_data
+  data_splitting:  "reduced_data" # missing_labels, reduced_data
   num_runs:        5  # times to run the whole code
-  desired_dataset: "beijing" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing
+  desired_dataset: "india_catchment" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
   dataset_list:
     - india_catchment
     - germany_catchment
@@ -12,6 +12,7 @@ basics:
     - gas
     - nasa
     - beijing
+    - panama
     # - asm
   num_pages:         100  # number of pages to use from dataset (otherwise it's too big/slow)
   # num_rows_per_page: 500  # number of rows per page to use from dataset
@@ -19,7 +20,7 @@ basics:
   random_seed:       42  # for reproducibility
 
 run_console:
-  mean_X:        false #true
+  mean_X:        true
   barlow_cnn:    false #true
   barlow_ae:     false
   barlow_ae_ssl: false
