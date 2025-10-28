@@ -1,6 +1,7 @@
 # file for the params of DATASETS
 general:
-  train_epochs: 100
+  train_epochs:      100
+  num_pages_to_use:  50
 
 asm:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
@@ -21,7 +22,6 @@ beijing:
 panama:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
-
 
 china_weather:
   num_window_splits: 10   # splits timesteps (rows) into this many windows

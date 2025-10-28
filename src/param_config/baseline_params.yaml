@@ -14,10 +14,7 @@ basics:
     - beijing
     - panama
     # - asm
-  num_pages:         100  # number of pages to use from dataset (otherwise it's too big/slow)
-  # num_rows_per_page: 500  # number of rows per page to use from dataset
-  # num_splits       : 10
-  random_seed:       42  # for reproducibility
+  random_seed:     42  # for reproducibility
 
 run_console:
   mean_X:        true
@@ -26,14 +23,13 @@ run_console:
   barlow_ae_ssl: false
   cellsup:       false
   cnn_lstm:      false
-  flatten_X:     true #false
+  flatten_X:     false
   kan:           false
   moment :       false
   moment_fed:    false
   timevae:       false
   ts2vec :       false #true
   ts2vec_fed:    false #true
-
 
 general_params:
   top_features_pct: 20  # % of top features to select via mutual info

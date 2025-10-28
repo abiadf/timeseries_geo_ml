@@ -631,3 +631,98 @@ flattened(X) & \val{0.380}{0.000} & \val{0.242}{0.005} & \val{0.410}{0.004}
 flattened(X) & \val{0.380}{0.000} & \val{0.246}{0.004} & \val{0.409}{0.006}
 ---- beijing, 13:54, data_splitting='reduced_data', label_frac=1 ----
 flattened(X) & \val{0.380}{0.000} & \val{0.252}{0.005} & \val{0.406}{0.006}
+---- india_catchment, 22:57, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.486}{0.000} & \val{0.325}{0.000} & \val{0.328}{0.000} & \val{0.980}{0.000}
+---- india_catchment, 23:01, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:02, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:02, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.486}{0.000} & \val{0.325}{0.000} & \val{0.328}{0.000} & \val{0.980}{0.000}
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.486}{0.000} & \val{0.325}{0.000} & \val{0.328}{0.000} & \val{0.980}{0.000}
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:03, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:04, data_splitting='reduced_data', label_frac=1 ----
+---- india_catchment, 23:04, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.486}{0.000} & \val{0.325}{0.000} & \val{0.328}{0.000} & \val{0.980}{0.000}
+---- india_catchment, 23:05, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.486}{0.000} & \val{0.325}{0.000} & \val{0.328}{0.000} & \val{0.980}{0.000}
+---- india_catchment, 23:07, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.486}{0.000} & \val{0.325}{0.000} & \val{0.328}{0.000} & \val{0.980}{0.000}
+---- india_catchment, 23:07, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.486}{0.000} & \val{0.325}{0.000} & \val{0.328}{0.000} & \val{0.980}{0.000}
+---- india_catchment, 23:11, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- india_catchment, 23:12, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- india_catchment, 23:13, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- india_catchment, 23:14, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- india_catchment, 23:15, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- india_catchment, 23:16, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:16, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- india_catchment, 23:19, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:19, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- india_catchment, 23:19, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:19, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- india_catchment, 23:19, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:19, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- india_catchment, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- india_catchment, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- beijing, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- india_catchment, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- beijing, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- india_catchment, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- beijing, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- india_catchment, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- beijing, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- india_catchment, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- beijing, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- india_catchment, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.484}{0.004} & \val{0.329}{0.002} & \val{0.327}{0.003} & \val{0.978}{0.013}
+---- germany_catchment, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- beijing, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- panama, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.823}{1.787} & \val{0.999}{1.609} & \val{1.292}{1.758} & \val{1.671}{1.673}

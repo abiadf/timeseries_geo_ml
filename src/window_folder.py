@@ -4,7 +4,6 @@ from typing import Dict, List, Literal, Tuple, Optional
 import numpy as np
 from scipy.signal import welch, butter, filtfilt
 from scipy.fft import fft, ifft, fftfreq
-
 import torch
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
@@ -13,7 +12,6 @@ if torch.cuda.is_available():
     print(torch.cuda.memory_allocated(0) / 1e6, "MB allocated")
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 
 class WindowFolder:
     """Fold a 3D timeseries (samples x timesteps x features) into periodic windows inferred from its dominant
@@ -48,14 +46,14 @@ class WindowFolder:
             corrs = np.zeros(n_features)
             for f in range(n_features):
                 feature_mean = X[:, :, f].mean(axis=1)
-                corrs[f] = np.max([np.corrcoef(feature_mean, y[:, t])[0, 1] for t in range(y.shape[1])])
+                corrs[f]     = np.max([np.corrcoef(feature_mean, y[:, t])[0, 1] for t in range(y.shape[1])])
             return int(np.argmax(corrs))
         return int(np.argmax(X.var(axis=(0, 1))))
 
     @staticmethod
     def _estimate_period_of_feature(X_feature: np.ndarray, fs: float = 1.0, peak_strength: float = 2.0,
                                     fallback_window: int = 50, max_pages: int = 10) -> int:
-        """Estimate dominant period (timesteps) from a feature array (samples, timesteps)."""
+        """Estimate dominant period (timesteps) from a feature array (samples, timesteps), round to nearest 2^n"""
         n_pages      = min(max_pages, X_feature.shape[0])
         peak_periods = []
         for i in range(n_pages):
@@ -68,6 +66,8 @@ class WindowFolder:
         if peak_periods:
             window_len = int(np.median(peak_periods))
             print(f"[INFO] Estimated window from {n_pages} pages, median period: {window_len}")
+            window_len = int(2 ** np.ceil(np.log2(window_len)))  # take the 2^n above it, batches better
+            print(f"[INFO] Setting the window_len to the succeeding 2^n, {window_len}")
             return window_len
         print(f"[INFO] No clear peak found in {n_pages} pages, using fallback window: {fallback_window}")
         return fallback_window
@@ -96,9 +96,8 @@ class WindowFolder:
         return X_out, y_out
 
     @staticmethod
-    def auto_fold_timeseries(X: np.ndarray, y: Optional[np.ndarray] = None, denoise: bool = True,
-                             fs: Optional[float] = None, peak_strength: float = 2.0,
-                             fallback_window: int = 50, max_pages: int = 10,
+    def auto_fold_timeseries(X: np.ndarray, y: Optional[np.ndarray] = None, denoise: bool = True, max_pages: int = 10,
+                             peak_strength: float = 2.0, fs: Optional[float] = None, fallback_window: int = 50,
                              max_windows_per_page: Optional[int] = None) -> Tuple[np.ndarray, Optional[np.ndarray], int, int]:
         """Auto-fold X (and y) into stacked windows based on dominant periodicity."""
         fs      = fs or 1.0
@@ -112,3 +111,4 @@ class WindowFolder:
         X_folded, y_folded = WindowFolder._fold_and_stack(X, window_size, y, max_windows_per_page=max_windows_per_page)
         print(f"[INFO] Selected dominant feature index: {dom_idx}, window size: {window_size}")
         return X_folded, y_folded, window_size, dom_idx
+
