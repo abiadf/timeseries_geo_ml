@@ -1,5 +1,11 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+PURPLE='\033[0;35m'
+NC='\033[0m' # No Color
+
 set -euo pipefail
 # set -x  # print every command as it runs
 
@@ -13,11 +19,11 @@ counter=0
 export BASH_RUN="1"
 
 for ds in "${datasets[@]}"; do
-    echo "=== Starting runs for dataset: $ds ==="
-    
+    echo -e "${PURPLE}=== Starting runs for dataset: $ds ===${NC}"
+
     for ((i=1; i<=runs; i++)); do
         counter=$((counter + 1))
-        echo ">>>>> Run $counter/$total_runs: $ds, iter $i/$runs <<<<<<"
+        echo -e "${GREEN}>>>>> Run $counter/$total_runs: $ds, iter $i/$runs <<<<<<${NC}"
 
         export DATASET="$ds"
 
@@ -27,7 +33,7 @@ for ds in "${datasets[@]}"; do
                 --output "run_${ds}_$i.ipynb" \
                 --ExecutePreprocessor.allow_errors=False
         then
-            echo "Run $i failed for $ds, skipping..."
+            echo -e "${RED}Run $i failed for $ds, skipping...${NC}"
             curl -H "Content-Type: application/json" \
                  -X POST \
                  -d "{\"content\": \"Notebook run #$i failed for $ds.\"}" \

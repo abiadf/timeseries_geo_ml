@@ -3,7 +3,7 @@ basics:
   label_frac:      1  # fraction of labeled training data
   data_splitting:  "reduced_data" # missing_labels, reduced_data
   num_runs:        5  # times to run the whole code
-  desired_dataset: "india_catchment" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
+  desired_dataset: "weather" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
   dataset_list:
     - india_catchment
     - germany_catchment
@@ -14,22 +14,23 @@ basics:
     - beijing
     - panama
     # - asm
+  label_frac_list: [1, 0.5, 0.25]
   random_seed:     42  # for reproducibility
 
 run_console:
-  mean_X:        true
+  mean_X:        false #true
   barlow_cnn:    false #true
   barlow_ae:     false
   barlow_ae_ssl: false
   cellsup:       false
   cnn_lstm:      false
-  flatten_X:     false
+  flatten_X:     false #true
   kan:           false
-  moment :       false
+  moment :       false #true
   moment_fed:    false
-  timevae:       false
+  timevae:       false #true
   ts2vec :       false #true
-  ts2vec_fed:    false #true
+  ts2vec_fed:    true
 
 general_params:
   top_features_pct: 20  # % of top features to select via mutual info

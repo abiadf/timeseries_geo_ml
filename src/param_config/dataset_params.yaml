@@ -1,7 +1,7 @@
 # file for the params of DATASETS
 general:
   train_epochs:      100
-  num_pages_to_use:  50
+  num_pages_to_use:  10
 
 asm:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
@@ -22,10 +22,12 @@ beijing:
 panama:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 32
 
 china_weather:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 2048 #4096
 
   # train_epochs: 100
   batch_size        : 16
@@ -38,10 +40,12 @@ china_weather:
 gas:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 2048 #4096
 
 germany_catchment:
   num_window_splits: 10 # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 512
 
   # train_epochs: 100
   batch_size        : 16
@@ -54,6 +58,7 @@ germany_catchment:
 india_catchment:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 512
 
   # train_epochs: 100
   batch_size        : 16
@@ -67,9 +72,15 @@ nasa:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 300  # number of rows per page to use from dataset
 
+panama:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 300  # number of rows per page to use from dataset
+  window_len       : 32
+
 weather:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 2048
 
   # train_epochs: 100
   batch_size        : 16

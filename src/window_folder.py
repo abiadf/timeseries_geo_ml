@@ -37,7 +37,7 @@ class WindowFolder:
             return filtfilt(b, a, x)
 
     @staticmethod
-    def _select_dominant_feature(X: np.ndarray, y: Optional[np.ndarray] = None) -> int:
+    def X_select_dominant_feature(X: np.ndarray, y: Optional[np.ndarray] = None) -> int:
         """Pick feature index most correlated with y (or highest variance if y=None)."""
         _, _, n_features = X.shape
         if y is not None:
@@ -49,6 +49,40 @@ class WindowFolder:
                 corrs[f]     = np.max([np.corrcoef(feature_mean, y[:, t])[0, 1] for t in range(y.shape[1])])
             return int(np.argmax(corrs))
         return int(np.argmax(X.var(axis=(0, 1))))
+
+
+    @staticmethod
+    def _select_dominant_feature(X: np.ndarray, y: Optional[np.ndarray] = None) -> int:
+        """Pick feature index most correlated with y (or highest variance if y=None).
+        X: (pages, timesteps, n_features)
+        y: (pages, timesteps, n_targets) or (pages, n_targets)
+        """
+        _, T, n_features = X.shape
+        if y is None:
+            return int(np.argmax(X.var(axis=(0, 1))))
+
+        corrs = np.zeros(n_features)
+        for f in range(n_features):
+            feature_series = X[:, :, f]  # shape (pages, timesteps)
+            feature_corrs = []
+            if y.ndim == 3:  # (pages, timesteps, targets)
+                for t in range(y.shape[2]):
+                    target_series = y[:, :, t]
+                    # flatten page+time dimension
+                    f_flat = feature_series.ravel()
+                    t_flat = target_series.ravel()
+                    if f_flat.size == t_flat.size:
+                        feature_corrs.append(np.corrcoef(f_flat, t_flat)[0, 1])
+            else:  # 2D y: (pages, targets)
+                for t in range(y.shape[1]):
+                    f_flat = feature_series.mean(axis=1)  # average over timesteps
+                    t_flat = y[:, t]
+                    if f_flat.size == t_flat.size:
+                        feature_corrs.append(np.corrcoef(f_flat, t_flat)[0, 1])
+            corrs[f] = np.nanmax(feature_corrs) if feature_corrs else 0.0
+
+        return int(np.argmax(corrs))
+
 
     @staticmethod
     def _estimate_period_of_feature(X_feature: np.ndarray, fs: float = 1.0, peak_strength: float = 2.0,
@@ -72,8 +106,8 @@ class WindowFolder:
         print(f"[INFO] No clear peak found in {n_pages} pages, using fallback window: {fallback_window}")
         return fallback_window
 
-    @staticmethod
-    def _fold_and_stack(X: np.ndarray, window_size: int, y: Optional[np.ndarray] = None,
+    @staticmethod #remove
+    def X_fold_and_stack(X: np.ndarray, window_size: int, y: Optional[np.ndarray] = None,
                         max_windows_per_page: Optional[int] = None) -> Tuple[np.ndarray, Optional[np.ndarray]]:
         """Fold X (and y) into windows of given size; discard leftovers."""
         samples, timesteps, n_features = X.shape
@@ -96,7 +130,47 @@ class WindowFolder:
         return X_out, y_out
 
     @staticmethod
-    def auto_fold_timeseries(X: np.ndarray, y: Optional[np.ndarray] = None, denoise: bool = True, max_pages: int = 10,
+    def _fold_and_stack_fixed_pages(X: np.ndarray, window_size: int, y: Optional[np.ndarray] = None,
+                                    num_pages_to_use: Optional[int] = None) -> Tuple[np.ndarray, Optional[np.ndarray]]:
+        """Fold only the first `num_pages_to_use` pages into fixed-length windows.
+        Pads shorter pages with zeros, discards remainder that doesn't fit full windows.
+        Returns stacked windows for X and last-timestep-per-window for y."""
+        if num_pages_to_use is None:
+            num_pages_to_use = X.shape[0]
+        samples = min(num_pages_to_use, X.shape[0])
+
+        # pad pages to max length
+        max_len  = max(X[i].shape[0] for i in range(samples))
+        X_padded = np.stack([np.pad(X[i], ((0, max_len - X[i].shape[0]), (0,0))) for i in range(samples)])
+        if y is not None:
+            if y.ndim == 2:  # already last-timestep style
+                y_padded = y[:samples]
+            else:
+                y_padded = np.stack([np.pad(y[i], ((0, max_len - y[i].shape[0]), (0,0))) for i in range(samples)])
+
+        all_X, all_y = [], []
+        for i in range(samples):
+            n_windows = X_padded.shape[1] // window_size
+            if n_windows == 0:
+                continue
+
+            folded_X = X_padded[i, :n_windows*window_size, :].reshape(n_windows, window_size, X.shape[2])
+            all_X.append(folded_X)
+
+            if y is not None:
+                # last timestep of each window
+                if y.ndim == 3:  # full sequence
+                    y_per_window = y_padded[i, window_size-1::window_size, :]
+                else:  # already single row per page
+                    y_per_window = np.tile(y_padded[i], (n_windows, 1))
+                all_y.append(y_per_window)
+
+        X_out = np.vstack(all_X)
+        y_out = np.vstack(all_y) if y is not None else None
+        return X_out, y_out
+
+    @staticmethod #remove
+    def X_auto_fold_timeseries(X: np.ndarray, y: Optional[np.ndarray] = None, denoise: bool = True, max_pages: int = 10,
                              peak_strength: float = 2.0, fs: Optional[float] = None, fallback_window: int = 50,
                              max_windows_per_page: Optional[int] = None) -> Tuple[np.ndarray, Optional[np.ndarray], int, int]:
         """Auto-fold X (and y) into stacked windows based on dominant periodicity."""
@@ -109,6 +183,113 @@ class WindowFolder:
         window_size = WindowFolder._estimate_period_of_feature(X_dom[:max_pages], fs=fs, peak_strength=peak_strength,
                                                                fallback_window=fallback_window, max_pages=max_pages)
         X_folded, y_folded = WindowFolder._fold_and_stack(X, window_size, y, max_windows_per_page=max_windows_per_page)
+        print(f"[INFO] Selected dominant feature index: {dom_idx}, window size: {window_size}")
+        return X_folded, y_folded, window_size, dom_idx
+
+    @staticmethod
+    def X_auto_fold_timeseries(X: np.ndarray, y: Optional[np.ndarray] = None, denoise: bool = True,
+                             max_pages: int = 10, peak_strength: float = 2.0, fs: Optional[float] = None,
+                             fallback_window: int = 50, num_pages_to_use: int = 10) -> Tuple[np.ndarray, Optional[np.ndarray], int, int]:
+        """Fold only the first `num_pages_to_use` pages into fixed-length windows."""
+        print(f"Input to windowfolder: X={X.shape}, y={y.shape if y is not None else None}")
+        fs = fs or 1.0
+        # 1. Dominant feature
+        dom_idx = WindowFolder._select_dominant_feature(X, y)
+        X_dom   = X[:num_pages_to_use, :, dom_idx].copy()
+
+        # 2. Denoise if requested
+        if denoise:
+            for i in range(X_dom.shape[0]):
+                X_dom[i] = WindowFolder._denoise_signal(X_dom[i], fs=fs)
+
+        # 3. Estimate window size
+        window_size = WindowFolder._estimate_period_of_feature(X_dom, fs=fs,
+                                                            peak_strength=peak_strength,
+                                                            fallback_window=fallback_window,
+                                                            max_pages=max_pages)
+        # 4. Fold X and y
+        X_folded, y_folded = WindowFolder._fold_and_stack_fixed_pages(X, window_size, y,
+                                                                    num_pages_to_use=num_pages_to_use)
+        print(f"[INFO] Selected dominant feature index: {dom_idx}, window size: {window_size}")
+        return X_folded, y_folded, window_size, dom_idx
+
+    @staticmethod
+    def XX_auto_fold_timeseries(X: np.ndarray, y: Optional[np.ndarray] = None, denoise: bool = True,
+                            max_pages: int = 10, peak_strength: float = 2.0, fs: Optional[float] = None,
+                            fallback_window: int = 50, num_pages_to_use: int = 10) -> Tuple[np.ndarray, Optional[np.ndarray], int, int]:
+        """Fold only the first `num_pages_to_use` pages into fixed-length windows."""
+
+        print(f"Shape input to window folder: X={X.shape}, y={y.shape if y is not None else None}")
+        fs = fs or 1.0
+
+        # --- 1. Dominant feature selection ---
+        if y is not None and y.ndim == 3:
+            # summarize y per page (e.g., last timestep)
+            y_summary = y[:, -1, :]  # shape (pages, n_targets)
+        else:
+            y_summary = y
+
+        dom_idx = WindowFolder._select_dominant_feature(X[:num_pages_to_use], y_summary[:num_pages_to_use])
+        X_dom   = X[:num_pages_to_use, :, dom_idx].copy()
+
+        # --- 2. Denoise if requested ---
+        if denoise:
+            for i in range(X_dom.shape[0]):
+                X_dom[i] = WindowFolder._denoise_signal(X_dom[i], fs=fs)
+
+        # --- 3. Estimate window size ---
+        window_size = WindowFolder._estimate_period_of_feature(X_dom, fs=fs,
+                                                            peak_strength=peak_strength,
+                                                            fallback_window=fallback_window,
+                                                            max_pages=max_pages)
+
+        # --- 4. Fold X and y into windows ---
+        X_folded, y_folded = WindowFolder._fold_and_stack_fixed_pages(X, window_size, y,
+                                                                    num_pages_to_use=num_pages_to_use)
+
+        print(f"[INFO] Selected dominant feature index: {dom_idx}, window size: {window_size}")
+        return X_folded, y_folded, window_size, dom_idx
+
+    @staticmethod
+    def auto_fold_timeseries(X: np.ndarray, y: Optional[np.ndarray] = None, denoise: bool = True,
+                            max_pages: int = 10, peak_strength: float = 2.0, fs: Optional[float] = None,
+                            fallback_window: int = 50, num_pages_to_use: int = 10, window_size=None) -> Tuple[np.ndarray, Optional[np.ndarray], int, int]:
+        """Fold only the first `num_pages_to_use` pages into fixed-length windows, using full y for correlation."""
+        print(f"Shape input to window folder: X={X.shape}, y={y.shape if y is not None else None}")
+        fs = fs or 1.0
+
+        # --- 1. Prepare y summary for correlation ---
+        if y is not None:
+            if y.ndim == 3:  # (pages, timesteps, targets)
+                y_for_corr = y[:num_pages_to_use]  # select pages
+            else:  # (pages, targets)
+                y_for_corr = y[:num_pages_to_use]
+        else:
+            y_for_corr = None
+
+        # --- 2. Select dominant feature ---
+        dom_idx = WindowFolder._select_dominant_feature(X[:num_pages_to_use], y_for_corr)
+        X_dom   = X[:num_pages_to_use, :, dom_idx].copy()
+
+        # --- 3. Denoise if requested ---
+        if denoise:
+            for i in range(X_dom.shape[0]):
+                X_dom[i] = WindowFolder._denoise_signal(X_dom[i], fs=fs)
+
+        # --- 4. Estimate window size ---
+        if window_size is None:
+            window_size = WindowFolder._estimate_period_of_feature(X_dom, fs=fs,
+                                                                peak_strength=peak_strength,
+                                                                fallback_window=fallback_window,
+                                                                max_pages=max_pages)
+        else:
+            max_possible = X_dom.shape[1]
+            if window_size > max_possible:
+                print(f"⚠️ Provided window_size {window_size} exceeds sequence length {max_possible}, using {max_possible}")
+                window_size = max_possible
+
+        X_folded, y_folded = WindowFolder._fold_and_stack_fixed_pages(X, window_size, y,
+                                                                    num_pages_to_use=num_pages_to_use)
         print(f"[INFO] Selected dominant feature index: {dom_idx}, window size: {window_size}")
         return X_folded, y_folded, window_size, dom_idx
 
