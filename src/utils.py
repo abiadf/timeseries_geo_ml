@@ -1,4 +1,4 @@
-from typing import Union, Generator, Tuple, Optional
+from typing import Union, Generator, Tuple, Optional, List
 import math
 import os
 import time
@@ -392,7 +392,7 @@ class Preds:
         y_pred = model.predict(X_test)
         return root_mean_squared_error(y_test, y_pred)
 
-    def predict_catboost_multioutput(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> Tuple[Optional[MultiOutputRegressor], np.ndarray, float]:
+    def predict_catboost_multioutput(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> Tuple[Optional[MultiOutputRegressor], np.ndarray, float, List[int]]:
         """Train multi-output CatBoost models and predict test set.
         Returns:
             model: trained MultiOutputRegressor (or None if all targets constant)
@@ -508,7 +508,7 @@ class Preds:
 
     def evaluate_models_on_dataset(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray):
         """Evaluate various models on the dataset and print RMSE results."""
-        linreg_loss       = self.predict_linreg(X_train, y_train, X_test, y_test)
+        linreg_loss            = self.predict_linreg(X_train, y_train, X_test, y_test)
         print(f"Linear Regression done")
         _, _, catboost_loss, _ = self.predict_catboost_multioutput(X_train, y_train, X_test, y_test)
         print(f"CatBoost done")

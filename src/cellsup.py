@@ -3,10 +3,14 @@ import numpy as np
 import pandas as pd
 from scipy.special import softmax
 
+from catboost import CatBoostRegressor
+
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
+from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score, root_mean_squared_error
+from sklearn.multioutput import MultiOutputRegressor
 
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
@@ -16,6 +20,239 @@ if torch.cuda.is_available():
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
+
+class SupHead(nn.Module):
+    """Small supervised head: maps latent z -> target y"""
+    def __init__(self, input_dim: int, output_dim: int, hidden_sizes=[64, 32], dropout=1e-3):
+        super().__init__()
+        layers, prev_dim = [], input_dim
+        for h in hidden_sizes:
+            layers.append(nn.Linear(prev_dim, h))
+            layers.append(nn.ReLU())
+            layers.append(nn.Dropout(dropout))
+            prev_dim = h
+        layers.append(nn.Linear(prev_dim, output_dim))
+        self.net = nn.Sequential(*layers)
+
+    def forward(self, z: torch.Tensor) -> torch.Tensor:
+        return self.net(z)
+
+
+class CellsupUtils:
+    @staticmethod
+    def get_latent_from_encoder(encoder, X, device="cpu") -> np.ndarray:
+        """Return latent z for any encoder type with shape (N, latent_dim)."""
+        if isinstance(encoder, nn.Module):
+            X_tensor = torch.tensor(X, dtype=torch.float32, device=device)
+            if X_tensor.ndim > 2:
+                X_tensor = X_tensor.reshape(len(X_tensor), -1)
+            if type(encoder).__name__ == "VAE":
+                mu, _ = encoder.encode(X_tensor)
+                z     = mu.detach().cpu().numpy()
+            else: # AE / DAE: return latent layer instead of reconstruction
+                z = encoder.encode(X_tensor).detach().cpu().numpy()
+        elif type(encoder).__name__ == "TS2VecEncoder":
+            z = encoder.encode(X)  # returns (N, T, latent_dim)
+            z = z.mean(axis=1)      # temporal pooling
+        else:
+            raise ValueError(f"Unknown encoder type: {type(encoder).__name__}")
+        return z
+
+    @staticmethod
+    def bootstrap_sample(X, sample_frac=0.8):
+        """Draw a bootstrap sample from X with replacement. Used to approximate sampling variability when the
+        true population dist is unknown
+            - X: Input array of shape (n_samples, ...).
+            - sample_frac: Fraction of samples to draw (default=0.8).
+            - returns: bootstrap sample array of shape (int(n_samples * sample_frac), ...)"""
+        idx = np.random.choice(len(X), size=int(len(X)*sample_frac), replace=True)
+        return X[idx]
+
+    @staticmethod
+    def train_ae_with_bootstraps(model, X_train, num_epochs=5, lr=1e-3, sample_frac=0.8, weight_decay=0.0, device="cpu"):
+        """Train AE with bootstrap sampling."""
+        optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+        X_tensor_full = torch.tensor(X_train, dtype=torch.float32, device=device).reshape(len(X_train), -1)
+        
+        for epoch in range(num_epochs):
+            X_boot = bootstrap_sample(X_train, sample_frac)
+            X_tensor_boot = torch.tensor(X_boot, dtype=torch.float32, device=device).reshape(len(X_boot), -1)
+            optimizer.zero_grad()
+            X_recon = model(X_tensor_boot)
+            loss = F.mse_loss(X_recon, X_tensor_boot)
+            loss.backward()
+            optimizer.step()
+        return model
+
+    @staticmethod
+    def flatten_X(X: np.ndarray) -> np.ndarray:
+        """Flatten 2D or 3D X to (N, D) for torch feeding."""
+        if X.ndim > 2:
+            return X.reshape(len(X), -1)
+        return X
+
+    @staticmethod
+    def get_latent_tensor(encoder, X, train_encoder=False, device="cpu") -> torch.Tensor:
+        """Return 2D tensor (N, latent_dim) for SupHead/CatBoost."""
+        if train_encoder and isinstance(encoder, nn.Module):
+            encoder.train()
+            X_tensor = torch.tensor(flatten_X(X), dtype=torch.float32, device=device)
+            z = encoder.encode(X_tensor)
+            if isinstance(z, tuple):  # for VAE
+                z = z[0]
+            if z.ndim > 2:
+                z = z.mean(dim=1)
+            return z
+        else:
+            z = get_latent_from_encoder(encoder, X, device=device)
+            if z.ndim > 2:
+                z = z.mean(axis=1)
+            return torch.tensor(z, dtype=torch.float32, device=device) if isinstance(z, np.ndarray) else z
+
+    @staticmethod
+    def _get_orthogonality_penalty(encoders, X_batch, device):
+        """Compute sum of squared correlations between encoder latent batches.
+        encoders: dict[name]->encoder; X_batch: same X for all encoders (or views applied externally)"""
+        z_list = []
+        for enc in encoders.values():
+            z = get_latent_tensor(enc, X_batch, train_encoder=False, device=device)  # (B, d)
+            z = z - z.mean(0)
+            # l2-normalize per feature to reduce scale issues
+            z = z / (z.std(0) + 1e-8)
+            z_list.append(z)  # torch tensors
+        # compute pairwise dot products of mean latent vectors (or flattened)
+        penalty = 0.0
+        for i in range(len(z_list)):
+            for j in range(i+1, len(z_list)):
+                # compute covariance between latent dims (sum of squared correlations)
+                C = (z_list[i].T @ z_list[j]) / z_list[i].shape[0]  # (d_i, d_j)
+                penalty = penalty + (C ** 2).sum()
+        return penalty
+
+    @staticmethod
+    def train_sup_head_per_encoder(encoder, X_L, y_L, X_test, y_test, dropout, train_encoder=True,
+                                all_encoders=None, reg_ortho=5e-4,   # tune this
+                                device="cpu", epochs=5, hidden_sizes=[64,32]):
+        """Train a small supervised MLP head on top of EACH encoder's z.
+        Args:
+            encoder: AE/VAE/DAE/TS2Vec encoder
+            X_L, y_L: labelled training data
+            X_test, y_test: test data
+            train_encoder: whether to finetune encoder
+            device: "cpu"/"cuda"
+            epochs: training epochs
+            hidden_sizes: list of hidden layer sizes
+        Returns:
+            rmse on test set"""
+        encoder_type  = type(encoder).__name__
+        train_encoder = train_encoder and isinstance(encoder, nn.Module) and encoder_type in ["FlexibleAutoencoder","AE","VAE","DenoisingAE"]
+
+        encoder.eval()
+        z_sample   = get_latent_tensor(encoder, X_L[:2], train_encoder=False, device=device)
+        latent_dim = z_sample.shape[-1]
+        sup_head   = SupHead(latent_dim, y_L.shape[1], hidden_sizes, dropout).to(device)
+        params     = list(sup_head.parameters())
+        if train_encoder:
+            params += list(encoder.parameters())
+            # =========
+            for other_name, other_enc in all_encoders.items():
+                if other_enc is not encoder:
+                    params += list(other_enc.parameters())
+            # =========
+        optimizer  = torch.optim.AdamW(params, lr=1e-3)
+        y_tensor   = torch.tensor(y_L, dtype=torch.float32, device=device)
+        
+        for _ in range(epochs):
+            sup_head.train()
+            if train_encoder:
+                encoder.train()
+            z      = get_latent_tensor(encoder, X_L, train_encoder=train_encoder, device=device)
+            y_pred = sup_head(z)
+            loss   = F.mse_loss(y_pred, y_tensor)
+
+            # ====== add orthogonality penalty across encoder ensemble (very cheap)
+            if all_encoders is not None and reg_ortho > 0:
+                # use a small random batch for speed
+                idx       = np.random.choice(len(X_L), size=min(128, len(X_L)), replace=False)
+                X_batch   = X_L[idx]
+                ortho_pen = _get_orthogonality_penalty(all_encoders, X_batch, device=device)
+                loss      = loss + reg_ortho * ortho_pen
+            # ======
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+        
+        sup_head.eval()
+        with torch.no_grad():
+            z_test      = get_latent_tensor(encoder, X_test, train_encoder=False, device=device)
+            y_pred_test = sup_head(z_test).cpu().numpy()
+        return root_mean_squared_error(y_test, y_pred_test)
+
+    @staticmethod
+    def train_sup_heads_joint(encoders_dict, X_train, y_train, X_val, y_val,
+                            hidden_sizes=[64], lr=0.001, epochs=50, device="cpu",
+                            reg_ortho=1e-3, train_encoders=True, batch_size=128):
+        """Jointly train supervised heads for each encoder with optional finetuning and orthogonality.
+        Updates encoders_dict in-place with finetuned encoders.
+        Returns dict of RMSE metrics."""
+        metrics = {}
+        for name, encoder in encoders_dict.items():
+            rmse = train_sup_head_per_encoder(
+                encoder, X_train, y_train, X_val, y_val,
+                dropout=0.1, train_encoder=train_encoders,
+                all_encoders=encoders_dict, reg_ortho=reg_ortho,
+                device=device, epochs=epochs, hidden_sizes=hidden_sizes)
+            metrics[name] = rmse
+        return metrics
+
+    @staticmethod
+    def train_and_eval_catboost(X_train, y_train, X_test, y_test):
+        """Train MultiOutput CatBoost, handle constant columns, return predictions and RMSE."""
+        mask       = [i for i in range(y_train.shape[1]) if not np.all(y_train[:, i] == y_train[0,i])]
+        const_vals = {i: y_train[0,i] for i in range(y_train.shape[1]) if i not in mask}
+
+        y_pred = np.zeros_like(y_test)
+        if mask:
+            model = MultiOutputRegressor(CatBoostRegressor(iterations=500, learning_rate=0.1, depth=4,
+                                                        random_seed=42, verbose=0))
+            model.fit(X_train[:, :], y_train[:, mask])
+            y_pred[:, mask] = model.predict(X_test)
+
+        for i, v in const_vals.items():
+            y_pred[:, i] = v
+
+        rmse = root_mean_squared_error(y_test, y_pred)
+        return y_pred, rmse
+
+    @staticmethod
+    def assign_encoder_weights(encoders_dict: dict, sup_head_rmse, weight_encoding_method: str = "uniform"):
+        """Compute normalized encoder weights using one of three methods:
+            - "uniform": equal weights
+            - "inverse_rmse": proportional to 1/RMSE
+            - "softmax": softmax over 1/RMSE"""
+        if weight_encoding_method == "uniform":
+            encoder_weights = {name: 1.0 for name in encoders_dict.keys()}
+            total           = sum(encoder_weights.values())
+            encoder_weights = {k: v / total for k, v in encoder_weights.items()}
+        elif weight_encoding_method == "inverse_rmse": # RMSE-based weights: better encoders get higher weight
+            encoder_weights = {name: 1/rmse for name, rmse in sup_head_rmse.items()}
+            total           = sum(encoder_weights.values())
+            encoder_weights = {k: v/total for k,v in encoder_weights.items()}
+        elif weight_encoding_method == "softmax": # softmax-based weights
+            inv_rmse        = np.array([1/r for r in sup_head_rmse.values()])
+            weights_softmax = np.exp(inv_rmse) / np.sum(np.exp(inv_rmse))
+            encoder_weights = {name: w for name, w in zip(sup_head_rmse.keys(), weights_softmax)}
+        return encoder_weights
+
+    @staticmethod
+    def target_distribution(q: np.ndarray) -> np.ndarray:
+        """Sharpen soft assignments q -> p (DEC target distribution)."""
+        weight = (q ** 2) / q.sum(axis=0)
+        return (weight.T / weight.sum(axis=1)).T
+
+
+
 
 class Cellsup:
     """Ensemble clustering across multiple encoders."""
