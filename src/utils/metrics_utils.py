@@ -377,10 +377,10 @@ class Preds:
         if non_constant_idx:
             if self.device_str == "GPU":
                 cb_params = dict(iterations=200, learning_rate=0.1, depth=4,
-                                 task_type="GPU", devices='0', verbose=75, early_stopping_rounds=50)
+                                 task_type="GPU", devices='0', verbose=100, early_stopping_rounds=50)
             else:
                 cb_params = dict(iterations=200, learning_rate=0.1, depth=4,
-                                 thread_count=-1, verbose=75, early_stopping_rounds=50)
+                                 thread_count=-1, verbose=100, early_stopping_rounds=50)
             model = MultiOutputRegressor(CatBoostRegressor(**cb_params))
             model.fit(X_train, y_train[:, non_constant_idx])
             # model.fit(X_train, y_train, eval_set=(X_val, y_val), )

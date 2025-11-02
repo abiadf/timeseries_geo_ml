@@ -1,18 +1,16 @@
 import __main__
 import numpy as np
-from scipy.special import softmax
-
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score, root_mean_squared_error
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from scipy.special import softmax
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score, root_mean_squared_error
+
 from other_encoders.latents import Latents
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 
 class Cellsup:
     """Ensemble clustering across multiple encoders."""
@@ -208,7 +206,7 @@ class Cellsup:
 
 
 
-class DeepClusterSwav(Cellsup):
+class DeepClusterAndSwav(Cellsup):
     """SWAV-style DeepCluster wrapper on top of Cellsup base."""
     def __init__(self, encoders_dict: dict, n_clusters: int = 5, device: str = "cpu", cluster_assignment: str = "soft",
                  cluster_metric: str = "ch", random_state: int = 42):

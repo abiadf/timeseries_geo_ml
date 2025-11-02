@@ -7,7 +7,6 @@ import torch.nn.functional as F
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
 def assign_encoder_weights(encoders_dict: dict, sup_head_rmse, weight_encoding_method: str = "uniform"):
     """Compute normalized encoder weights using one of three methods:
         - "uniform": equal weights
@@ -54,7 +53,6 @@ class Bootstrapping:
             loss.backward()
             optimizer.step()
         return model
-
 
 
 class Slicing:

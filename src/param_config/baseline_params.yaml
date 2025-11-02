@@ -29,8 +29,8 @@ run_console:
   moment :       false #true
   moment_fed:    false
   timevae:       false #true
-  ts2vec :       false #true
-  ts2vec_fed:    false #true
+  ts2vec :       true
+  ts2vec_fed:    true
 
 general_params:
   top_features_pct: 20  # % of top features to select via mutual info
@@ -43,17 +43,17 @@ general_params:
 
 barlow:
   cnn:
-    SSL_LAMBDA  : 0.005 # value from BT paper
-    SSL_WEIGHT  : 0.8   # Weight for recon vs. SSL
-    CHANNELS_1  : 64
-    CHANNELS_2  : 128
-    KERNEL_SIZE : 5
-    POOL_KERNEL : 2
-    latent_dim  : 32
+    SSL_LAMBDA  :  0.005 # value from BT paper
+    SSL_WEIGHT  :  0.8   # Weight for recon vs. SSL
+    CHANNELS_1  :  64
+    CHANNELS_2  :  128
+    KERNEL_SIZE :  5
+    POOL_KERNEL :  2
+    latent_dim  :  32
     augment_const: 0.1
   ae:
-    latent_dim : 32
-    ssl_weight : 1.0
+    latent_dim :   32
+    ssl_weight :   1.0
     augment_const: 0.1
 
 cellsup:
@@ -105,7 +105,7 @@ ts2vec:
   ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
   ts2vec_latent_dims : 8 # latent dim
   ts2vec_depth       : 3 # num layers
-  patience           : 10
+  patience           : 15
   ts2vec_batch_size  : 16
   ts2vec_epochs      : 100
   predictor_lr       : 0.009
