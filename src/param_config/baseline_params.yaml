@@ -22,7 +22,7 @@ run_console:
   barlow_cnn:    false #true
   barlow_ae:     false
   barlow_ae_ssl: false
-  cellsup:       false
+  cellsup:       true
   cnn_lstm:      false
   flatten_X:     false #true
   kan:           false
@@ -30,7 +30,7 @@ run_console:
   moment_fed:    false
   timevae:       false #true
   ts2vec :       false #true
-  ts2vec_fed:    true
+  ts2vec_fed:    false #true
 
 general_params:
   top_features_pct: 20  # % of top features to select via mutual info

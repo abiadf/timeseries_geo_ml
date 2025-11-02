@@ -1,8 +1,5 @@
 from typing import Union, Generator, Tuple, Optional, List
 import math
-import os
-import time
-import json
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,36 +23,7 @@ from scipy.stats import kstest, wasserstein_distance as wasserstein
 from skdim.id import MLE
 from statsmodels.tsa.stattools import acf
 from tslearn.metrics import dtw
-import requests
-import yaml
 
-def read_yaml_params(file_path: str) -> dict:
-    """Read parameters from a YAML file."""
-    with open(file_path, "r") as f:
-        return yaml.safe_load(f)
-
-def send_discord_message(webhook_url: str, message: str) -> None:
-    "send discord message via webhook"
-    data = {"content": message}
-    r    = requests.post(webhook_url, json=data)
-    r.raise_for_status()
-
-def make_beep_sound(times=1, delay=0.2):
-    for _ in range(times):
-        os.system('afplay /System/Library/Sounds/Blow.aiff')
-        time.sleep(delay)
-
-def clean_notebook(path: str) -> None:
-    """Remove all outputs and execution counts from a .ipynb file."""
-    with open(path) as f:
-        nb = json.load(f)
-    for cell in nb.get("cells", []):
-        if "outputs" in cell:
-            cell["outputs"] = []
-        if "execution_count" in cell:
-            cell["execution_count"] = None
-    with open(path, "w") as f:
-        json.dump(nb, f, indent=2)
 
 def get_frechet_distance(array1: np.ndarray, array2: np.ndarray) -> float:
     """Compute the Fréchet Inception Distance (FID) between 2 arrays
@@ -518,3 +486,105 @@ class Preds:
         # _, _, el_rmse     = Preds.predict_elasticnet_multioutput(X_train, y_train, X_test, y_test, alpha=0.1, l1_ratio=0.5)
         return [linreg_loss, catboost_loss, rf_rmse], rf_model # unsupervised_rmse #, el_rmse
 
+
+# unused class, consider removing
+class SemiSupLearning:
+    @staticmethod
+    def barlow_twins_loss(z_a: torch.Tensor, z_b: torch.Tensor, lambd: float = 0.0051, eps: float = 1e-12):
+        """z_a, z_b: (B, D) - embeddings for two views, assumed zero-meaned / normalized per-dim.
+        Loss = sum_i (1 - C_ii)^2 + lambda * sum_{i!=j} C_ij^2
+        where C is cross-correlation matrix between z_a and z_b (B-normalized)."""
+        B, D     = z_a.shape
+        z_a_norm = (z_a - z_a.mean(0)) / (z_a.std(0) + eps)
+        z_b_norm = (z_b - z_b.mean(0)) / (z_b.std(0) + eps)
+        xcorr    = (z_a_norm.T @ z_b_norm) / B
+        on_diag  = torch.diagonal(xcorr).add_(-1).pow(2).sum()
+        off_diag = (xcorr - torch.diag(torch.diagonal(xcorr))).pow(2).sum()
+        return on_diag + lambd * off_diag
+
+    @staticmethod
+    def vicreg_loss(z_a: torch.Tensor, z_b: torch.Tensor, sim_coeff=25.0, 
+                    var_coeff=25.0, cov_coeff=1.0, eps=1e-4):
+        """z_a, z_b : (B, D)
+        sim: mean squared error between z_a and z_b
+        var: hinge on std per-dim (std should be > threshold)
+        cov: off-diagonal terms of covariance matrix"""
+        def variance_term(z):
+            std      = torch.sqrt(z.var(dim=0) + eps)
+            std_loss = torch.mean(F.relu(1.0 - std))
+            return std_loss
+
+        def covariance_term(z):
+            z        = z - z.mean(dim=0)
+            cov      = (z.T @ z) / (B - 1)   # (D, D)
+            off_diag = cov - torch.diag(torch.diagonal(cov))
+            return (off_diag.pow(2).sum()) / D
+
+        B, D     = z_a.shape
+        sim_loss = F.mse_loss(z_a, z_b)
+        var_loss = variance_term(z_a) + variance_term(z_b)
+        cov_loss = covariance_term(z_a) + covariance_term(z_b)
+        return sim_coeff * sim_loss + var_coeff * var_loss + cov_coeff * cov_loss
+
+    # not used anymore
+    @staticmethod
+    def train_ae_with_ssl(ae_model, X, device="cpu",
+                        epochs=10, lr=1e-3, batch_size=128,
+                        ssl_mode=None,      # None | 'barlow' | 'vicreg'
+                        ssl_weight=1.0,     # weight applied to ssl loss
+                        recon_weight=1.0,   # weight applied to reconstruction loss
+                        augment_fn=None,    # function that given a torch tensor returns two views
+                        print_every=10):
+        """ae_model: must implement .forward(x) -> x_recon and .encode(x) -> z (torch modules)
+        X: numpy array (N, T, C) or (N, D)
+        augment_fn: function(X_tensor, device) -> (view1_tensor, view2_tensor)
+        Returns: trained model (in-place)"""
+        ae_model.to(device)
+        ae_model.train()
+        opt  = torch.optim.AdamW(ae_model.parameters(), lr=lr)
+        N    = len(X)
+        idxs = np.arange(N)
+
+        # data to torch if needed
+        X_tensor_all = torch.tensor(X, dtype=torch.float32, device=device)
+        # if timeseries reshape handled by model; here we assume shape (B, T, C) or (B, D)
+
+        for epoch in range(epochs):
+            np.random.shuffle(idxs)
+            for start in range(0, N, batch_size):
+                batch_idx = idxs[start:start+batch_size]
+                xb        = X_tensor_all[batch_idx]
+                # if augment_fn provided and ssl_mode requested
+                if ssl_mode is not None and augment_fn is not None:
+                    v1, v2 = augment_fn(xb, device)    # expected torch tensors on device
+                    z1 = ae_model.encode(v1).reshape(len(v1), -1)
+                    z2 = ae_model.encode(v2).reshape(len(v2), -1)
+                else:
+                    # fallback: use two different random noisy versions of xb
+                    v1 = xb
+                    v2 = xb
+                    z1 = ae_model.encode(v1).reshape(len(v1), -1)
+                    z2 = ae_model.encode(v2).reshape(len(v2), -1)
+
+                # recon: reconstruction from original (or v1)
+                x_recon    = ae_model(xb)                      # assumes forward returns recon
+                recon_loss = F.mse_loss(x_recon, xb)
+
+                ssl_loss = 0.0
+                if ssl_mode == "barlow":
+                    ssl_loss = SemiSupLearning.barlow_twins_loss(z1, z2)
+                elif ssl_mode == "vicreg":
+                    ssl_loss = SemiSupLearning.vicreg_loss(z1, z2)
+                elif ssl_mode is None:
+                    ssl_loss = 0.0
+                else:
+                    raise ValueError("Unknown ssl_mode")
+
+                loss = recon_weight * recon_loss + ssl_weight * ssl_loss
+                opt.zero_grad()
+                loss.backward()
+                opt.step()
+            if (epoch + 1) % print_every == 0 or epoch == epochs-1:
+                print(f"[AE+SSL] epoch {epoch+1}/{epochs} recon={recon_loss.item():.4f} ssl={float(ssl_loss):.4f}")
+        ae_model.eval()
+        return ae_model

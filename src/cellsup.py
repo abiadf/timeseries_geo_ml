@@ -18,8 +18,9 @@ if torch.cuda.is_available():
     print(torch.cuda.memory_reserved(0) / 1e6, "MB reserved")
     print(torch.cuda.memory_allocated(0) / 1e6, "MB allocated")
 
+from other_encoders.latents import Latents
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
 
 class SupHead(nn.Module):
     """Small supervised head: maps latent z -> target y"""
@@ -206,6 +207,7 @@ class CellsupUtils:
             metrics[name] = rmse
         return metrics
 
+    # to remove
     @staticmethod
     def train_and_eval_catboost(X_train, y_train, X_test, y_test):
         """Train MultiOutput CatBoost, handle constant columns, return predictions and RMSE."""
@@ -335,7 +337,7 @@ class Cellsup:
             encoder_weights = {k: v / total for k, v in encoder_weights.items()}
 
         for name, encoder in self.encoders_dict.items():
-            z = get_latent_from_encoder(encoder, X, device=self.device)
+            z = Latents.get_latent_from_encoder(encoder, X, device=self.device)
             kmeans               = self._fit_best_kmeans_for_latent(z, cluster_range, n_restarts=5)
             self.clusterers[name]= kmeans
             labels               = kmeans.labels_
@@ -366,7 +368,7 @@ class Cellsup:
         Returns: np.ndarray: Concatenated cluster features, shape (N, sum_k)"""
         cluster_features_list = []
         for name, encoder in self.encoders_dict.items():
-            z      = get_latent_from_encoder(encoder, X, device=self.device)
+            z      = Latents.get_latent_from_encoder(encoder, X, device=self.device)
             kmeans = self.clusterers[name]
             labels = kmeans.predict(z)
             if self.cluster_assignment == "soft":
@@ -387,8 +389,8 @@ class Cellsup:
             return np.zeros((0, y_labeled.shape[1]))
 
         for name, kmeans in self.clusterers.items():
-            z_L      = get_latent_from_encoder(self.encoders_dict[name], X_labeled, device=device)
-            z_U      = get_latent_from_encoder(self.encoders_dict[name], X_unlabeled, device=device)
+            z_L      = Latents.get_latent_from_encoder(self.encoders_dict[name], X_labeled, device=device)
+            z_U      = Latents.get_latent_from_encoder(self.encoders_dict[name], X_unlabeled, device=device)
             labels_L = kmeans.predict(z_L)
             labels_U = kmeans.predict(z_U)
 
@@ -426,8 +428,8 @@ class Cellsup:
         all_pseudo_labels = []
 
         for name, encoder in self.encoders_dict.items():
-            z_L = get_latent_from_encoder(encoder, X_labeled, device=self.device)
-            z_U = get_latent_from_encoder(encoder, X_unlabeled, device=self.device)
+            z_L = Latents.get_latent_from_encoder(encoder, X_labeled, device=self.device)
+            z_U = Latents.get_latent_from_encoder(encoder, X_unlabeled, device=self.device)
 
             for k in cluster_sizes:
                 kmeans = KMeans(n_clusters=k, random_state=42).fit(z_L)
@@ -446,6 +448,22 @@ class Cellsup:
         # ensemble average across encoders and cluster sizes
         return np.nanmean(np.stack(all_pseudo_labels, axis=0), axis=0)
 
+
+
+
+class DeepClusterSwav(Cellsup):
+    """SWAV-style DeepCluster wrapper on top of Cellsup base."""
+    def __init__(self, encoders_dict: dict, n_clusters: int = 5, device: str = "cpu", cluster_assignment: str = "soft",
+                 cluster_metric: str = "ch", random_state: int = 42):
+        super().__init__(encoders_dict=encoders_dict, n_clusters=n_clusters, device=device, 
+                         cluster_assignment=cluster_assignment, cluster_metric=cluster_metric, random_state=random_state,)
+
+    def target_distribution(self, q: np.ndarray) -> np.ndarray:
+        """compute DEC target p from soft assignments q (N,K).
+        squares q to amplify confident assignments then re-normalizes."""
+        weight = (q ** 2) / q.sum(axis=0)
+        return (weight.T / weight.sum(axis=1)).T
+
     # consider removing
     def refine_clusters_DEC(self, X, encoder, name: str, n_iters: int = 10, lr: float = 1e-4):
         """Refine encoder so that latent z matches clusters better (DEC refinement).
@@ -457,13 +475,13 @@ class Cellsup:
         centers = torch.tensor(self.clusterers[name].cluster_centers_, dtype=torch.float32)
 
         for _ in range(n_iters):
-            z = get_latent_tensor(encoder, X, train_encoder=True, device=self.device)  # (n, d)
+            z = Latents.get_latent_tensor(encoder, X, train_encoder=True, device=self.device)  # (n, d)
 
             # soft assignment of z to centers
             q = torch.softmax(-torch.cdist(z, centers.to(z.device)), dim=1)
 
             # sharpened target distribution
-            p = torch.tensor(target_distribution(q.detach().cpu().numpy()), device=z.device)
+            p = torch.tensor(self.target_distribution(q.detach().cpu().numpy()), device=z.device)
 
             # KL divergence loss
             loss = F.kl_div(q.log(), p, reduction="batchmean")
@@ -477,14 +495,14 @@ class Cellsup:
         """Iterative DeepCluster-style for lightweight modular pseudo-labels."""
         for _ in range(n_iters):  # iterate DeepCluster steps
             for name, encoder in self.encoders_dict.items():
-                z = get_latent_from_encoder(encoder, X, device=self.device)
+                z = Latents.get_latent_from_encoder(encoder, X, device=self.device)
 
                 # --- fit KMeans ---
                 kmeans = self._fit_best_kmeans_for_latent(z, cluster_range=(4,16))
                 self.clusterers[name] = kmeans
 
                 # --- soft cluster assignments ---
-                distances = kmeans.transform(z)
+                distances        = kmeans.transform(z)
                 cluster_features = softmax(-distances, axis=1)
                 cluster_features = (cluster_features - cluster_features.mean(axis=0)) / (cluster_features.std(axis=0)+1e-8)
 
@@ -494,9 +512,9 @@ class Cellsup:
                     centers   = torch.tensor(kmeans.cluster_centers_, dtype=torch.float32, device=self.device)
                     for _ in range(epochs_finetune):
                         # compute z fresh every step
-                        z_tensor = get_latent_tensor(encoder, X, train_encoder=True, device=self.device)
+                        z_tensor = Latents.get_latent_tensor(encoder, X, train_encoder=True, device=self.device)
                         q        = torch.softmax(-torch.cdist(z_tensor, centers), dim=1)
-                        p        = torch.tensor(target_distribution(q.detach().cpu().numpy()), device=q.device)
+                        p        = torch.tensor(self.target_distribution(q.detach().cpu().numpy()), device=q.device)
                         loss     = F.kl_div(q.log(), p, reduction="batchmean")
                         optimizer.zero_grad()
                         loss.backward()  # no retain_graph
@@ -519,7 +537,7 @@ class Cellsup:
             dict: encoder name -> soft pseudo-label matrix (n_samples, sum_k)"""
         swav_features = {}
         for name, encoder in self.encoders_dict.items():
-            z = get_latent_from_encoder(encoder, X, device=self.device)
+            z = Latents.get_latent_from_encoder(encoder, X, device=self.device)
             kmeans = self._fit_best_kmeans_for_latent(z, cluster_range)
             self.clusterers[name] = kmeans
             distances = kmeans.transform(z)  # (N, k)
@@ -546,7 +564,7 @@ class Cellsup:
         for _ in range(n_iters):
             for name, encoder in self.encoders_dict.items():
                 # --- fit KMeans ---
-                z      = get_latent_from_encoder(encoder, X, device=self.device)
+                z      = Latents.get_latent_from_encoder(encoder, X, device=self.device)
                 kmeans = self._fit_best_kmeans_for_latent(z, cluster_range)
                 self.clusterers[name] = kmeans
 
@@ -566,9 +584,9 @@ class Cellsup:
                     optimizer = torch.optim.Adam(encoder.parameters(), lr=lr)
                     centers   = torch.tensor(kmeans.cluster_centers_, dtype=torch.float32, device=self.device)
                     for _ in range(epochs_finetune):
-                        z_tensor = get_latent_tensor(encoder, X, train_encoder=True, device=self.device)
+                        z_tensor = Latents.get_latent_tensor(encoder, X, train_encoder=True, device=self.device)
                         q_tensor = torch.softmax(-torch.cdist(z_tensor, centers), dim=1)
-                        p_tensor = torch.tensor(target_distribution(q_tensor.detach().cpu().numpy()), device=q_tensor.device)
+                        p_tensor = torch.tensor(self.target_distribution(q_tensor.detach().cpu().numpy()), device=q_tensor.device)
                         loss = F.kl_div(q_tensor.log(), p_tensor, reduction="batchmean")
                         optimizer.zero_grad()
                         loss.backward()
