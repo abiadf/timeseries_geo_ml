@@ -6,10 +6,8 @@ import torch
 import torch.nn as nn
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
 
 class Latents:
-
     @staticmethod
     def flatten_X(X: np.ndarray) -> np.ndarray:
         """Flatten 2D or 3D X to (N, D) for torch feeding."""
