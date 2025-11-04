@@ -50,7 +50,6 @@ class WindowFolder:
             return int(np.argmax(corrs))
         return int(np.argmax(X.var(axis=(0, 1))))
 
-
     @staticmethod
     def _select_dominant_feature(X: np.ndarray, y: Optional[np.ndarray] = None) -> int:
         """Pick feature index most correlated with y (or highest variance if y=None).
@@ -82,7 +81,6 @@ class WindowFolder:
             corrs[f] = np.nanmax(feature_corrs) if feature_corrs else 0.0
 
         return int(np.argmax(corrs))
-
 
     @staticmethod
     def _estimate_period_of_feature(X_feature: np.ndarray, fs: float = 1.0, peak_strength: float = 2.0,

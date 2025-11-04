@@ -161,7 +161,6 @@ class DatasetPreprocessor:
             return X_train_small, X_test_small, y_train_scaled, y_test_scaled
 
 
-
 class ECGLoader:
     """Load + process the 'PTB-XL' ECG dataset (https://physionet.org/content/ptb-xl/1.0.3/), including SCP code parsing and label encoding
     Attributes:
@@ -301,13 +300,6 @@ class GermanyDataset:
         return X_da_lazy
 
     @staticmethod
-    # def load_y_from_scratch(attributes_folder):
-    #     """Also removed str cols"""
-    #     attr_files = glob(os.path.join(attributes_folder, "CAMELS_DE_*.csv"))
-    #     y_list     = [pd.read_csv(f, index_col=0) for f in attr_files]
-    #     y_germany  = pd.concat(y_list, axis=1)
-    #     y_germany  = y_germany.select_dtypes(exclude='object').to_numpy()
-    #     return y_germany
     def load_y_from_scratch(attributes_folder: str) -> np.ndarray:
         """Load only hydrogeology attributes (numeric columns only)."""
         file_path = os.path.join(attributes_folder, "CAMELS_DE_hydrogeology_attributes.csv")

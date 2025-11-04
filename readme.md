@@ -58,7 +58,6 @@ Problem definition: flexible depending on data need
 - seq2point if we consider a single position point (ie, last or average) to predict, where y is NOT a timeseries
 
 
-
 # # Dataset 3: Weather Bench 2
 Weather Bench 2 [intro page](https://weatherbench2.readthedocs.io/en/latest/data-guide.html), ERA5 dataset found [here](https://console.cloud.google.com/storage/browser/weatherbench2/datasets/era5/1959-2022-6h-64x32_equiangular_conservative.zarr?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22)))
 
@@ -101,11 +100,10 @@ From [this page](https://camels-de.org/), very similar to India catchments datas
 X files are in folder `timeseries`
 y file is called `CAMELS_DE_hydrogeology_attributes.csv`, about hydrogeology attributes, in main dir
 
-
 Both X and y contain NaNs, so set these NaN values to 0
 
 X shape: (1582, 25568, 21)
-y shape: (1582, 100)
+y shape: (1582, 34)
 
 
 # # Dataset 6: China weather
@@ -116,7 +114,6 @@ We reshape X to (0, 2, 1) then extract properties [T, mnt, mxt, rh, ws] (of indi
 
 X: (1866, 13632, 8)
 y: (1866, 5)
-
 
 
 # # Dataset 7: NASA engine
@@ -151,8 +148,7 @@ Consists of 6 pollutants and 6 relevant meteo variables, of size (12 stations, 3
 Main target y is `PM2.5`.
 
 # # Dataset 11: Panama Electricity
-[Source](https://www.kaggle.com/competitions/rossmann-store-sales/data)
-
+[Source](https://www.kaggle.com/datasets/ernestojaguilar/shortterm-electricity-load-forecasting-panama/data)
 
 
 # # General data preprocessing
