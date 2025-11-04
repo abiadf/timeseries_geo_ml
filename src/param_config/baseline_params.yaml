@@ -1,7 +1,7 @@
 # file for the params of BASELINE METHODS
 basics:
-  label_frac:      1  # fraction of labeled training data
-  data_splitting:  "reduced_data" # missing_labels, reduced_data
+  label_frac:      .5  # fraction of labeled training data
+  data_splitting:  "missing_labels" # missing_labels, reduced_data
   num_runs:        5  # times to run the whole code
   desired_dataset: "panama" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
   dataset_list:

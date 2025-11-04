@@ -241,6 +241,21 @@ class Losses:
         loss  = -torch.log(pos_sim / denom)
         return loss.mean()
 
+    @staticmethod
+    def compute_byol_loss(p_online: torch.Tensor, z_target: torch.Tensor) -> torch.Tensor:
+        """Minimal BYOL loss: MSE between online predictions and target projections, adapted from the BYOL paper.
+        Args:
+            p_online: prediction from online network (batch, dim)
+            z_target: projection from target network (batch, dim)
+        Returns: Scalar loss"""
+        # normalize for stability (optional but standard)
+        p_online = F.normalize(p_online, dim=1)
+        z_target = F.normalize(z_target, dim=1)
+
+        z_target = z_target.detach() # stop gradients on target
+        return 2 - 2 * (p_online * z_target).sum(dim=1).mean() # loss = MSE = 2 - 2 * cosine_sim
+
+
 
 class DimensionalityEstimator:
     @staticmethod
