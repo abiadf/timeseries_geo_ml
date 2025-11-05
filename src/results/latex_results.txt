@@ -1155,3 +1155,51 @@ TS2Vec (fed) & \val{0.714}{0.029} & \val{0.680}{0.021} & \val{0.694}{0.020} & \v
 TS2Vec (fed) & \val{0.500}{0.016} & \val{0.346}{0.021} & \val{0.427}{0.010} & \val{0.468}{0.004}
 -- panama 14:39 data_splitting='reduced_data' label_frac=1 window_size=32 --
 TS2Vec (fed) & \val{0.574}{0.025} & \val{0.317}{0.013} & \val{0.332}{0.026} & \val{0.540}{0.024}
+-- beijing 21:29 data_splitting='reduced_data' label_frac=1 window_size=1024 --
+mean(X) & \val{0.951}{0.082} & \val{0.990}{0.084} & \val{0.935}{0.094} & \val{0.907}{0.109}
+flattened(X) & \val{0.749}{0.089} & \val{0.401}{0.085} & \val{0.692}{0.089}
+TimeVAE & \val{1.024}{0.103} & \val{1.063}{0.124} & \val{1.005}{0.101} & \val{0.945}{0.097}
+TS2Vec & \val{0.891}{0.081} & \val{0.510}{0.112} & \val{0.664}{0.094} & \val{0.837}{0.100}
+TS2Vec (fed) & \val{0.811}{0.065} & \val{0.487}{0.063} & \val{0.679}{0.086} & \val{0.890}{0.096}
+Moment (cent) & \val{1.281}{0.086} & \val{0.928}{0.116} & \val{0.930}{0.112} & \val{0.930}{0.110}
+Barlow (CNN) & \val{1.343}{0.331} & \val{1.002}{0.104} & \val{0.956}{0.098} & \val{0.928}{0.099}
+-- beijing 21:40 data_splitting='reduced_data' label_frac=0.5 window_size=1024 --
+Cellsup & \val{0.987}{0.064} & \val{0.941}{0.101} & \val{0.958}{0.101}
+-- beijing 21:51 data_splitting='reduced_data' label_frac=0.5 window_size=1024 --
+mean(X) & \val{1.006}{0.201} & \val{0.974}{0.197} & \val{0.898}{0.181} & \val{0.878}{0.180}
+flattened(X) & \val{0.748}{0.127} & \val{0.462}{0.089} & \val{0.684}{0.135}
+TimeVAE & \val{0.995}{0.022} & \val{0.942}{0.028} & \val{0.908}{0.075} & \val{0.949}{0.138}
+TS2Vec & \val{0.801}{0.108} & \val{0.593}{0.080} & \val{0.725}{0.119} & \val{0.810}{0.163}
+TS2Vec (fed) & \val{0.796}{0.123} & \val{0.557}{0.094} & \val{0.722}{0.151} & \val{0.856}{0.131}
+Moment (cent) & \val{1.226}{0.041} & \val{0.956}{0.149} & \val{0.930}{0.151} & \val{0.924}{0.160}
+Barlow (CNN) & \val{1.453}{0.185} & \val{0.984}{0.051} & \val{0.983}{0.088} & \val{0.940}{0.161}
+-- beijing 21:56 data_splitting='missing_labels' label_frac=0.5 window_size=1024 --
+Cellsup & \val{0.945}{0.082} & \val{0.927}{0.072} & \val{0.976}{0.074}
+-- beijing 22:08 data_splitting='missing_labels' label_frac=0.5 window_size=1024 --
+mean(X) & \val{1.034}{0.073} & \val{1.041}{0.092} & \val{0.975}{0.081} & \val{0.942}{0.080}
+flattened(X) & \val{0.820}{0.088} & \val{0.423}{0.038} & \val{0.739}{0.091}
+TimeVAE & \val{1.059}{0.085} & \val{1.040}{0.143} & \val{0.978}{0.114} & \val{0.985}{0.092}
+TS2Vec & \val{0.856}{0.163} & \val{0.558}{0.037} & \val{0.737}{0.085} & \val{0.898}{0.139}
+TS2Vec (fed) & \val{0.888}{0.106} & \val{0.556}{0.026} & \val{0.803}{0.094} & \val{0.956}{0.103}
+Moment (cent) & \val{1.347}{0.112} & \val{0.998}{0.115} & \val{0.997}{0.129} & \val{0.977}{0.100}
+Barlow (CNN) & \val{1.718}{0.559} & \val{0.995}{0.117} & \val{0.949}{0.086} & \val{0.980}{0.072}
+-- beijing 22:13 data_splitting='reduced_data' label_frac=0.25 window_size=1024 --
+Cellsup & \val{1.014}{0.215} & \val{0.939}{0.130} & \val{0.964}{0.133}
+-- beijing 22:22 data_splitting='reduced_data' label_frac=0.25 window_size=1024 --
+mean(X) & \val{1.306}{0.170} & \val{1.087}{0.089} & \val{1.011}{0.061} & \val{0.986}{0.052}
+flattened(X) & \val{0.908}{0.035} & \val{0.599}{0.090} & \val{0.818}{0.055}
+TimeVAE & \val{1.467}{0.360} & \val{1.065}{0.055} & \val{1.008}{0.054} & \val{1.012}{0.056}
+TS2Vec & \val{0.937}{0.025} & \val{0.738}{0.130} & \val{0.859}{0.096} & \val{0.990}{0.103}
+TS2Vec (fed) & \val{0.940}{0.059} & \val{0.724}{0.116} & \val{0.892}{0.075} & \val{1.008}{0.059}
+Moment (cent) & \val{1.341}{0.050} & \val{1.061}{0.068} & \val{1.022}{0.064} & \val{1.012}{0.050}
+Barlow (CNN) & \val{2.352}{0.724} & \val{1.139}{0.156} & \val{1.148}{0.177} & \val{1.149}{0.169}
+-- beijing 22:25 data_splitting='missing_labels' label_frac=0.25 window_size=1024 --
+Cellsup & \val{1.038}{0.242} & \val{0.937}{0.142} & \val{0.957}{0.151}
+-- beijing 22:34 data_splitting='missing_labels' label_frac=0.25 window_size=1024 --
+mean(X) & \val{1.299}{0.341} & \val{1.044}{0.207} & \val{0.997}{0.206} & \val{0.989}{0.197}
+flattened(X) & \val{0.920}{0.152} & \val{0.638}{0.110} & \val{0.881}{0.164}
+TimeVAE & \val{1.235}{0.158} & \val{1.117}{0.192} & \val{1.066}{0.203} & \val{1.019}{0.193}
+TS2Vec & \val{0.945}{0.161} & \val{0.773}{0.163} & \val{0.886}{0.183} & \val{0.974}{0.210}
+TS2Vec (fed) & \val{0.947}{0.191} & \val{0.762}{0.136} & \val{0.910}{0.185} & \val{0.997}{0.185}
+Moment (cent) & \val{1.365}{0.217} & \val{1.074}{0.229} & \val{1.047}{0.215} & \val{1.028}{0.181}
+Barlow (CNN) & \val{1.806}{0.170} & \val{1.050}{0.194} & \val{1.017}{0.202} & \val{1.075}{0.176}

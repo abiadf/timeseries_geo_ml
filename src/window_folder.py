@@ -153,9 +153,9 @@ class WindowFolder:
         # 4. Estimate window size ---
         if window_size is None:
             window_size = WindowFolder._estimate_period_of_feature(X_dom, fs=fs,
-                                                                peak_strength=peak_strength,
-                                                                fallback_window=fallback_window,
-                                                                max_pages=max_pages)
+                                                                   peak_strength=peak_strength,
+                                                                   fallback_window=fallback_window,
+                                                                   max_pages=max_pages)
         else:
             max_possible_window = X_dom.shape[1]
             if window_size > max_possible_window:

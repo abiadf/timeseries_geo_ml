@@ -1,34 +1,34 @@
 # file for the params of BASELINE METHODS
 basics:
-  label_frac:      .5  # fraction of labeled training data
-  data_splitting:  "missing_labels" # missing_labels, reduced_data
+  label_frac:      1  # fraction of labeled training data
+  data_splitting:  "reduced_data" # missing_labels, reduced_data
   num_runs:        5  # times to run the whole code
-  desired_dataset: "beijing" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
+  desired_dataset: "panama" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
   dataset_list:
-    - india_catchment
-    - germany_catchment
-    - china_weather
-    - weather
-    - gas
-    - nasa
+    # - india_catchment
+    # - germany_catchment
+    # - china_weather
+    # - weather
+    # - gas
+    # - nasa
     - beijing
-    - panama
+    # - panama
     # - asm
   label_frac_list: [1, 0.5, 0.25]
   random_seed:     42  # for reproducibility
 
 run_console:
-  mean_X:        false #true
-  barlow_cnn:    false #true
+  mean_X:        true
+  barlow_cnn:    true
   barlow_ae:     false
   barlow_ae_ssl: false
   cellsup:       true
   cnn_lstm:      false
-  flatten_X:     false #true
+  flatten_X:     true
   kan:           false
-  moment :       false #true
+  moment :       true
   moment_fed:    false
-  timevae:       false #true
+  timevae:       true
   ts2vec :       true
   ts2vec_fed:    true
 
