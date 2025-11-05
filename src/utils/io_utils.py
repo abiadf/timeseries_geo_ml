@@ -69,3 +69,4 @@ class JSONLogger:
         data.setdefault(dataset, {}).setdefault(method, []).append(list(values))
         json.dump(data, open(file_location, "w"), indent=2)
 
+# timevae_recon_loss

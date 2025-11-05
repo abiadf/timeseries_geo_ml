@@ -5,14 +5,14 @@ basics:
   num_runs:        5  # times to run the whole code
   desired_dataset: "panama" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
   dataset_list:
-    # - india_catchment
-    # - germany_catchment
-    # - china_weather
-    # - weather
-    # - gas
-    # - nasa
+    - india_catchment
+    - germany_catchment
+    - china_weather
+    - weather
+    - gas
+    - nasa
     - beijing
-    # - panama
+    - panama
     # - asm
   label_frac_list: [1, 0.5, 0.25]
   random_seed:     42  # for reproducibility
