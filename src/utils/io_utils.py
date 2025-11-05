@@ -63,10 +63,12 @@ class JSONLogger:
             return {}
 
     @staticmethod
-    def log_result_to_json(dataset: str, method: str, values: list[float], file_location: str):
+    def log_result_to_json(dataset: str, method: str, values: list[float], file_location: str, result_type: str = "metrics"):
         """Append one run's list/tuple of metrics for a dataset + method."""
         data = JSONLogger.load_json_file_safely(file_location)
-        data.setdefault(dataset, {}).setdefault(method, []).append(list(values))
-        json.dump(data, open(file_location, "w"), indent=2)
+        # data.setdefault(dataset, {}).setdefault(method, []).append(list(values))
+        # json.dump(data, open(file_location, "w"), indent=2)
+        data.setdefault(dataset, {}).setdefault(result_type, {}).setdefault(method, []).append(list(values))
+        with open(file_location, "w") as f:
+            json.dump(data, f, indent=2)
 
-# timevae_recon_loss

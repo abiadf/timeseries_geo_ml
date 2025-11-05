@@ -73,6 +73,11 @@ class WindowFolder:
             peak_ratio = np.max(Pxx) / np.mean(Pxx)
             if peak_ratio > peak_strength:
                 f_peak = f[np.argmax(Pxx)]
+                if (f_peak <= 0
+                    or np.isnan(f_peak)
+                    or np.isinf(f_peak)
+                    or f_peak < 1e-12):
+                    continue
                 period = max(1, int(round(1 / f_peak)))
                 peak_periods.append(period)
         if peak_periods:
