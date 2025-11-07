@@ -1279,3 +1279,39 @@ TimeVAE & \val{3.928}{0.000}
 TimeVAE & \val{5.158}{0.000} & \val{0.495}{0.000} & \val{0.549}{0.000} & \val{0.890}{0.000}
 -- gas 06:18 data_splitting='reduced_data' label_frac=1 window_size=2048 result_type='l_recons' --
 TimeVAE & \val{1374.605}{0.000}
+-- beijing 04:50 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{0.998}{0.000} & \val{0.999}{0.000} & \val{1.002}{0.000} & \val{1.004}{0.000}
+-- beijing 04:50 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{13.820}{0.000}
+-- beijing 04:54 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{0.981}{0.000} & \val{0.914}{0.000} & \val{0.925}{0.000} & \val{1.049}{0.000}
+-- beijing 04:54 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{12.287}{0.000}
+-- beijing 05:53 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{0.932}{0.000} & \val{0.892}{0.000} & \val{0.894}{0.000} & \val{1.019}{0.000}
+-- beijing 05:53 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{12.390}{0.000}
+-- beijing 05:55 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{1.043}{0.000} & \val{0.983}{0.000} & \val{0.983}{0.000} & \val{1.051}{0.000}
+-- beijing 05:55 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{12.443}{0.000}
+-- beijing 05:57 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{0.959}{0.000} & \val{0.921}{0.000} & \val{0.931}{0.000} & \val{1.004}{0.000}
+-- beijing 05:57 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{12.571}{0.000}
+-- beijing 05:59 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{1.044}{0.000} & \val{1.054}{0.000} & \val{1.055}{0.000} & \val{1.061}{0.000}
+-- beijing 05:59 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{14.069}{0.000}
+-- beijing 06:42 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='rmse' --
+TimeVAE & \val{0.912}{0.000} & \val{0.893}{0.000} & \val{0.883}{0.000} & \val{0.909}{0.000}
+-- beijing 06:42 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='l_recons' --
+TimeVAE & \val{72.263}{0.000}
+-- beijing 06:55 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='rmse' --
+TimeVAE & \val{0.864}{0.000} & \val{0.860}{0.000} & \val{0.834}{0.000} & \val{0.914}{0.000}
+-- beijing 06:55 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='l_recons' --
+TimeVAE & \val{13.458}{0.000}
+-- beijing 06:58 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='rmse' --
+TimeVAE & \val{0.877}{0.000} & \val{0.849}{0.000} & \val{0.837}{0.000} & \val{0.961}{0.000}
+-- beijing 06:58 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='l_recons' --
+TimeVAE & \val{62.377}{0.000}
