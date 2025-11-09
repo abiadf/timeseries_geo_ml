@@ -18,13 +18,13 @@ basics:
   random_seed:     42  # for reproducibility
 
 run_console:
-  mean_X:        false
+  mean_X:        true
   barlow_cnn:    false
   barlow_ae:     false
   barlow_ae_ssl: false
   cellsup:       false
   cnn_lstm:      false
-  flatten_X:     false
+  flatten_X:     true
   kan:           false
   moment :       false
   moment_fed:    false
