@@ -292,6 +292,22 @@ class DimensionalityEstimator:
         n_components      = np.searchsorted(cum_var, var) + 1
         return n_components
 
+    @staticmethod
+    def latent_pruner(z_train, threshold_frac: float = 0.05):
+        """Source: "Auto-encoder based dimensionality reduction"
+        Remove latent dimensions with variance < threshold_frac * max_variance
+        z_array is 2d
+        NOTE: use on train set only (not test set or combined set)"""
+        latent_var = np.var(z_train, axis=0)
+        for i, v in enumerate(latent_var):
+            print(f"Latent dim {i}: variance = {v:.5f}")
+
+        threshold        = threshold_frac * latent_var.max()
+        active_dims_mask = latent_var > threshold
+        print(f"Pruning latent dims with variance < {threshold:.2f}, kept {np.sum(active_dims_mask)}/{len(latent_var)} dims")
+        return active_dims_mask
+
+
 
 class ForecastUtils:
     @staticmethod

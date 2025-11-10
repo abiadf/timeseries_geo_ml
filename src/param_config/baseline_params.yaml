@@ -94,7 +94,6 @@ moment_fed:
   num_splits:      4
 
 timevae:
-  train_epochs      : 100
   predictor_lr      : 0.006
   predictor_epochs  : 200
   predictor_dropout : 0.05
