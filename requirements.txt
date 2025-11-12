@@ -4,6 +4,7 @@ category_encoders
 dtype_diet
 einops
 # fastdtw
+fvcore
 h5py
 huggingface_hub
 ipykernel

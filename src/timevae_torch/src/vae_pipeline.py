@@ -18,6 +18,7 @@ from vae.vae_utils import (
     get_prior_samples,
     load_vae_model,)
 from visualize import plot_samples, plot_latent_space_samples, visualize_and_save_tsne
+from utils.model_utils import profile_epoch
 
 
 def read_yaml_params(file_path: str) -> dict:
@@ -49,19 +50,19 @@ def run_vae_pipeline(dataset_name: str, desired_dataset: str, vae_type: str):
         feature_dim=feature_dim,
         **hyperparameters,)
 
-    dataset_params = read_yaml_params("/home/fouadabiad/projects/asm_ML/src/param_config/dataset_params.yaml")
-    # model_params   = read_yaml_params("/home/fouadabiad/projects/asm_ML/src/param_config/baseline_params.yaml")
+    import platform
+    if platform.system() == "Linux":
+        dataset_params = read_yaml_params("/home/fouadabiad/projects/asm_ML/src/param_config/dataset_params.yaml")
+    if platform.system() == "Darwin":
+        dataset_params = read_yaml_params("/Users/fouadabiad/Projects/asm_ML/src/param_config/dataset_params.yaml")
+
     train_epochs   = dataset_params['general']['train_epochs']
     lr_training    = dataset_params[desired_dataset]["timevae"]["lr_training"]
-
-
-
-
 
     final_recon_loss = train_vae(
         vae=vae_model,
         train_data=scaled_train_data,
-        max_epochs=train_epochs,
+        max_epochs=2, #train_epochs,
         lr=lr_training,
         verbose=1)
 

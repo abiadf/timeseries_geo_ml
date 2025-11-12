@@ -7,6 +7,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 import joblib
 
+from utils.model_utils import profile_epoch
 
 class Sampling(nn.Module):
     def forward(self, inputs):
