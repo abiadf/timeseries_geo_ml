@@ -14,8 +14,8 @@ import polars as pl
 
 from asm_files_processor import LogFilesProcessor, WaferFilesProcessor
 from predictions import MultiOutputModelPredictor, PrePredictionProcessor
-from asm_utils import Basics
-from key_params import main_folder, NUM_WAFERS, dict_of_spatial_files, dict_of_log_files, step_col_name, COMMON_ID_COLS, COMMON_ID_COLS_MOD, parquet_folder_name
+from src.asm_stuff.asm_utils import Basics
+from src.param_config.key_params import main_folder, NUM_WAFERS, dict_of_spatial_files, dict_of_log_files, step_col_name, COMMON_ID_COLS, COMMON_ID_COLS_MOD, parquet_folder_name
 from sklearn.model_selection import train_test_split
 
 log_processor = LogFilesProcessor(COMMON_ID_COLS_MOD, COMMON_ID_COLS, parquet_folder_name)
