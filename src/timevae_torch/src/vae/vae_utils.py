@@ -89,8 +89,8 @@ def train_vae(vae, train_data, lr, max_epochs, verbose=0):
                                     Defaults to 100.
         verbose (int, optional): Verbose arg for keras model.fit()"""
     # vae.fit_on_data(train_data, max_epochs, verbose)
-    final_recon_loss = vae.fit_on_data(train_data, lr, max_epochs, verbose)
-    return final_recon_loss
+    final_recon_loss, metrics = vae.fit_on_data(train_data, lr, max_epochs, verbose, profile=True)
+    return final_recon_loss, metrics
 
 
 def save_vae_model(vae, dir_path: str) -> None:

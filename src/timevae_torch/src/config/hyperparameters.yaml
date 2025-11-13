@@ -1,9 +1,9 @@
 timeVAE:
-  latent_dim: 34 #16
+  latent_dim: 12
   hidden_layer_sizes:
-    - 32 # 50 #64 #50
+    - 48 # 50 #64 #50
     - 16 #64 #100
-    - 12 #128 #200
+    - 64 #128 #200
   reconstruction_wt: 3.5
   batch_size: 4 #16
   use_residual_conn: true

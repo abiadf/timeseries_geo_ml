@@ -1315,3 +1315,10 @@ TimeVAE & \val{13.458}{0.000}
 TimeVAE & \val{0.877}{0.000} & \val{0.849}{0.000} & \val{0.837}{0.000} & \val{0.961}{0.000}
 -- beijing 06:58 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='l_recons' --
 TimeVAE & \val{62.377}{0.000}
+-- beijing 22:40 data_splitting='reduced_data' label_frac=1 window_size=64 result_type='rmse' --
+TimeVAE & \val{0.802}{0.000} & \val{0.726}{0.000} & \val{0.742}{0.000} & \val{0.952}{0.000}
+mean(X) & \val{0.849}{0.000} & \val{0.785}{0.000} & \val{0.760}{0.000} & \val{0.978}{0.000}
+flattened(X) & \val{0.410}{0.000} & \val{0.338}{0.000} & \val{0.422}{0.000}
+-- beijing 22:40 data_splitting='reduced_data' label_frac=1 window_size=64 result_type='l_recons' --
+TimeVAE & \val{14.560}{0.000}
+-- beijing 22:40 data_splitting='reduced_data' label_frac=1 window_size=64 result_type='profiling' --

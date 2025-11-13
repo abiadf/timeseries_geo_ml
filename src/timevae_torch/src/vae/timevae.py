@@ -118,7 +118,7 @@ class ResidualConnection(nn.Module):
 
         self.deconv_layers.append(
             nn.ConvTranspose1d(in_channels, feat_dim, kernel_size=3, stride=2, padding=1, output_padding=1))
-        print("ResidualConnection dense layer input/output:", latent_dim, encoder_last_dense_dim)
+        # print("ResidualConnection dense layer input/output:", latent_dim, encoder_last_dense_dim)
 
         L_in = encoder_last_dense_dim // hidden_layer_sizes[-1]
         print("L_in initial:", L_in)

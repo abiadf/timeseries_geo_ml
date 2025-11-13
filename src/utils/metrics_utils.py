@@ -21,6 +21,9 @@ from scipy.interpolate import PchipInterpolator
 from scipy.linalg import sqrtm
 from scipy.stats import kstest, wasserstein_distance as wasserstein
 from skdim.id import MLE
+from sklearn.neighbors import NearestNeighbors
+import skdim.id as id
+
 from statsmodels.tsa.stattools import acf
 from tslearn.metrics import dtw
 
@@ -293,7 +296,7 @@ class DimensionalityEstimator:
         return n_components
 
     @staticmethod
-    def latent_pruner(z_train, threshold_frac: float = 0.05):
+    def prune_latent_dims(z_train, threshold_frac: float = 0.05):
         """Source: "Auto-encoder based dimensionality reduction"
         Remove latent dimensions with variance < threshold_frac * max_variance
         z_array is 2d
@@ -306,6 +309,86 @@ class DimensionalityEstimator:
         active_dims_mask = latent_var > threshold
         print(f"Pruning latent dims with variance < {threshold:.2f}, kept {np.sum(active_dims_mask)}/{len(latent_var)} dims")
         return active_dims_mask
+
+    @staticmethod
+    def estimate_latent_dim_using_fondue(z_mean: np.ndarray, z_sample: Optional[np.ndarray] = None, verbose: bool=True) -> int:
+        """Estimate latent dimension using TwoNN intrinsic dimension from FONDUE paper "https://arxiv.org/pdf/2209.12806"
+        Works for VAE (z_mean + z_sample), AE (z_mean only), or other latent representations
+        NOTE: Intrinsic dimension estimation"""
+        from skdim.id import TwoNN
+        ide_estimator = TwoNN()
+
+        if z_mean.ndim > 2:
+            z_mean = z_mean.reshape(z_mean.shape[0], -1)
+
+        ide_mean      = ide_estimator.fit_transform(z_mean)
+        if z_sample is not None:
+            ide_sample = ide_estimator.fit_transform(z_sample)
+            latent_dim = int(round(min(ide_mean, ide_sample)))
+            if verbose:
+                print(f"IDE mean: {ide_mean:.2f}, IDE sampled: {ide_sample:.2f}")
+        else:
+            latent_dim = int(round(ide_mean))
+            if verbose:
+                print(f"IDE mean: {ide_mean:.2f} (no sample provided)")
+        latent_dim = max(1, latent_dim)
+        if verbose:
+            print(f"FONDUE: recommended latent dim: {latent_dim}")    
+        return latent_dim
+
+    @staticmethod
+    def estimate_intrinsic_dim_mle(X: np.ndarray, n_neighbors: int = 10) -> int:
+        """Levina-Bickel intrinsic dimension estimate for 3D time series.
+        X: [samples, timesteps, features]"""
+        X_flat = X.reshape(X.shape[0], -1)
+        
+        # compute distances to k nearest neighbors
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors + 1).fit(X_flat)
+        distances, _ = nbrs.kneighbors(X_flat)
+        # skip distance to self (0)
+        distances = distances[:, 1:]
+        
+        # Levina-Bickel MLE
+        logs = np.log(distances[:, -1][:, None] / distances)
+        id_estimates = (n_neighbors - 1) / np.sum(logs, axis=1)
+        return int(np.median(id_estimates))
+
+    @staticmethod
+    def estimate_intrinsic_dim_skdim(X: np.ndarray, method: str = "MLE", **kwargs) -> float:
+        """Estimate intrinsic dimension of dataset X (shape: [n_samples, n_features]) 
+        using skdim with chosen method: MLE, DANCo, or ESS"""
+        if X.ndim > 2:
+            X = X.reshape(X.shape[0], -1)
+        if method.lower() == "mle":
+            estimator = id.MLE(**kwargs)
+        elif method.lower() == "danco":
+            estimator = id.DANCo(**kwargs)
+        elif method.lower() == "ess":
+            estimator = id.ESS(**kwargs)
+        else:
+            raise ValueError(f"Unknown method {method}")
+        estimator.fit(X)
+        return int(estimator.dimension_)
+
+    @staticmethod
+    def count_active_latents(vae_model, X: np.ndarray, kl_threshold: float = 0.1) -> int:
+        """Count active latent dims in a TimeVAE using KL divergence."""
+        vae_model.eval()
+        device = next(vae_model.parameters()).device
+
+        xb = torch.tensor(X, dtype=torch.float32, device=device)
+        # shape must be [batch, seq, feat] for timevae encoder
+        if xb.ndim == 2:
+            xb = xb.view(xb.shape[0], vae_model.seq_len, vae_model.feat_dim)
+
+        with torch.no_grad():
+            z_mean, z_logvar, _ = vae_model.encoder(xb)
+            kl = -0.5 * (1 + z_logvar - z_mean**2 - torch.exp(z_logvar))
+            kl_per_dim = kl.mean(0).cpu().numpy()
+
+            print(kl_per_dim)
+            print(kl_per_dim.min(), kl_per_dim.max())
+        return int((kl_per_dim > kl_threshold).sum())
 
 
 

@@ -28,8 +28,8 @@ run_console:
   kan:           false
   moment :       false
   moment_fed:    false
-  timevae:       true
-  ts2vec :       false
+  timevae:       false
+  ts2vec :       true
   ts2vec_fed:    false
 
 general_params:
@@ -107,7 +107,8 @@ ts2vec:
   patience           : 15
   ts2vec_batch_size  : 16
   ts2vec_epochs      : 100
-  predictor_lr       : 0.009
+  lr_encoder         : 0.009
+
   predictor_epochs   : 150
   predictor_dropout  : 0.05
   predictor_hidden_sizes : [32, 48, 64] # latent to y output

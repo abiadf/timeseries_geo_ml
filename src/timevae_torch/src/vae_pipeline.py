@@ -18,7 +18,6 @@ from vae.vae_utils import (
     get_prior_samples,
     load_vae_model,)
 from visualize import plot_samples, plot_latent_space_samples, visualize_and_save_tsne
-from utils.model_utils import profile_epoch
 
 
 def read_yaml_params(file_path: str) -> dict:
@@ -59,16 +58,15 @@ def run_vae_pipeline(dataset_name: str, desired_dataset: str, vae_type: str):
     train_epochs   = dataset_params['general']['train_epochs']
     lr_training    = dataset_params[desired_dataset]["timevae"]["lr_training"]
 
-    final_recon_loss = train_vae(
+    final_recon_loss, profiling_metrics = train_vae(
         vae=vae_model,
         train_data=scaled_train_data,
-        max_epochs=2, #train_epochs,
+        max_epochs=train_epochs,
         lr=lr_training,
         verbose=1)
 
     # ----------------------------------------------------------------------------------
     # Save scaler and model
-    # model_save_dir = os.path.join(paths.MODELS_DIR, dataset_name)
     model_save_dir = os.path.join(paths.DATASETS_DIR, dataset_name)
     os.makedirs(model_save_dir, exist_ok=True)
     save_scaler(scaler=scaler, dir_path=model_save_dir)
@@ -76,7 +74,7 @@ def run_vae_pipeline(dataset_name: str, desired_dataset: str, vae_type: str):
 
     z_train = get_posterior_samples(vae_model, scaled_train_data)
     z_test  = get_posterior_samples(vae_model, scaled_valid_data)  # or your notebook X_test
-    return z_train, z_test, final_recon_loss
+    return z_train, z_test, final_recon_loss, profiling_metrics
 
     # ----------------------------------------------------------------------------------
     # Visualize posterior samples

@@ -8,6 +8,8 @@ from torch.utils.data import DataLoader, TensorDataset
 import joblib
 
 from utils.model_utils import profile_epoch
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 class Sampling(nn.Module):
     def forward(self, inputs):
@@ -121,8 +123,7 @@ class BaseVariationalAutoencoder(nn.Module, ABC):
         print(f"{'Ratio (decoder/encoder)':<{name_width + shape_width}} {decoder_params/encoder_params:>12.2f} ")
         print(f"{'Total':<{name_width + shape_width}} {total_params:>12} {total_mem:>15.4f} MB")
 
-    def fit_on_data(self, train_data, lr, max_epochs=1000, verbose=0):
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    def fit_on_data(self, train_data, lr, max_epochs=1000, verbose=0, profile=False):
         self.to(device)
         train_tensor  = torch.FloatTensor(train_data).to(device)
         train_dataset = TensorDataset(train_tensor)
@@ -161,7 +162,14 @@ class BaseVariationalAutoencoder(nn.Module, ABC):
                         f"Recon loss: {reconstruction_loss / len(train_loader):.4f} | "
                         f"KL loss: {kl_loss / len(train_loader):.4f}")
         final_recon_loss = reconstruction_loss / len(train_loader)
-        return final_recon_loss
+
+        if profile:
+            print("\n[Profiling TimeVAE training performance]")
+            criterion = torch.nn.MSELoss()
+            metrics   = profile_epoch(self, train_loader, optimizer, criterion, device=device)
+        else:
+            metrics   = None
+        return final_recon_loss, metrics
 
     def forward(self, X):
         z_mean, z_log_var, z = self.encoder(X)

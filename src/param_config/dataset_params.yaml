@@ -2,7 +2,7 @@
 general:
   train_epochs:      100
   num_pages_to_use:  10
-  window_len:        256 #32
+  window_len:        128
   window_len_list:   [32, 64, 128, 256, 512, 1024, 2048]
 
 asm:
@@ -25,7 +25,6 @@ beijing:
   timevae:
     lr_training       : 0.001
     latent_dim        : 15
-
 
 panama:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
