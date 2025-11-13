@@ -27,6 +27,43 @@ def assign_encoder_weights(encoders_dict: dict, sup_head_rmse, weight_encoding_m
     return encoder_weights
 
 
+def select_top_X_features(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, top_features_pct: int):
+    """Select top features via mutual info along last dimension. 
+    - 3D X: (stations, timesteps, features), keeps last dim shrunk
+    - 2D X: (samples, features)
+    Removes rows with all-zero before scoring"""
+    from sklearn.feature_selection import mutual_info_regression
+
+    X_dims = len(X_train.shape)
+    if X_dims == 3:
+        _, n_timesteps, n_features = X_train.shape
+        X_flat = X_train.reshape(-1, n_features)
+        y_flat = np.repeat(y_train.mean(axis=1), n_timesteps, axis=0)
+    elif X_dims == 2:
+        n_features = X_train.shape[1]
+        X_flat = X_train
+        y_flat = y_train.mean(axis=1) if y_train.ndim > 1 else y_train
+    else:
+        raise ValueError("X_train must be 2D or 3D")
+
+    mask = ~(np.all(X_flat == 0, axis=1))
+    X_flat, y_flat = X_flat[mask], y_flat[mask]
+
+    mi         = np.array([mutual_info_regression(X_flat[:, [i]], y_flat)[0] for i in range(n_features)])
+    k_features = max(1, int(top_features_pct * n_features / 100))
+    top_idx    = np.argsort(mi)[-k_features:]
+
+    if X_dims == 3:
+        X_train_sel = X_train[:, :, top_idx]
+        X_test_sel  = X_test[:, :, top_idx]
+    else:
+        X_train_sel = X_train[:, top_idx]
+        X_test_sel  = X_test[:, top_idx]
+    print(f"Keeping top {k_features}/{n_features} features")
+    return X_train_sel, X_test_sel, top_idx
+
+
+
 class Bootstrapping:
     @staticmethod
     def bootstrap_sample(X, sample_frac=0.8):

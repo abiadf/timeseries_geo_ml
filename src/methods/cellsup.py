@@ -8,7 +8,7 @@ from scipy.special import softmax
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score, root_mean_squared_error
 
-from other_encoders.latents import Latents
+from encoders.latents import Latents
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

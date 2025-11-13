@@ -7,7 +7,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 from sklearn.metrics import root_mean_squared_error
 
-from other_encoders.latents import Latents
+from encoders.latents import Latents
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

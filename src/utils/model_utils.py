@@ -15,8 +15,7 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from sklearn.feature_selection import RFE
 from catboost import CatBoostRegressor
-from predictions import SingleOutputModelPredictor
-
+from methods.predictions import SingleOutputModelPredictor
 
 from fvcore.nn import FlopCountAnalysis
 

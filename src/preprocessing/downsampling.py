@@ -15,7 +15,7 @@ from sklearn.preprocessing import StandardScaler
 
 from catboost import CatBoostRegressor
 
-from lstm_network import LSTMModel, LSTMTrainer
+from src.encoders.lstm_network import LSTMModel, LSTMTrainer
 
 
 class DataframeReducer:
