@@ -26,6 +26,15 @@ beijing:
     lr_training       : 0.001
     latent_dim        : 15
 
+    latent_dim: 12
+    hidden_layer_sizes:
+      - 48 # 50 #64 #50
+      - 16 #64 #100
+      - 64 #128 #200
+    reconstruction_wt: 3.5
+    batch_size: 4 #16
+    use_residual_conn: true
+
 panama:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset

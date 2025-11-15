@@ -27,24 +27,18 @@ def set_seeds(seed: int = 111) -> None:
 
 
 def instantiate_vae_model(
-    vae_type: str, sequence_length: int, feature_dim: int, batch_size: int, **kwargs
-) -> Union[VAE_Dense, VAE_Conv, TimeVAE]:
-    """
-    Instantiate a Variational Autoencoder (VAE) model based on the specified type.
-
+    vae_type: str, sequence_length: int, feature_dim: int, batch_size: int, **kwargs) -> Union[VAE_Dense, VAE_Conv, TimeVAE]:
+    """Instantiate a Variational Autoencoder (VAE) model based on the specified type.
     Args:
         vae_type (str): The type of VAE model to instantiate.
                         One of ('vae_dense', 'vae_conv', 'timeVAE').
         sequence_length (int): The sequence length.
         feature_dim (int): The feature dimension.
         batch_size (int): Batch size for training.
-
     Returns:
         Union[VAE_Dense, VAE_Conv, TimeVAE]: The instantiated VAE model.
-
     Raises:
-        ValueError: If an unrecognized VAE type is provided.
-    """
+        ValueError: If an unrecognized VAE type is provided."""
     set_seeds(seed=123)
     print(f"Instantiating VAE model type: {vae_type}")
 
@@ -53,28 +47,23 @@ def instantiate_vae_model(
             seq_len=sequence_length,
             feat_dim=feature_dim,
             batch_size=batch_size,
-            **kwargs,
-        )
+            **kwargs,)
     elif vae_type == "vae_conv":
         vae = VAE_Conv(
             seq_len=sequence_length,
             feat_dim=feature_dim,
             batch_size=batch_size,
-            **kwargs,
-        )
+            **kwargs,)
     elif vae_type == "timeVAE":
         vae = TimeVAE(
             seq_len=sequence_length,
             feat_dim=feature_dim,
             batch_size=batch_size,
-            **kwargs,
-        )
+            **kwargs,)
     else:
         raise ValueError(
             f"Unrecognized model type [{vae_type}]. "
-            "Please choose from vae_dense, vae_conv, timeVAE."
-        )
-
+            "Please choose from vae_dense, vae_conv, timeVAE.")
     return vae
 
 
