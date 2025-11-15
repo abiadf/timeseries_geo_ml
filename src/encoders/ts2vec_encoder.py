@@ -2,7 +2,7 @@
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset 
-from ts2vec import TS2Vec # the real ts2vec library
+from ts2vec_model.ts2vec import TS2Vec # the real ts2vec library
 from utils.model_utils import profile_epoch
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -55,12 +55,12 @@ class TS2VecEncoder:
             def forward(self, out, target=None):
                 return out.sum()
 
-        criterion     = DummyLoss()
-        train_dataset = TensorDataset(torch.from_numpy(X_train.astype(np.float32)))
-        train_loader  = DataLoader(train_dataset, batch_size=self.ts_model.batch_size, shuffle=False)
-        optimizer     = torch.optim.AdamW(self.ts_model._net.parameters(), lr=1e-3)
-        metrics       = profile_epoch(self.ts_model._net, train_loader, optimizer, criterion, device=self.device)
-        return metrics
+        criterion         = DummyLoss()
+        train_dataset     = TensorDataset(torch.from_numpy(X_train.astype(np.float32)))
+        train_loader      = DataLoader(train_dataset, batch_size=self.ts_model.batch_size, shuffle=False)
+        optimizer         = torch.optim.AdamW(self.ts_model._net.parameters(), lr=1e-3)
+        profiling_metrics = profile_epoch(self.ts_model._net, train_loader, optimizer, criterion, device=self.device)
+        return profiling_metrics
         # ==============================
 
         # # TS2Vec expects numpy arrays in .fit(), so feed batches sequentially

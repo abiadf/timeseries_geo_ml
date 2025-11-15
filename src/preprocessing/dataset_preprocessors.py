@@ -161,6 +161,52 @@ class DatasetPreprocessor:
             return X_train_small, X_test_small, y_train_scaled, y_test_scaled
 
 
+
+
+def process_argoverse_parquet(scenario_parquet_path: str):
+    """Convert Argoverse Parquet scenario to X (3D) and y (2D)
+    Follows these rules:
+        1. track_id != focal_track_id AND observed = true → include in X
+        2. track_id  = focal_track_id AND observed = true → include in X
+        3. track_id  = focal_track_id AND observed = false → include in y only
+        4. track_id != focal_track_id AND observed = false → ignore"""
+    df       = pd.read_parquet(scenario_parquet_path)
+    focal_id = df['focal_track_id'].iloc[0]
+
+    # Remove irrelevant rows (rule 4), but keep focal agent even if unobserved (rule 3)
+    df = df[(df['observed'] == True) | (df['track_id'] == focal_id)]
+
+    agent_past_list   = []
+    focal_future_list = []
+
+    for track_id, track_data in df.groupby('track_id'):
+        xy_pos     = track_data[['position_x', 'position_y']].values
+        headings   = track_data['heading'].values
+        velocities = track_data[['velocity_x', 'velocity_y']].values
+        is_observed= track_data['observed'].values
+
+        agent_past   = []
+        focal_future = []
+
+        for t, obs in enumerate(is_observed):
+            if obs:  # observed = True → goes into X
+                agent_past.append([xy_pos[t][0], xy_pos[t][1],
+                                   headings[t], velocities[t][0],
+                                   velocities[t][1]])
+            elif track_id == focal_id:  # observed = False and focal → goes into y
+                focal_future.append(xy_pos[t])  # only x, y
+        if agent_past:
+            agent_past_list.append(np.array(agent_past))
+        if focal_future and track_id == focal_id:
+            focal_future_list = np.array(focal_future)
+
+    # pad sequences to longest agent
+    max_agent_len   = max(len(p) for p in agent_past_list)
+    X_agents_padded = np.array([np.pad(p, ((0, max_agent_len-len(p)), (0,0)), 'constant') for p in agent_past_list])
+
+    return X_agents_padded, np.array(focal_future_list)
+
+
 class ECGLoader:
     """Load + process the 'PTB-XL' ECG dataset (https://physionet.org/content/ptb-xl/1.0.3/), including SCP code parsing and label encoding
     Attributes:
