@@ -71,22 +71,22 @@ cellsup:
     cluster_max: 8
 
 moment:
-  epochs_finetune: 5
-  batch_size  :    64
-  lr_head:         0.0005
-  lr_encoder:      0.001
-  layer1_dim:      64
-  layer2_dim:      32
-  unfreeze_last_n: 1
-  fine_tune:       true
+  epochs_finetune:    5
+  batch_size:         64
+  lr_encoder:         0.001
+  hidden_layer_sizes: [512, 128, 64, 8] # latent to y output. note thta latent dim  = 512
+  unfreeze_last_n:    1
+  fine_tune:          true
 
-  predictor_lr      : 0.009
-  predictor_epochs  : 100
-  predictor_dropout : 0.05
-  predictor_hidden_sizes : [32, 48, 64] # latent to y output
-  model_type   : "repres_learning" # options: classification (= regression), repres_learning
-  model_name   : "MOMENT-1-small" # options: MOMENT-1-base, MOMENT-1-large, MOMENT-1-small
-  reload_model : true
+  lr_predictor:       0.0005
+  predictor_epochs:   100
+  predictor_dropout:  0.2
+  predictor_hidden_sizes: [32, 48, 64] # latent to y output
+
+  model_task:         "regression"
+  model_type:         "repres_learning" # options: classification (= regression), repres_learning
+  model_name:         "MOMENT-1-small" # options: MOMENT-1-base, MOMENT-1-large, MOMENT-1-small
+  reload_model:       true
 
 moment_fed:
   epochs_finetune: 5
