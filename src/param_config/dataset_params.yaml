@@ -24,7 +24,6 @@ beijing:
 
   timevae:
     lr_training       : 0.001
-    latent_dim        : 15
 
     latent_dim: 12
     hidden_layer_sizes:
@@ -32,7 +31,7 @@ beijing:
       - 16 #64 #100
       - 64 #128 #200
     reconstruction_wt: 3.5
-    batch_size: 4 #16
+    batch_size: 64
     use_residual_conn: true
 
 panama:

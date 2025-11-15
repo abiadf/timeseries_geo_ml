@@ -26,8 +26,8 @@ def set_seeds(seed: int = 111) -> None:
     random.seed(seed)
 
 
-def instantiate_vae_model(
-    vae_type: str, sequence_length: int, feature_dim: int, batch_size: int, **kwargs) -> Union[VAE_Dense, VAE_Conv, TimeVAE]:
+def instantiate_vae_model(vae_type: str, sequence_length: int, feature_dim: int, batch_size: int, *,
+                          latent_dim: int, hidden_layer_sizes, reconstruction_wt, **kwargs) -> Union[VAE_Dense, VAE_Conv, TimeVAE]:
     """Instantiate a Variational Autoencoder (VAE) model based on the specified type.
     Args:
         vae_type (str): The type of VAE model to instantiate.
@@ -59,6 +59,9 @@ def instantiate_vae_model(
             seq_len=sequence_length,
             feat_dim=feature_dim,
             batch_size=batch_size,
+            latent_dim=latent_dim,
+            hidden_layer_sizes=hidden_layer_sizes,
+            reconstruction_wt=reconstruction_wt,
             **kwargs,)
     else:
         raise ValueError(

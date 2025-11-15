@@ -2,6 +2,7 @@ import os
 import numpy as np
 import yaml
 import paths
+import platform
 from data_utils import (
     load_yaml_file,
     load_data,
@@ -26,10 +27,13 @@ def read_yaml_params(file_path: str) -> dict:
         return yaml.safe_load(f)
 
 
-def run_vae_pipeline(dataset_name: str, desired_dataset: str, vae_type: str):
+def run_vae_pipeline(timevae_file_path, dataset_name, vae_type, train_epochs, lr_training, *,
+                     latent_dim, hidden_layer_sizes, reconstruction_wt, **kwargs):
+
     # ----------------------------------------------------------------------------------
     # Load data, perform train/valid split, scale data
-    data = load_data(data_dir=paths.DATASETS_DIR, dataset=dataset_name)
+    # data = load_data(data_dir=paths.DATASETS_DIR, dataset=dataset_name)
+    data = np.load(timevae_file_path)['data']
 
     # split data into train/valid splits
     train_data, valid_data = split_data(data, valid_perc=0.2, shuffle=True)
@@ -40,23 +44,23 @@ def run_vae_pipeline(dataset_name: str, desired_dataset: str, vae_type: str):
 
     # load hyperparameters from yaml file
     hyperparameters = load_yaml_file(paths.HYPERPARAMETERS_FILE_PATH)[vae_type]
+    for key in ['latent_dim', 'hidden_layer_sizes', 'reconstruction_wt']: # Remove keys that will be passed explicitly
+        hyperparameters.pop(key, None)
 
     # instantiate the model
     _, sequence_length, feature_dim = scaled_train_data.shape
-    vae_model = instantiate_vae_model(
-        vae_type=vae_type,
-        sequence_length=sequence_length,
-        feature_dim=feature_dim,
-        **hyperparameters,)
+    vae_model = instantiate_vae_model(vae_type=vae_type,
+                                      sequence_length=sequence_length,
+                                      feature_dim=feature_dim,
+                                      latent_dim=latent_dim,
+                                      hidden_layer_sizes=hidden_layer_sizes,
+                                      reconstruction_wt=reconstruction_wt,
+                                      **hyperparameters)
 
-    import platform
     if platform.system() == "Linux":
         dataset_params = read_yaml_params("/home/fouadabiad/projects/asm_ML/src/param_config/dataset_params.yaml")
     if platform.system() == "Darwin":
         dataset_params = read_yaml_params("/Users/fouadabiad/Projects/asm_ML/src/param_config/dataset_params.yaml")
-
-    train_epochs   = dataset_params['general']['train_epochs']
-    lr_training    = dataset_params[desired_dataset]["timevae"]["lr_training"]
 
     final_recon_loss, profiling_metrics = train_vae(
         vae=vae_model,

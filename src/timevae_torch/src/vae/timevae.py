@@ -227,23 +227,35 @@ class TimeVAEDecoder(nn.Module):
         return outputs
 
 
+
 class TimeVAE(BaseVariationalAutoencoder):
     model_name = "TimeVAE"
 
     def __init__(
         self,
+        seq_len,
+        feat_dim,
+        batch_size,
         hidden_layer_sizes=None,
         trend_poly=0,
         custom_seas=None,
         use_residual_conn=True,
+        latent_dim=None,
+        reconstruction_wt=None,
         **kwargs,):
-        super(TimeVAE, self).__init__(**kwargs)
+        # Clean kwargs so they don't forward duplicate keys
+        kwargs.pop("latent_dim", None)
+        kwargs.pop("reconstruction_wt", None)
 
-        if hidden_layer_sizes is None:
-            print("No hidden_layer_sizes found, default: [50, 100, 200]")
-            hidden_layer_sizes = [50, 100, 200]
+        super().__init__(
+            seq_len=seq_len,
+            feat_dim=feat_dim,
+            latent_dim=latent_dim,
+            reconstruction_wt=reconstruction_wt,
+            batch_size=batch_size,
+            **kwargs)
 
-        self.hidden_layer_sizes = hidden_layer_sizes
+        self.hidden_layer_sizes = hidden_layer_sizes or [50, 100, 200]
         self.trend_poly         = trend_poly
         self.custom_seas        = custom_seas
         self.use_residual_conn  = use_residual_conn
