@@ -1,6 +1,8 @@
 """Predictions and feature selection / dimensionality reduction"""
 
 import time
+import gc
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -91,6 +93,16 @@ def profile_epoch(model, loader, optimizer, criterion, device, warmup=False, mea
         'num_params_M': num_params,
         'flops_M': flops_m}
     return metrics
+
+
+def clear_cuda_memory() -> None:
+    """Release unreferenced GPU tensors and trigger CUDA memory cleanup."""
+    gc.collect()
+    torch.cuda.empty_cache()
+    try:
+        torch.cuda.ipc_collect()
+    except Exception:
+        pass
 
 
 class ProjectionHead(nn.Module):

@@ -1,16 +1,9 @@
 import __main__
 import logging
 
-from catboost import CatBoostRegressor
-from momentfm import MOMENTPipeline
-from pycatch22 import catch22_all
-from scipy.special import softmax
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset, TensorDataset, DataLoader
-from torch.optim.lr_scheduler import ReduceLROnPlateau, CosineAnnealingLR
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats()
@@ -100,3 +93,22 @@ class CnnAutoencoder(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.decode(self.encode(x))
+
+
+# moved from previously unused part of the notebok code
+class SmallConv1DEncoder(nn.Module):
+    def __init__(self, input_dim, latent_dim):
+        super().__init__()
+        # For flattened input, reshape to (N, C=1, L=input_dim)
+        self.conv = nn.Sequential(
+            nn.Conv1d(1, 16, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.AdaptiveAvgPool1d(1))
+        self.fc = nn.Linear(16, latent_dim)
+
+    def encode(self, x):
+        if x.ndim == 2:
+            x = x.unsqueeze(1)            # (N,1,L)
+        c = self.conv(x)                 # (N,16,1)
+        c = c.view(len(c), -1)
+        return self.fc(c)

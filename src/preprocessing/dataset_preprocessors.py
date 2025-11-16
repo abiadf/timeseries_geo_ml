@@ -22,6 +22,7 @@ from sklearn.preprocessing import StandardScaler
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
 class DatasetPreprocessor:
     """Preprocess datasets: downsample, train/test split, categorical encoding, and scaling."""
 

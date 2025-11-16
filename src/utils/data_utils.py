@@ -1,11 +1,32 @@
 import __main__
 import numpy as np
 import torch
-import torch.nn as nn
-import torch.optim as optim
 import torch.nn.functional as F
+from pycatch22 import catch22_all
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+def catch22_features_from_windows(X_windows: np.ndarray, y_windows: np.ndarray, which_y: str) -> tuple[np.ndarray, np.ndarray]:
+    """Apply catch22 to each window/channel and return (features, targets).
+    X_windows: shape (n_windows, window_size, n_channels)
+    y_windows: shape (n_windows, window_size, n_targets)"""
+    
+    n_windows, _, n_channels = X_windows.shape
+    feats = np.empty((n_windows, n_channels * 22), dtype=float)
+    
+    for i in range(n_windows):
+        channel_feats = [catch22_all(X_windows[i, :, ch])['values']
+                         for ch in range(n_channels)]
+        feats[i] = np.concatenate(channel_feats)
+    
+    # Take last value in each target window
+    if which_y == "last":
+        y_out = y_windows[:, -1, :]
+    elif which_y == "mean":
+        y_out = np.mean(y_windows, axis=1)
+    return feats, y_out
+
 
 def assign_encoder_weights(encoders_dict: dict, sup_head_rmse, weight_encoding_method: str = "uniform"):
     """Compute normalized encoder weights using one of three methods:

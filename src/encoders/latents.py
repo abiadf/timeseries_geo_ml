@@ -1,11 +1,34 @@
 import __main__
-from typing import Dict, List, Literal, Tuple, Optional
 
 import numpy as np
 import torch
 import torch.nn as nn
+from scipy.stats import spearmanr
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+# moved from previously unused part of the notebok code
+def latent_target_corr_multi(z: np.ndarray, y: np.ndarray, max_n: int = 3000) -> List[float]:
+    """Compute Spearman correlation between pairwise distances in z
+    and absolute differences in each y-dimension.
+    z: (n, d) latent array
+    y: (n, m) targets
+    max_n: subsample size for speed
+    
+    Returns: list of correlations, length m"""
+    n = len(y)
+    if n > max_n:
+        idx = np.random.choice(n, size=max_n, replace=False)
+        z, y = z[idx], y[idx]
+    # latent distances
+    pdist = np.sqrt(((z[:, None, :] - z[None, :, :])**2).sum(-1)).ravel()
+    corrs = []
+    for j in range(y.shape[1]):
+        ydist = np.abs(y[:, None, j] - y[None, :, j]).ravel()
+        corr, _ = spearmanr(pdist, ydist)
+        corrs.append(float(corr))
+    return corrs
 
 class Latents:
     @staticmethod
