@@ -488,24 +488,34 @@ class Preds:
         y_pred           = np.zeros_like(y_test, dtype=float)
         non_constant_idx = [i for i in range(y_train.shape[1])
                             if not np.all(y_train[:, i] == y_train[0, i])]
+        model = None
         if non_constant_idx:
-            if self.device_str == "GPU":
-                cb_params = dict(iterations=200, learning_rate=0.1, depth=4,
-                                 task_type="GPU", devices='0', verbose=100, early_stopping_rounds=50)
-            else:
-                cb_params = dict(iterations=200, learning_rate=0.1, depth=4,
-                                 thread_count=-1, verbose=100, early_stopping_rounds=50)
-            model = MultiOutputRegressor(CatBoostRegressor(**cb_params))
-            model.fit(X_train, y_train[:, non_constant_idx])
-            # model.fit(X_train, y_train, eval_set=(X_val, y_val), )
-            y_pred[:, non_constant_idx] = model.predict(X_test)
-            for i in range(y_train.shape[1]):
-                if np.all(y_train[:, i] == y_train[0, i]):
-                    y_pred[:, i] = y_train[0, i]
+            try:
+                if self.device_str == "GPU":
+                    cb_params = dict(iterations=200, learning_rate=0.1, depth=4,
+                                    task_type="GPU", devices='0', verbose=100, early_stopping_rounds=50)
+                else:
+                    cb_params = dict(iterations=200, learning_rate=0.1, depth=4,
+                                    thread_count=-1, verbose=100, early_stopping_rounds=50)
+                model = MultiOutputRegressor(CatBoostRegressor(**cb_params))
+                model.fit(X_train, y_train[:, non_constant_idx])
+                y_pred[:, non_constant_idx] = model.predict(X_test)
+
+                for i in range(y_train.shape[1]):
+                    if np.all(y_train[:, i] == y_train[0, i]):
+                        y_pred[:, i] = y_train[0, i]
+                rmse = root_mean_squared_error(y_test, y_pred)
+            except Exception as e:
+                # CatBoost failed (all features constant or ignored)
+                print(f"CatBoost failed: {e}")
+                rmse = float("nan")
+                y_pred[:] = np.nan
         else:
-            model = None
-        rmse = root_mean_squared_error(y_test, y_pred)
+            # all targets constant
+            rmse = float("nan")
+            y_pred[:] = np.nan
         return model, y_pred, rmse, non_constant_idx
+
 
     @staticmethod
     def cluster_and_label(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray,

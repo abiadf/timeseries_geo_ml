@@ -7,6 +7,19 @@ from pycatch22 import catch22_all
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
+def convert_numpy(d):
+    """Convert numpy types in dict to native Python types for JSON serialization."""
+    out = {}
+    for k, v in d.items():
+        if isinstance(v, (np.integer,)):
+            out[k] = int(v)
+        elif isinstance(v, (np.floating,)):
+            out[k] = float(v)
+        else:
+            out[k] = v
+    return out
+
+
 def catch22_features_from_windows(X_windows: np.ndarray, y_windows: np.ndarray, which_y: str) -> tuple[np.ndarray, np.ndarray]:
     """Apply catch22 to each window/channel and return (features, targets).
     X_windows: shape (n_windows, window_size, n_channels)
