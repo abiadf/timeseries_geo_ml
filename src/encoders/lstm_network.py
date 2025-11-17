@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from ..forecasting_module import BaseForecaster
+from methods.forecasting_module import BaseForecaster
 
 
 class LSTMModel(nn.Module):

@@ -4,6 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from scipy.stats import spearmanr
+from typing import Dict, List
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
