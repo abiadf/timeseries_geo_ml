@@ -50,7 +50,7 @@ class BaseVariationalAutoencoder(nn.Module, ABC):
         self.to(device)
         # param counts
         total_params = sum(p.numel() for p in self.parameters())
-        trainable = sum(p.numel() for p in self.parameters() if p.requires_grad)
+        trainable    = sum(p.numel() for p in self.parameters() if p.requires_grad)
         print(f"Total params: {total_params:,} | Trainable: {trainable:,}")
 
         # sample a tiny batch (first batch) WITHOUT creating graph

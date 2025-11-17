@@ -21,6 +21,12 @@ pandas
 polars
 pykan
 pycatch22
+# ==== hyperparam search ====
+ray[data,train,tune,serve]
+hpbandster #for ray
+ConfigSpace #for ray
+optuna
+# =============
 rdp # Ramer-Douglas-Peucker Algorithm
 scikit-learn
 scikit-dimension
@@ -28,9 +34,9 @@ seaborn
 shap
 statsmodels
 # ==
-tensorflow==2.15.0; sys_platform == "linux"
-tensorflow-macos==2.15.0; sys_platform == "darwin"
-protobuf==4.25.3 #this is with tensorflow
+# tensorflow==2.15.0; sys_platform == "linux"
+# tensorflow-macos==2.15.0; sys_platform == "darwin"
+# protobuf==4.25.3 #this is with tensorflow
 # ==
 torch
 tqdm
