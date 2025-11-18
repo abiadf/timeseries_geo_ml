@@ -22,7 +22,7 @@ src/figures/
 src/model/
 src/param_config/messager.yaml
 src/param_config/tmp.yaml
-src/results/*
+# src/results/*
 src/cuda*
 # src/timevae_torch/*
 

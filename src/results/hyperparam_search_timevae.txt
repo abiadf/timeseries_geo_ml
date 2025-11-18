@@ -1,0 +1,1153 @@
+
+window = 1024
+=============
+
+timevae/beijing
+& Z (timevae) & 1.8378 & 0.9493 & 0.8785
+R²: 0.072, L_recons: 35.008
+time & params & flops & memory
+0.265 & 38.377 & 39.129 & 799.569
+
+timevae/beijing
+& Z (timevae) & 1.8378 & 0.9493 & 0.8785
+R²: 0.072, L_recons: 35.008
+time & params & flops & memory
+0.268 & 38.377 & 39.129 & 799.569
+
+timevae/beijing
+& Z (timevae) & 2.6073 & 1.0228 & 0.9864
+R²: -0.170, L_recons: 128.826
+time & params & flops & memory
+0.269 & 38.377 & 39.129 & 799.569
+
+timevae/beijing
+& Z (timevae) & 1.8378 & 0.9493 & 0.8785
+R²: 0.072, L_recons: 35.008
+time & params & flops & memory
+0.264 & 38.377 & 39.129 & 1427.530
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 1.1089 & 0.9076 & 0.9166
+R²: -0.010, L_recons: 14.283
+train_epochs=100 lr=0.001 batch_size=16
+time & params & flops & memory
+0.265 & 38.448 & 40.410 & 1581.775
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=6 reconstruction_wt=3.5
+& Z (timevae) & 1.8378 & 0.9493 & 0.8785
+R²: 0.072, L_recons: 35.008
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.265 & 38.377 & 39.129 & 1580.511
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=6 reconstruction_wt=3.5
+& Z (timevae) & 2.6073 & 1.0228 & 0.9864
+R²: -0.170, L_recons: 128.826
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.269 & 38.377 & 39.129 & 1580.511
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=6 reconstruction_wt=3.5
+& Z (timevae) & 1.3595 & 0.9574 & 0.9284
+R²: -0.037, L_recons: 34.106
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.269 & 38.411 & 40.385 & 1581.127
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=6 reconstruction_wt=3.5
+& Z (timevae) & 2.4469 & 0.9917 & 0.9690
+R²: -0.129, L_recons: 178.508
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.269 & 38.411 & 40.385 & 1581.127
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=6 reconstruction_wt=3.5
+& Z (timevae) & 1.4463 & 0.9690 & 0.9361
+R²: -0.054, L_recons: 82.787
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.177 & 20.104 & 21.177 & 1215.046
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=6 reconstruction_wt=3.5
+& Z (timevae) & 2.4510 & 0.9647 & 0.9201
+R²: -0.018, L_recons: 278.994
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.178 & 20.104 & 21.177 & 1215.046
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 1.3390 & 0.9044 & 0.8834
+R²: 0.061, L_recons: 34.478
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.267 & 38.383 & 39.133 & 1580.618
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 2.1876 & 0.9969 & 1.0342
+R²: -0.286, L_recons: 116.498
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.267 & 38.383 & 39.133 & 1580.618
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 1.2626 & 1.0410 & 0.9498
+R²: -0.085, L_recons: 19.319
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.269 & 38.423 & 40.393 & 1581.340
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 2.4221 & 0.9358 & 0.9007
+R²: 0.024, L_recons: 185.604
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.268 & 38.423 & 40.393 & 1581.340
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 1.9778 & 0.9534 & 0.9342
+R²: -0.050, L_recons: 217.065
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.183 & 20.111 & 21.181 & 1215.159
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 0.9397 & 0.9763 & 0.9338
+R²: -0.049, L_recons: 463.205
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.179 & 20.111 & 21.181 & 1215.159
+
+best
+timevae/beijing: hidden_layers=[32, 16] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 1.1150 & 0.8883 & 0.9170
+R²: -0.011, L_recons: 19.160
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.262 & 38.396 & 39.141 & 1580.840
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 2.5443 & 0.9266 & 0.9329
+R²: -0.047, L_recons: 110.308
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.265 & 38.396 & 39.141 & 1580.840
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 1.1089 & 0.9076 & 0.9166
+R²: -0.010, L_recons: 14.283
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.271 & 38.448 & 40.410 & 1581.775
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 2.6015 & 0.9700 & 1.0131
+R²: -0.234, L_recons: 183.709
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.269 & 38.448 & 40.410 & 1581.775
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 1.5995 & 0.9391 & 0.9443
+R²: -0.073, L_recons: 109.783
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.171 & 20.124 & 21.190 & 1215.388
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 2.0154 & 0.9623 & 0.9403
+R²: -0.063, L_recons: 401.729
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.178 & 20.124 & 21.190 & 1215.388
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=16 reconstruction_wt=3.5
+& Z (timevae) & 1.1796 & 0.9293 & 0.8996
+R²: 0.027, L_recons: 16.150
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.267 & 38.409 & 39.150 & 1581.053
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=16 reconstruction_wt=3.5
+& Z (timevae) & 11.4764 & 1.0301 & 1.0500
+R²: -0.326, L_recons: 114.655
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.266 & 38.409 & 39.150 & 1581.053
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=16 reconstruction_wt=3.5
+& Z (timevae) & 1.2008 & 0.9314 & 0.9370
+R²: -0.056, L_recons: 19.628
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.270 & 38.473 & 40.426 & 1582.207
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=16 reconstruction_wt=3.5
+& Z (timevae) & 12.4016 & 1.0201 & 1.0419
+R²: -0.306, L_recons: 304.564
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.268 & 38.473 & 40.426 & 1582.207
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=16 reconstruction_wt=3.5
+& Z (timevae) & 1.8238 & 1.0018 & 0.9884
+R²: -0.175, L_recons: 127.563
+train_epochs=100 lr=0.001 batch_size=128
+time & params & flops & memory
+0.177 & 20.137 & 21.199 & 1215.614
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=16 reconstruction_wt=3.5
+& Z (timevae) & 1.1704 & 1.2165 & 0.9981
+R²: -0.198, L_recons: 408.328
+train_epochs=100 lr=0.005 batch_size=128
+time & params & flops & memory
+0.182 & 20.137 & 21.199 & 1215.614
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 1.3390 & 0.9044 & 0.8834
+R²: 0.061, L_recons: 34.478
+train_epochs=100 lr=0.001 batch_size=256
+time & params & flops & memory
+0.265 & 38.383 & 39.133 & 1580.618
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 2.1876 & 0.9969 & 1.0342
+R²: -0.286, L_recons: 116.498
+train_epochs=100 lr=0.005 batch_size=256
+time & params & flops & memory
+0.266 & 38.383 & 39.133 & 1580.618
+
+timevae/beijing: hidden_layers=[20, 16, 32] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 2.5425 & 0.9584 & 0.9240
+R²: -0.027, L_recons: 121.760
+train_epochs=100 lr=0.001 batch_size=256
+time & params & flops & memory
+0.176 & 20.088 & 20.535 & 1214.744
+
+timevae/beijing: hidden_layers=[20, 16, 32] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 2.3354 & 0.9472 & 0.9416
+R²: -0.066, L_recons: 232.665
+train_epochs=100 lr=0.005 batch_size=256
+time & params & flops & memory
+0.172 & 20.088 & 20.535 & 1214.744
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 1.9778 & 0.9534 & 0.9342
+R²: -0.050, L_recons: 217.065
+train_epochs=100 lr=0.001 batch_size=256
+time & params & flops & memory
+0.178 & 20.111 & 21.181 & 1215.159
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=8 reconstruction_wt=3.5
+& Z (timevae) & 0.9397 & 0.9763 & 0.9338
+R²: -0.049, L_recons: 463.205
+train_epochs=100 lr=0.005 batch_size=256
+time & params & flops & memory
+0.183 & 20.111 & 21.181 & 1215.159
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 1.1150 & 0.8883 & 0.9170
+R²: -0.011, L_recons: 19.160
+train_epochs=100 lr=0.001 batch_size=256
+time & params & flops & memory
+0.265 & 38.396 & 39.141 & 1580.840
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 2.5443 & 0.9266 & 0.9329
+R²: -0.047, L_recons: 110.308
+train_epochs=100 lr=0.005 batch_size=256
+time & params & flops & memory
+0.262 & 38.396 & 39.141 & 1580.840
+
+timevae/beijing: hidden_layers=[20, 16, 32] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 1.5669 & 1.0047 & 0.9464
+R²: -0.077, L_recons: 41.718
+train_epochs=100 lr=0.001 batch_size=256
+time & params & flops & memory
+0.177 & 20.094 & 20.540 & 1214.859
+
+timevae/beijing: hidden_layers=[20, 16, 32] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 1.7872 & 1.0748 & 0.9593
+R²: -0.107, L_recons: 301.529
+train_epochs=100 lr=0.005 batch_size=256
+time & params & flops & memory
+0.182 & 20.094 & 20.540 & 1214.859
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 1.5995 & 0.9391 & 0.9443
+R²: -0.073, L_recons: 109.783
+train_epochs=100 lr=0.001 batch_size=256
+time & params & flops & memory
+0.175 & 20.124 & 21.190 & 1215.388
+
+timevae/beijing: hidden_layers=[48, 16, 64] latent_dim=12 reconstruction_wt=3.5
+& Z (timevae) & 2.0154 & 0.9623 & 0.9403
+R²: -0.063, L_recons: 401.729
+train_epochs=100 lr=0.005 batch_size=256
+time & params & flops & memory
+0.173 & 20.124 & 21.190 & 1215.388
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 1.2712 & 0.9917 & 0.9716
+R²: -0.135, L_recons: 23.951
+time & params & flops & memory
+0.264 & 38.373 & 38.711 & 1428.054
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 1.2363 & 0.9437 & 0.9253
+R²: -0.030, L_recons: 16.073
+time & params & flops & memory
+0.264 & 38.373 & 38.711 & 1428.054
+
+timevae/beijing: hidden_layers=[20, 16, 20] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 2.0986 & 0.9170 & 0.9082
+R²: 0.008, L_recons: 115.361
+time & params & flops & memory
+0.171 & 20.081 & 20.509 & 1062.249
+
+timevae/beijing: hidden_layers=[20, 16, 20] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 3.7150 & 1.0375 & 1.0169
+R²: -0.244, L_recons: 112.120
+time & params & flops & memory
+0.182 & 20.081 & 20.509 & 1062.249
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 2.7451 & 0.9828 & 0.9396
+R²: -0.062, L_recons: 93.100
+time & params & flops & memory
+0.176 & 20.082 & 20.592 & 1062.262
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 2.1833 & 0.9515 & 0.8985
+R²: 0.029, L_recons: 114.259
+time & params & flops & memory
+0.177 & 20.082 & 20.592 & 1062.262
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 1.4228 & 1.0628 & 1.0004
+R²: -0.204, L_recons: 19.104
+time & params & flops & memory
+0.267 & 38.383 & 38.717 & 1428.222
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 1.3647 & 0.9533 & 0.9231
+R²: -0.025, L_recons: 26.706
+time & params & flops & memory
+0.267 & 38.383 & 38.717 & 1428.222
+
+timevae/beijing: hidden_layers=[20, 16, 20] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 2.1799 & 1.0237 & 0.9309
+R²: -0.042, L_recons: 155.027
+time & params & flops & memory
+0.171 & 20.085 & 20.512 & 1062.319
+
+timevae/beijing: hidden_layers=[20, 16, 20] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 4.0526 & 1.0667 & 0.9269
+R²: -0.033, L_recons: 135.732
+time & params & flops & memory
+0.182 & 20.085 & 20.512 & 1062.319
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 2.6025 & 0.9532 & 0.9204
+R²: -0.019, L_recons: 97.027
+time & params & flops & memory
+0.176 & 20.086 & 20.594 & 1062.331
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 2.0202 & 0.9261 & 0.9713
+R²: -0.135, L_recons: 79.102
+time & params & flops & memory
+0.181 & 20.086 & 20.594 & 1062.331
+
+timevae/beijing: hidden_layers=[24, 12] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 1.2572 & 0.9347 & 0.9154
+R²: -0.008, L_recons: 25.903
+time & params & flops & memory
+0.267 & 38.375 & 38.891 & 1428.079
+
+timevae/beijing: hidden_layers=[24, 12] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 1.9487 & 0.9365 & 0.9234
+R²: -0.026, L_recons: 20.656
+time & params & flops & memory
+0.262 & 38.375 & 38.891 & 1428.079
+
+timevae/beijing: hidden_layers=[16, 12, 16] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 1.9710 & 0.9502 & 0.9424
+R²: -0.068, L_recons: 143.147
+time & params & flops & memory
+0.183 & 20.078 & 20.388 & 1062.173
+
+timevae/beijing: hidden_layers=[16, 12, 16] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 2.8845 & 0.9440 & 0.9461
+R²: -0.077, L_recons: 157.733
+time & params & flops & memory
+0.182 & 20.078 & 20.388 & 1062.173
+
+timevae/beijing: hidden_layers=[20, 12, 26] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 2.0863 & 0.9648 & 0.9676
+R²: -0.126, L_recons: 111.633
+time & params & flops & memory
+0.180 & 20.083 & 20.481 & 1062.282
+
+timevae/beijing: hidden_layers=[20, 12, 26] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 2.4395 & 0.9801 & 0.9296
+R²: -0.039, L_recons: 95.101
+time & params & flops & memory
+0.181 & 20.083 & 20.481 & 1062.282
+
+timevae/beijing: hidden_layers=[24, 12] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 1.1831 & 1.0198 & 0.9405
+R²: -0.064, L_recons: 19.944
+time & params & flops & memory
+0.269 & 38.384 & 38.897 & 1428.248
+
+timevae/beijing: hidden_layers=[24, 12] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 1.4548 & 0.9620 & 0.9122
+R²: -0.001, L_recons: 27.634
+time & params & flops & memory
+0.265 & 38.384 & 38.897 & 1428.248
+
+timevae/beijing: hidden_layers=[16, 12, 16] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 1.6624 & 1.0335 & 0.9972
+R²: -0.196, L_recons: 78.730
+time & params & flops & memory
+0.174 & 20.081 & 20.390 & 1062.235
+
+timevae/beijing: hidden_layers=[16, 12, 16] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 2.2279 & 0.8935 & 0.8958
+R²: 0.035, L_recons: 131.854
+time & params & flops & memory
+0.175 & 20.081 & 20.390 & 1062.235
+
+timevae/beijing: hidden_layers=[20, 12, 26] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 2.2599 & 1.0377 & 0.9448
+R²: -0.074, L_recons: 105.171
+time & params & flops & memory
+0.181 & 20.089 & 20.485 & 1062.377
+
+timevae/beijing: hidden_layers=[20, 12, 26] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 6.4473 & 0.9301 & 0.9112
+R²: 0.001, L_recons: 177.613
+time & params & flops & memory
+0.179 & 20.089 & 20.485 & 1062.377
+
+window=512
+==========
+
+timevae/beijing: hidden_layers=[24, 12] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 1.8696 & 1.1843 & 1.1353
+R²: 0.008, L_recons: 26.284
+time & params & flops & memory
+0.174 & 9.753 & 10.011 & 404.822
+
+timevae/beijing: hidden_layers=[24, 12] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 3.6652 & 1.2307 & 1.1805
+R²: -0.072, L_recons: 45.638
+time & params & flops & memory
+0.169 & 9.753 & 10.011 & 404.822
+
+timevae/beijing: hidden_layers=[16, 12, 16] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 3.6766 & 1.1753 & 1.1277
+R²: 0.021, L_recons: 80.542
+time & params & flops & memory
+0.155 & 5.323 & 5.479 & 311.656
+
+timevae/beijing: hidden_layers=[16, 12, 16] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 3.9967 & 1.1557 & 1.1503
+R²: -0.018, L_recons: 84.247
+time & params & flops & memory
+0.150 & 5.323 & 5.479 & 311.656
+
+timevae/beijing: hidden_layers=[20, 12, 26] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 3.1689 & 1.1726 & 1.1646
+R²: -0.044, L_recons: 65.153
+time & params & flops & memory
+0.141 & 5.326 & 5.526 & 311.730
+
+timevae/beijing: hidden_layers=[20, 12, 26] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 2.4460 & 1.1877 & 1.1608
+R²: -0.037, L_recons: 76.223
+time & params & flops & memory
+0.142 & 5.326 & 5.526 & 311.730
+
+timevae/beijing: hidden_layers=[24, 12] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 1.7264 & 1.2471 & 1.2032
+R²: -0.114, L_recons: 16.831
+time & params & flops & memory
+0.170 & 9.757 & 10.014 & 404.911
+
+timevae/beijing: hidden_layers=[24, 12] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 2.3172 & 1.1909 & 1.1794
+R²: -0.070, L_recons: 23.202
+time & params & flops & memory
+0.166 & 9.757 & 10.014 & 404.911
+
+timevae/beijing: hidden_layers=[16, 12, 16] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 4.0206 & 1.2696 & 1.1724
+R²: -0.058, L_recons: 70.285
+time & params & flops & memory
+0.155 & 5.324 & 5.480 & 311.692
+
+timevae/beijing: hidden_layers=[16, 12, 16] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 2.5649 & 1.2036 & 1.1693
+R²: -0.052, L_recons: 77.876
+time & params & flops & memory
+0.141 & 5.324 & 5.480 & 311.692
+
+timevae/beijing: hidden_layers=[20, 12, 26] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256
+& Z (timevae) & 3.1475 & 1.1902 & 1.1567
+R²: -0.030, L_recons: 59.868
+time & params & flops & memory
+0.143 & 5.329 & 5.528 & 311.779
+
+timevae/beijing: hidden_layers=[20, 12, 26] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256
+& Z (timevae) & 3.2673 & 1.1745 & 1.1652
+R²: -0.045, L_recons: 75.549
+time & params & flops & memory
+0.148 & 5.329 & 5.528 & 311.779
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=512
+& Z (timevae) & 2.0031 & 1.2275 & 1.1514
+R²: -0.020, L_recons: 18.391
+time & params & flops & memory
+0.167 & 9.761 & 9.927 & 404.964
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=512
+& Z (timevae) & 2.2697 & 1.1660 & 1.1502
+R²: -0.018, L_recons: 22.765
+time & params & flops & memory
+0.171 & 9.761 & 9.927 & 404.964
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=512
+& Z (timevae) & 2.7996 & 1.2080 & 1.1859
+R²: -0.082, L_recons: 50.834
+time & params & flops & memory
+0.142 & 5.331 & 5.586 & 311.808
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=512
+& Z (timevae) & 2.0252 & 1.2199 & 1.1777
+R²: -0.067, L_recons: 80.514
+time & params & flops & memory
+0.148 & 5.331 & 5.586 & 311.808
+
+timevae/beijing: hidden_layers=[16, 12, 20] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=512
+& Z (timevae) & 3.1169 & 1.2823 & 1.1810
+R²: -0.073, L_recons: 80.676
+time & params & flops & memory
+0.148 & 5.328 & 5.485 & 311.759
+
+timevae/beijing: hidden_layers=[16, 12, 20] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=512
+& Z (timevae) & 2.7117 & 1.1944 & 1.1694
+R²: -0.052, L_recons: 101.275
+time & params & flops & memory
+0.146 & 5.328 & 5.485 & 311.759
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=512
+& Z (timevae) & 1.8800 & 1.1602 & 1.1503
+R²: -0.018, L_recons: 18.250
+time & params & flops & memory
+0.164 & 9.766 & 9.930 & 405.044
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=512
+& Z (timevae) & 1.7412 & 1.2026 & 1.1845
+R²: -0.080, L_recons: 22.742
+time & params & flops & memory
+0.171 & 9.766 & 9.930 & 405.044
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=512
+& Z (timevae) & 2.7995 & 1.2188 & 1.1578
+R²: -0.031, L_recons: 48.711
+time & params & flops & memory
+0.143 & 5.333 & 5.587 & 311.848
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=512
+& Z (timevae) & 3.6596 & 1.1801 & 1.1768
+R²: -0.066, L_recons: 69.917
+time & params & flops & memory
+0.144 & 5.333 & 5.587 & 311.848
+
+timevae/beijing: hidden_layers=[16, 12, 20] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=512
+& Z (timevae) & 2.6712 & 1.1839 & 1.1453
+R²: -0.009, L_recons: 73.785
+time & params & flops & memory
+0.158 & 5.330 & 5.487 & 311.799
+
+timevae/beijing: hidden_layers=[16, 12, 20] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=512
+& Z (timevae) & 2.9622 & 1.1919 & 1.1481
+R²: -0.014, L_recons: 97.029
+time & params & flops & memory
+0.141 & 5.330 & 5.487 & 311.799
+
+==========
+
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.1176 & 1.0505 & 1.0455
+R²: -0.031, L_recons: 27.118
+time & params & flops & memory
+0.522 & 0.674 & 0.715 & 69.052
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=128
+& Z (timevae) & 1.1369 & 1.0397 & 1.0539
+R²: -0.048, L_recons: 30.140
+time & params & flops & memory
+0.555 & 0.674 & 0.715 & 69.052
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.1040 & 1.0566 & 1.0481
+R²: -0.036, L_recons: 30.346
+time & params & flops & memory
+0.597 & 0.454 & 0.520 & 65.498
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=128
+& Z (timevae) & 1.0628 & 1.0540 & 1.0599
+R²: -0.060, L_recons: 35.268
+time & params & flops & memory
+0.590 & 0.454 & 0.520 & 65.498
+
+timevae/beijing: hidden_layers=[16, 12, 20] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.1065 & 1.0630 & 1.0521
+R²: -0.044, L_recons: 31.336
+time & params & flops & memory
+0.612 & 0.452 & 0.492 & 65.449
+
+timevae/beijing: hidden_layers=[16, 12, 20] latent_dim=16 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=128
+& Z (timevae) & 1.0844 & 1.0647 & 1.0560
+R²: -0.052, L_recons: 34.706
+time & params & flops & memory
+0.611 & 0.452 & 0.492 & 65.449
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.1390 & 1.0592 & 1.0512
+R²: -0.042, L_recons: 27.168
+time & params & flops & memory
+0.530 & 0.675 & 0.716 & 69.072
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=128
+& Z (timevae) & 1.1254 & 1.0577 & 1.0528
+R²: -0.045, L_recons: 30.503
+time & params & flops & memory
+0.534 & 0.675 & 0.716 & 69.072
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.0882 & 1.0631 & 1.0618
+R²: -0.063, L_recons: 33.200
+time & params & flops & memory
+0.619 & 0.455 & 0.521 & 65.511
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=128
+& Z (timevae) & 1.0644 & 1.0731 & 1.0635
+R²: -0.067, L_recons: 35.329
+time & params & flops & memory
+0.614 & 0.455 & 0.521 & 65.511
+
+timevae/beijing: hidden_layers=[16, 12, 20] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.1046 & 1.0560 & 1.0532
+R²: -0.046, L_recons: 30.881
+time & params & flops & memory
+0.613 & 0.452 & 0.493 & 65.462
+
+timevae/beijing: hidden_layers=[16, 12, 20] latent_dim=20 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=128
+& Z (timevae) & 1.0764 & 1.0544 & 1.0574
+R²: -0.054, L_recons: 36.301
+time & params & flops & memory
+0.584 & 0.452 & 0.493 & 65.462
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=24 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.2062 & 1.1363 & 1.1261
+R²: -0.039, L_recons: 27.051
+time & params & flops & memory
+0.579 & 0.676 & 0.717 & 69.102
+
+timevae/beijing: hidden_layers=[16, 12] latent_dim=24 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=128
+& Z (timevae) & 1.2271 & 1.1390 & 1.1370
+R²: -0.059, L_recons: 29.539
+time & params & flops & memory
+0.507 & 0.676 & 0.717 & 69.102
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=24 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.1792 & 1.1539 & 1.1315
+R²: -0.049, L_recons: 32.782
+time & params & flops & memory
+0.572 & 0.456 & 0.522 & 65.527
+
+timevae/beijing: hidden_layers=[24, 16, 20] latent_dim=24 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=128
+& Z (timevae) & 1.1378 & 1.1342 & 1.1337
+R²: -0.053, L_recons: 35.031
+time & params & flops & memory
+0.584 & 0.456 & 0.522 & 65.527
+
+timevae/beijing: hidden_layers=[12, 8] latent_dim=4 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.2197 & 1.1288 & 1.1206
+R²: -0.029, L_recons: 34.132
+time & params & flops & memory
+0.535 & 0.668 & 0.697 & 65.907
+
+timevae/beijing: hidden_layers=[12, 8] latent_dim=4 reconstruction_wt=3.5
+train_epochs=100 lr=0.002 batch_size=256 window_size=128
+& Z (timevae) & 1.1861 & 1.1351 & 1.1357
+R²: -0.057, L_recons: 34.361
+time & params & flops & memory
+0.512 & 0.668 & 0.697 & 65.907
+
+timevae/beijing: hidden_layers=[16, 8, 12] latent_dim=4 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=256 window_size=128
+& Z (timevae) & 1.1737 & 1.1245 & 1.1353
+R²: -0.056, L_recons: 35.014
+time & params & flops & memory
+0.599 & 0.448 & 0.484 & 62.783
+
+timevae/beijing: hidden_layers=[12, 8] latent_dim=4 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=64 window_size=128
+& Z (timevae) & 1.2197 & 1.1288 & 1.1206
+R²: -0.029, L_recons: 34.132
+time & params & flops & memory
+0.520 & 0.668 & 0.697 & 66.276
+
+timevae/beijing: hidden_layers=[28, 16, 20] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.007 batch_size=512 window_size=128
+& Z (timevae) & 1.1098 & 1.1080 & 1.1380
+R²: -0.061, L_recons: 47.617
+time & params & flops & memory
+0.581 & 0.454 & 0.531 & 65.506
+
+timevae/beijing: hidden_layers=[28, 16, 20] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=512 window_size=128
+& Z (timevae) & 1.1884 & 1.1258 & 1.1290
+R²: -0.044, L_recons: 30.355
+time & params & flops & memory
+0.597 & 0.454 & 0.531 & 65.506
+
+timevae/beijing: hidden_layers=[8, 4] latent_dim=6 reconstruction_wt=3.5
+train_epochs=100 lr=0.007 batch_size=512 window_size=128
+& Z (timevae) & 1.1292 & 1.1223 & 1.1283
+R²: -0.043, L_recons: 37.182
+time & params & flops & memory
+0.501 & 0.667 & 0.684 & 66.653
+
+timevae/beijing: hidden_layers=[8, 4] latent_dim=6 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=512 window_size=128
+& Z (timevae) & 1.2069 & 1.1273 & 1.1290
+R²: -0.044, L_recons: 31.764
+time & params & flops & memory
+0.534 & 0.667 & 0.684 & 66.341
+
+
+window_size=64
+==============
+timevae/beijing: hidden_layers=[64, 32] latent_dim=12 reconstruction_wt=3.5
+{"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 64, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 16, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 32, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 8, "hidden_layers": [128, 64], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 32, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+
+{"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 20, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+
+{"latent_dim": 12, "hidden_layers": [128, 64], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 8, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 16, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+{"latent_dim": 20, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 64, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
+
+{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: 'timevae_temp.npz'"}
+{"latent_dim": 12, "hidden_layers": [64, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 32, "lr": 0.05, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: 'timevae_temp.npz'"}
+{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
+{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
+{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
+{"latent_dim": 20, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
+{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 64, "lr": 0.005, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
+{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.05, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
+{"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.01, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
+{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
+{"latent_dim": 20, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 32, "lr": 0.05, "rmse": null, "r2": null, "error": "catboost/libs/data/quantization.cpp:2420: All features are either constant or ignored."}
+{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 16, "lr": 0.05, "rmse": null, "r2": null, "error": "catboost/libs/data/quantization.cpp:2420: All features are either constant or ignored."}
+{"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 32, "lr": 0.01, "rmse": 0.9875263571739197, "r2": -0.025608317798533786, "recon_loss": 29.654488072359474}
+{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 64, "lr": 0.001, "rmse": 0.9983946084976196, "r2": -0.02137119270146992, "recon_loss": 39.60353263159443}
+{"latent_dim": 8, "hidden_layers": [128, 64], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 32, "lr": 0.005, "rmse": 0.9839945435523987, "r2": -0.01288107709868469, "recon_loss": 29.292099178285525}
+{"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 3.5, "train_epochs": 1, "batch_size": 16, "lr": 0.001, "rmse": 1.0035419464111328, "r2": -0.027335685276898225, "recon_loss": 32.86701669818476}
+{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 64, "lr": 0.005, "rmse": null, "r2": null, "error": "catboost/libs/data/quantization.cpp:2420: All features are either constant or ignored."}
+{"latent_dim": 16, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 64, "lr": 0.001, "rmse": 0.984302282333374, "r2": -0.020067009977547956, "recon_loss": 31.02338102527131}
+{"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 32, "lr": 0.001, "rmse": 1.0043818950653076, "r2": -0.022376108265211192, "recon_loss": 33.64319388221081}
+{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 16, "lr": 0.005, "rmse": null, "r2": null, "error": "catboost/libs/data/quantization.cpp:2420: All features are either constant or ignored."}
+{"latent_dim": 20, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 16, "lr": 0.001, "rmse": 0.9882607460021973, "r2": -0.02125040676305856, "recon_loss": 42.61541268879309}
+{"latent_dim": 12, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 32, "lr": 0.001, "rmse": 0.9845272302627563, "r2": -0.022140896492991224, "recon_loss": 30.41727644698064}
+
+{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 64, "lr": 0.01, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 31.828647627866356}
+{"latent_dim": 12, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 32, "lr": 0.05, "rmse": 0.9698662161827087, "r2": -0.000578576384596019, "recon_loss": 752.0481816485412}
+{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 64, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 37.108424796197646}
+{"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.001, "rmse": 0.9891402125358582, "r2": -0.032057669087708573, "recon_loss": 15.312333011985721}
+
+{"latent_dim": 8, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.01, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 28.257705070022354}
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.833250827359077}
+
+window_size=64
+==============
+{"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 30.00817909276575}
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9698890447616577, "r2": -0.06818351688149416, "recon_loss": 23.40027103746744}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.001, "rmse": 0.9824462532997131, "r2": -0.02759280789779006, "recon_loss": 17.933046672577248}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.001, "rmse": 0.9923989772796631, "r2": -0.024383908435752444, "recon_loss": 17.015620528307178}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.97087562084198, "r2": -0.07242833127322701, "recon_loss": 22.783101264695475}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.001, "rmse": 0.9986663460731506, "r2": -0.022584061174775405, "recon_loss": 15.123166015273647}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.01, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 28.268312058054416}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 53.99407108923546}
+{"latent_dim": 8, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9703416228294373, "r2": -0.03631056132193411, "recon_loss": 22.97379852237558}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9713411927223206, "r2": -0.04202452147399782, "recon_loss": 22.88916681762925}
+{"latent_dim": 20, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.872198153259163}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.9698662161827087, "r2": -0.000578576384596019, "recon_loss": 29.912275782205107}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.001, "rmse": 0.9726275205612183, "r2": -0.0387533666684583, "recon_loss": 22.114494174942934}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.001, "rmse": 0.9718253016471863, "r2": -0.03337715556968823, "recon_loss": 22.170434528723696}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.7866202099879}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.76482595716204}
+{"latent_dim": 20, "hidden_layers": [32, 24, 48], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.966355929697368}
+{"latent_dim": 8, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.974830687046051, "r2": -0.052880995755064886, "recon_loss": 19.54972789789501}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.853400015293207}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.86472239350914}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.818547881635507}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9710005521774292, "r2": -0.03971858841437359, "recon_loss": 20.496655663153284}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.818547881635507}
+{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.99161776922699}
+{"latent_dim": 20, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9698662161827087, "r2": -0.000578576384596019, "recon_loss": 28.052094900518433}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.9698662161827087, "r2": -0.000578576384596019, "recon_loss": 29.91122357648118}
+{"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 30.00817909276575}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 34.748250416346956}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.926599674655083}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.01, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 28.24614741569175}
+{"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 30.00817909276575}
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9698890447616577, "r2": -0.06818351688149416, "recon_loss": 23.40027103746744}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.97087562084198, "r2": -0.07242833127322701, "recon_loss": 22.783101264695475}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.01, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 28.268312058054416}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 53.99407108923546}
+{"latent_dim": 8, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9703416228294373, "r2": -0.036310561321934554, "recon_loss": 22.97379852237558}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9713411927223206, "r2": -0.04202452147399782, "recon_loss": 22.88916681762925}
+{"latent_dim": 20, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.872198153259163}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.9698662161827087, "r2": -0.000578576384596019, "recon_loss": 29.912275782205107}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.001, "rmse": 0.9726275205612183, "r2": -0.0387533666684583, "recon_loss": 22.114494174942934}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.001, "rmse": 0.9718253016471863, "r2": -0.03337715556968801, "recon_loss": 22.170434528723696}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.7866202099879}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.76482595716204}
+{"latent_dim": 20, "hidden_layers": [32, 24, 48], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.966355929697368}
+{"latent_dim": 8, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.974830687046051, "r2": -0.052880995755064886, "recon_loss": 19.54972789789501}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.853400015293207}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.86472239350914}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.818547881635507}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9710005521774292, "r2": -0.03971858841437359, "recon_loss": 20.496655663153284}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.818547881635507}
+{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.99161776922699}
+{"latent_dim": 20, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.005, "rmse": 0.9698662161827087, "r2": -0.000578576384596019, "recon_loss": 28.052094900518433}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.9698662161827087, "r2": -0.000578576384596019, "recon_loss": 29.91122357648118}
+{"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 30.00817909276575}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 34.748250416346956}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.926599674655083}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.01, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 28.24614741569175}
+
+window_size=128
+===============
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0554118156433105, "r2": -0.0030439851527850337, "recon_loss": 62.93931621178648}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.0617120265960693, "r2": -0.02414908707697494, "recon_loss": 37.096559990617564}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0570459365844727, "r2": -0.05293791042588469, "recon_loss": 47.252756756947456}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.0562721490859985, "r2": -0.09470515583122774, "recon_loss": 47.56386017620115}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.0564873218536377, "r2": -0.03147999109283872, "recon_loss": 46.924442671295395}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0554118156433105, "r2": -0.0030439851527850337, "recon_loss": 63.71781975165346}
+{"latent_dim": 20, "hidden_layers": [32, 24, 48], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.0559523105621338, "r2": -0.060858217562228534, "recon_loss": 47.41564742783855}
+{"latent_dim": 12, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0554118156433105, "r2": -0.0030439851527850337, "recon_loss": 63.36255845808445}
+{"latent_dim": 20, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0554118156433105, "r2": -0.0030439851527850337, "recon_loss": 74.76645112575444}
+timevae/beijing: hidden_layers=[64, 32] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=16 window_size=128
+& Z (timevae) & 1.1747 & 1.0826 & 1.0706
+R²: -0.032, L_recons: 24.661
+time & params & flops & memory
+0.533 & 0.696 & 0.943 & 45.201
+
+timevae/beijing: hidden_layers=[12, 8] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=16 window_size=128
+& Z (timevae) & 1.1493 & 1.0687 & 1.0686
+R²: -0.028, L_recons: 28.291
+time & params & flops & memory
+0.562 & 0.670 & 0.698 & 44.707
+
+timevae/beijing: hidden_layers=[12, 8] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=4 window_size=128
+& Z (timevae) & 1.1493 & 1.0687 & 1.0686
+R²: -0.028, L_recons: 28.291
+time & params & flops & memory
+0.519 & 0.670 & 0.698 & 44.707
+
+timevae/beijing: hidden_layers=[12, 8] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=4 window_size=128
+& Z (timevae) & 1.0315 & 0.9539 & 0.9383
+R²: -0.027, L_recons: 29.051
+time & params & flops & memory
+0.562 & 0.670 & 0.698 & 44.707
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=6 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=4 window_size=128
+& Z (timevae) & 1.0471 & 0.9654 & 0.9381
+R²: -0.027, L_recons: 28.178
+time & params & flops & memory
+0.501 & 0.674 & 0.769 & 44.794
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=6 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=16 window_size=128
+& Z (timevae) & 1.0471 & 0.9654 & 0.9381
+R²: -0.027, L_recons: 28.178
+time & params & flops & memory
+0.502 & 0.674 & 0.769 & 44.794
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=6 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=1024 window_size=128
+& Z (timevae) & 1.0471 & 0.9654 & 0.9381
+R²: -0.027, L_recons: 28.178
+time & params & flops & memory
+0.525 & 0.674 & 0.769 & 44.794
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=6 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=1024 window_size=128
+& Z (timevae) & 1.2311 & 1.1319 & 1.1349
+R²: -0.055, L_recons: 28.902
+time & params & flops & memory
+0.516 & 0.674 & 0.769 & 44.794
+
+{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.1484283208847046, "r2": -0.04677700109492533, "recon_loss": 35.26049855597933}
+{"latent_dim": 20, "hidden_layers": [32, 24, 48], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.1261122226715088, "r2": -0.023697738557932446, "recon_loss": 34.93890689190169}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.67980980693846}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.79707788883295}
+{"latent_dim": 12, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.628809469983096}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.01, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 60.12628350222021}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 1.1089035272598267, "r2": -0.059787116347849834, "recon_loss": 47.198537941265826}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.79707788883295}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.41859262509453}
+{"latent_dim": 16, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.662374180958686}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 64.09503198924817}
+{"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.61980126316386}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.78380551015524}
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.104814052581787, "r2": -3.854011261950063e-05, "recon_loss": 63.42301248966303}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.1819592714309692, "r2": -0.03687939731176981, "recon_loss": 32.9063034129322}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.38669719552635}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 70.36506204676807}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 64.4723280784779}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.28605266083452}
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 60.28639153071812}
+
+
+window_size = 256
+=================
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.0417522192001343, "r2": -0.07946681413141343, "recon_loss": 94.00486557465747}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 126.86830552180011}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0112487077713013, "r2": -0.0021158609149876106, "recon_loss": 134.6159513373124}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.0249861478805542, "r2": -0.16974182870472254, "recon_loss": 99.90356092524708}
+{"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 1.0391846895217896, "r2": -0.07065357443023346, "recon_loss": 93.68364239456062}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 127.82539852400471}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0112487077713013, "r2": -0.0021158609149876106, "recon_loss": 135.5930645304515}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 136.16375850017806}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.9406533241271973, "r2": -0.04685758258684247, "recon_loss": 61.5701383719767}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.0112487077713013, "r2": -0.0021158609149876106, "recon_loss": 134.6159513373124}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 1.1866531372070312, "r2": -0.08221935419230997, "recon_loss": 66.91275573673104}
+{"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0132551193237305, "r2": -0.06701126041850336, "recon_loss": 99.91629931801243}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 1.1866531372070312, "r2": -0.08221935419230997, "recon_loss": 66.91275573673104}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.2314326763153076, "r2": -0.04783548187170372, "recon_loss": 55.22403308323452}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 134.718876659422}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 127.68773688409561}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.01, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 127.68773688409561}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0081329345703125, "r2": -0.04746570562871, "recon_loss": 100.03681420921383}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 134.15682346659494}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 135.00848833241858}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 134.15682346659494}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 127.37286018428946}
+{"latent_dim": 16, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 134.02355151068895}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.0249861478805542, "r2": -0.16974182870472276, "recon_loss": 99.90356092524708}
+{"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 1.0391846895217896, "r2": -0.07065357443023346, "recon_loss": 93.68364239456062}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 127.82539852400471}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0112487077713013, "r2": -0.0021158609149876106, "recon_loss": 135.5930645304515}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 136.16375850017806}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.9406533241271973, "r2": -0.04685758258684247, "recon_loss": 61.5701383719767}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.0112487077713013, "r2": -0.0021158609149876106, "recon_loss": 134.6159513373124}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 1.1866531372070312, "r2": -0.08221935419230997, "recon_loss": 66.91275573673104}
+{"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0132551193237305, "r2": -0.06701126041850336, "recon_loss": 99.91629931801243}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 1.1866531372070312, "r2": -0.08221935419230997, "recon_loss": 66.91275573673104}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.2314326763153076, "r2": -0.04783548187170372, "recon_loss": 55.22403308323452}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 134.718876659422}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 127.68773688409561}
+timevae/beijing: hidden_layers=[32, 16] latent_dim=6 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=1024 window_size=256
+& Z (timevae) & 1.4096 & 1.0654 & 1.0368
+R²: -0.054, L_recons: 48.130
+time & params & flops & memory
+0.267 & 2.522 & 2.710 & 82.772
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=1024 window_size=256
+& Z (timevae) & 1.4784 & 1.0873 & 1.0569
+R²: -0.095, L_recons: 37.286
+time & params & flops & memory
+0.258 & 2.527 & 2.714 & 82.861
+
+timevae/beijing: hidden_layers=[24, 16, 32] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=1024 window_size=256
+& Z (timevae) & 1.1310 & 1.0539 & 1.0311
+R²: -0.042, L_recons: 58.638
+time & params & flops & memory
+0.319 & 1.492 & 1.626 & 61.925
+
+
+window_size = 512
+=================
+timevae/beijing: hidden_layers=[24, 16, 32] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=1024 window_size=512
+& Z (timevae) & 3.6735 & 0.9595 & 0.9262
+R²: -0.123, L_recons: 80.080
+time & params & flops & memory
+0.168 & 5.334 & 5.599 & 138.238
+
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.01, "rmse": 0.9001728892326355, "r2": -0.24553926973541707, "recon_loss": 217.39532632538766}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.01, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 277.4638981674657}
+{"latent_dim": 12, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 294.0045704697118}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 276.3975652058919}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 288.433321981719}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.230849266052246, "r2": -0.17549206709662002, "recon_loss": 181.84093810572767}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 276.16470140399355}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.01, "rmse": 1.0472453832626343, "r2": -0.19529069028214407, "recon_loss": 189.19148115678266}
+{"latent_dim": 12, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 0.9278066158294678, "r2": -0.16779872855107136, "recon_loss": 206.49657509543678}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 3.008415937423706, "r2": -0.2031636766158238, "recon_loss": 47.95508010459669}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 290.11040751139325}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.1460927724838257, "r2": -0.3341917222063584, "recon_loss": 177.07659403483072}
+{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 293.3315955653335}
+{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 293.3315955653335}
+{"latent_dim": 20, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 289.1867857268362}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 291.4484187039462}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 0.9089014530181885, "r2": -0.23043516294363875, "recon_loss": 209.0493918910171}
+{"latent_dim": 20, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 2.391953945159912, "r2": -0.24598287583264034, "recon_loss": 64.63350466525915}
+{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 293.3315955653335}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.01, "rmse": 0.9001728892326355, "r2": -0.24553926973541707, "recon_loss": 217.39532632538766}
+{"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.01, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 277.4638981674657}
+{"latent_dim": 12, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 294.0045704697118}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 276.3975652058919}
+{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 288.433321981719}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.230849266052246, "r2": -0.17549206709662002, "recon_loss": 181.84093810572767}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 276.16470140399355}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.01, "rmse": 1.0472453832626343, "r2": -0.19529069028214407, "recon_loss": 189.19148115678266}
+{"latent_dim": 12, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 0.9278066158294678, "r2": -0.16779872855107136, "recon_loss": 206.49657509543678}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 3.008415937423706, "r2": -0.2031636766158238, "recon_loss": 47.95508010459669}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 290.11040751139325}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.1460927724838257, "r2": -0.3341917222063584, "recon_loss": 177.07659403483072}
+{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 293.3315955653335}
+{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 293.3315955653335}
+{"latent_dim": 20, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 289.1867857268362}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 291.4484187039462}
+{"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 0.9089014530181885, "r2": -0.23043516294363875, "recon_loss": 209.0493918910171}
+{"latent_dim": 20, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 2.391953945159912, "r2": -0.24598287583264034, "recon_loss": 64.63350466525915}
+{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 293.3315955653335}
+
+window_size = 1024
+==================
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.8724564909934998, "r2": -0.01880228021926289, "recon_loss": 611.888867002545}
+{"latent_dim": 12, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 0.8724565505981445, "r2": -0.01880228021926289, "recon_loss": 608.9463260535038}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 2.5105347633361816, "r2": -0.0812094280716964, "recon_loss": 103.47882877696644}
+{"latent_dim": 12, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.9716031551361084, "r2": -0.07257968550406568, "recon_loss": 441.9700372869318}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.8724565505981445, "r2": -0.01880228021926289, "recon_loss": 613.5962172999526}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.1012122631072998, "r2": -0.22682867725081857, "recon_loss": 389.330366192442}
+{"latent_dim": 12, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.8724565505981445, "r2": -0.01880228021926289, "recon_loss": 661.2462209065756}
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.370190978050232, "r2": -0.13660810256685973, "recon_loss": 333.59383877840907}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 2.532679319381714, "r2": -0.12871561302012102, "recon_loss": 551.5746686530836}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 0.9540882110595703, "r2": -0.3396800804385294, "recon_loss": 443.46050563003075}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.0391466617584229, "r2": -0.25505497525192466, "recon_loss": 378.5604687315045}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.1585348844528198, "r2": 0.052615296588602534, "recon_loss": 370.53036198471534}
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 0.9848849773406982, "r2": 0.03180959829751506, "recon_loss": 420.69765171860206}
+{"latent_dim": 20, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 2.536262035369873, "r2": -0.114737254322687, "recon_loss": 359.6421522660689}
+{"latent_dim": 12, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.3810176849365234, "r2": -0.024641526154154603, "recon_loss": 60.22598468896115}
+{"latent_dim": 12, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.3810176849365234, "r2": -0.024641526154154603, "recon_loss": 60.22598468896115}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.1255526542663574, "r2": -0.1030107699464673, "recon_loss": 34.85877664161451}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 0.9649494290351868, "r2": -0.02058633474987337, "recon_loss": 405.03195051713425}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.4477354288101196, "r2": -0.11777981616377664, "recon_loss": 412.4503677830552}
+{"latent_dim": 16, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.2127896547317505, "r2": -0.08944388041378803, "recon_loss": 55.48677346200654}
+best {"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.8724564909934998, "r2": -0.01880228021926289, "recon_loss": 611.888867002545}
+{"latent_dim": 12, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 0.8724565505981445, "r2": -0.01880228021926289, "recon_loss": 608.9463260535038}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 2.5105347633361816, "r2": -0.0812094280716964, "recon_loss": 103.47882877696644}
+{"latent_dim": 12, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.9716031551361084, "r2": -0.07257968550406546, "recon_loss": 441.9700372869318}
+{"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 0.8724565505981445, "r2": -0.01880228021926289, "recon_loss": 613.5962172999526}
+{"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.1012122631072998, "r2": -0.22682867725081857, "recon_loss": 389.330366192442}
+{"latent_dim": 12, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.8724565505981445, "r2": -0.01880228021926289, "recon_loss": 661.2462209065756}
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.370190978050232, "r2": -0.13660810256685973, "recon_loss": 333.59383877840907}
+{"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 2.532679319381714, "r2": -0.12871561302012102, "recon_loss": 551.5746686530836}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 0.9540882110595703, "r2": -0.3396800804385294, "recon_loss": 443.46050563003075}
+{"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.0391466617584229, "r2": -0.2550549752519249, "recon_loss": 378.5604687315045}
+{"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.1585348844528198, "r2": 0.052615296588602534, "recon_loss": 370.53036198471534}
+{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 0.9848849773406982, "r2": 0.03180959829751506, "recon_loss": 420.69765171860206}
+{"latent_dim": 20, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 2.536262035369873, "r2": -0.114737254322687, "recon_loss": 359.6421522660689}
+{"latent_dim": 12, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.3810176849365234, "r2": -0.024641526154154603, "recon_loss": 60.22598468896115}
+{"latent_dim": 12, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.3810176849365234, "r2": -0.024641526154154603, "recon_loss": 60.22598468896115}
+{"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.1255526542663574, "r2": -0.10301076994646707, "recon_loss": 34.85877664161451}
+{"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 0.9649494290351868, "r2": -0.02058633474987337, "recon_loss": 405.03195051713425}
+{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.4477354288101196, "r2": -0.11777981616377664, "recon_loss": 412.4503677830552}
+{"latent_dim": 16, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.2127896547317505, "r2": -0.08944388041378803, "recon_loss": 55.48677346200654}
