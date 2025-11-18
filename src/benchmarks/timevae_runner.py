@@ -38,7 +38,6 @@ def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
     from vae_pipeline import run_vae_pipeline
     from vae.timevae import TimeVAE
 
-
     if train: # always train a new model
         z_train, z_test, timevae_recon_loss, profiling_metrics = run_vae_pipeline(
             timevae_file_path, desired_dataset,
