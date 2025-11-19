@@ -25,7 +25,7 @@ def clean_notebook(path: str) -> None:
     with open(path, "w") as f:
         json.dump(nb, f, indent=2)
 
-def set_all_seeds(seed: int) -> None:
+def set_all_rand_seeds(seed: int) -> None:
     """set deterministic RNG for python / numpy / torch"""
     import random
     random.seed(seed)

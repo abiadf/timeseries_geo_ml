@@ -909,7 +909,7 @@ window_size=64
 {"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.9698662161827087, "r2": -0.000578576384596019, "recon_loss": 29.91122357648118}
 {"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 30.00817909276575}
 {"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 34.748250416346956}
-{"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.926599674655083}
+best {"latent_dim": 8, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.926599674655083}
 {"latent_dim": 12, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 1024, "lr": 0.01, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 28.24614741569175}
 
 window_size=128
@@ -998,7 +998,7 @@ time & params & flops & memory
 {"latent_dim": 12, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 70.36506204676807}
 {"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 64.4723280784779}
 {"latent_dim": 20, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 63.28605266083452}
-{"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 60.28639153071812}
+best {"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.1048139333724976, "r2": -3.854011261950063e-05, "recon_loss": 60.28639153071812}
 
 
 window_size = 256
@@ -1037,7 +1037,7 @@ window_size = 256
 {"latent_dim": 8, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0132551193237305, "r2": -0.06701126041850336, "recon_loss": 99.91629931801243}
 {"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.005, "rmse": 1.1866531372070312, "r2": -0.08221935419230997, "recon_loss": 66.91275573673104}
 {"latent_dim": 16, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 1.2314326763153076, "r2": -0.04783548187170372, "recon_loss": 55.22403308323452}
-{"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 134.718876659422}
+best {"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 134.718876659422}
 {"latent_dim": 20, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.01, "rmse": 1.0112488269805908, "r2": -0.0021158609149876106, "recon_loss": 127.68773688409561}
 timevae/beijing: hidden_layers=[32, 16] latent_dim=6 reconstruction_wt=3.5
 train_epochs=100 lr=0.001 batch_size=1024 window_size=256
@@ -1107,7 +1107,7 @@ time & params & flops & memory
 {"latent_dim": 8, "hidden_layers": [32, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 291.4484187039462}
 {"latent_dim": 20, "hidden_layers": [24, 16, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 0.9089014530181885, "r2": -0.23043516294363875, "recon_loss": 209.0493918910171}
 {"latent_dim": 20, "hidden_layers": [8, 12, 16], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": 2.391953945159912, "r2": -0.24598287583264034, "recon_loss": 64.63350466525915}
-{"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 293.3315955653335}
+best {"latent_dim": 16, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.05, "rmse": 0.9018785953521729, "r2": -0.06721268182560847, "recon_loss": 293.3315955653335}
 
 window_size = 1024
 ==================

@@ -2345,10 +2345,6 @@ time & params & flops & memory
 {"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 64, "lr": 0.01, "epochs": 150, "window_size": 512, "z_pooling_method": "max", "test_rmse": 0.3908583038062513, "r2": 0.7818684477875916}
 {"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 64, "lr": 0.01, "epochs": 150, "window_size": 512, "z_pooling_method": "mean", "test_rmse": 0.39241741891838666, "r2": 0.8143754030066911}
 {"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 64, "lr": 0.01, "epochs": 150, "window_size": 512, "z_pooling_method": "max", "test_rmse": 0.42815417305727244, "r2": 0.7825291419395564}
-{"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 64, "lr": 0.01, "epochs": [100], "window_size": 512, "z_pooling_method": "mean", "test_rmse": null, "r2": null, "error": "'>=' not supported between instances of 'int' and 'list'"}
-
-{"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 64, "lr": 0.01, "epochs": [100], "window_size": 512, "z_pooling_method": "max", "test_rmse": null, "r2": null, "error": "'>=' not supported between instances of 'int' and 'list'"}
-
 {"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 64, "lr": 0.01, "epochs": 100, "window_size": 512, "z_pooling_method": "mean", "test_rmse": 0.4022105366521525, "r2": 0.7769057397427908}
 {"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 64, "lr": 0.01, "epochs": 100, "window_size": 512, "z_pooling_method": "max", "test_rmse": 0.43788237449829714, "r2": 0.7414377900678253}
 {"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 64, "lr": 0.01, "epochs": 100, "window_size": 512, "z_pooling_method": "None", "test_rmse": 0.38103118277630144, "r2": 0.8103248991889351}
@@ -2362,25 +2358,9 @@ time & params & flops & memory
 {"latent_dims": 8, "hidden_dims": 12, "depth": 4, "batch_size": 128, "lr": 0.001, "epochs": 100, "window_size": 512, "z_pooling_method": "None", "test_rmse": 0.4397209119015456, "r2": 0.7764937903760213}
 {"latent_dims": 8, "hidden_dims": 8, "depth": 4, "batch_size": 256, "lr": 0.001, "epochs": 100, "window_size": 512, "z_pooling_method": "None", "test_rmse": 0.3911061247004557, "r2": 0.8040049315147728}
 {"latent_dims": 8, "hidden_dims": 16, "depth": 5, "batch_size": 64, "lr": 0.001, "epochs": 100, "window_size": 512, "z_pooling_method": "None", "test_rmse": 0.42112865253378656, "r2": 0.7826614334711752}
-{"latent_dims": 8, "hidden_dims": 16, "depth": 3, "batch_size": 512, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
-{"latent_dims": 8, "hidden_dims": 16, "depth": 4, "batch_size": 512, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
-{"latent_dims": 8, "hidden_dims": 12, "depth": 5, "batch_size": 512, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
-{"latent_dims": 8, "hidden_dims": 20, "depth": 3, "batch_size": 512, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
-{"latent_dims": 8, "hidden_dims": 8, "depth": 4, "batch_size": 512, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
-{"latent_dims": 8, "hidden_dims": 20, "depth": 5, "batch_size": 512, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
 {"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 512, "lr": 0.001, "epochs": 100, "window_size": 512, "z_pooling_method": "None", "test_rmse": 0.46963517597528176, "r2": 0.6675890173065857}
 {"latent_dims": 8, "hidden_dims": 20, "depth": 4, "batch_size": 512, "lr": 0.001, "epochs": 100, "window_size": 512, "z_pooling_method": "None", "test_rmse": 0.5028058487643623, "r2": 0.6699042104422179}
-ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=128
-& Z (ts2vec) & 2.3899 & 0.4197  & 0.6258
-R² (TS2Vec): 0.644
-time & params & flops & memory 
-0.153 & 0.005 & 0.647 & 20.974
 
-ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=512 lr=0.05 window_size=128
-& Z (ts2vec) & 1.3926 & 0.4320  & 0.5564
-R² (TS2Vec): 0.718
-time & params & flops & memory 
-0.019 & 0.005 & 0.647 & 95.695
 
 {"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 512, "lr": 0.001, "epochs": 100, "window_size": 1024, "z_pooling_method": "None", "test_rmse": 0.5630901240901347, "r2": 0.5900930465009238}
 {"latent_dims": 8, "hidden_dims": 8, "depth": 4, "batch_size": 512, "lr": 0.001, "epochs": 100, "window_size": 1024, "z_pooling_method": "None", "test_rmse": 0.5251820662690405, "r2": 0.6483428241834601}
@@ -2390,12 +2370,7 @@ time & params & flops & memory
 {"latent_dims": 12, "hidden_dims": 20, "depth": 5, "batch_size": 512, "lr": 0.001, "epochs": 100, "window_size": 1024, "z_pooling_method": "None", "test_rmse": 0.4723165747738175, "r2": 0.6617414049590242}
 {"latent_dims": 16, "hidden_dims": 8, "depth": 3, "batch_size": 512, "lr": 0.001, "epochs": 100, "window_size": 1024, "z_pooling_method": "None", "test_rmse": 0.4488801816824673, "r2": 0.6402190256154334}
 
-{"latent_dims": 8, "hidden_dims": 16, "depth": 3, "batch_size": 1024, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
-{"latent_dims": 8, "hidden_dims": 16, "depth": 4, "batch_size": 1024, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
-{"latent_dims": 8, "hidden_dims": 20, "depth": 5, "batch_size": 1024, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
 
-{"latent_dims": 8, "hidden_dims": 8, "depth": 3, "batch_size": 1024, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
-{"latent_dims": 8, "hidden_dims": 12, "depth": 4, "batch_size": 1024, "lr": 0.001, "epochs": 100, "z_pooling_method": "None", "test_rmse": null, "r2": null, "error": "'window_size'"}
 {"latent_dims": 8, "hidden_dims": 12, "depth": 3, "batch_size": 1024, "lr": 0.001, "epochs": 100, "window_size": 1024, "z_pooling_method": "None", "test_rmse": 0.46179291346163853, "r2": 0.6858358068731748}
 {"latent_dims": 8, "hidden_dims": 20, "depth": 4, "batch_size": 1024, "lr": 0.001, "epochs": 100, "window_size": 1024, "z_pooling_method": "None", "test_rmse": 0.4404368621945099, "r2": 0.7310519180627594}
 {"latent_dims": 8, "hidden_dims": 8, "depth": 5, "batch_size": 1024, "lr": 0.001, "epochs": 100, "window_size": 1024, "z_pooling_method": "None", "test_rmse": 0.45783259023577766, "r2": 0.6893211515505369}
@@ -2514,7 +2489,6 @@ best: {"latent_dims": 20, "hidden_dims": 16, "depth": 3, "batch_size": 1024, "lr
 
 window=256, beijing
 ===================
-
 {"latent_dims": 12, "hidden_dims": 16, "depth": 5, "batch_size": 1024, "lr": 0.001, "epochs": 100, "window_size": 256, "z_pooling_method": "None", "test_rmse": 0.39236445369871625, "r2": 0.7035868952668776}
 {"latent_dims": 20, "hidden_dims": 16, "depth": 5, "batch_size": 1024, "lr": 0.005, "epochs": 100, "window_size": 256, "z_pooling_method": "None", "test_rmse": 0.37037214464529317, "r2": 0.663482564712711}
 {"latent_dims": 20, "hidden_dims": 12, "depth": 4, "batch_size": 1024, "lr": 0.001, "epochs": 100, "window_size": 256, "z_pooling_method": "None", "test_rmse": 0.40099497605916823, "r2": 0.6062555395876955}
