@@ -195,3 +195,178 @@ R² (MLP head): -0.032
 {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": -0.02154231071472168}
 {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": -0.014461755752563477}
 {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": -0.015365958213806152}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": -0.013768672943115234}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.8733198094902715, "r2": 0.13182926177978516}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.8733198094902715, "r2": 0.032074570655822754}
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.011
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): 0.028
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): 0.004
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.035
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.029
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.007
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): -0.003
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=256
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.003
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.011
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): -0.009
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.002
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): -0.015
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.046
+
+=====
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.000
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.009
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): 0.039
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): 0.022
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.034
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9291
+R² (MLP head): -0.005
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): -0.011
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.006
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.8891 & test_RMSE=0.7753
+R² (MLP head): 0.001
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): -0.013
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.032
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): -0.015
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9243 & test_RMSE=0.8638
+R² (MLP head): -0.087
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.010
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.026
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.040
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.060
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): -0.010
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9243 & test_RMSE=0.8638
+R² (MLP head): 0.001
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.003
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): -0.154
+
