@@ -1,1 +1,22 @@
 
+barlow_cnn/beijing: c1=64 c2=128 kernel=5 pool=2 latent_dim=32 ssl_lambda=0.005 ssl_weight=0.8 augment_const=0.1 epochs=100 lr=0.001
+barlow_cnn/beijing: c1=64 c2=128 kernel=5 pool=2 latent_dim=32 ssl_lambda=0.005 ssl_weight=0.8 augment_const=0.1 epochs=100 lr=0.001
+& Z (barlow_cnn) & 0.7989 & 0.8278 & 0.8386 & 1.0676 
+R² (barlow_cnn): 0.357
+
+barlow_cnn/beijing: c1=64 c2=128 k=5 pool=2 latent=32 sslλ=0.005 sslw=0.8 aug=0.1 epochs=100 lr=0.001
+& Z (barlow_cnn) & 0.8068 & 0.8267 & 0.8302 & 1.0277
+R² (barlow_cnn): 0.306
+
+barlow_cnn/beijing: c1=64 c2=128 k=5 pool=2 latent=32 sslλ=0.005 sslw=0.8 aug=0.1 epochs=100 lr=0.001
+& Z (barlow_cnn) & 0.8627 & 0.8598 & 0.8595 & 1.0642
+R² (barlow_cnn): 0.317
+
+barlow_cnn/beijing: c1=64 c2=128 k=5 pool=2 latent=32 sslλ=0.005 sslw=0.8 aug=0.1 epochs=100 lr=0.001
+& Z (barlow_cnn) & 0.8298 & 0.8530 & 0.8401 & 1.0482
+R² (barlow_cnn): 0.347
+
+barlow_cnn/beijing: c1=64 c2=128 k=5 pool=2 latent=32 sslλ=0.005 sslw=0.8 aug=0.1 epochs=100 lr=0.001 (last SSL=0.5385, last Recon=2.1267)
+& Z (barlow_cnn) & 0.7875 & 0.8139 & 0.8137 & 1.0163
+R² (barlow_cnn): 0.339
+

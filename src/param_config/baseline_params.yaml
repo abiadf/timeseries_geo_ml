@@ -52,10 +52,13 @@ barlow:
     POOL_KERNEL :  2
     latent_dim  :  32
     augment_const: 0.1
+    recon_weight: 0
   ae:
     latent_dim :   32
     ssl_weight :   1.0
     augment_const: 0.1
+    head_dims_list: [128, 64, 16]
+
 
 cellsup:
   num_epochs  : 25
