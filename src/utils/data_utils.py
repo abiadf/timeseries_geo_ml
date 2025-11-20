@@ -8,17 +8,17 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def convert_numpy(d):
-    """Convert numpy types in dict to native Python types for JSON serialization."""
-    out = {}
-    for k, v in d.items():
-        if isinstance(v, (np.integer,)):
-            out[k] = int(v)
-        elif isinstance(v, (np.floating,)):
-            out[k] = float(v)
-        else:
-            out[k] = v
-    return out
-
+    """Recursively convert numpy types in dict to native Python types for JSON serialization."""
+    if isinstance(d, dict):
+        return {k: convert_numpy(v) for k, v in d.items()}
+    elif isinstance(d, (list, tuple)):
+        return [convert_numpy(v) for v in d]
+    elif isinstance(d, (np.integer,)):
+        return int(d)
+    elif isinstance(d, (np.floating,)):
+        return float(d)
+    else:
+        return d
 
 def catch22_features_from_windows(X_windows: np.ndarray, y_windows: np.ndarray, which_y: str) -> tuple[np.ndarray, np.ndarray]:
     """Apply catch22 to each window/channel and return (features, targets).
