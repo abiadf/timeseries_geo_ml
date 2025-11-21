@@ -1,4 +1,4 @@
-""""TS2Vec running functions"""
+""""timevae running functions"""
 import sys
 import os
 import numpy as np
@@ -111,4 +111,55 @@ def log_timevae_results(dataset_name, window_size, losses, r2, metrics, recon_lo
     print("time & params & flops & memory")
     print(f"{metrics['runtime_s']:.3f} & {metrics['num_params_M']:.3f} & "
           f"{metrics['flops_M']:.3f} & {metrics['peak_memory_MB']:.3f}\n")
+
+
+
+
+if __name__ == "__main__":
+    from utils.io_utils import JSONLogger, Notifiers, read_yaml_params, set_all_rand_seeds
+    from src.param_config.config_file import interim_data_loc, public_data_loc, encoders_folder, ts2vec_params_loc
+
+    params      = read_yaml_params(params_path)
+
+
+    def main(desired_dataset, timevae_file_path, window_size):
+        """TimeVAE"""
+
+        if params["run_console"]["timevae"]:
+            # train_epochs = data_params["general"]["train_epochs"]
+            # lr_training  = data_params[desired_dataset]["timevae"]["lr_training"]
+            # latent_dim   = data_params[desired_dataset]["timevae"]["latent_dim"]
+            # hidden_layer_sizes= data_params[desired_dataset]["timevae"]["hidden_layer_sizes"]
+            # batch_size        = data_params[desired_dataset]["timevae"]["batch_size"]
+            # reconstruction_wt = data_params[desired_dataset]["timevae"]["reconstruction_wt"]
+            train_epochs = 100
+            lr_training  = 0.05
+            latent_dim   = 8
+            hidden_layer_sizes= [12, 16, 20]
+            batch_size        = 1024
+            reconstruction_wt = 3.5
+
+            losses, r2, metrics, recon_loss, z_train, z_test = run_timevae(
+                X_train, X_test, y_train_scaled, y_test_scaled,
+                timevae_file_path=timevae_file_path,
+                device=device,
+                batch_size=batch_size,
+                train_epochs=train_epochs,
+                lr_training=lr_training,
+                latent_dim=latent_dim,
+                hidden_layer_sizes=hidden_layer_sizes,
+                reconstruction_wt=reconstruction_wt, desired_dataset=desired_dataset)
+            
+            model_cfg = {"hidden_layers": hidden_layer_sizes,
+                        "latent_dim": latent_dim,
+                        "reconstruction_wt": reconstruction_wt}
+
+            train_cfg = {"train_epochs": train_epochs,
+                        "lr": lr_training,
+                        "batch_size": batch_size}
+
+            log_timevae_results(desired_dataset, window_size, losses, r2, metrics, recon_loss, model_cfg, train_cfg,
+                                filename="results/hyperparam_search_timevae.txt")
+
+            return losses, r2, metrics, recon_loss, z_train, z_test
 

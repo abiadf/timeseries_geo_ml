@@ -17,7 +17,7 @@ if torch.cuda.is_available():
 from preprocessing.dataset_preprocessors import DatasetPreprocessor, ECGLoader, NasaLoader, GermanyDataset, WeatherDataset, process_argoverse_parquet
 from preprocessing.window_folder import WindowFolder
 
-from param_config.config import interim_data_loc, public_data_loc, encoders_folder, ts2vec_params_loc
+from param_config.config_file import interim_data_loc, public_data_loc, encoders_folder, ts2vec_params_loc
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)

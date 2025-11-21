@@ -1389,6 +1389,17 @@ linreg=1.1271 catboost=1.1170 rf=1.1153R²=-0.014 L_recons=16.987
 time & params & flops & memory
 1.228 & 0.190 & 0.340 & 50.474
 
+
+
+
+
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 window=128
 ==========
 timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
@@ -1551,7 +1562,7 @@ linreg=0.9895 catboost=0.9901 rf=0.9736R²=-0.053 L_recons=28.949
 time & params & flops & memory
 0.597 & 0.462 & 0.584 & 40.954
 
-timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+best timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
 linreg=0.9884 catboost=0.9553 rf=0.9606R²=-0.025 L_recons=37.299
 time & params & flops & memory
 0.579 & 0.462 & 0.584 & 40.954
@@ -1656,10 +1667,9 @@ linreg=0.9496 catboost=nan rf=0.9499R²=-0.003 L_recons=59.251
 time & params & flops & memory
 0.581 & 0.464 & 0.585 & 40.974
 
+
 window=256
 ==========
-
-
 timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
 linreg=1.3368 catboost=1.0679 rf=1.0442R²=-0.026 L_recons=59.676
 time & params & flops & memory
@@ -2207,7 +2217,7 @@ linreg=1.2108 catboost=0.9358 rf=0.8926R²=-0.030 L_recons=45.689
 time & params & flops & memory
 0.319 & 1.569 & 2.846 & 100.056
 
-timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+best timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
 linreg=1.1670 catboost=0.8946 rf=0.8919R²=-0.029 L_recons=71.821
 time & params & flops & memory
 0.344 & 1.569 & 2.846 & 100.056
@@ -2410,7 +2420,7 @@ linreg=2.1328 catboost=1.0514 rf=1.0225R²=-0.116 L_recons=50.431
 time & params & flops & memory
 0.161 & 5.357 & 6.065 & 138.699
 
-timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+best timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
 linreg=2.2862 catboost=1.0192 rf=0.9956R²=-0.058 L_recons=59.096
 time & params & flops & memory
 0.185 & 5.357 & 6.065 & 138.699
@@ -2929,7 +2939,7 @@ linreg=1.7593 catboost=0.9917 rf=0.9259R²=-0.038 L_recons=165.577
 time & params & flops & memory
 0.179 & 20.074 & 20.412 & 768.217
 
-timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+best timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
 linreg=2.4581 catboost=0.9060 rf=0.9471R²=-0.086 L_recons=158.861
 time & params & flops & memory
 0.177 & 20.074 & 20.412 & 768.217
@@ -3161,7 +3171,7 @@ linreg=1.0106 catboost=1.0268 rf=1.0334R²=-0.048 L_recons=20.153
 time & params & flops & memory
 1.174 & 0.173 & 0.292 & 34.715
 
-timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+best timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
 linreg=1.0246 catboost=1.0116 rf=1.0219R²=-0.025 L_recons=15.496
 time & params & flops & memory
 1.187 & 0.173 & 0.292 & 34.715
