@@ -416,3 +416,52 @@ class WeatherDataset:
         to align with reshaped X."""
         return y.reshape(y.shape[0], -1).T
 
+
+
+class NasaLoader:
+    @staticmethod
+    def fold_by_engine_unit(df, feature_cols, target_col='RUL', single_target: bool=False, pad_value=0.0):
+        """Fold data into 3D array per engine (unit) with padding.
+        single_target: If True, return only last RUL per engine; else full sequence.
+        Returns:
+            X: (num_units, max_seq_len, num_features)
+            y: (num_units, max_seq_len) if single_target=False
+            (num_units, 1) if single_target=True
+            seq_lens: list of original sequence lengths per unit"""
+        units        = df['unit'].unique()
+        num_features = len(feature_cols)
+        seq_lens     = [len(df[df['unit']==u]) for u in units]
+        max_len      = max(seq_lens)
+        
+        X_folded = np.full((len(units), max_len, num_features), pad_value, dtype=np.float32)
+        if single_target:
+            y = np.zeros((len(units), 1), dtype=np.float32)
+        else:
+            y = np.full((len(units), max_len), pad_value, dtype=np.float32)
+        
+        for i, u in enumerate(units):
+            unit_df = df[df['unit']==u]
+            seq_len = len(unit_df)
+            X_folded[i, :seq_len] = unit_df[feature_cols].values
+            if single_target:
+                y[i, 0] = unit_df[target_col].values[-1]  # last timestep RUL
+            else:
+                y[i, :seq_len] = unit_df[target_col].values
+        return X_folded, y, seq_lens
+
+    @staticmethod
+    def pad_X_to_max(X, target_len):
+        padded = np.zeros((X.shape[0], target_len, X.shape[2]), dtype=X.dtype)
+        padded[:, :X.shape[1], :] = X
+        return padded
+
+    @staticmethod
+    def pad_y_to_max(y, target_len, pad_value=0.0):
+        if y.ndim == 2:  # full sequences
+            padded = np.full((y.shape[0], target_len), pad_value, dtype=y.dtype)
+            padded[:, :y.shape[1]] = y
+        else:
+            padded = y
+        return padded
+
+
