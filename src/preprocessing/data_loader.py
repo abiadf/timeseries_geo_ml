@@ -157,9 +157,6 @@ class DatasetLoading:
         y = y.astype(float)
         return X, y
 
-    # @staticmethod
-    # def load_nasa_data():
-    #     return X_train.shape, X_test, y_train_scaled, y_test_scaled
     @staticmethod
     def load_nasa_data(nasa_folder="../public_datasets/3D/NASA", specific_file="FD004",
                        single_target: bool=False):
@@ -202,7 +199,6 @@ class DatasetLoading:
         y_train_scaled = y_scaler.fit_transform(y_train)
         y_test_scaled  = y_scaler.transform(y_test)
         return X_train, X_test, y_train_scaled, y_test_scaled
-
 
     @staticmethod
     def load_panama_data() -> tuple[np.ndarray, np.ndarray]:

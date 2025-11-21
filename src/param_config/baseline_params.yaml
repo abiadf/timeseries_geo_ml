@@ -3,7 +3,7 @@ basics:
   label_frac:      1  # fraction of labeled training data
   data_splitting:  "reduced_data" # missing_labels, reduced_data
   num_runs:        1  # times to run the whole code
-  desired_dataset: "nasa" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
+  desired_dataset: "beijing" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
   dataset_list:
     - india_catchment
     - germany_catchment
@@ -16,6 +16,7 @@ basics:
     # - asm
   label_frac_list: [1, 0.5, 0.25]
   random_seed:     42  # for reproducibility
+  do_we_scale_y:   true  # whether to scale y values
 
 run_console:
   mean_X:        true

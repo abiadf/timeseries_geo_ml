@@ -89,7 +89,7 @@ class Headsup:
             z1_pooled = z1.mean(dim=1)
             x_recon   = self.decoder(z1_pooled)
 
-            loss_contrast = nt_xent_loss(h1, h2, temperature=self.contrast_temp)
+            loss_contrast = norm_temp_xentropy_loss(h1, h2, temperature=self.contrast_temp)
             loss_recon    = F.mse_loss(x_recon, X_batch)
             loss_total    = weights["recon"] * loss_recon + weights["contrast"] * loss_contrast
 
@@ -193,7 +193,7 @@ class Headsup:
             z1_U, z2_U = self.encoder(X1_U), self.encoder(X2_U)
             h1_L, h2_L = self.proj_head(z1_L).mean(dim=1), self.proj_head(z2_L).mean(dim=1)
             h1_U, h2_U = self.proj_head(z1_U).mean(dim=1), self.proj_head(z2_U).mean(dim=1)
-            loss_contrast = (nt_xent_loss(h1_L, h2_L, self.contrast_temp) + nt_xent_loss(h1_U, h2_U, self.contrast_temp)) / 2
+            loss_contrast = (norm_temp_xentropy_loss(h1_L, h2_L, self.contrast_temp) + norm_temp_xentropy_loss(h1_U, h2_U, self.contrast_temp)) / 2
 
             # backward
             loss_total = weights_train["pred"] * loss_pred + weights_train["recon"] * loss_recon + weights_train["contrast"] * loss_contrast

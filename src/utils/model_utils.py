@@ -1,11 +1,10 @@
 """Predictions and feature selection / dimensionality reduction"""
-
 import time
 import gc
+import math
 
 import torch
 import torch.nn as nn
-import torch.optim as optim
 import torch.nn.functional as F
 import tracemalloc
 from collections import defaultdict
@@ -94,7 +93,6 @@ def profile_epoch(model, loader, optimizer, criterion, device, warmup=False, mea
         'flops_M': flops_m}
     return metrics
 
-
 def clear_cuda_memory() -> None:
     """Release unreferenced GPU tensors and trigger CUDA memory cleanup."""
     gc.collect()
@@ -103,6 +101,31 @@ def clear_cuda_memory() -> None:
         torch.cuda.ipc_collect()
     except Exception:
         pass
+
+
+def schedule_learning_rate(step, max_steps, lr_0=1e-3, lr_end=1e-5, schedule_type="linear"):
+    """Compute learning rate at given step with linear or cosine decay from lr0 to lr_end."""
+    if schedule_type == "linear":
+        return lr_0 - (lr_0 - lr_end) * (step / max_steps)
+    elif schedule_type == "cosine":
+        cosine_decay = 0.5 * (1 + math.cos(math.pi * step / max_steps))
+        return lr_end + (lr_0 - lr_end) * cosine_decay
+    else:
+        raise ValueError(f"Unknown schedule type: {schedule_type}")
+
+def norm_temp_xentropy_loss(z1, z2, temperature=0.5):
+    """Normalized temperature-scaled cross entropy loss"""
+    B   = z1.size(0)   # dynamically set batch size
+    z1  = F.normalize(z1, dim=1)
+    z2  = F.normalize(z2, dim=1)
+    z   = torch.cat([z1, z2], dim=0)  # (2B, dim)
+
+    sim = torch.matmul(z, z.T) / temperature
+    mask= torch.eye(2*B, device=z.device, dtype=torch.bool)
+    sim = sim.masked_fill(mask, -9e15)
+
+    labels = torch.cat([torch.arange(B) + B, torch.arange(B)], dim=0).to(z.device)
+    return F.cross_entropy(sim, labels)
 
 
 class ProjectionHead(nn.Module):
@@ -179,7 +202,6 @@ class TorchWrapper(nn.Module):
         return self.net
 
 
-
 class PCA_analysis:
     """Class that contains all PCA methods. Given a df of F cols, the PCA df will also have F cols.
     This class looks at X only, not y"""
@@ -237,7 +259,6 @@ class PCA_analysis:
         for feature, total_contrib in sorted_features[:top_k_features]:
             print(f"{feature}: {total_contrib:.2f}%")
         return sorted_features
-
 
 
 class RFE_analysis():

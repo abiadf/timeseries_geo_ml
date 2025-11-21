@@ -148,8 +148,6 @@ class DatasetPreprocessor:
             return X_train_small, X_test_small, y_train_scaled, y_test_scaled
 
 
-
-
 def process_argoverse_parquet(scenario_parquet_path: str):
     """Convert Argoverse Parquet scenario to X (3D) and y (2D)
     Follows these rules:
@@ -417,7 +415,6 @@ class WeatherDataset:
         return y.reshape(y.shape[0], -1).T
 
 
-
 class NasaLoader:
     @staticmethod
     def fold_by_engine_unit(df, feature_cols, target_col='RUL', single_target: bool=False, pad_value=0.0):
@@ -463,5 +460,4 @@ class NasaLoader:
         else:
             padded = y
         return padded
-
 
