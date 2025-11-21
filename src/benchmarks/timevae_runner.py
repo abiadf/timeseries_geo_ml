@@ -92,21 +92,20 @@ def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
 def log_timevae_results(dataset_name, window_size, losses, r2, metrics, recon_loss,
                         model_cfg, train_cfg, filename="results/hyperparam_search.txt"):
     """Log TimeVAE results with hyperparameters, both to file and stdout."""
-    rmse, linreg, catboost = losses[:3]
+    linreg, catboost, rf = losses[:3]
 
     with open(filename, 'a') as f:
         f.write(f"timevae/{dataset_name}: hidden_layers={model_cfg['hidden_layers']} "
-                f"latent_dim={model_cfg['latent_dim']} reconstruction_wt={model_cfg['reconstruction_wt']}\n")
-        f.write(f"train_epochs={train_cfg['train_epochs']} lr={train_cfg['lr']} batch_size={train_cfg['batch_size']} window_size={window_size}\n")
-        f.write(f"& Z (timevae) & {rmse:.4f} & {linreg:.4f} & {catboost:.4f}\n")
-        f.write(f"R²: {r2:.3f}, L_recons: {recon_loss:.3f}\n")
+                f"latent_dim={model_cfg['latent_dim']} reconstr_wt={model_cfg['reconstruction_wt']} train_epochs={train_cfg['train_epochs']} lr={train_cfg['lr']} batch_size={train_cfg['batch_size']} window_size={window_size}\n")
+        f.write(f"linreg={linreg:.4f} catboost={catboost:.4f} rf={rf:.4f}")
+        f.write(f"R²={r2:.3f} L_recons={recon_loss:.3f}\n")
         f.write("time & params & flops & memory\n")
         f.write(f"{metrics['runtime_s']:.3f} & {metrics['num_params_M']:.3f} & "
                 f"{metrics['flops_M']:.3f} & {metrics['peak_memory_MB']:.3f}\n\n")
 
     print(f"timevae/{dataset_name}: hidden_layers={model_cfg['hidden_layers']} "
           f"latent_dim={model_cfg['latent_dim']} reconstruction_wt={model_cfg['reconstruction_wt']}")
-    print(f"& Z (timevae) & {rmse:.4f} & {linreg:.4f} & {catboost:.4f}")
+    print(f"& Z (timevae) & {linreg:.4f} & {catboost:.4f} & {rf:.4f}")
     print(f"R²: {r2:.3f}, L_recons: {recon_loss:.3f}")
     print(f"train_epochs={train_cfg['train_epochs']} lr={train_cfg['lr']} batch_size={train_cfg['batch_size']}")
     print("time & params & flops & memory")

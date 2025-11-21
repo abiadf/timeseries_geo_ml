@@ -1,7 +1,6 @@
 
 window = 1024
 =============
-
 timevae/beijing
 & Z (timevae) & 1.8378 & 0.9493 & 0.8785
 R²: 0.072, L_recons: 35.008
@@ -799,56 +798,18 @@ time & params & flops & memory
 
 window_size=64
 ==============
-timevae/beijing: hidden_layers=[64, 32] latent_dim=12 reconstruction_wt=3.5
-{"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 64, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 16, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 32, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 8, "hidden_layers": [128, 64], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 32, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-
-{"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 20, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-
-{"latent_dim": 12, "hidden_layers": [128, 64], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 8, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 16, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.05, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-{"latent_dim": 20, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 64, "lr": 0.001, "rmse": null, "r2": null, "error": "No module named 'vae_pipeline'"}
-
-{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: 'timevae_temp.npz'"}
-{"latent_dim": 12, "hidden_layers": [64, 32], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 32, "lr": 0.05, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: 'timevae_temp.npz'"}
-{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
-{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
-{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
-{"latent_dim": 20, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.01, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
-{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 64, "lr": 0.005, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
-{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.05, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
-{"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.01, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
-{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 16, "lr": 0.001, "rmse": null, "r2": null, "error": "[Errno 2] No such file or directory: '../interim_data/timevae/beijing_frac1/X.npz'"}
-{"latent_dim": 20, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 32, "lr": 0.05, "rmse": null, "r2": null, "error": "catboost/libs/data/quantization.cpp:2420: All features are either constant or ignored."}
-{"latent_dim": 16, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 16, "lr": 0.05, "rmse": null, "r2": null, "error": "catboost/libs/data/quantization.cpp:2420: All features are either constant or ignored."}
 {"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 32, "lr": 0.01, "rmse": 0.9875263571739197, "r2": -0.025608317798533786, "recon_loss": 29.654488072359474}
 {"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 64, "lr": 0.001, "rmse": 0.9983946084976196, "r2": -0.02137119270146992, "recon_loss": 39.60353263159443}
 {"latent_dim": 8, "hidden_layers": [128, 64], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 32, "lr": 0.005, "rmse": 0.9839945435523987, "r2": -0.01288107709868469, "recon_loss": 29.292099178285525}
 {"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 3.5, "train_epochs": 1, "batch_size": 16, "lr": 0.001, "rmse": 1.0035419464111328, "r2": -0.027335685276898225, "recon_loss": 32.86701669818476}
-{"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 64, "lr": 0.005, "rmse": null, "r2": null, "error": "catboost/libs/data/quantization.cpp:2420: All features are either constant or ignored."}
 {"latent_dim": 16, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 64, "lr": 0.001, "rmse": 0.984302282333374, "r2": -0.020067009977547956, "recon_loss": 31.02338102527131}
 {"latent_dim": 8, "hidden_layers": [64, 32], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 32, "lr": 0.001, "rmse": 1.0043818950653076, "r2": -0.022376108265211192, "recon_loss": 33.64319388221081}
-{"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 16, "lr": 0.005, "rmse": null, "r2": null, "error": "catboost/libs/data/quantization.cpp:2420: All features are either constant or ignored."}
 {"latent_dim": 20, "hidden_layers": [32, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 16, "lr": 0.001, "rmse": 0.9882607460021973, "r2": -0.02125040676305856, "recon_loss": 42.61541268879309}
 {"latent_dim": 12, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 32, "lr": 0.001, "rmse": 0.9845272302627563, "r2": -0.022140896492991224, "recon_loss": 30.41727644698064}
-
 {"latent_dim": 20, "hidden_layers": [64, 32], "reconstruction_wt": 0.5, "train_epochs": 1, "batch_size": 64, "lr": 0.01, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 31.828647627866356}
 {"latent_dim": 12, "hidden_layers": [128, 64], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 32, "lr": 0.05, "rmse": 0.9698662161827087, "r2": -0.000578576384596019, "recon_loss": 752.0481816485412}
 {"latent_dim": 12, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 1, "batch_size": 64, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 37.108424796197646}
 {"latent_dim": 8, "hidden_layers": [32, 32], "reconstruction_wt": 2.0, "train_epochs": 100, "batch_size": 32, "lr": 0.001, "rmse": 0.9891402125358582, "r2": -0.032057669087708573, "recon_loss": 15.312333011985721}
-
 {"latent_dim": 8, "hidden_layers": [32, 24, 48], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 64, "lr": 0.01, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 28.257705070022354}
 {"latent_dim": 16, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.05, "rmse": 0.969866156578064, "r2": -0.000578576384596019, "recon_loss": 29.833250827359077}
 
@@ -1151,3 +1112,2152 @@ best {"latent_dim": 8, "hidden_layers": [8, 12, 16], "reconstruction_wt": 0.5, "
 {"latent_dim": 16, "hidden_layers": [12, 16, 20], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 0.9649494290351868, "r2": -0.02058633474987337, "recon_loss": 405.03195051713425}
 {"latent_dim": 12, "hidden_layers": [32, 24, 48], "reconstruction_wt": 3.5, "train_epochs": 100, "batch_size": 16, "lr": 0.005, "rmse": 1.4477354288101196, "r2": -0.11777981616377664, "recon_loss": 412.4503677830552}
 {"latent_dim": 16, "hidden_layers": [32, 16], "reconstruction_wt": 0.5, "train_epochs": 100, "batch_size": 4, "lr": 0.001, "rmse": 1.2127896547317505, "r2": -0.08944388041378803, "recon_loss": 55.48677346200654}
+timevae/beijing: hidden_layers=[12, 16, 20] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.05 batch_size=1024 window_size=1024
+& Z (timevae) & 0.9258 & nan & 0.9258
+R²: -0.002, L_recons: 650.137
+time & params & flops & memory
+0.188 & 20.080 & 20.345 & 433.660
+
+timevae/beijing: hidden_layers=[12, 16, 20] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.05 batch_size=128 window_size=1024
+& Z (timevae) & 0.9258 & nan & 0.9258
+R²: -0.002, L_recons: 650.137
+time & params & flops & memory
+0.174 & 20.080 & 20.345 & 433.660
+
+timevae/beijing: hidden_layers=[64, 128, 256] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.05 batch_size=128 window_size=1024
+& Z (timevae) & 0.9277 & nan & 0.9258
+R²: -0.002, L_recons: 6660.302
+time & params & flops & memory
+0.180 & 20.468 & 27.935 & 441.150
+
+timevae/beijing: hidden_layers=[12, 16, 20] latent_dim=8 reconstruction_wt=3.5
+train_epochs=100 lr=0.05 batch_size=1024 window_size=64
+& Z (timevae) & 1.1034 & nan & 1.1035
+R²: -0.003, L_recons: 30.012
+time & params & flops & memory
+1.117 & 0.154 & 0.172 & 34.343
+
+
+
+window=64
+=========
+timevae/beijing: hidden_layers=[32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.1359 catboost=1.1167 rf=1.1160R²=-0.015 L_recons=18.279
+time & params & flops & memory
+1.116 & 0.194 & 0.241 & 50.594
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.1335 catboost=1.1147 rf=1.1183R²=-0.019 L_recons=14.588
+time & params & flops & memory
+1.110 & 0.194 & 0.241 & 50.594
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=128 window_size=64
+linreg=1.1359 catboost=1.1167 rf=1.1160R²=-0.015 L_recons=18.279
+time & params & flops & memory
+0.995 & 0.194 & 0.241 & 50.594
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=128 window_size=64
+linreg=1.1335 catboost=1.1147 rf=1.1183R²=-0.019 L_recons=14.588
+time & params & flops & memory
+1.026 & 0.194 & 0.241 & 50.594
+
+timevae/beijing: hidden_layers=[32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=256 window_size=64
+linreg=1.1359 catboost=1.1167 rf=1.1160R²=-0.015 L_recons=18.279
+time & params & flops & memory
+0.998 & 0.194 & 0.241 & 50.594
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=128 window_size=64
+linreg=1.1173 catboost=1.1132 rf=1.1121R²=-0.008 L_recons=20.044
+time & params & flops & memory
+1.174 & 0.188 & 0.339 & 51.225
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=128 window_size=64
+linreg=1.1365 catboost=1.1179 rf=1.1163R²=-0.015 L_recons=14.909
+time & params & flops & memory
+1.215 & 0.188 & 0.339 & 51.225
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=256 window_size=64
+linreg=1.1173 catboost=1.1132 rf=1.1121R²=-0.008 L_recons=20.044
+time & params & flops & memory
+1.177 & 0.188 & 0.339 & 51.225
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=256 window_size=64
+linreg=1.1365 catboost=1.1179 rf=1.1163R²=-0.015 L_recons=14.909
+time & params & flops & memory
+1.196 & 0.188 & 0.339 & 51.225
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1054 catboost=1.1107 rf=1.1109R²=-0.006 L_recons=19.600
+time & params & flops & memory
+1.288 & 0.188 & 0.339 & 50.445
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1161 catboost=1.1262 rf=1.1173R²=-0.017 L_recons=13.594
+time & params & flops & memory
+1.205 & 0.188 & 0.339 & 50.445
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1096 catboost=1.1143 rf=1.1162R²=-0.015 L_recons=19.726
+time & params & flops & memory
+1.290 & 0.188 & 0.339 & 50.445
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1260 catboost=1.1218 rf=1.1192R²=-0.021 L_recons=15.304
+time & params & flops & memory
+1.301 & 0.188 & 0.339 & 50.445
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1089 catboost=1.1142 rf=1.1249R²=-0.031 L_recons=22.155
+time & params & flops & memory
+1.279 & 0.188 & 0.339 & 50.445
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1091 catboost=1.1199 rf=1.1234R²=-0.028 L_recons=20.461
+time & params & flops & memory
+1.188 & 0.188 & 0.339 & 50.445
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1121 catboost=1.1124 rf=1.1188R²=-0.020 L_recons=19.550
+time & params & flops & memory
+1.163 & 0.166 & 0.259 & 50.015
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1349 catboost=1.1198 rf=1.1144R²=-0.012 L_recons=14.040
+time & params & flops & memory
+1.207 & 0.166 & 0.259 & 50.015
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1112 catboost=1.1199 rf=1.1182R²=-0.019 L_recons=19.791
+time & params & flops & memory
+1.160 & 0.166 & 0.259 & 50.015
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1237 catboost=1.1238 rf=1.1199R²=-0.022 L_recons=15.433
+time & params & flops & memory
+1.252 & 0.166 & 0.259 & 50.015
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1080 catboost=1.1222 rf=1.1352R²=-0.050 L_recons=22.308
+time & params & flops & memory
+1.186 & 0.166 & 0.259 & 50.015
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1087 catboost=1.1191 rf=1.1239R²=-0.029 L_recons=22.177
+time & params & flops & memory
+1.287 & 0.166 & 0.259 & 50.015
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1132 catboost=1.1202 rf=1.1229R²=-0.027 L_recons=18.847
+time & params & flops & memory
+1.241 & 0.162 & 0.222 & 49.939
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1285 catboost=1.1190 rf=1.1149R²=-0.013 L_recons=14.203
+time & params & flops & memory
+1.128 & 0.162 & 0.222 & 49.939
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1226 catboost=1.1124 rf=1.1109R²=-0.006 L_recons=19.122
+time & params & flops & memory
+1.139 & 0.162 & 0.222 & 49.939
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1244 catboost=1.1229 rf=1.1222R²=-0.026 L_recons=16.256
+time & params & flops & memory
+1.157 & 0.162 & 0.222 & 49.939
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1078 catboost=nan rf=1.1078R²=-0.000 L_recons=28.004
+time & params & flops & memory
+1.114 & 0.162 & 0.222 & 49.939
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1099 catboost=1.1223 rf=1.1336R²=-0.047 L_recons=20.624
+time & params & flops & memory
+1.185 & 0.162 & 0.222 & 49.939
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1257 catboost=1.1183 rf=1.1174R²=-0.017 L_recons=18.949
+time & params & flops & memory
+1.279 & 0.189 & 0.340 & 50.461
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1368 catboost=1.1119 rf=1.1133R²=-0.010 L_recons=14.048
+time & params & flops & memory
+1.181 & 0.189 & 0.340 & 50.461
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1137 catboost=1.1110 rf=1.1174R²=-0.017 L_recons=19.744
+time & params & flops & memory
+1.176 & 0.189 & 0.340 & 50.461
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1288 catboost=1.1214 rf=1.1220R²=-0.026 L_recons=16.019
+time & params & flops & memory
+1.219 & 0.189 & 0.340 & 50.461
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1101 catboost=1.1201 rf=1.1324R²=-0.045 L_recons=22.241
+time & params & flops & memory
+1.159 & 0.189 & 0.340 & 50.461
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1129 catboost=1.1194 rf=1.1173R²=-0.017 L_recons=19.077
+time & params & flops & memory
+1.167 & 0.189 & 0.340 & 50.461
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1131 catboost=1.1151 rf=1.1233R²=-0.028 L_recons=19.591
+time & params & flops & memory
+1.183 & 0.167 & 0.260 & 50.031
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1328 catboost=1.1216 rf=1.1193R²=-0.021 L_recons=15.230
+time & params & flops & memory
+1.156 & 0.167 & 0.260 & 50.031
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1161 catboost=1.1209 rf=1.1212R²=-0.024 L_recons=19.886
+time & params & flops & memory
+1.187 & 0.167 & 0.260 & 50.031
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1218 catboost=1.1235 rf=1.1192R²=-0.021 L_recons=16.254
+time & params & flops & memory
+1.228 & 0.167 & 0.260 & 50.031
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1090 catboost=1.1147 rf=1.1303R²=-0.041 L_recons=22.726
+time & params & flops & memory
+1.154 & 0.167 & 0.260 & 50.031
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1078 catboost=nan rf=1.1078R²=-0.000 L_recons=27.976
+time & params & flops & memory
+1.181 & 0.167 & 0.260 & 50.031
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1099 catboost=1.1209 rf=1.1217R²=-0.025 L_recons=18.972
+time & params & flops & memory
+1.238 & 0.163 & 0.222 & 49.955
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1365 catboost=1.1115 rf=1.1140R²=-0.011 L_recons=14.194
+time & params & flops & memory
+1.151 & 0.163 & 0.222 & 49.955
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1139 catboost=1.1169 rf=1.1113R²=-0.006 L_recons=19.190
+time & params & flops & memory
+1.133 & 0.163 & 0.222 & 49.955
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1202 catboost=1.1173 rf=1.1155R²=-0.014 L_recons=15.044
+time & params & flops & memory
+1.166 & 0.163 & 0.222 & 49.955
+
+best timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1083 catboost=1.1103 rf=1.1185R²=-0.020 L_recons=22.279
+time & params & flops & memory
+1.116 & 0.163 & 0.222 & 49.955
+
+timevae/beijing: hidden_layers=[40, 16, 36] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=64
+linreg=1.1071 catboost=1.1139 rf=1.1171R²=-0.017 L_recons=19.964
+time & params & flops & memory
+1.125 & 0.163 & 0.222 & 49.955
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1237 catboost=1.1175 rf=1.1202R²=-0.022 L_recons=18.922
+time & params & flops & memory
+1.171 & 0.190 & 0.340 & 50.474
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=64
+linreg=1.1342 catboost=1.1247 rf=1.1185R²=-0.019 L_recons=14.835
+time & params & flops & memory
+1.175 & 0.190 & 0.340 & 50.474
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1184 catboost=1.1232 rf=1.1219R²=-0.026 L_recons=19.862
+time & params & flops & memory
+1.216 & 0.190 & 0.340 & 50.474
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.1271 catboost=1.1170 rf=1.1153R²=-0.014 L_recons=16.987
+time & params & flops & memory
+1.228 & 0.190 & 0.340 & 50.474
+
+window=128
+==========
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0304 catboost=0.9657 rf=0.9572R²=-0.018 L_recons=33.890
+time & params & flops & memory
+0.676 & 0.484 & 0.771 & 41.387
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0340 catboost=0.9645 rf=0.9630R²=-0.030 L_recons=27.239
+time & params & flops & memory
+0.605 & 0.484 & 0.771 & 41.387
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=1.0192 catboost=0.9740 rf=0.9623R²=-0.029 L_recons=36.171
+time & params & flops & memory
+0.659 & 0.484 & 0.771 & 41.387
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=1.0318 catboost=0.9752 rf=0.9705R²=-0.046 L_recons=27.954
+time & params & flops & memory
+0.621 & 0.484 & 0.771 & 41.387
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9559 catboost=0.9691 rf=0.9879R²=-0.084 L_recons=46.480
+time & params & flops & memory
+0.640 & 0.484 & 0.771 & 41.387
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9533 catboost=0.9724 rf=0.9620R²=-0.028 L_recons=37.138
+time & params & flops & memory
+0.611 & 0.484 & 0.771 & 41.387
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=0.9980 catboost=0.9710 rf=0.9621R²=-0.028 L_recons=38.067
+time & params & flops & memory
+0.664 & 0.463 & 0.639 & 40.957
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=0.9974 catboost=0.9750 rf=0.9723R²=-0.050 L_recons=29.310
+time & params & flops & memory
+0.611 & 0.463 & 0.639 & 40.957
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9841 catboost=0.9676 rf=0.9670R²=-0.039 L_recons=37.269
+time & params & flops & memory
+0.622 & 0.463 & 0.639 & 40.957
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9831 catboost=0.9646 rf=0.9659R²=-0.037 L_recons=29.255
+time & params & flops & memory
+0.608 & 0.463 & 0.639 & 40.957
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9549 catboost=0.9686 rf=0.9820R²=-0.071 L_recons=46.442
+time & params & flops & memory
+0.662 & 0.463 & 0.639 & 40.957
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9499 catboost=0.9709 rf=0.9837R²=-0.075 L_recons=47.039
+time & params & flops & memory
+0.602 & 0.463 & 0.639 & 40.957
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=0.9704 catboost=0.9763 rf=0.9766R²=-0.060 L_recons=37.549
+time & params & flops & memory
+0.644 & 0.461 & 0.583 & 40.925
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0023 catboost=0.9772 rf=0.9718R²=-0.049 L_recons=29.020
+time & params & flops & memory
+0.589 & 0.461 & 0.583 & 40.925
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9940 catboost=0.9790 rf=0.9596R²=-0.023 L_recons=37.469
+time & params & flops & memory
+0.620 & 0.461 & 0.583 & 40.925
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=1.0129 catboost=0.9742 rf=0.9671R²=-0.039 L_recons=29.520
+time & params & flops & memory
+0.645 & 0.461 & 0.583 & 40.925
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9501 catboost=0.9755 rf=0.9918R²=-0.093 L_recons=46.644
+time & params & flops & memory
+0.642 & 0.461 & 0.583 & 40.925
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9573 catboost=0.9749 rf=0.9663R²=-0.037 L_recons=39.664
+time & params & flops & memory
+0.593 & 0.461 & 0.583 & 40.925
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0340 catboost=0.9768 rf=0.9687R²=-0.042 L_recons=37.929
+time & params & flops & memory
+0.646 & 0.486 & 0.772 & 41.410
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0337 catboost=0.9774 rf=0.9664R²=-0.038 L_recons=27.002
+time & params & flops & memory
+0.626 & 0.486 & 0.772 & 41.410
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9924 catboost=0.9810 rf=0.9738R²=-0.054 L_recons=39.458
+time & params & flops & memory
+0.669 & 0.486 & 0.772 & 41.410
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=1.0110 catboost=0.9591 rf=0.9573R²=-0.018 L_recons=28.989
+time & params & flops & memory
+0.608 & 0.486 & 0.772 & 41.410
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9496 catboost=nan rf=0.9499R²=-0.003 L_recons=59.263
+time & params & flops & memory
+0.631 & 0.486 & 0.772 & 41.410
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9528 catboost=0.9729 rf=0.9681R²=-0.041 L_recons=38.722
+time & params & flops & memory
+0.673 & 0.486 & 0.772 & 41.410
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=0.9841 catboost=0.9598 rf=0.9559R²=-0.015 L_recons=36.416
+time & params & flops & memory
+0.604 & 0.464 & 0.640 & 40.979
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0287 catboost=0.9773 rf=0.9661R²=-0.037 L_recons=28.416
+time & params & flops & memory
+0.660 & 0.464 & 0.640 & 40.979
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9958 catboost=0.9734 rf=0.9680R²=-0.041 L_recons=38.316
+time & params & flops & memory
+0.601 & 0.464 & 0.640 & 40.979
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=1.0114 catboost=0.9759 rf=0.9692R²=-0.044 L_recons=29.128
+time & params & flops & memory
+0.600 & 0.464 & 0.640 & 40.979
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9503 catboost=0.9668 rf=0.9817R²=-0.071 L_recons=47.134
+time & params & flops & memory
+0.607 & 0.464 & 0.640 & 40.979
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9512 catboost=0.9592 rf=0.9665R²=-0.038 L_recons=46.665
+time & params & flops & memory
+0.636 & 0.464 & 0.640 & 40.979
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=0.9877 catboost=0.9836 rf=0.9793R²=-0.065 L_recons=38.992
+time & params & flops & memory
+0.586 & 0.462 & 0.584 & 40.954
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=0.9895 catboost=0.9901 rf=0.9736R²=-0.053 L_recons=28.949
+time & params & flops & memory
+0.597 & 0.462 & 0.584 & 40.954
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9884 catboost=0.9553 rf=0.9606R²=-0.025 L_recons=37.299
+time & params & flops & memory
+0.579 & 0.462 & 0.584 & 40.954
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9809 catboost=0.9779 rf=0.9609R²=-0.026 L_recons=29.183
+time & params & flops & memory
+0.585 & 0.462 & 0.584 & 40.954
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9523 catboost=0.9666 rf=0.9787R²=-0.064 L_recons=46.605
+time & params & flops & memory
+0.583 & 0.462 & 0.584 & 40.954
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9628 catboost=0.9791 rf=0.9605R²=-0.025 L_recons=39.064
+time & params & flops & memory
+0.579 & 0.462 & 0.584 & 40.954
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0039 catboost=0.9873 rf=0.9768R²=-0.060 L_recons=39.073
+time & params & flops & memory
+0.646 & 0.487 & 0.773 & 41.430
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0052 catboost=0.9837 rf=0.9757R²=-0.058 L_recons=28.440
+time & params & flops & memory
+0.668 & 0.487 & 0.773 & 41.430
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9902 catboost=0.9775 rf=0.9776R²=-0.062 L_recons=39.440
+time & params & flops & memory
+0.667 & 0.487 & 0.773 & 41.430
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9948 catboost=0.9530 rf=0.9567R²=-0.017 L_recons=31.079
+time & params & flops & memory
+0.606 & 0.487 & 0.773 & 41.430
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9496 catboost=nan rf=0.9499R²=-0.003 L_recons=59.173
+time & params & flops & memory
+0.615 & 0.487 & 0.773 & 41.430
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9496 catboost=nan rf=0.9499R²=-0.003 L_recons=59.173
+time & params & flops & memory
+0.604 & 0.487 & 0.773 & 41.430
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0179 catboost=0.9806 rf=0.9902R²=-0.089 L_recons=39.228
+time & params & flops & memory
+0.604 & 0.465 & 0.641 & 40.999
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0064 catboost=0.9815 rf=0.9676R²=-0.040 L_recons=29.263
+time & params & flops & memory
+0.662 & 0.465 & 0.641 & 40.999
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9794 catboost=0.9763 rf=0.9758R²=-0.058 L_recons=39.706
+time & params & flops & memory
+0.612 & 0.465 & 0.641 & 40.999
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9765 catboost=0.9868 rf=0.9681R²=-0.041 L_recons=30.235
+time & params & flops & memory
+0.662 & 0.465 & 0.641 & 40.999
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9499 catboost=0.9563 rf=0.9823R²=-0.072 L_recons=47.543
+time & params & flops & memory
+0.608 & 0.465 & 0.641 & 40.999
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9596 catboost=0.9814 rf=0.9747R²=-0.056 L_recons=38.737
+time & params & flops & memory
+0.662 & 0.465 & 0.641 & 40.999
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0183 catboost=0.9789 rf=0.9643R²=-0.033 L_recons=38.528
+time & params & flops & memory
+0.583 & 0.464 & 0.585 & 40.974
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=128
+linreg=1.0342 catboost=0.9759 rf=0.9642R²=-0.033 L_recons=29.466
+time & params & flops & memory
+0.645 & 0.464 & 0.585 & 40.974
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9963 catboost=0.9707 rf=0.9661R²=-0.037 L_recons=38.355
+time & params & flops & memory
+0.579 & 0.464 & 0.585 & 40.974
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+linreg=0.9757 catboost=0.9805 rf=0.9701R²=-0.046 L_recons=29.662
+time & params & flops & memory
+0.578 & 0.464 & 0.585 & 40.974
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.005 batch_size=256 window_size=128
+linreg=0.9496 catboost=nan rf=0.9499R²=-0.003 L_recons=59.251
+time & params & flops & memory
+0.581 & 0.464 & 0.585 & 40.974
+
+window=256
+==========
+
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.3368 catboost=1.0679 rf=1.0442R²=-0.026 L_recons=59.676
+time & params & flops & memory
+0.308 & 1.520 & 2.078 & 61.820
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2319 catboost=1.0824 rf=1.0531R²=-0.043 L_recons=49.656
+time & params & flops & memory
+0.302 & 1.520 & 2.078 & 61.820
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1932 catboost=1.0852 rf=1.0722R²=-0.082 L_recons=61.874
+time & params & flops & memory
+0.318 & 1.520 & 2.078 & 61.820
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2286 catboost=1.0774 rf=1.0589R²=-0.055 L_recons=51.728
+time & params & flops & memory
+0.297 & 1.520 & 2.078 & 61.820
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.3250 catboost=1.0548 rf=1.0472R²=-0.032 L_recons=64.474
+time & params & flops & memory
+0.293 & 1.498 & 1.841 & 61.390
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.3643 catboost=1.0671 rf=1.0503R²=-0.038 L_recons=55.266
+time & params & flops & memory
+0.294 & 1.498 & 1.841 & 61.390
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2408 catboost=1.0386 rf=1.0419R²=-0.021 L_recons=64.018
+time & params & flops & memory
+0.296 & 1.498 & 1.841 & 61.390
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2613 catboost=1.0739 rf=1.0702R²=-0.077 L_recons=53.335
+time & params & flops & memory
+0.322 & 1.498 & 1.841 & 61.390
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2838 catboost=1.0551 rf=1.0433R²=-0.024 L_recons=75.410
+time & params & flops & memory
+0.282 & 1.497 & 1.735 & 61.365
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2590 catboost=1.0573 rf=1.0397R²=-0.017 L_recons=57.933
+time & params & flops & memory
+0.315 & 1.497 & 1.735 & 62.152
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2378 catboost=1.0524 rf=1.0341R²=-0.006 L_recons=67.013
+time & params & flops & memory
+0.289 & 1.497 & 1.735 & 62.152
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.3691 catboost=1.0884 rf=1.0560R²=-0.049 L_recons=53.155
+time & params & flops & memory
+0.315 & 1.497 & 1.735 & 62.152
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.3004 catboost=1.0572 rf=1.0471R²=-0.031 L_recons=76.907
+time & params & flops & memory
+0.325 & 1.522 & 2.079 & 62.643
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2012 catboost=1.0677 rf=1.0363R²=-0.010 L_recons=52.005
+time & params & flops & memory
+0.295 & 1.522 & 2.079 & 62.643
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2696 catboost=1.1053 rf=1.0644R²=-0.066 L_recons=75.302
+time & params & flops & memory
+0.297 & 1.522 & 2.079 & 62.643
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2611 catboost=1.0591 rf=1.0452R²=-0.028 L_recons=49.426
+time & params & flops & memory
+0.297 & 1.522 & 2.079 & 62.643
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2780 catboost=1.0743 rf=1.0570R²=-0.051 L_recons=64.437
+time & params & flops & memory
+0.293 & 1.500 & 1.843 & 62.213
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.3896 catboost=1.0670 rf=1.0462R²=-0.030 L_recons=50.198
+time & params & flops & memory
+0.323 & 1.500 & 1.843 & 62.213
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2002 catboost=1.0626 rf=1.0392R²=-0.016 L_recons=64.777
+time & params & flops & memory
+0.294 & 1.500 & 1.843 & 62.213
+
+timevae/beijing: hidden_layers=[64, 16, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2731 catboost=1.0678 rf=1.0452R²=-0.028 L_recons=48.790
+time & params & flops & memory
+0.324 & 1.500 & 1.843 & 62.213
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.3367 catboost=1.0434 rf=1.0572R²=-0.052 L_recons=68.448
+time & params & flops & memory
+0.315 & 1.499 & 1.736 & 62.188
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.3107 catboost=1.0439 rf=1.0437R²=-0.025 L_recons=52.547
+time & params & flops & memory
+0.283 & 1.499 & 1.736 & 62.188
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.3115 catboost=1.0655 rf=1.0451R²=-0.027 L_recons=65.675
+time & params & flops & memory
+0.316 & 1.499 & 1.736 & 62.188
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1714 catboost=0.9352 rf=0.8816R²=-0.075 L_recons=61.279
+time & params & flops & memory
+0.328 & 1.520 & 2.078 & 61.820
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1583 catboost=0.9001 rf=0.8791R²=-0.069 L_recons=50.205
+time & params & flops & memory
+0.304 & 1.520 & 2.078 & 61.820
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0495 catboost=0.9110 rf=0.8889R²=-0.093 L_recons=62.038
+time & params & flops & memory
+0.325 & 1.520 & 2.078 & 61.820
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0703 catboost=0.9255 rf=0.8799R²=-0.071 L_recons=50.544
+time & params & flops & memory
+0.324 & 1.520 & 2.078 & 61.820
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1783 catboost=0.9092 rf=0.8814R²=-0.075 L_recons=65.809
+time & params & flops & memory
+0.326 & 1.515 & 1.979 & 61.710
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1693 catboost=0.9339 rf=0.8959R²=-0.110 L_recons=51.037
+time & params & flops & memory
+0.295 & 1.515 & 1.979 & 61.710
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2993 catboost=0.9243 rf=0.8946R²=-0.107 L_recons=61.850
+time & params & flops & memory
+0.320 & 1.515 & 1.979 & 61.710
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2160 catboost=0.9114 rf=0.8936R²=-0.105 L_recons=48.311
+time & params & flops & memory
+0.324 & 1.515 & 1.979 & 61.710
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.0442 catboost=0.9246 rf=0.8973R²=-0.114 L_recons=72.924
+time & params & flops & memory
+0.293 & 1.497 & 1.735 & 61.365
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1031 catboost=0.9253 rf=0.8865R²=-0.087 L_recons=59.692
+time & params & flops & memory
+0.313 & 1.497 & 1.735 & 62.152
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1895 catboost=0.9169 rf=0.8983R²=-0.116 L_recons=66.490
+time & params & flops & memory
+0.319 & 1.497 & 1.735 & 62.152
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1603 catboost=0.9003 rf=0.8890R²=-0.093 L_recons=53.148
+time & params & flops & memory
+0.307 & 1.497 & 1.735 & 62.152
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1205 catboost=0.9199 rf=0.8885R²=-0.092 L_recons=57.247
+time & params & flops & memory
+0.323 & 1.553 & 2.259 & 63.244
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2200 catboost=0.9224 rf=0.8832R²=-0.079 L_recons=48.866
+time & params & flops & memory
+0.294 & 1.553 & 2.259 & 63.244
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2035 catboost=0.9526 rf=0.8992R²=-0.118 L_recons=58.935
+time & params & flops & memory
+0.300 & 1.553 & 2.259 & 63.244
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1818 catboost=0.9156 rf=0.9055R²=-0.134 L_recons=45.415
+time & params & flops & memory
+0.325 & 1.553 & 2.259 & 63.244
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1698 catboost=0.9171 rf=0.8784R²=-0.067 L_recons=74.685
+time & params & flops & memory
+0.323 & 1.522 & 2.079 & 62.643
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1644 catboost=0.9384 rf=0.8968R²=-0.112 L_recons=50.077
+time & params & flops & memory
+0.294 & 1.522 & 2.079 & 62.643
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0730 catboost=0.9124 rf=0.8901R²=-0.096 L_recons=69.767
+time & params & flops & memory
+0.293 & 1.522 & 2.079 & 62.643
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2345 catboost=0.9456 rf=0.8995R²=-0.119 L_recons=49.005
+time & params & flops & memory
+0.294 & 1.522 & 2.079 & 62.643
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2845 catboost=0.9208 rf=0.8792R²=-0.069 L_recons=73.540
+time & params & flops & memory
+0.296 & 1.518 & 1.981 & 62.553
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2378 catboost=0.9062 rf=0.9060R²=-0.135 L_recons=48.883
+time & params & flops & memory
+0.297 & 1.518 & 1.981 & 62.553
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0859 catboost=0.9205 rf=0.9030R²=-0.128 L_recons=80.377
+time & params & flops & memory
+0.327 & 1.518 & 1.981 & 62.553
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2465 catboost=0.9005 rf=0.8958R²=-0.110 L_recons=47.773
+time & params & flops & memory
+0.295 & 1.518 & 1.981 & 62.553
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1422 catboost=0.9419 rf=0.9045R²=-0.132 L_recons=68.157
+time & params & flops & memory
+0.284 & 1.499 & 1.736 & 62.188
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2443 catboost=0.9173 rf=0.8885R²=-0.092 L_recons=51.148
+time & params & flops & memory
+0.287 & 1.499 & 1.736 & 62.188
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1185 catboost=0.8847 rf=0.8889R²=-0.093 L_recons=73.232
+time & params & flops & memory
+0.285 & 1.499 & 1.736 & 62.188
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1242 catboost=0.9398 rf=0.9043R²=-0.131 L_recons=50.246
+time & params & flops & memory
+0.311 & 1.499 & 1.736 & 62.188
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1311 catboost=0.9244 rf=0.9028R²=-0.127 L_recons=77.841
+time & params & flops & memory
+0.293 & 1.559 & 2.263 & 63.347
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1441 catboost=0.9204 rf=0.8902R²=-0.096 L_recons=48.592
+time & params & flops & memory
+0.323 & 1.559 & 2.263 & 63.347
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0655 catboost=0.9262 rf=0.8952R²=-0.109 L_recons=75.065
+time & params & flops & memory
+0.323 & 1.559 & 2.263 & 63.347
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1631 catboost=0.9243 rf=0.8931R²=-0.103 L_recons=49.652
+time & params & flops & memory
+0.325 & 1.559 & 2.263 & 63.347
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1887 catboost=0.9587 rf=0.8968R²=-0.112 L_recons=78.673
+time & params & flops & memory
+0.330 & 1.524 & 2.081 & 62.676
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2608 catboost=0.9510 rf=0.8917R²=-0.100 L_recons=51.422
+time & params & flops & memory
+0.325 & 1.524 & 2.081 & 62.676
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1227 catboost=0.9179 rf=0.8993R²=-0.119 L_recons=78.938
+time & params & flops & memory
+0.326 & 1.524 & 2.081 & 62.676
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.5933 catboost=0.9346 rf=0.9151R²=-0.158 L_recons=51.063
+time & params & flops & memory
+0.325 & 1.524 & 2.081 & 62.676
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1762 catboost=0.9495 rf=0.9177R²=-0.165 L_recons=76.786
+time & params & flops & memory
+0.328 & 1.520 & 1.983 & 62.599
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2412 catboost=0.9347 rf=0.8955R²=-0.109 L_recons=47.675
+time & params & flops & memory
+0.327 & 1.520 & 1.983 & 62.599
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.3964 catboost=0.9388 rf=0.9105R²=-0.147 L_recons=70.676
+time & params & flops & memory
+0.326 & 1.520 & 1.983 & 62.599
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2144 catboost=0.9267 rf=0.9133R²=-0.154 L_recons=48.421
+time & params & flops & memory
+0.325 & 1.520 & 1.983 & 62.599
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1765 catboost=0.9126 rf=0.9079R²=-0.140 L_recons=78.008
+time & params & flops & memory
+0.314 & 1.501 & 1.738 & 62.227
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2519 catboost=0.9432 rf=0.8952R²=-0.109 L_recons=56.484
+time & params & flops & memory
+0.290 & 1.501 & 1.738 & 62.227
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1591 catboost=0.9243 rf=0.9012R²=-0.123 L_recons=77.236
+time & params & flops & memory
+0.329 & 1.501 & 1.738 & 62.227
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1183 catboost=0.9237 rf=0.8858R²=-0.085 L_recons=53.467
+time & params & flops & memory
+0.285 & 1.501 & 1.738 & 62.227
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2111 catboost=0.9333 rf=0.8979R²=-0.115 L_recons=80.222
+time & params & flops & memory
+0.325 & 1.564 & 2.267 & 63.447
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1122 catboost=0.9166 rf=0.8965R²=-0.112 L_recons=46.722
+time & params & flops & memory
+0.324 & 1.564 & 2.267 & 63.447
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1330 catboost=0.9646 rf=0.9330R²=-0.204 L_recons=77.204
+time & params & flops & memory
+0.292 & 1.564 & 2.267 & 63.447
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2147 catboost=0.9415 rf=0.8767R²=-0.063 L_recons=56.172
+time & params & flops & memory
+0.311 & 1.564 & 2.267 & 63.447
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=24 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1273 catboost=0.9063 rf=0.8849R²=-0.083 L_recons=79.654
+time & params & flops & memory
+0.294 & 1.528 & 2.083 & 62.745
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=24 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1828 catboost=0.9411 rf=0.8993R²=-0.119 L_recons=52.030
+time & params & flops & memory
+0.296 & 1.528 & 2.083 & 62.745
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=24 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0570 catboost=0.9275 rf=0.9124R²=-0.152 L_recons=78.341
+time & params & flops & memory
+0.325 & 1.528 & 2.083 & 62.745
+
+timevae/beijing: hidden_layers=[64, 48, 32] latent_dim=24 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.8642 catboost=0.9075 rf=0.8897R²=-0.095 L_recons=54.329
+time & params & flops & memory
+0.325 & 1.528 & 2.083 & 62.745
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=24 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1398 catboost=0.9062 rf=0.8846R²=-0.082 L_recons=80.380
+time & params & flops & memory
+0.294 & 1.526 & 1.987 & 62.702
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=24 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1868 catboost=0.9419 rf=0.8900R²=-0.096 L_recons=51.602
+time & params & flops & memory
+0.299 & 1.526 & 1.987 & 62.702
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=24 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0895 catboost=0.9087 rf=0.8948R²=-0.108 L_recons=85.702
+time & params & flops & memory
+0.302 & 1.526 & 1.987 & 62.702
+
+timevae/beijing: hidden_layers=[64, 32, 48] latent_dim=24 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2324 catboost=0.9751 rf=0.9189R²=-0.168 L_recons=56.020
+time & params & flops & memory
+0.294 & 1.526 & 1.987 & 62.702
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=24 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.0676 catboost=0.9181 rf=0.8921R²=-0.101 L_recons=83.940
+time & params & flops & memory
+0.285 & 1.505 & 1.741 & 62.303
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=24 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2096 catboost=0.9130 rf=0.8924R²=-0.102 L_recons=56.125
+time & params & flops & memory
+0.281 & 1.505 & 1.741 & 62.303
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=24 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1517 catboost=0.9356 rf=0.9179R²=-0.165 L_recons=83.139
+time & params & flops & memory
+0.285 & 1.505 & 1.741 & 62.303
+
+timevae/beijing: hidden_layers=[40, 20, 36] latent_dim=24 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0313 catboost=0.9173 rf=0.8792R²=-0.069 L_recons=68.304
+time & params & flops & memory
+0.282 & 1.505 & 1.741 & 62.303
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=24 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=0.9282 catboost=0.9371 rf=0.9299R²=-0.196 L_recons=94.185
+time & params & flops & memory
+0.295 & 1.576 & 2.274 & 63.649
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=24 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1983 catboost=0.9346 rf=0.9129R²=-0.153 L_recons=58.831
+time & params & flops & memory
+0.323 & 1.576 & 2.274 & 63.649
+
+timevae/beijing: hidden_layers=[72, 48, 96] latent_dim=24 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0403 catboost=0.9136 rf=0.8840R²=-0.081 L_recons=83.052
+time & params & flops & memory
+0.297 & 1.576 & 2.274 & 63.649
+
+
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2470 catboost=0.9061 rf=0.8916R²=-0.028 L_recons=70.603
+time & params & flops & memory
+0.445 & 1.504 & 1.941 & 61.520
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2470 catboost=0.9061 rf=0.8916R²=-0.028 L_recons=70.603
+time & params & flops & memory
+0.304 & 1.504 & 1.941 & 98.791
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2197 catboost=0.9376 rf=0.9179R²=-0.090 L_recons=49.492
+time & params & flops & memory
+0.298 & 1.504 & 1.941 & 98.791
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1967 catboost=0.9196 rf=0.8906R²=-0.026 L_recons=72.325
+time & params & flops & memory
+0.302 & 1.504 & 1.941 & 98.791
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2235 catboost=0.9225 rf=0.8913R²=-0.027 L_recons=46.839
+time & params & flops & memory
+0.332 & 1.504 & 1.941 & 98.791
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1410 catboost=0.9012 rf=0.8845R²=-0.012 L_recons=69.250
+time & params & flops & memory
+0.324 & 1.567 & 2.845 & 100.023
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2452 catboost=0.9310 rf=0.8917R²=-0.028 L_recons=46.729
+time & params & flops & memory
+0.344 & 1.567 & 2.845 & 100.023
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1617 catboost=0.9248 rf=0.8984R²=-0.044 L_recons=69.520
+time & params & flops & memory
+0.334 & 1.567 & 2.845 & 100.023
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1492 catboost=0.9111 rf=0.8760R²=0.008 L_recons=46.505
+time & params & flops & memory
+0.308 & 1.567 & 2.845 & 100.023
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2316 catboost=0.9031 rf=0.8864R²=-0.016 L_recons=75.321
+time & params & flops & memory
+0.335 & 1.553 & 2.273 & 99.731
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1951 catboost=0.9081 rf=0.8963R²=-0.039 L_recons=45.416
+time & params & flops & memory
+0.336 & 1.553 & 2.273 & 99.731
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1216 catboost=0.8992 rf=0.8831R²=-0.008 L_recons=74.229
+time & params & flops & memory
+0.305 & 1.553 & 2.273 & 99.731
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1494 catboost=0.9043 rf=0.8840R²=-0.011 L_recons=46.596
+time & params & flops & memory
+0.301 & 1.553 & 2.273 & 99.731
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2492 catboost=0.9180 rf=0.8971R²=-0.041 L_recons=68.501
+time & params & flops & memory
+0.306 & 1.515 & 1.874 & 99.001
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2195 catboost=0.9015 rf=0.8911R²=-0.027 L_recons=47.285
+time & params & flops & memory
+0.334 & 1.515 & 1.874 & 99.001
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1520 catboost=0.9228 rf=0.8961R²=-0.038 L_recons=73.271
+time & params & flops & memory
+0.335 & 1.515 & 1.874 & 99.001
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2656 catboost=0.9218 rf=0.9011R²=-0.050 L_recons=45.824
+time & params & flops & memory
+0.335 & 1.515 & 1.874 & 99.001
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.0720 catboost=0.8956 rf=0.8806R²=-0.003 L_recons=65.908
+time & params & flops & memory
+0.337 & 1.505 & 1.942 & 98.804
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.0797 catboost=0.9155 rf=0.8858R²=-0.015 L_recons=51.660
+time & params & flops & memory
+0.300 & 1.505 & 1.942 & 98.804
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2494 catboost=0.9100 rf=0.8821R²=-0.006 L_recons=61.780
+time & params & flops & memory
+0.316 & 1.505 & 1.942 & 98.804
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.2306 catboost=0.9114 rf=0.8953R²=-0.037 L_recons=48.440
+time & params & flops & memory
+0.300 & 1.505 & 1.942 & 98.804
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2277 catboost=0.9195 rf=0.8957R²=-0.038 L_recons=72.569
+time & params & flops & memory
+0.312 & 1.569 & 2.846 & 100.056
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2108 catboost=0.9358 rf=0.8926R²=-0.030 L_recons=45.689
+time & params & flops & memory
+0.319 & 1.569 & 2.846 & 100.056
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1670 catboost=0.8946 rf=0.8919R²=-0.029 L_recons=71.821
+time & params & flops & memory
+0.344 & 1.569 & 2.846 & 100.056
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0326 catboost=0.9007 rf=0.8846R²=-0.012 L_recons=47.741
+time & params & flops & memory
+0.344 & 1.569 & 2.846 & 100.056
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2606 catboost=0.9284 rf=0.8953R²=-0.037 L_recons=78.996
+time & params & flops & memory
+0.335 & 1.557 & 2.276 & 99.798
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2877 catboost=0.9180 rf=0.8849R²=-0.013 L_recons=46.930
+time & params & flops & memory
+0.314 & 1.557 & 2.276 & 99.798
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1969 catboost=0.9134 rf=0.8883R²=-0.020 L_recons=75.062
+time & params & flops & memory
+0.309 & 1.557 & 2.276 & 99.798
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1588 catboost=0.9000 rf=0.8805R²=-0.003 L_recons=50.768
+time & params & flops & memory
+0.335 & 1.557 & 2.276 & 99.798
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1909 catboost=0.9170 rf=0.8960R²=-0.038 L_recons=79.533
+time & params & flops & memory
+0.335 & 1.517 & 1.875 & 99.035
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2213 catboost=0.9286 rf=0.9017R²=-0.052 L_recons=49.714
+time & params & flops & memory
+0.319 & 1.517 & 1.875 & 99.035
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0819 catboost=0.9021 rf=0.8800R²=-0.001 L_recons=70.705
+time & params & flops & memory
+0.335 & 1.517 & 1.875 & 99.035
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1859 catboost=0.8990 rf=0.8814R²=-0.005 L_recons=48.580
+time & params & flops & memory
+0.317 & 1.517 & 1.875 & 99.035
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=0.9697 catboost=0.9131 rf=0.8880R²=-0.020 L_recons=88.326
+time & params & flops & memory
+0.334 & 1.510 & 1.945 & 98.873
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1606 catboost=0.9530 rf=0.8933R²=-0.032 L_recons=57.031
+time & params & flops & memory
+0.333 & 1.510 & 1.945 & 98.873
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0225 catboost=0.8961 rf=0.8845R²=-0.012 L_recons=84.321
+time & params & flops & memory
+0.333 & 1.510 & 1.945 & 98.873
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1081 catboost=0.9021 rf=0.8907R²=-0.026 L_recons=54.569
+time & params & flops & memory
+0.332 & 1.510 & 1.945 & 98.873
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1810 catboost=0.9261 rf=0.9029R²=-0.054 L_recons=83.685
+time & params & flops & memory
+0.344 & 1.577 & 2.851 & 100.192
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.0742 catboost=0.9041 rf=0.8901R²=-0.025 L_recons=62.513
+time & params & flops & memory
+0.340 & 1.577 & 2.851 & 100.192
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0602 catboost=0.9035 rf=0.8934R²=-0.032 L_recons=81.303
+time & params & flops & memory
+0.344 & 1.577 & 2.851 & 100.192
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0865 catboost=0.9013 rf=0.8891R²=-0.022 L_recons=55.534
+time & params & flops & memory
+0.345 & 1.577 & 2.851 & 100.192
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=0.9785 catboost=0.9140 rf=0.8922R²=-0.029 L_recons=86.865
+time & params & flops & memory
+0.334 & 1.572 & 2.286 & 100.066
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.1126 catboost=0.9066 rf=0.8770R²=0.005 L_recons=52.007
+time & params & flops & memory
+0.317 & 1.572 & 2.286 & 100.066
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0904 catboost=0.9084 rf=0.8998R²=-0.047 L_recons=77.982
+time & params & flops & memory
+0.345 & 1.572 & 2.286 & 100.066
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.3153 catboost=0.9415 rf=0.9102R²=-0.071 L_recons=57.891
+time & params & flops & memory
+0.336 & 1.572 & 2.286 & 100.066
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.0310 catboost=0.9273 rf=0.8907R²=-0.026 L_recons=84.503
+time & params & flops & memory
+0.306 & 1.525 & 1.881 & 99.170
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2136 catboost=0.9183 rf=0.8873R²=-0.018 L_recons=60.300
+time & params & flops & memory
+0.304 & 1.525 & 1.881 & 99.170
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=0.9638 catboost=0.9168 rf=0.9038R²=-0.056 L_recons=83.330
+time & params & flops & memory
+0.336 & 1.525 & 1.881 & 99.170
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.1536 catboost=0.9064 rf=0.8907R²=-0.026 L_recons=56.919
+time & params & flops & memory
+0.335 & 1.525 & 1.881 & 99.170
+
+
+window_size=512
+===============
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=1.7818 catboost=1.0821 rf=1.0366R²=-0.147 L_recons=148.373
+time & params & flops & memory
+0.170 & 5.344 & 6.205 & 138.449
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=3.0097 catboost=1.0632 rf=1.0447R²=-0.165 L_recons=94.106
+time & params & flops & memory
+0.167 & 5.344 & 6.205 & 138.449
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.6543 catboost=1.0565 rf=0.9908R²=-0.048 L_recons=132.168
+time & params & flops & memory
+0.168 & 5.344 & 6.205 & 138.449
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=3.1007 catboost=1.0357 rf=0.9837R²=-0.033 L_recons=67.215
+time & params & flops & memory
+0.168 & 5.344 & 6.205 & 138.449
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=1.6659 catboost=1.0697 rf=1.0174R²=-0.105 L_recons=151.119
+time & params & flops & memory
+0.175 & 5.408 & 7.927 & 139.721
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.6787 catboost=1.0559 rf=1.0294R²=-0.131 L_recons=55.413
+time & params & flops & memory
+0.174 & 5.408 & 7.927 & 139.721
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.3904 catboost=1.0095 rf=0.9989R²=-0.065 L_recons=179.930
+time & params & flops & memory
+0.163 & 5.408 & 7.927 & 139.721
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=2.8865 catboost=1.0626 rf=1.0223R²=-0.115 L_recons=46.318
+time & params & flops & memory
+0.174 & 5.408 & 7.927 & 139.721
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=1.1844 catboost=1.0453 rf=1.0092R²=-0.087 L_recons=176.951
+time & params & flops & memory
+0.157 & 5.399 & 6.822 & 139.511
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.3368 catboost=1.0858 rf=1.0294R²=-0.131 L_recons=62.023
+time & params & flops & memory
+0.176 & 5.399 & 6.822 & 139.511
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.4022 catboost=1.0360 rf=1.0019R²=-0.071 L_recons=166.447
+time & params & flops & memory
+0.167 & 5.399 & 6.822 & 139.511
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=2.6037 catboost=1.0422 rf=0.9907R²=-0.047 L_recons=55.893
+time & params & flops & memory
+0.192 & 5.399 & 6.822 & 139.511
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.0768 catboost=1.0658 rf=1.0433R²=-0.161 L_recons=78.592
+time & params & flops & memory
+0.169 & 5.357 & 6.065 & 138.699
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.1328 catboost=1.0514 rf=1.0225R²=-0.116 L_recons=50.431
+time & params & flops & memory
+0.161 & 5.357 & 6.065 & 138.699
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=2.2862 catboost=1.0192 rf=0.9956R²=-0.058 L_recons=59.096
+time & params & flops & memory
+0.185 & 5.357 & 6.065 & 138.699
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=2.5605 catboost=1.0373 rf=1.0055R²=-0.079 L_recons=38.535
+time & params & flops & memory
+0.170 & 5.357 & 6.065 & 138.699
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.5146 catboost=1.0534 rf=1.0130R²=-0.095 L_recons=95.150
+time & params & flops & memory
+0.157 & 5.346 & 6.206 & 138.476
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.5318 catboost=1.0821 rf=1.0215R²=-0.113 L_recons=59.299
+time & params & flops & memory
+0.155 & 5.346 & 6.206 & 138.476
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=2.4420 catboost=1.0525 rf=1.0063R²=-0.081 L_recons=102.093
+time & params & flops & memory
+0.169 & 5.346 & 6.206 & 138.476
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=2.6134 catboost=1.0269 rf=1.0090R²=-0.086 L_recons=44.728
+time & params & flops & memory
+0.157 & 5.346 & 6.206 & 138.476
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=1.2162 catboost=1.0261 rf=0.9973R²=-0.061 L_recons=172.678
+time & params & flops & memory
+0.173 & 5.412 & 7.929 & 139.781
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=3.4846 catboost=1.0094 rf=1.0178R²=-0.105 L_recons=68.439
+time & params & flops & memory
+0.158 & 5.412 & 7.929 & 139.781
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.1385 catboost=1.0600 rf=1.0155R²=-0.100 L_recons=178.857
+time & params & flops & memory
+0.183 & 5.412 & 7.929 & 139.781
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=3.3675 catboost=1.0708 rf=1.0083R²=-0.085 L_recons=56.214
+time & params & flops & memory
+0.172 & 5.412 & 7.929 & 139.781
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=1.2060 catboost=1.0351 rf=1.0046R²=-0.077 L_recons=167.500
+time & params & flops & memory
+0.175 & 5.406 & 6.826 & 139.631
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.2904 catboost=1.0374 rf=1.0053R²=-0.078 L_recons=54.740
+time & params & flops & memory
+0.153 & 5.406 & 6.826 & 139.631
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.4816 catboost=1.0296 rf=1.0102R²=-0.089 L_recons=147.697
+time & params & flops & memory
+0.174 & 5.406 & 6.826 & 139.631
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=3.1611 catboost=1.0700 rf=1.0232R²=-0.117 L_recons=48.188
+time & params & flops & memory
+0.170 & 5.406 & 6.826 & 139.631
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=1.4090 catboost=1.0268 rf=0.9963R²=-0.059 L_recons=161.488
+time & params & flops & memory
+0.154 & 5.361 & 6.068 & 138.759
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.3960 catboost=1.0449 rf=1.0385R²=-0.151 L_recons=61.481
+time & params & flops & memory
+0.170 & 5.361 & 6.068 & 138.759
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.1442 catboost=1.0513 rf=1.0105R²=-0.090 L_recons=184.440
+time & params & flops & memory
+0.170 & 5.361 & 6.068 & 138.759
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=3.4333 catboost=1.0567 rf=1.0227R²=-0.116 L_recons=61.967
+time & params & flops & memory
+0.157 & 5.361 & 6.068 & 138.759
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=1.2388 catboost=1.0364 rf=1.0013R²=-0.070 L_recons=194.957
+time & params & flops & memory
+0.158 & 5.353 & 6.211 & 138.598
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.1400 catboost=1.0840 rf=1.0312R²=-0.135 L_recons=69.111
+time & params & flops & memory
+0.170 & 5.353 & 6.211 & 138.598
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.1748 catboost=1.0730 rf=1.0327R²=-0.138 L_recons=199.961
+time & params & flops & memory
+0.152 & 5.353 & 6.211 & 138.598
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=3.1782 catboost=1.0557 rf=1.0241R²=-0.119 L_recons=64.513
+time & params & flops & memory
+0.182 & 5.353 & 6.211 & 138.598
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=1.0275 catboost=1.0953 rf=1.0488R²=-0.174 L_recons=201.587
+time & params & flops & memory
+0.167 & 5.426 & 7.939 & 140.023
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.2672 catboost=1.0567 rf=1.0111R²=-0.091 L_recons=77.876
+time & params & flops & memory
+0.165 & 5.426 & 7.939 & 140.023
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.0021 catboost=1.1178 rf=1.0942R²=-0.278 L_recons=207.182
+time & params & flops & memory
+0.156 & 5.426 & 7.939 & 140.023
+
+timevae/beijing: hidden_layers=[128, 64, 32] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=2.4516 catboost=1.0379 rf=0.9841R²=-0.033 L_recons=81.613
+time & params & flops & memory
+0.161 & 5.426 & 7.939 & 140.023
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=0.9802 catboost=1.0314 rf=1.0173R²=-0.104 L_recons=208.532
+time & params & flops & memory
+0.170 & 5.434 & 6.845 & 140.113
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.0329 catboost=1.0586 rf=1.0125R²=-0.094 L_recons=78.508
+time & params & flops & memory
+0.161 & 5.434 & 6.845 & 140.113
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.0242 catboost=1.0631 rf=1.0276R²=-0.127 L_recons=207.174
+time & params & flops & memory
+0.164 & 5.434 & 6.845 & 140.113
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.0396 catboost=1.0865 rf=1.0407R²=-0.156 L_recons=205.761
+time & params & flops & memory
+0.170 & 5.434 & 6.845 & 140.113
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=0.9786 catboost=1.0526 rf=1.0289R²=-0.130 L_recons=206.733
+time & params & flops & memory
+0.170 & 5.375 & 6.077 & 139.001
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=512
+linreg=2.4429 catboost=1.0288 rf=0.9986R²=-0.064 L_recons=86.178
+time & params & flops & memory
+0.169 & 5.375 & 6.077 & 139.001
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=32 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=1.0150 catboost=1.1231 rf=1.0663R²=-0.213 L_recons=206.250
+time & params & flops & memory
+0.163 & 5.375 & 6.077 & 139.001
+
+timevae/beijing: hidden_layers=[32, 64, 32] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+linreg=2.2229 catboost=1.0213 rf=0.9969R²=-0.060 L_recons=87.069
+time & params & flops & memory
+0.154 & 5.375 & 6.077 & 139.001
+
+
+window_size=1024
+================
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=0.9024 catboost=0.9347 rf=0.9425R²=-0.076 L_recons=435.812
+time & params & flops & memory
+0.199 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=1.0383 catboost=1.0405 rf=0.9651R²=-0.128 L_recons=428.669
+time & params & flops & memory
+0.178 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9024 catboost=0.9347 rf=0.9425R²=-0.076 L_recons=435.812
+time & params & flops & memory
+0.182 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=1.0383 catboost=1.0405 rf=0.9651R²=-0.128 L_recons=428.669
+time & params & flops & memory
+0.182 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=32 window_size=1024
+linreg=1.8949 catboost=0.9756 rf=0.9292R²=-0.046 L_recons=294.846
+time & params & flops & memory
+0.182 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=32 window_size=1024
+linreg=3.0484 catboost=1.0001 rf=0.9481R²=-0.089 L_recons=223.230
+time & params & flops & memory
+0.178 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.8949 catboost=0.9756 rf=0.9292R²=-0.046 L_recons=294.846
+time & params & flops & memory
+0.179 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=3.0484 catboost=1.0001 rf=0.9481R²=-0.089 L_recons=223.230
+time & params & flops & memory
+0.182 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=32 window_size=1024
+linreg=2.0213 catboost=0.9511 rf=0.9519R²=-0.098 L_recons=84.707
+time & params & flops & memory
+0.178 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=32 window_size=1024
+linreg=1.7668 catboost=1.0158 rf=1.0133R²=-0.244 L_recons=96.414
+time & params & flops & memory
+0.184 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=2.0213 catboost=0.9511 rf=0.9519R²=-0.098 L_recons=84.707
+time & params & flops & memory
+0.183 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=1.7668 catboost=1.0158 rf=1.0133R²=-0.244 L_recons=96.414
+time & params & flops & memory
+0.172 & 20.097 & 21.807 & 433.995
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=0.9094 catboost=1.1053 rf=0.9636R²=-0.125 L_recons=442.090
+time & params & flops & memory
+0.177 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=0.9293 catboost=1.0181 rf=0.9689R²=-0.137 L_recons=438.427
+time & params & flops & memory
+0.172 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9094 catboost=1.1053 rf=0.9636R²=-0.125 L_recons=442.090
+time & params & flops & memory
+0.178 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9293 catboost=1.0181 rf=0.9689R²=-0.137 L_recons=438.427
+time & params & flops & memory
+0.168 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=32 window_size=1024
+linreg=1.6876 catboost=0.9213 rf=0.9771R²=-0.156 L_recons=195.979
+time & params & flops & memory
+0.167 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=32 window_size=1024
+linreg=1.9822 catboost=0.9960 rf=0.9370R²=-0.063 L_recons=208.693
+time & params & flops & memory
+0.168 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.6876 catboost=0.9213 rf=0.9771R²=-0.156 L_recons=195.979
+time & params & flops & memory
+0.178 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.9822 catboost=0.9960 rf=0.9370R²=-0.063 L_recons=208.693
+time & params & flops & memory
+0.175 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=32 window_size=1024
+linreg=2.3207 catboost=0.9863 rf=0.9536R²=-0.101 L_recons=82.459
+time & params & flops & memory
+0.179 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=32 window_size=1024
+linreg=2.2332 catboost=1.0184 rf=0.9511R²=-0.096 L_recons=64.735
+time & params & flops & memory
+0.169 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=2.3207 catboost=0.9863 rf=0.9536R²=-0.101 L_recons=82.459
+time & params & flops & memory
+0.179 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=2.2332 catboost=1.0184 rf=0.9511R²=-0.096 L_recons=64.735
+time & params & flops & memory
+0.169 & 20.077 & 20.730 & 433.617
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=0.9324 catboost=0.9497 rf=0.9643R²=-0.126 L_recons=447.758
+time & params & flops & memory
+0.172 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=0.8883 catboost=0.9916 rf=0.9849R²=-0.175 L_recons=444.705
+time & params & flops & memory
+0.178 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9324 catboost=0.9497 rf=0.9643R²=-0.126 L_recons=447.758
+time & params & flops & memory
+0.179 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.8883 catboost=0.9916 rf=0.9849R²=-0.175 L_recons=444.705
+time & params & flops & memory
+0.178 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=32 window_size=1024
+linreg=1.5911 catboost=0.9650 rf=0.9508R²=-0.095 L_recons=300.185
+time & params & flops & memory
+0.176 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=32 window_size=1024
+linreg=1.7309 catboost=1.0440 rf=0.9813R²=-0.166 L_recons=306.731
+time & params & flops & memory
+0.179 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.5911 catboost=0.9650 rf=0.9508R²=-0.095 L_recons=300.185
+time & params & flops & memory
+0.179 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.7309 catboost=1.0440 rf=0.9813R²=-0.166 L_recons=306.731
+time & params & flops & memory
+0.177 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=32 window_size=1024
+linreg=1.7593 catboost=0.9917 rf=0.9259R²=-0.038 L_recons=165.577
+time & params & flops & memory
+0.168 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=32 window_size=1024
+linreg=2.4581 catboost=0.9060 rf=0.9471R²=-0.086 L_recons=158.861
+time & params & flops & memory
+0.169 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=1.7593 catboost=0.9917 rf=0.9259R²=-0.038 L_recons=165.577
+time & params & flops & memory
+0.176 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=2.4581 catboost=0.9060 rf=0.9471R²=-0.086 L_recons=158.861
+time & params & flops & memory
+0.169 & 20.074 & 20.412 & 433.555
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=0.9135 catboost=1.1572 rf=1.0407R²=-0.312 L_recons=441.892
+time & params & flops & memory
+0.171 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=0.9457 catboost=1.2804 rf=1.0616R²=-0.365 L_recons=432.961
+time & params & flops & memory
+0.182 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9135 catboost=1.1572 rf=1.0407R²=-0.312 L_recons=441.892
+time & params & flops & memory
+0.182 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9457 catboost=1.2804 rf=1.0616R²=-0.365 L_recons=432.961
+time & params & flops & memory
+0.171 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=32 window_size=1024
+linreg=1.4234 catboost=0.9311 rf=0.9578R²=-0.111 L_recons=87.605
+time & params & flops & memory
+0.180 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=32 window_size=1024
+linreg=1.6602 catboost=1.0024 rf=0.9512R²=-0.096 L_recons=77.171
+time & params & flops & memory
+0.184 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.4234 catboost=0.9311 rf=0.9578R²=-0.111 L_recons=87.605
+time & params & flops & memory
+0.171 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.6602 catboost=1.0024 rf=0.9512R²=-0.096 L_recons=77.171
+time & params & flops & memory
+0.179 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=32 window_size=1024
+linreg=1.5055 catboost=0.9120 rf=0.9193R²=-0.024 L_recons=106.916
+time & params & flops & memory
+0.172 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=32 window_size=1024
+linreg=2.4304 catboost=0.9335 rf=0.9518R²=-0.097 L_recons=42.793
+time & params & flops & memory
+0.171 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=1.5055 catboost=0.9120 rf=0.9193R²=-0.024 L_recons=106.916
+time & params & flops & memory
+0.183 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=2.4304 catboost=0.9335 rf=0.9518R²=-0.097 L_recons=42.793
+time & params & flops & memory
+0.182 & 20.100 & 21.809 & 434.058
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=0.9404 catboost=0.9931 rf=0.9499R²=-0.093 L_recons=447.413
+time & params & flops & memory
+0.179 & 20.079 & 20.731 & 433.646
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=32 window_size=1024
+linreg=0.9359 catboost=1.0126 rf=0.9436R²=-0.078 L_recons=440.071
+time & params & flops & memory
+0.178 & 20.079 & 20.731 & 433.646
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9404 catboost=0.9931 rf=0.9499R²=-0.093 L_recons=447.413
+time & params & flops & memory
+0.178 & 20.079 & 20.731 & 433.646
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9359 catboost=1.0126 rf=0.9436R²=-0.078 L_recons=440.071
+time & params & flops & memory
+0.179 & 20.079 & 20.731 & 433.646
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9024 catboost=0.9347 rf=0.9425R²=-0.076 L_recons=435.812
+time & params & flops & memory
+0.172 & 20.097 & 21.807 & 768.656
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=1.0383 catboost=1.0405 rf=0.9651R²=-0.128 L_recons=428.669
+time & params & flops & memory
+0.182 & 20.097 & 21.807 & 768.656
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.8949 catboost=0.9756 rf=0.9292R²=-0.046 L_recons=294.846
+time & params & flops & memory
+0.182 & 20.097 & 21.807 & 768.656
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=3.0484 catboost=1.0001 rf=0.9481R²=-0.089 L_recons=223.230
+time & params & flops & memory
+0.180 & 20.097 & 21.807 & 768.656
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=2.0213 catboost=0.9511 rf=0.9519R²=-0.098 L_recons=84.707
+time & params & flops & memory
+0.185 & 20.097 & 21.807 & 768.656
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=1.7668 catboost=1.0158 rf=1.0133R²=-0.244 L_recons=96.414
+time & params & flops & memory
+0.183 & 20.097 & 21.807 & 768.656
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9094 catboost=1.1053 rf=0.9636R²=-0.125 L_recons=442.090
+time & params & flops & memory
+0.168 & 20.077 & 20.730 & 768.278
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9293 catboost=1.0181 rf=0.9689R²=-0.137 L_recons=438.427
+time & params & flops & memory
+0.179 & 20.077 & 20.730 & 768.278
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.6876 catboost=0.9213 rf=0.9771R²=-0.156 L_recons=195.979
+time & params & flops & memory
+0.180 & 20.077 & 20.730 & 768.278
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.9822 catboost=0.9960 rf=0.9370R²=-0.063 L_recons=208.693
+time & params & flops & memory
+0.179 & 20.077 & 20.730 & 768.278
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=2.3207 catboost=0.9863 rf=0.9536R²=-0.101 L_recons=82.459
+time & params & flops & memory
+0.180 & 20.077 & 20.730 & 768.278
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=2.2332 catboost=1.0184 rf=0.9511R²=-0.096 L_recons=64.735
+time & params & flops & memory
+0.168 & 20.077 & 20.730 & 768.278
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9324 catboost=0.9497 rf=0.9643R²=-0.126 L_recons=447.758
+time & params & flops & memory
+0.179 & 20.074 & 20.412 & 768.217
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.8883 catboost=0.9916 rf=0.9849R²=-0.175 L_recons=444.705
+time & params & flops & memory
+0.178 & 20.074 & 20.412 & 768.217
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.5911 catboost=0.9650 rf=0.9508R²=-0.095 L_recons=300.185
+time & params & flops & memory
+0.179 & 20.074 & 20.412 & 768.217
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.7309 catboost=1.0440 rf=0.9813R²=-0.166 L_recons=306.731
+time & params & flops & memory
+0.179 & 20.074 & 20.412 & 768.217
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=1.7593 catboost=0.9917 rf=0.9259R²=-0.038 L_recons=165.577
+time & params & flops & memory
+0.179 & 20.074 & 20.412 & 768.217
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=2.4581 catboost=0.9060 rf=0.9471R²=-0.086 L_recons=158.861
+time & params & flops & memory
+0.177 & 20.074 & 20.412 & 768.217
+
+timevae/beijing: hidden_layers=[20, 16, 12] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9690 catboost=1.0461 rf=0.9354R²=-0.060 L_recons=439.445
+time & params & flops & memory
+0.178 & 20.077 & 20.492 & 768.271
+
+timevae/beijing: hidden_layers=[20, 16, 12] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=1.0287 catboost=0.9843 rf=0.9607R²=-0.118 L_recons=434.893
+time & params & flops & memory
+0.179 & 20.077 & 20.492 & 768.271
+
+timevae/beijing: hidden_layers=[20, 16, 12] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.7917 catboost=1.0263 rf=0.9949R²=-0.199 L_recons=255.730
+time & params & flops & memory
+0.181 & 20.077 & 20.492 & 768.271
+
+timevae/beijing: hidden_layers=[20, 16, 12] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.7462 catboost=1.0487 rf=0.9504R²=-0.094 L_recons=244.357
+time & params & flops & memory
+0.167 & 20.077 & 20.492 & 768.271
+
+timevae/beijing: hidden_layers=[20, 16, 12] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=1.7217 catboost=0.9918 rf=0.9389R²=-0.068 L_recons=78.659
+time & params & flops & memory
+0.168 & 20.077 & 20.492 & 768.271
+
+timevae/beijing: hidden_layers=[20, 16, 12] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+linreg=1.6807 catboost=0.9080 rf=0.8750R²=0.073 L_recons=104.745
+time & params & flops & memory
+0.179 & 20.077 & 20.492 & 768.271
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9135 catboost=1.1572 rf=1.0407R²=-0.312 L_recons=441.892
+time & params & flops & memory
+0.171 & 20.100 & 21.809 & 768.719
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=1024
+linreg=0.9457 catboost=1.2804 rf=1.0616R²=-0.365 L_recons=432.961
+time & params & flops & memory
+0.183 & 20.100 & 21.809 & 768.719
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.4234 catboost=0.9311 rf=0.9578R²=-0.111 L_recons=87.605
+time & params & flops & memory
+0.182 & 20.100 & 21.809 & 768.719
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=1024
+linreg=1.6602 catboost=1.0024 rf=0.9512R²=-0.096 L_recons=77.171
+time & params & flops & memory
+0.180 & 20.100 & 21.809 & 768.719
+
+window_size=64
+==============
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0283 catboost=1.0201 rf=1.0231R²=-0.028 L_recons=20.385
+time & params & flops & memory
+1.136 & 0.156 & 0.201 & 34.376
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0274 catboost=1.0203 rf=1.0170R²=-0.015 L_recons=16.944
+time & params & flops & memory
+1.126 & 0.156 & 0.201 & 34.376
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0222 catboost=1.0212 rf=1.0253R²=-0.032 L_recons=20.056
+time & params & flops & memory
+1.118 & 0.156 & 0.201 & 34.376
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0269 catboost=1.0182 rf=1.0148R²=-0.011 L_recons=15.932
+time & params & flops & memory
+1.235 & 0.156 & 0.201 & 34.376
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0264 catboost=1.0205 rf=1.0200R²=-0.022 L_recons=19.315
+time & params & flops & memory
+1.130 & 0.156 & 0.201 & 34.376
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0446 catboost=1.0255 rf=1.0158R²=-0.013 L_recons=15.455
+time & params & flops & memory
+1.121 & 0.156 & 0.201 & 34.376
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0270 catboost=1.0235 rf=1.0274R²=-0.036 L_recons=19.567
+time & params & flops & memory
+1.282 & 0.173 & 0.292 & 34.705
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0274 catboost=1.0321 rf=1.0264R²=-0.034 L_recons=15.336
+time & params & flops & memory
+1.195 & 0.173 & 0.292 & 34.705
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0182 catboost=1.0232 rf=1.0267R²=-0.035 L_recons=19.797
+time & params & flops & memory
+1.181 & 0.173 & 0.292 & 34.705
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0230 catboost=1.0179 rf=1.0146R²=-0.011 L_recons=15.187
+time & params & flops & memory
+1.289 & 0.173 & 0.292 & 34.705
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0169 catboost=1.0258 rf=1.0285R²=-0.039 L_recons=20.168
+time & params & flops & memory
+1.286 & 0.173 & 0.292 & 34.705
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0286 catboost=1.0118 rf=1.0161R²=-0.014 L_recons=17.395
+time & params & flops & memory
+1.178 & 0.173 & 0.292 & 34.705
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0374 catboost=1.0227 rf=1.0225R²=-0.026 L_recons=18.782
+time & params & flops & memory
+1.224 & 0.265 & 0.640 & 36.531
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0278 catboost=1.0178 rf=1.0179R²=-0.017 L_recons=14.064
+time & params & flops & memory
+1.246 & 0.265 & 0.640 & 36.531
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0213 catboost=1.0194 rf=1.0222R²=-0.026 L_recons=18.890
+time & params & flops & memory
+1.338 & 0.265 & 0.640 & 36.531
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0238 catboost=1.0149 rf=1.0165R²=-0.014 L_recons=13.122
+time & params & flops & memory
+1.338 & 0.265 & 0.640 & 36.531
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0184 catboost=1.0237 rf=1.0205R²=-0.023 L_recons=19.107
+time & params & flops & memory
+1.225 & 0.265 & 0.640 & 36.531
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0260 catboost=1.0151 rf=1.0201R²=-0.022 L_recons=14.592
+time & params & flops & memory
+1.230 & 0.265 & 0.640 & 36.531
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0258 catboost=1.0183 rf=1.0205R²=-0.022 L_recons=18.942
+time & params & flops & memory
+1.197 & 0.215 & 0.409 & 35.534
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0263 catboost=1.0211 rf=1.0172R²=-0.016 L_recons=14.391
+time & params & flops & memory
+1.190 & 0.215 & 0.409 & 35.534
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0271 catboost=1.0213 rf=1.0205R²=-0.022 L_recons=18.354
+time & params & flops & memory
+1.249 & 0.215 & 0.409 & 35.534
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0279 catboost=1.0166 rf=1.0177R²=-0.017 L_recons=13.415
+time & params & flops & memory
+1.187 & 0.215 & 0.409 & 35.534
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=8 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0208 catboost=1.0308 rf=1.0318R²=-0.045 L_recons=19.162
+time & params & flops & memory
+1.298 & 0.215 & 0.409 & 35.534
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0389 catboost=1.0283 rf=1.0202R²=-0.022 L_recons=14.517
+time & params & flops & memory
+1.189 & 0.215 & 0.409 & 35.534
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0182 catboost=1.0265 rf=1.0326R²=-0.047 L_recons=20.653
+time & params & flops & memory
+1.175 & 0.156 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0357 catboost=1.0190 rf=1.0224R²=-0.026 L_recons=17.074
+time & params & flops & memory
+1.134 & 0.156 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0276 catboost=1.0268 rf=1.0280R²=-0.038 L_recons=19.647
+time & params & flops & memory
+1.139 & 0.156 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0330 catboost=1.0230 rf=1.0232R²=-0.028 L_recons=16.722
+time & params & flops & memory
+1.208 & 0.156 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0184 catboost=1.0230 rf=1.0245R²=-0.030 L_recons=20.192
+time & params & flops & memory
+1.128 & 0.156 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0322 catboost=1.0261 rf=1.0203R²=-0.022 L_recons=17.794
+time & params & flops & memory
+1.161 & 0.156 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0293 catboost=1.0243 rf=1.0262R²=-0.034 L_recons=20.025
+time & params & flops & memory
+1.293 & 0.173 & 0.292 & 34.715
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0269 catboost=1.0179 rf=1.0192R²=-0.020 L_recons=15.318
+time & params & flops & memory
+1.164 & 0.173 & 0.292 & 34.715
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0245 catboost=1.0247 rf=1.0285R²=-0.039 L_recons=19.074
+time & params & flops & memory
+1.288 & 0.173 & 0.292 & 34.715
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0275 catboost=1.0134 rf=1.0186R²=-0.019 L_recons=14.435
+time & params & flops & memory
+1.159 & 0.173 & 0.292 & 34.715
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0106 catboost=1.0268 rf=1.0334R²=-0.048 L_recons=20.153
+time & params & flops & memory
+1.174 & 0.173 & 0.292 & 34.715
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0246 catboost=1.0116 rf=1.0219R²=-0.025 L_recons=15.496
+time & params & flops & memory
+1.187 & 0.173 & 0.292 & 34.715
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0202 catboost=1.0241 rf=1.0195R²=-0.020 L_recons=19.213
+time & params & flops & memory
+1.232 & 0.267 & 0.642 & 36.573
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0357 catboost=1.0175 rf=1.0172R²=-0.016 L_recons=13.847
+time & params & flops & memory
+1.338 & 0.267 & 0.642 & 36.573
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0140 catboost=1.0121 rf=1.0206R²=-0.023 L_recons=19.796
+time & params & flops & memory
+1.216 & 0.267 & 0.642 & 36.573
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0245 catboost=1.0165 rf=1.0108R²=-0.003 L_recons=13.712
+time & params & flops & memory
+1.323 & 0.267 & 0.642 & 36.573
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0229 catboost=1.0222 rf=1.0220R²=-0.025 L_recons=19.250
+time & params & flops & memory
+1.337 & 0.267 & 0.642 & 36.573
+
+timevae/beijing: hidden_layers=[128, 64, 96] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0208 catboost=1.0173 rf=1.0133R²=-0.008 L_recons=14.996
+time & params & flops & memory
+1.308 & 0.267 & 0.642 & 36.573
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0278 catboost=1.0226 rf=1.0241R²=-0.030 L_recons=19.079
+time & params & flops & memory
+1.185 & 0.216 & 0.410 & 35.563
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0222 catboost=1.0198 rf=1.0171R²=-0.016 L_recons=14.153
+time & params & flops & memory
+1.185 & 0.216 & 0.410 & 35.563
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0295 catboost=1.0198 rf=1.0258R²=-0.033 L_recons=18.989
+time & params & flops & memory
+1.182 & 0.216 & 0.410 & 35.563
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0295 catboost=1.0180 rf=1.0195R²=-0.021 L_recons=13.466
+time & params & flops & memory
+1.300 & 0.216 & 0.410 & 35.563
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0144 catboost=1.0147 rf=1.0215R²=-0.024 L_recons=19.911
+time & params & flops & memory
+1.226 & 0.216 & 0.410 & 35.563
+
+timevae/beijing: hidden_layers=[64, 64, 64] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0404 catboost=1.0196 rf=1.0190R²=-0.019 L_recons=14.638
+time & params & flops & memory
+1.197 & 0.216 & 0.410 & 35.563
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0132 catboost=1.0200 rf=1.0262R²=-0.034 L_recons=21.661
+time & params & flops & memory
+1.135 & 0.157 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0153 catboost=1.0161 rf=1.0175R²=-0.016 L_recons=19.316
+time & params & flops & memory
+1.130 & 0.157 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0181 catboost=1.0176 rf=1.0262R²=-0.034 L_recons=20.146
+time & params & flops & memory
+1.140 & 0.157 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=64 window_size=64
+linreg=1.0294 catboost=1.0275 rf=1.0257R²=-0.033 L_recons=17.596
+time & params & flops & memory
+1.124 & 0.157 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0137 catboost=1.0252 rf=1.0271R²=-0.036 L_recons=21.071
+time & params & flops & memory
+1.132 & 0.157 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[32, 16, 8] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
+linreg=1.0272 catboost=1.0264 rf=1.0256R²=-0.033 L_recons=18.943
+time & params & flops & memory
+1.172 & 0.157 & 0.202 & 34.385
+
+timevae/beijing: hidden_layers=[64, 32, 16] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.0001 batch_size=64 window_size=64
+linreg=1.0186 catboost=1.0237 rf=1.0256R²=-0.033 L_recons=20.573
+time & params & flops & memory
+1.168 & 0.174 & 0.292 & 34.721
+

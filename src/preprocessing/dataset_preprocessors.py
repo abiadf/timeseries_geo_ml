@@ -1,11 +1,11 @@
 """Downloads 3D datasets"""
-
 from __future__ import annotations
 import ast
 import json
 import os
 import shutil
 import wfdb
+import torch
 
 from glob import glob
 from pathlib import Path
@@ -13,7 +13,6 @@ from typing import Dict, List, Literal, Tuple, Optional
 
 import numpy as np
 import pandas as pd
-import torch
 import xarray as xr
 import zarr
 
@@ -36,32 +35,19 @@ class DatasetPreprocessor:
         self.X_scaler   = None
 
     def _prepare_targets(self, y):
-        # if isinstance(y, np.ndarray):
-        #     self.y_df         = pd.DataFrame(y)
-        #     self.cat_cols     = []
-        #     self.numeric_cols = self.y_df.columns.tolist()
-        # else:
-        #     self.y_df         = y.copy()
-        #     self.numeric_cols = self.y_df.select_dtypes(include=[np.number]).columns.tolist()
-        #     self.cat_cols     = self.y_df.select_dtypes(include=['object','category']).columns.tolist()
         if isinstance(y, np.ndarray):
-            self.y_df = None  # no DataFrame needed
-            self.cat_cols = []
+            self.y_df         = None
+            self.cat_cols     = []
             self.numeric_cols = list(range(y.shape[1] if y.ndim > 1 else 1))
         else:
-            self.y_df = y.copy()
+            self.y_df         = y.copy()
             self.numeric_cols = self.y_df.select_dtypes(include=[np.number]).columns.tolist()
             self.cat_cols     = self.y_df.select_dtypes(include=['object','category']).columns.tolist()
 
     def _downsample_first_pages_and_split(self, X, y):
         """Downsample first few pages, then randomly train-test split.
         Works for both numpy arrays and pandas DataFrames."""
-        n_pages  = X.shape[0]
-        # page_num = min(self.page_num, n_pages)
-
-        # X_small = X[:page_num]
-        # y_small = y[:page_num]
-
+        n_pages = X.shape[0]
         rng     = np.random.default_rng(self.random_seed)
         indices = rng.permutation(n_pages)
         n_test  = int(n_pages * self.test_size)
