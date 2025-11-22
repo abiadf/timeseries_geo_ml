@@ -21,17 +21,17 @@ basics:
 
 run_console:
   mean_X:        false #true
-  barlow_cnn:    false #true
+  barlow_cnn:    true
   barlow_ae:     false
   barlow_ae_ssl: false
   cellsup:       false
   cnn_lstm:      false
   flatten_X:     false #true
   kan:           false
-  moment :       true
+  moment :       false
   moment_fed:    false
-  timevae:       false #true
-  ts2vec :       false #true
+  timevae:       false
+  ts2vec :       false
   ts2vec_fed:    false
 
 general_params:

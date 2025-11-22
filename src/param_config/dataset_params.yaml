@@ -2,7 +2,7 @@
 general:
   train_epochs:      100
   num_pages_to_use:  10
-  window_len:        1024
+  window_len:        64
   window_len_list:   [64, 128, 256, 512, 1024, 2048]
 
 asm:

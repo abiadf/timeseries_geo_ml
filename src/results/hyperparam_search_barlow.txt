@@ -454,3 +454,7 @@ best {"latent_dim": 12, "channels1": 8, "channels2": 32, "kernel_size": 7, "pool
 {"latent_dim": 32, "channels1": 32, "channels2": 8, "kernel_size": 3, "pool_kernel": 2, "ssl_lambda": 1.0, "ssl_weight": 0.5, "augment_const": 0.1, "recon_weight": 0.1, "epochs": 100, "lr": 0.01, "head_dims_list": [128, 64], "test_rmse": 1.1743252277374268, "r2": -0.06382118228142808}
 {"latent_dim": 12, "channels1": 8, "channels2": 32, "kernel_size": 3, "pool_kernel": 3, "ssl_lambda": 0.5, "ssl_weight": 1.0, "augment_const": 0.2, "recon_weight": 0.5, "epochs": 100, "lr": 0.001, "head_dims_list": [128, 64], "test_rmse": 0.9618061184883118, "r2": 0.1137450141338302}
 {"latent_dim": 32, "channels1": 32, "channels2": 8, "kernel_size": 7, "pool_kernel": 3, "ssl_lambda": 1.0, "ssl_weight": 0.5, "augment_const": 0.2, "recon_weight": 0.1, "epochs": 100, "lr": 0.005, "head_dims_list": [128, 64], "test_rmse": 1.2770949602127075, "r2": -0.17054560058754542}
+barlow_cnn/beijing: c1=64 c2=128 k=5 pool=2 latent=32 sslλ=0.005 sslw=0.8 aug=0.1 epochs=100 lr=0.001 (last SSL=0.1610, last Recon=1.9808)
+& Z (barlow_cnn) & 0.7064 & 0.6942 & 0.6983 & 0.9782
+R² (barlow_cnn): 0.483
+

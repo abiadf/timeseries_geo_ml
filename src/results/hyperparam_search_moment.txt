@@ -937,3 +937,18 @@ train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
 & Z (moment) & train_RMSE=1.4241 & test_RMSE=1.0515
 R² (MLP head): -0.036
 
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=1.3487 & test_RMSE=1.0935
+R² (MLP head): 0.006
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=1.2949 & test_RMSE=0.9923
+R² (MLP head): -0.037
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=1.5556 & test_RMSE=1.0831
+R² (MLP head): 0.002
+
