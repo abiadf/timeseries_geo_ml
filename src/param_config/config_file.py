@@ -8,4 +8,4 @@ ts2vec_params_loc= f"ts2vec_params"
 params_path      = "param_config/baseline_params.yaml"
 asm_folder_loc   = "../public_datasets/3D/ASM"
 
-
+messager_yaml_path = "param_config/messager.yaml"

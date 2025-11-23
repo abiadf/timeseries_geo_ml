@@ -1,4 +1,3 @@
-"still in dev"
 
 import __main__
 import os
@@ -51,6 +50,7 @@ if torch.cuda.is_available():
 from benchmarks.ts2vec_runner import run_ts2vec, log_ts2vec_results
 from benchmarks.timevae_runner import run_timevae, log_timevae_results
 from benchmarks.moment_runner import MomentRunner
+from benchmarks.barlow_cnn_runner import BarlowCNNRunner
 
 from methods.forecasting_module import TimeGPTForecaster, SARIMAXForecaster
 from methods.cellsup import Cellsup, DeepClusterAndSwav
@@ -71,7 +71,7 @@ from encoders.ts2vec_encoder import TS2VecEncoder
 from encoders.latents import Latents
 from encoders.cnn import CnnAutoencoder
 
-from src.param_config.config_file import interim_data_loc, public_data_loc, encoders_folder, ts2vec_params_loc
+from config_file import interim_data_loc, public_data_loc, encoders_folder, ts2vec_params_loc, params_path, asm_folder_loc, messager_yaml_path
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
@@ -84,16 +84,11 @@ logging.error("Something failed.")
 
 
 
-
-
 "Setting up params"
 
-messager_params  = read_yaml_params("param_config/messager.yaml")
-WEBHOOK_URL      = messager_params["webhook_url"]
-
-# Default params path
-params_path = "param_config/baseline_params.yaml"
-params      = read_yaml_params(params_path)
+params         = read_yaml_params(params_path)
+messager_params= read_yaml_params(messager_yaml_path)
+WEBHOOK_URL    = messager_params["webhook_url"]
 
 # Override dataset if running from bash
 dataset_from_env = os.getenv("DATASET")
@@ -118,17 +113,20 @@ NUM_ROWS        = data_params[desired_dataset]["num_rows_per_page"]
 label_frac      = params["basics"]["label_frac"]
 data_splitting  = params["basics"]["data_splitting"]
 do_we_scale_y   = params["basics"]["do_we_scale_y"]
-rand_seed       = params["basics"]["random_seed"]
+
+freeze_rand_seed = params["basics"]["freeze_rand_seed"]
+if freeze_rand_seed:
+    rand_seed = params["basics"]["random_seed"]
+else:
+    rng       = np.random.default_rng()
+    rand_seed = rng.integers(0, 10_000)
 set_all_rand_seeds(rand_seed)
-# rng       = np.random.default_rng()
-# rand_seed = rng.integers(42, 100)
 
 # dataset_window = data_params[desired_dataset]["window_len"]
 
 if "WINDOW_LEN" in os.environ:
     dataset_window = int(os.environ["WINDOW_LEN"])
 else:
-    # dataset_window = int(data_params[desired_dataset]["window_len"])
     dataset_window = int(data_params["general"]["window_len"])
 print("Using window length:", dataset_window)
 
@@ -148,74 +146,4 @@ layer3_dim  = params["general_params"]["regressor"]["layer3_dim"]
 regressor_epochs = params["general_params"]["regressor"]["epochs_regressor"]
 lr_regressor     = params["general_params"]["regressor"]["lr"]
 
-
-"""[RUN ME] Preprocess dataset, as class"""
-
-if desired_dataset == "nasa": # Directly load NASA dataset
-    X_train, X_test, y_train_scaled, y_test_scaled = DatasetLoading.load_nasa_data()
-    window_size = "N/A"
-else:
-    X_train, X_test, y_train_scaled, y_test_scaled, window_size = load_or_preprocess_dataset(desired_dataset, NUM_PAGES_TO_USE, do_we_scale_y, 
-                                                     dataset_window=dataset_window, random_seed=rand_seed, use_cache=False, num_rows_per_window=NUM_ROWS)
-if X_train.shape[2] > 300:
-    top_features_pct         = params["general_params"]["top_features_big_dataset_pct"] # % top features to select
-    X_train, X_test, top_idx = select_top_X_features(X_train, y_train_scaled, X_test, top_features_pct)
-elif X_train.shape[2] > 30:
-    top_features_pct         = params["general_params"]["top_features_pct"] # % of top features to select
-    X_train, X_test, top_idx = select_top_X_features(X_train, y_train_scaled, X_test, top_features_pct)
-
-# save the model here
-
 print(f"Random seed: {rand_seed}")
-print(f"X_train: {X_train.shape} ({X_train.nbytes/1024**2:.1f} MB), X_test: {X_test.shape} ({X_test.nbytes/1024**2:.1f} MB)")
-print(f"y_train: {y_train_scaled.shape} ({y_train_scaled.nbytes/1024**2:.1f} MB), y_test: {y_test_scaled.shape} ({y_test_scaled.nbytes/1024**2:.1f} MB)")
-print(f"Mean: {X_train.mean():.2f}, {X_test.mean():.2f}, {y_train_scaled.mean():.2f}, {y_test_scaled.mean():.2f}")
-print(f"Y is scaled: {do_we_scale_y}")
-print("Min:", np.min(X_train), np.min(X_test))
-print("Max:", np.max(X_train), np.max(X_test))
-
-
-"[RUN ME] Setup step"
-rng       = np.random.default_rng(rand_seed)
-n_train   = len(X_train)
-n_labeled = int(np.ceil(label_frac * n_train))
-perm      = rng.permutation(n_train)
-
-if data_splitting == "missing_labels":
-    # Keep all of X_train, split y
-    X_L = X_train[perm[:n_labeled]]
-    y_L = y_train_scaled[perm[:n_labeled]]
-    X_U = X_train[perm[n_labeled:]]
-    y_U = y_train_scaled[perm[n_labeled:]]
-elif data_splitting == "reduced_data":
-    # Shrink X_train & y_train by fraction, no unlabeled
-    X_L = X_train[perm[:n_labeled]]
-    y_L = y_train_scaled[perm[:n_labeled]]
-    X_U = np.empty((0, *X_L.shape[1:]), dtype=X_L.dtype)
-    y_U = np.empty((0, *y_L.shape[1:]), dtype=y_L.dtype)
-
-# X_train for supervised training is only the labeled portion
-X_train        = X_L
-y_train_scaled = y_L
-
-# Optional: combine for TimeVAE or other use
-X_small = np.concatenate([X_train, X_test], axis=0)
-y_small = np.concatenate([y_train_scaled, y_test_scaled], axis=0)
-
-print(f"{data_splitting=}, {label_frac=}")
-print(f"X_L: {X_L.shape}, y_L: {y_L.shape}")
-print(f"X_U: {X_U.shape}, y_U: {y_U.shape}")
-print(f"X_train: {X_train.shape}, X_test: {X_test.shape}")
-print(f"X_small: {X_small.shape}")
-
-if params["run_console"]["timevae"] == True:
-    timevae_file_name = f"X.npz"
-    timevae_folder    = f"{interim_data_loc}/timevae/{desired_dataset}_frac{label_frac}"
-    os.makedirs(timevae_folder, exist_ok=True)
-    np.savez_compressed(f"{timevae_folder}/{timevae_file_name}", data=np.array(X_small, dtype=np.float32))
-    print(f"Saved {timevae_file_name} to {timevae_folder}")
-    timevae_file_path = f"{timevae_folder}/{timevae_file_name}"
-
-print(f"X_train: {X_train.shape}, X_test: {X_test.shape}, X_small (TimeVAE): {X_small.shape}")
-print(f"y_train: {y_train_scaled.shape}, y_test: {y_test_scaled.shape}, y_small (TimeVAE): {y_small.shape}")
-print(f"Mean: {np.mean(X_train):.2f}, {np.mean(X_test):.2f}, {y_train_scaled.mean():.2f}, {y_test_scaled.mean():.2f}")
