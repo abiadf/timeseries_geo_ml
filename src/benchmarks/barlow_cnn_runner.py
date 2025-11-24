@@ -68,43 +68,63 @@ class BarlowCNNRunner:
 
     @staticmethod
     def run_barlow_cnn(X_train, X_test, y_train, y_test, *, model_cfg: dict, train_cfg: dict, device):
-        """Train Barlow CNN encoder and evaluate models. Returns (losses, r2, profiling)."""
+        """Train Barlow CNN encoder, evaluate models, compute final reconstruction losses.
+        Returns (losses, r2, metrics, final_recon_train, final_recon_test)."""
+        
+        # move data to device
         X_train = torch.tensor(X_train, dtype=torch.float32).to(device)
         X_test  = torch.tensor(X_test, dtype=torch.float32).to(device)
         y_train = torch.tensor(y_train, dtype=torch.float32).to(device)
         y_test  = torch.tensor(y_test, dtype=torch.float32).to(device)
 
-        n_t, n_f = X_train.shape[1], X_train.shape[2]
+        n_rows, n_cols = X_train.shape[1], X_train.shape[2]
 
-        cnn = CnnAutoencoder(n_f, n_t, model_cfg["latent_dim"], channels=model_cfg["channels"],
-                            kernel_size=model_cfg["kernel_size"], pool_kernel=model_cfg["pool_kernel"],).to(device)
+        # init CNN autoencoder
+        cnn = CnnAutoencoder(
+            n_cols, n_rows, model_cfg["latent_dim"],
+            channels=model_cfg["channels"],
+            kernel_size=model_cfg["kernel_size"],
+            pool_kernel=model_cfg["pool_kernel"]).to(device)
 
+        # train encoder with Barlow + reconstruction loss
         metrics = BarlowCNNRunner.train_encoder(
-            cnn,
-            X_train,
+            cnn, X_train,
             epochs=train_cfg["epochs"],
             lr=train_cfg["lr"],
             ssl_lambda=model_cfg["ssl_lambda"],
             ssl_weight=model_cfg["ssl_weight"],
             recon_weight=model_cfg["recon_weight"],
             augment_const=model_cfg["augment_const"],
-            device=device, rand_seed=train_cfg["rand_seed"])
+            device=device,
+            rand_seed=train_cfg["rand_seed"])
 
-        z_train = cnn.encode(X_train).detach().cpu().numpy()
-        z_test  = cnn.encode(X_test).detach().cpu().numpy()
-
-        losses, rf_model = Preds().evaluate_models_on_dataset(z_train, y_train.detach().cpu().numpy(),
-                                                              z_test,  y_test.detach().cpu().numpy())
-        r2        = rf_model.score(z_test, y_test.detach().cpu().numpy())
-
-        head      = make_MLP_regression_head(z_train.shape[1], model_cfg["head_dims_list"], y_train, 0.0, device)
-        criterion = nn.MSELoss()
-        head.eval()
+        cnn.eval()
         with torch.no_grad():
-            preds = head(torch.tensor(z_test, dtype=torch.float32, device=device))
-            rmse  = torch.sqrt(criterion(preds, y_test.to(device))).item()
-        losses.append(rmse)
-        return losses, r2, metrics  # no profiling yet
+            # latent codes
+            z_train = cnn.encode(X_train)
+            z_test  = cnn.encode(X_test)
+
+            # final reconstruction losses on actual datasets
+            final_recon_train = F.mse_loss(cnn.decode(z_train), X_train).item()
+            final_recon_test  = F.mse_loss(cnn.decode(z_test), X_test).item()
+
+            # convert latent codes to numpy for downstream models
+            z_train_np = z_train.cpu().numpy()
+            z_test_np  = z_test.cpu().numpy()
+            y_train_np = y_train.cpu().numpy()
+            y_test_np  = y_test.cpu().numpy()
+
+            # evaluate downstream models (RMSE, R2, etc.)
+            losses, rf_model = Preds().evaluate_models_on_dataset(z_train_np, y_train_np, z_test_np, y_test_np)
+            r2 = rf_model.score(z_test_np, y_test_np)
+
+            # MLP head evaluation
+            head = make_MLP_regression_head(z_train_np.shape[1], model_cfg["head_dims_list"], y_train, 0.0, device)
+            head.eval()
+            preds = head(torch.tensor(z_test_np, dtype=torch.float32, device=device))
+            rmse  = torch.sqrt(F.mse_loss(preds, y_test)).item()
+            losses.append(rmse)
+        return losses, r2, metrics, final_recon_train, final_recon_test
 
     @staticmethod
     def log_barlow_cnn_results(dataset_name, losses, r2, model_cfg, train_cfg, metrics,

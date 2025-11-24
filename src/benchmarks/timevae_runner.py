@@ -3,6 +3,7 @@ import sys
 import os
 import numpy as np
 import torch
+import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset 
 from utils.model_utils import profile_epoch
 from utils.metrics_utils import Preds
@@ -22,72 +23,80 @@ def _encode_timevae_in_batches(model: torch.nn.Module, X: np.ndarray, batch_size
         zs.append(z_mean.cpu().numpy() if return_mean else z_sample.cpu().numpy())
     return np.concatenate(zs, 0)
 
-def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
-                timevae_file_path, device, batch_size, train_epochs, lr_training, latent_dim,
-                hidden_layer_sizes, reconstruction_wt, desired_dataset, train=True):
-    """Train (or load) TimeVAE, encode X in batches, evaluate predictors, and return metrics.
-    Returns: losses, r2, profiling_metrics"""
-    # sys.path.append("./timevae_torch/src")
-    # from vae_pipeline import run_vae_pipeline
-    # from vae.timevae import TimeVAE
-
-    notebook_dir = Path().resolve()  # the directory of your notebook
+def run_timevae(
+    X_train, X_test, y_train_scaled, y_test_scaled, *,
+    timevae_file_path, device, batch_size, train_epochs,
+    lr_training, latent_dim, hidden_layer_sizes,
+    reconstruction_wt, desired_dataset, train=True):
+    """Train or load TimeVAE, compute latent codes, downstream metrics,
+    and final reconstruction losses on REAL train/test data.
+    Returns:
+        losses, r2, profiling_metrics,
+        recon_loss_train, recon_loss_test,
+        z_train, z_test"""
+    # make sure timevae_torch/src is importable
+    notebook_dir = Path().resolve()
     src_path = notebook_dir / "timevae_torch" / "src"
     if str(src_path) not in sys.path:
         sys.path.append(str(src_path))
+
     from vae_pipeline import run_vae_pipeline
     from vae.timevae import TimeVAE
 
-    if train: # always train a new model
-        z_train, z_test, timevae_recon_loss, profiling_metrics = run_vae_pipeline(
+    # -------------------------
+    # Train or load TimeVAE
+    # -------------------------
+    if train:
+        # run pipeline trains a model and returns reconstruction loss on TRAIN only
+        z_train, z_test, timevae_recon_loss_train, profiling_metrics = run_vae_pipeline(
             timevae_file_path, desired_dataset,
-            vae_type="timeVAE",
-            train_epochs=train_epochs,
+            vae_type="timeVAE", train_epochs=train_epochs,
             lr_training=lr_training,
             latent_dim=latent_dim,
             hidden_layer_sizes=hidden_layer_sizes,
             reconstruction_wt=reconstruction_wt)
-        timevae_model = None
-    else: # optionally, load existing model
+        # after run_vae_pipeline, we need to load model to calculate TEST recon loss
+        timevae_model = TimeVAE.load(timevae_file_path.replace(".npz", "_model")).to(device).eval()
+    else:
         timevae_model = TimeVAE.load(timevae_file_path.replace(".npz", "_model")).to(device).eval()
         timevae_model._print_model_param_summary()
         z_train = _encode_timevae_in_batches(timevae_model, X_train, batch_size=batch_size)
-        z_test  = _encode_timevae_in_batches(timevae_model, X_test, batch_size=batch_size)
-        timevae_recon_loss = None
+        z_test  = _encode_timevae_in_batches(timevae_model, X_test,  batch_size=batch_size)
+        timevae_recon_loss_train = None  # will compute below
         profiling_metrics = {}
 
-    # print("z_train stats: ", np.nanmin(z_train), np.nanmax(z_train), np.isnan(z_train).any(), np.isinf(z_train).any())
-    # print("z_test stats: ", np.nanmin(z_test), np.nanmax(z_test), np.isnan(z_test).any(), np.isinf(z_test).any())    
+    with torch.no_grad():
+        X_train_t = torch.from_numpy(X_train).float().to(device)
+        X_test_t  = torch.from_numpy(X_test).float().to(device)
 
-    # fondue_latent_dim = DimensionalityEstimator.estimate_latent_dim_using_fondue(z_train, z_train, verbose=True)
-    # active_dims_mask  = DimensionalityEstimator.prune_latent_dims(z_train, threshold_frac=0.05)
-    # z_train = z_train[:, active_dims_mask]
-    # z_test  = z_test[:, active_dims_mask]
+        # encode
+        z_mean_tr, z_log_tr, z_samp_tr = timevae_model.encoder(X_train_t)
+        z_mean_te, z_log_te, z_samp_te = timevae_model.encoder(X_test_t)
 
-    # Clip extreme values
-    z_train = np.clip(z_train, -1e3, 1e3)
-    z_test  = np.clip(z_test, -1e3, 1e3)
+        # decode
+        recon_train = timevae_model.decoder(z_samp_tr)
+        recon_test  = timevae_model.decoder(z_samp_te)
 
-    # after encoding
-    z_train = z_train.reshape(z_train.shape[0], -1)  # (n_samples, sequence_length * latent_dim)
-    z_test  = z_test.reshape(z_test.shape[0], -1)
+        recon_loss_train = F.mse_loss(recon_train, X_train_t).item()
+        recon_loss_test  = F.mse_loss(recon_test,  X_test_t).item()
+
+    # the pipeline already returned a training loss, so overwrite with consistent metric
+    timevae_recon_loss_train = recon_loss_train
+
+    z_train = np.clip(z_train, -1e3, 1e3).reshape(z_train.shape[0], -1)
+    z_test  = np.clip(z_test,  -1e3, 1e3).reshape(z_test.shape[0], -1)
 
     losses, rf_model = Preds().evaluate_models_on_dataset(z_train, y_train_scaled, z_test, y_test_scaled)
-    r2 = rf_model.score(z_test, y_test_scaled)
+    r2               = rf_model.score(z_test, y_test_scaled)
 
-    # # Convert to tensors
-    # z_train_tensor = torch.tensor(z_train, dtype=torch.float32).to(device)
-    # z_test_tensor  = torch.tensor(z_test,  dtype=torch.float32).to(device)
-    # y_train_tensor = torch.tensor(y_train_scaled, dtype=torch.float32).to(device)
-    # y_test_tensor  = torch.tensor(y_test_scaled,  dtype=torch.float32).to(device)
-    # Train + evaluate neural regressor
-    # embedding_dim   = z_train_tensor.shape[1]
-    # regression_head = make_MLP_regression_head(embedding_dim, layer1_dim, layer2_dim, layer3_dim,
-    #                                        y_train_tensor, dropout, device)
-    # nn_loss = evaluate_MLP_regressor(regression_head, z_train_tensor, z_test_tensor,
-    #                              y_train_tensor, y_test_tensor, regressor_epochs, lr_regressor)
-    # timevae_losses.append(nn_loss)
-    return losses, r2, profiling_metrics, timevae_recon_loss, z_train, z_test
+    return (
+        losses,
+        r2,
+        profiling_metrics,
+        timevae_recon_loss_train,   # final train reconstruction
+        recon_loss_test,            # final test reconstruction
+        z_train,
+        z_test)
 
 def log_timevae_results(dataset_name, window_size, losses, r2, metrics, recon_loss,
                         model_cfg, train_cfg, filename="results/hyperparam_search.txt"):
@@ -115,50 +124,50 @@ def log_timevae_results(dataset_name, window_size, losses, r2, metrics, recon_lo
 
 
 
-if __name__ == "__main__":
-    from utils.io_utils import JSONLogger, Notifiers, read_yaml_params, set_all_rand_seeds
-    from param_config.config_paths import interim_data_loc, public_data_loc, encoders_folder, params_path
+# if __name__ == "__main__":
+#     from utils.io_utils import JSONLogger, Notifiers, read_yaml_params, set_all_rand_seeds
+#     from param_config.config_paths import interim_data_loc, public_data_loc, encoders_folder, params_path
 
-    params = read_yaml_params(params_path)
+#     params = read_yaml_params(params_path)
 
-    def main(desired_dataset, timevae_file_path, window_size):
-        """TimeVAE"""
+#     def main(desired_dataset, timevae_file_path, window_size):
+#         """TimeVAE"""
 
-        if params["run_console"]["timevae"]:
-            # train_epochs = data_params["general"]["train_epochs"]
-            # lr_training  = data_params[desired_dataset]["timevae"]["lr_training"]
-            # latent_dim   = data_params[desired_dataset]["timevae"]["latent_dim"]
-            # hidden_layer_sizes= data_params[desired_dataset]["timevae"]["hidden_layer_sizes"]
-            # batch_size        = data_params[desired_dataset]["timevae"]["batch_size"]
-            # reconstruction_wt = data_params[desired_dataset]["timevae"]["reconstruction_wt"]
-            train_epochs = 100
-            lr_training  = 0.05
-            latent_dim   = 8
-            hidden_layer_sizes= [12, 16, 20]
-            batch_size        = 1024
-            reconstruction_wt = 3.5
+#         if params["run_console"]["timevae"]:
+#             # train_epochs = data_params["general"]["train_epochs"]
+#             # lr_training  = data_params[desired_dataset]["timevae"]["lr_training"]
+#             # latent_dim   = data_params[desired_dataset]["timevae"]["latent_dim"]
+#             # hidden_layer_sizes= data_params[desired_dataset]["timevae"]["hidden_layer_sizes"]
+#             # batch_size        = data_params[desired_dataset]["timevae"]["batch_size"]
+#             # reconstruction_wt = data_params[desired_dataset]["timevae"]["reconstruction_wt"]
+#             train_epochs = 100
+#             lr_training  = 0.05
+#             latent_dim   = 8
+#             hidden_layer_sizes= [12, 16, 20]
+#             batch_size        = 1024
+#             reconstruction_wt = 3.5
 
-            losses, r2, metrics, recon_loss, z_train, z_test = run_timevae(
-                X_train, X_test, y_train_scaled, y_test_scaled,
-                timevae_file_path=timevae_file_path,
-                device=device,
-                batch_size=batch_size,
-                train_epochs=train_epochs,
-                lr_training=lr_training,
-                latent_dim=latent_dim,
-                hidden_layer_sizes=hidden_layer_sizes,
-                reconstruction_wt=reconstruction_wt, desired_dataset=desired_dataset)
+#             losses, r2, metrics, recon_loss, z_train, z_test = run_timevae(
+#                 X_train, X_test, y_train_scaled, y_test_scaled,
+#                 timevae_file_path=timevae_file_path,
+#                 device=device,
+#                 batch_size=batch_size,
+#                 train_epochs=train_epochs,
+#                 lr_training=lr_training,
+#                 latent_dim=latent_dim,
+#                 hidden_layer_sizes=hidden_layer_sizes,
+#                 reconstruction_wt=reconstruction_wt, desired_dataset=desired_dataset)
             
-            model_cfg = {"hidden_layers": hidden_layer_sizes,
-                        "latent_dim": latent_dim,
-                        "reconstruction_wt": reconstruction_wt}
+#             model_cfg = {"hidden_layers": hidden_layer_sizes,
+#                         "latent_dim": latent_dim,
+#                         "reconstruction_wt": reconstruction_wt}
 
-            train_cfg = {"train_epochs": train_epochs,
-                        "lr": lr_training,
-                        "batch_size": batch_size}
+#             train_cfg = {"train_epochs": train_epochs,
+#                         "lr": lr_training,
+#                         "batch_size": batch_size}
 
-            log_timevae_results(desired_dataset, window_size, losses, r2, metrics, recon_loss, model_cfg, train_cfg,
-                                filename="results/hyperparam_search_timevae.txt")
+#             log_timevae_results(desired_dataset, window_size, losses, r2, metrics, recon_loss, model_cfg, train_cfg,
+#                                 filename="results/hyperparam_search_timevae.txt")
 
-            return losses, r2, metrics, recon_loss, z_train, z_test
+#             return losses, r2, metrics, recon_loss, z_train, z_test
 
