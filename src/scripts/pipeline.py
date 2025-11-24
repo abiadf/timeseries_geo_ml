@@ -1,8 +1,60 @@
-
+import __main__
 import os
-import numpy as np
+from typing import Dict, List, Literal, Tuple, Optional
 
-def split_labeled_unlabeled_data(desired_dataset, interim_data_loc, data_splitting, label_frac, X_train, y_train_scaled, X_test, y_test_scaled, params):
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import Dataset, TensorDataset, DataLoader
+
+from utils.data_utils import Slicing, Bootstrapping, assign_encoder_weights, convert_numpy, select_top_X_features, Augmentations
+from preprocessing.data_loader_module import DatasetLoading, load_or_preprocess_dataset
+from param_config.config_paths import interim_data_loc, public_data_loc, asm_folder_loc
+
+# STEP 1: Load and preprocess the data
+def load_the_data(desired_dataset: str, NUM_PAGES_TO_USE: int, do_we_scale_y: bool, dataset_window: int,
+                  rand_seed: int, NUM_ROWS: int, params: dict, label_frac: float = None, use_cache=False):
+    """[RUN ME] Preprocess dataset, as class"""
+
+    if desired_dataset == "nasa": # Directly load NASA dataset
+        X_train, X_test, y_train_scaled, y_test_scaled = DatasetLoading.load_nasa_data()
+        window_size = "N/A"
+    elif desired_dataset != "asm":
+        X_train, X_test, y_train_scaled, y_test_scaled, window_size = load_or_preprocess_dataset(desired_dataset, NUM_PAGES_TO_USE, do_we_scale_y, 
+                                                        dataset_window=dataset_window, random_seed=rand_seed, use_cache=False, num_rows_per_window=NUM_ROWS)
+    elif desired_dataset == "asm":
+        from asm_stuff.main_runner import prepare_asm_train_test
+        top_idx = [479, 517, 54, 165, 121, 77, 177, 188, 55, 509, 53, 52, 76,
+                388, 125, 131, 84, 140, 81, 124, 189, 185, 206, 385, 160, 182,
+                178, 75, 145, 144, 100, 306, 102, 205, 0, 149, 117, 163, 312,
+                204, 98, 101, 157, 128, 207, 202, 159, 409, 158, 156, 415, 99,
+                203, 103, 97, 201, 96, 200, 1]
+
+        X_train, X_test, y_train_scaled, y_test_scaled = prepare_asm_train_test(asm_folder_loc, top_idx, keep_frac=0.08, keep='first')
+        print(X_train.shape, y_train_scaled.shape)
+        window_size = window_size if 'window_size' in locals() else X_train.shape[1]
+        label_frac  = label_frac if 'label_frac' in locals() else 1
+
+    if X_train.shape[2] > 300:
+        top_features_pct         = params["general_params"]["top_features_big_dataset_pct"] # % top features to select
+        X_train, X_test, top_idx = select_top_X_features(X_train, y_train_scaled, X_test, top_features_pct)
+    elif X_train.shape[2] > 30:
+        top_features_pct         = params["general_params"]["top_features_pct"] # % of top features to select
+        X_train, X_test, top_idx = select_top_X_features(X_train, y_train_scaled, X_test, top_features_pct)
+
+    # save the model here
+
+    print(f"X_train: {X_train.shape} ({X_train.nbytes/1024**2:.1f} MB), X_test: {X_test.shape} ({X_test.nbytes/1024**2:.1f} MB)")
+    print(f"y_train: {y_train_scaled.shape} ({y_train_scaled.nbytes/1024**2:.1f} MB), y_test: {y_test_scaled.shape} ({y_test_scaled.nbytes/1024**2:.1f} MB)")
+    print(f"Mean: {X_train.mean():.2f}, {X_test.mean():.2f}, {y_train_scaled.mean():.2f}, {y_test_scaled.mean():.2f}")
+    print(f"Y is scaled: {do_we_scale_y}")
+    print("Min:", np.min(X_train), np.min(X_test))
+    print("Max:", np.max(X_train), np.max(X_test))
+    return X_train, X_test, y_train_scaled, y_test_scaled, window_size
+
+# STEP 2: Split data into labeled + unlabeled portions
+def split_data_to_labeled_unlabeled(desired_dataset, interim_data_loc, data_splitting, label_frac, X_train, y_train_scaled, X_test, y_test_scaled, params):
     """Given a data splitting method and its %, split the data into labeled and unlabeled portions."""
     n_train     = len(X_train)
     n_labeled   = int(np.ceil(label_frac * n_train))
@@ -47,3 +99,4 @@ def split_labeled_unlabeled_data(desired_dataset, interim_data_loc, data_splitti
     print(f"Mean: {np.mean(X_train):.2f}, {np.mean(X_test):.2f}, {y_train_scaled.mean():.2f}, {y_test_scaled.mean():.2f}")
 
     return X_L, y_L, X_U, y_U, y_train_scaled, y_test_scaled, timevae_file_path
+

@@ -117,10 +117,9 @@ def log_timevae_results(dataset_name, window_size, losses, r2, metrics, recon_lo
 
 if __name__ == "__main__":
     from utils.io_utils import JSONLogger, Notifiers, read_yaml_params, set_all_rand_seeds
-    from src.param_config.config_file import interim_data_loc, public_data_loc, encoders_folder, ts2vec_params_loc
+    from param_config.config_paths import interim_data_loc, public_data_loc, encoders_folder, params_path
 
-    params      = read_yaml_params(params_path)
-
+    params = read_yaml_params(params_path)
 
     def main(desired_dataset, timevae_file_path, window_size):
         """TimeVAE"""

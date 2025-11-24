@@ -61,7 +61,6 @@ barlow:
     augment_const: 0.1
     head_dims_list: [128, 64, 16]
 
-
 cellsup:
   num_epochs  : 25
   AE_lr       : 0.001
