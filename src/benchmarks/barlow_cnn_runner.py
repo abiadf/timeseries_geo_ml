@@ -8,7 +8,6 @@ from utils.data_utils import Augmentations
 from encoders.cnn import CnnAutoencoder
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
 
 class BarlowCNNRunner:
     @staticmethod
@@ -25,35 +24,40 @@ class BarlowCNNRunner:
     @staticmethod
     def compute_barlow_loss(z1: torch.Tensor, z2: torch.Tensor, ssl_lambda: float) -> torch.Tensor:
         """Compute Barlow Twins loss."""
-        B, _ = z1.shape
-        z1   = (z1 - z1.mean(0)) / (z1.std(0) + 1e-12)
-        z2   = (z2 - z2.mean(0)) / (z2.std(0) + 1e-12)
-        c    = (z1.T @ z2) / B
-        on_diag   = (torch.diag(c) - 1).pow(2).sum()
-        off_diag  = (c - torch.diag(torch.diag(c))).pow(2).sum()
+        B, _     = z1.shape
+
+        # ---- Spherical normalization (L2 onto unit sphere) ----
+        # z1 = z1 / (z1.norm(dim=-1, keepdim=True) + 1e-12)
+        # z2 = z2 / (z2.norm(dim=-1, keepdim=True) + 1e-12)
+        # ========
+
+        z1       = (z1 - z1.mean(0)) / (z1.std(0) + 1e-12)
+        z2       = (z2 - z2.mean(0)) / (z2.std(0) + 1e-12)
+
+        # corr. matrix:
+        c        = (z1.T @ z2) / B
+        on_diag  = (torch.diag(c) - 1).pow(2).sum()
+        off_diag = (c - torch.diag(torch.diag(c))).pow(2).sum()
         return on_diag + ssl_lambda * off_diag
 
     @staticmethod
     def train_encoder(cnn: nn.Module, X: torch.Tensor, *, epochs: int, lr: float,
-                    ssl_lambda: float, ssl_weight: float, recon_weight: float,
-                    augment_const: float, device: str, rand_seed: int) -> dict:
+                      ssl_lambda: float, ssl_weight: float, recon_weight: float,
+                      augment_const: float, device: str, rand_seed: int) -> dict:
         """Train CNN encoder with Barlow Twins + reconstruction loss, log per-epoch losses."""
-        optimizer = torch.optim.AdamW(cnn.parameters(), lr=lr)
-        cnn.train()
-
+        optimizer    = torch.optim.AdamW(cnn.parameters(), lr=lr)
         ssl_losses   = []
         recon_losses = []
+        cnn.train()
 
         for epoch in range(epochs):
             optimizer.zero_grad()
-            v1, v2  = Augmentations.make_two_views_augmentation(X, device, augment_const, seed=rand_seed)
-            z1      = cnn.encode(v1)
-            z2      = cnn.encode(v2)
-
-            ssl_loss    = BarlowCNNRunner.compute_barlow_loss(z1, z2, ssl_lambda)
-            recon_loss  = F.mse_loss(cnn.decode(z1), v1) + F.mse_loss(cnn.decode(z2), v2)
-
-            loss = ssl_weight * ssl_loss + recon_weight * recon_loss
+            v1, v2     = Augmentations.make_two_views_augmentation(X, device, augment_const, seed=rand_seed)
+            z1         = cnn.encode(v1)
+            z2         = cnn.encode(v2)
+            ssl_loss   = BarlowCNNRunner.compute_barlow_loss(z1, z2, ssl_lambda)
+            recon_loss = F.mse_loss(cnn.decode(z1), v1) + F.mse_loss(cnn.decode(z2), v2)
+            loss       = ssl_weight * ssl_loss + recon_weight * recon_loss
             loss.backward()
             optimizer.step()
 
@@ -70,8 +74,6 @@ class BarlowCNNRunner:
     def run_barlow_cnn(X_train, X_test, y_train, y_test, *, model_cfg: dict, train_cfg: dict, device):
         """Train Barlow CNN encoder, evaluate models, compute final reconstruction losses.
         Returns (losses, r2, metrics, final_recon_train, final_recon_test)."""
-        
-        # move data to device
         X_train = torch.tensor(X_train, dtype=torch.float32).to(device)
         X_test  = torch.tensor(X_test, dtype=torch.float32).to(device)
         y_train = torch.tensor(y_train, dtype=torch.float32).to(device)
@@ -79,7 +81,6 @@ class BarlowCNNRunner:
 
         n_rows, n_cols = X_train.shape[1], X_train.shape[2]
 
-        # init CNN autoencoder
         cnn = CnnAutoencoder(
             n_cols, n_rows, model_cfg["latent_dim"],
             channels=model_cfg["channels"],
@@ -100,11 +101,9 @@ class BarlowCNNRunner:
 
         cnn.eval()
         with torch.no_grad():
-            # latent codes
             z_train = cnn.encode(X_train)
             z_test  = cnn.encode(X_test)
 
-            # final reconstruction losses on actual datasets
             final_recon_train = F.mse_loss(cnn.decode(z_train), X_train).item()
             final_recon_test  = F.mse_loss(cnn.decode(z_test), X_test).item()
 
@@ -119,7 +118,7 @@ class BarlowCNNRunner:
             r2 = rf_model.score(z_test_np, y_test_np)
 
             # MLP head evaluation
-            head = make_MLP_regression_head(z_train_np.shape[1], model_cfg["head_dims_list"], y_train, 0.0, device)
+            head  = make_MLP_regression_head(z_train_np.shape[1], model_cfg["head_dims_list"], y_train, 0.0, device)
             head.eval()
             preds = head(torch.tensor(z_test_np, dtype=torch.float32, device=device))
             rmse  = torch.sqrt(F.mse_loss(preds, y_test)).item()

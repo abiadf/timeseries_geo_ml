@@ -14,10 +14,10 @@ basics:
     - beijing
     - panama
     # - asm
-  label_frac_list: [1, 0.5, 0.25]
-  random_seed:     42  # for reproducibility
-  freeze_rand_seed: false # true=use same random seed for all runs, false=different seed for each run
-  do_we_scale_y:   true  # whether to scale y values
+  label_frac_list:  [1, 0.5, 0.25]
+  random_seed:      42  # for reproducibility
+  freeze_rand_seed: true # true=use same random seed for all runs, false=different seed for each run
+  do_we_scale_y:    true  # whether to scale y values
 
 run_console:
   mean_X:        false #true
@@ -30,7 +30,7 @@ run_console:
   kan:           false
   moment :       false
   moment_fed:    false
-  timevae:       false
+  timevae:       true
   ts2vec :       false
   ts2vec_fed:    false
 

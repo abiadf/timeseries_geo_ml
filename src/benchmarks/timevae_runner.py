@@ -23,6 +23,7 @@ def _encode_timevae_in_batches(model: torch.nn.Module, X: np.ndarray, batch_size
         zs.append(z_mean.cpu().numpy() if return_mean else z_sample.cpu().numpy())
     return np.concatenate(zs, 0)
 
+
 def run_timevae(
     X_train, X_test, y_train_scaled, y_test_scaled, *,
     timevae_file_path, device, batch_size, train_epochs,
@@ -43,26 +44,52 @@ def run_timevae(
     from vae_pipeline import run_vae_pipeline
     from vae.timevae import TimeVAE
 
-    # -------------------------
-    # Train or load TimeVAE
-    # -------------------------
     if train:
-        # run pipeline trains a model and returns reconstruction loss on TRAIN only
-        z_train, z_test, timevae_recon_loss_train, profiling_metrics = run_vae_pipeline(
+        z_train, z_test, timevae_recon_loss_train, profiling_metrics, timevae_model = run_vae_pipeline(
             timevae_file_path, desired_dataset,
             vae_type="timeVAE", train_epochs=train_epochs,
             lr_training=lr_training,
             latent_dim=latent_dim,
             hidden_layer_sizes=hidden_layer_sizes,
             reconstruction_wt=reconstruction_wt)
-        # after run_vae_pipeline, we need to load model to calculate TEST recon loss
-        timevae_model = TimeVAE.load(timevae_file_path.replace(".npz", "_model")).to(device).eval()
+
+        # load the freshly trained model from the folder
+        model_dir = str(Path(timevae_file_path).parent)
+        timevae_model = TimeVAE(
+            seq_len=X_train.shape[1],
+            feat_dim=X_train.shape[2],
+            latent_dim=latent_dim,
+            hidden_layer_sizes=hidden_layer_sizes,
+            batch_size=batch_size,
+            reconstruction_wt=reconstruction_wt
+        ).to(device)
+
+        weights_path = os.path.join(model_dir, "TimeVAE_weights.pth")
+        timevae_model.load_state_dict(torch.load(weights_path, map_location=device))
+        timevae_model.eval()
+
     else:
-        timevae_model = TimeVAE.load(timevae_file_path.replace(".npz", "_model")).to(device).eval()
+        # pkl_path = timevae_file_path.replace(".npz", ".pkl")
+        # timevae_model = TimeVAE.load(pkl_path).to(device).eval()
+        model_dir = str(Path(timevae_file_path).parent)
+        timevae_model = TimeVAE(
+            seq_len=X_train.shape[1],
+            feat_dim=X_train.shape[2],
+            latent_dim=latent_dim,
+            hidden_layer_sizes=hidden_layer_sizes,
+            batch_size=batch_size,
+            reconstruction_wt=reconstruction_wt
+        ).to(device)
+
+        weights_path = os.path.join(model_dir, "TimeVAE_weights.pth")
+        timevae_model.load_state_dict(torch.load(weights_path, map_location=device))
+        timevae_model.eval()
+
+
         timevae_model._print_model_param_summary()
         z_train = _encode_timevae_in_batches(timevae_model, X_train, batch_size=batch_size)
         z_test  = _encode_timevae_in_batches(timevae_model, X_test,  batch_size=batch_size)
-        timevae_recon_loss_train = None  # will compute below
+        timevae_recon_loss_train = None
         profiling_metrics = {}
 
     with torch.no_grad():
@@ -97,6 +124,7 @@ def run_timevae(
         recon_loss_test,            # final test reconstruction
         z_train,
         z_test)
+
 
 def log_timevae_results(dataset_name, window_size, losses, r2, metrics, recon_loss,
                         model_cfg, train_cfg, filename="results/hyperparam_search.txt"):

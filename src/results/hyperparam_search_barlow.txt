@@ -482,3 +482,63 @@ barlow_cnn/beijing: c1=12 c2=32 k=3 pool=2 latent=32 sslλ=0.01 sslw=0.1 aug=0.2
 & Z (barlow_cnn) & 0.9616 & 0.9642 & 0.9594 & 1.0509
 R² (barlow_cnn): 0.011
 
+barlow_cnn/beijing: c1=32 c2=32 k=5 pool=2 latent=12 sslλ=0.01 sslw=0.1 aug=0.2 epochs=100 lr=0.005 (last SSL=0.1135, last Recon=1.1193)
+& Z (barlow_cnn) & 1.0788 & 1.1031 & 1.0958 & 1.1378
+R² (barlow_cnn): -0.028
+
+barlow_cnn/beijing: c1=32 c2=32 k=5 pool=2 latent=12 sslλ=0.01 sslw=0.1 aug=0.2 epochs=100 lr=0.005 (last SSL=0.0028, last Recon=1.1014)
+& Z (barlow_cnn) & 0.9808 & 0.9959 & 0.9773 & 0.9768
+R² (barlow_cnn): -0.057
+
+barlow_cnn/beijing: c1=32 c2=32 k=5 pool=2 latent=12 sslλ=0.01 sslw=0.1 aug=0.2 epochs=100 lr=0.005 (last SSL=0.3002, last Recon=0.9821)
+& Z (barlow_cnn) & 1.1373 & 1.1553 & 1.1524 & 1.1697
+R² (barlow_cnn): -0.016
+
+barlow_cnn/beijing: c1=32 c2=32 k=5 pool=2 latent=12 sslλ=0.01 sslw=0.1 aug=0.2 epochs=100 lr=0.005 (last SSL=0.2290, last Recon=1.1478)
+& Z (barlow_cnn) & 0.9837 & 0.9831 & 0.9863 & 1.1191
+R² (barlow_cnn): -0.023
+
+barlow_cnn/beijing: c1=12 c2=8 k=5 pool=2 latent=32 sslλ=0.01 sslw=1 aug=0.05 epochs=100 lr=0.001 (last SSL=0.3564, last Recon=1.3301)
+& Z (barlow_cnn) & 1.1045 & 1.1272 & 1.1028 & 1.0875
+R² (barlow_cnn): -0.029
+
+barlow_cnn/beijing: c1=12 c2=8 k=5 pool=2 latent=32 sslλ=0.01 sslw=1 aug=0.05 epochs=100 lr=0.001 (last SSL=0.0017, last Recon=1.6476)
+& Z (barlow_cnn) & 1.0139 & 1.0227 & 1.0226 & 0.9958
+R² (barlow_cnn): -0.066
+
+barlow_cnn/beijing: c1=12 c2=8 k=5 pool=2 latent=32 sslλ=0.01 sslw=1 aug=0.05 epochs=100 lr=0.001 (last SSL=0.6000, last Recon=1.5488)
+& Z (barlow_cnn) & 1.0455 & 1.0554 & 1.0358 & 1.0209
+R² (barlow_cnn): -0.068
+
+barlow_cnn/beijing: c1=16 c2=16 k=3 pool=2 latent=32 sslλ=0.1 sslw=0.1 aug=0.2 epochs=100 lr=0.001 (last SSL=3.9784, last Recon=1.2148)
+& Z (barlow_cnn) & 0.9555 & 0.9440 & 0.8950 & 0.8705
+R² (barlow_cnn): -0.160
+
+barlow_cnn/beijing: c1=16 c2=16 k=3 pool=2 latent=32 sslλ=0.1 sslw=0.1 aug=0.2 epochs=100 lr=0.001 (last SSL=0.0665, last Recon=1.4365)
+& Z (barlow_cnn) & 0.9364 & 0.9525 & 0.9104 & 0.9083
+R² (barlow_cnn): -0.010
+
+barlow_cnn/beijing: c1=16 c2=16 k=3 pool=2 latent=32 sslλ=0.1 sslw=0.1 aug=0.2 epochs=100 lr=0.001 (last SSL=3.2476, last Recon=1.4538)
+& Z (barlow_cnn) & 1.1645 & 0.8815 & 0.9281 & 0.8471
+R² (barlow_cnn): -0.374
+
+barlow_cnn/beijing: c1=8 c2=32 k=7 pool=2 latent=12 sslλ=0.1 sslw=0.1 aug=0.05 epochs=100 lr=0.01 (last SSL=0.1293, last Recon=1.9517)
+& Z (barlow_cnn) & 1.0240 & 1.0212 & 0.9898 & 1.8843
+R² (barlow_cnn): -0.002
+
+barlow_cnn/beijing: c1=8 c2=32 k=7 pool=2 latent=12 sslλ=0.1 sslw=0.1 aug=0.05 epochs=100 lr=0.01 (last SSL=2.0081, last Recon=1.9000)
+& Z (barlow_cnn) & 0.8206 & 0.9144 & 0.9135 & 4.0679
+R² (barlow_cnn): -0.439
+
+barlow_cnn/beijing: c1=8 c2=32 k=7 pool=2 latent=12 sslλ=0.1 sslw=0.1 aug=0.05 epochs=100 lr=0.01 (last SSL=1.5983, last Recon=1.8464)
+& Z (barlow_cnn) & 1.0026 & 1.0907 & 1.0474 & 16.2325
+R² (barlow_cnn): -0.159
+
+barlow_cnn/beijing: c1=8 c2=32 k=7 pool=2 latent=12 sslλ=0.1 sslw=0.1 aug=0.05 epochs=100 lr=0.01 (last SSL=0.1154, last Recon=1.9517)
+& Z (barlow_cnn) & 0.9998 & 1.1061 & 1.0746 & 4.5563
+R² (barlow_cnn): -0.399
+
+barlow_cnn/beijing: c1=8 c2=32 k=7 pool=2 latent=12 sslλ=0.1 sslw=0.1 aug=0.05 epochs=100 lr=0.01 (last SSL=0.0186, last Recon=1.9517)
+& Z (barlow_cnn) & 1.0024 & 1.0560 & 1.0092 & 2.7702
+R² (barlow_cnn): -0.234
+
