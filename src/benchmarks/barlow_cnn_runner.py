@@ -27,10 +27,9 @@ class BarlowCNNRunner:
         B, _     = z1.shape
 
         # ---- Spherical normalization (L2 onto unit sphere) ----
-        # z1 = z1 / (z1.norm(dim=-1, keepdim=True) + 1e-12)
-        # z2 = z2 / (z2.norm(dim=-1, keepdim=True) + 1e-12)
+        z1 = z1 / (z1.norm(dim=-1, keepdim=True) + 1e-12)
+        z2 = z2 / (z2.norm(dim=-1, keepdim=True) + 1e-12)
         # ========
-
         z1       = (z1 - z1.mean(0)) / (z1.std(0) + 1e-12)
         z2       = (z2 - z2.mean(0)) / (z2.std(0) + 1e-12)
 

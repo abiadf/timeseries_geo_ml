@@ -4,6 +4,12 @@ import torch
 import torch.nn.functional as F
 from pycatch22 import catch22_all
 
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from typing import Tuple
+
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def convert_numpy(d):
@@ -257,4 +263,56 @@ class Slicing:
         cum     = np.cumsum(np.round(weights * pages)).astype(int)
         starts  = np.concatenate(([0], cum[:-1]))
         return [X[start:end] for start, end in zip(starts, cum)]
+
+
+class SplitterScaler:
+    @staticmethod
+    def split_X_and_y(df, time_col: str, y) -> tuple:
+        X = df.drop([time_col]+ y, axis=1)
+        y = df[y]
+        return X, y
+        # y1= df[['PowerConsumption_Zone1']]
+        # y2= df[['PowerConsumption_Zone2']]
+        # y3= df[['PowerConsumption_Zone3']]
+        # return X, y, y1, y2, y3
+
+    @staticmethod
+    def traintest_split_then_scale(X: pd.DataFrame, y: pd.Series) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, StandardScaler]:
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        scaler_X       = StandardScaler()
+        X_train_scaled = scaler_X.fit_transform(X_train)
+        X_test_scaled  = scaler_X.transform(X_test)
+
+        scaler_y       = StandardScaler()
+        y_train_scaled = scaler_y.fit_transform(y_train)
+        y_test_scaled  = scaler_y.transform(y_test)
+        return X_train_scaled, X_test_scaled, y_train_scaled, y_test_scaled, scaler_y
+
+    @staticmethod
+    def scale_X_and_y(X: pd.DataFrame, y: pd.DataFrame):
+        """Scale features X and target y using StandardScaler.
+        Returns scaled arrays and fitted scalers"""
+        scaler_X = StandardScaler()
+        scaler_y = StandardScaler()
+        X_scaled = scaler_X.fit_transform(X)
+        y_scaled = scaler_y.fit_transform(y)
+        return X_scaled, y_scaled, (scaler_X, scaler_y)
+
+    @staticmethod
+    def scale_X_and_y_latents(X_train: pd.DataFrame | np.ndarray, X_valid: pd.DataFrame | np.ndarray,
+                            y_train: pd.DataFrame | np.ndarray, y_valid: pd.DataFrame | np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, StandardScaler, StandardScaler]:
+        """Fit scalers on X_train and y_train, transform both train and valid sets.
+        Returns scaled X_train, X_valid, y_train, y_valid, scaler_X, scaler_y"""
+        scaler_X  = StandardScaler().fit(X_train)
+        X_train_s = scaler_X.transform(X_train)
+        X_valid_s = scaler_X.transform(X_valid)
+
+        y_train   = np.asarray(y_train).reshape(-1, 1)
+        y_valid   = np.asarray(y_valid).reshape(-1, 1)
+        scaler_y  = StandardScaler().fit(y_train)
+        y_train_s = scaler_y.transform(y_train)
+        y_valid_s = scaler_y.transform(y_valid)
+
+        return X_train_s, X_valid_s, y_train_s, y_valid_s, scaler_X, scaler_y
 

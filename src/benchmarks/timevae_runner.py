@@ -26,11 +26,9 @@ def _encode_timevae_in_batches(model: torch.nn.Module, X: np.ndarray, batch_size
 
 def run_timevae(
     X_train, X_test, y_train_scaled, y_test_scaled, *,
-    timevae_file_path, device, batch_size, train_epochs,
-    lr_training, latent_dim, hidden_layer_sizes,
+    timevae_file_path, device, batch_size, train_epochs, lr_training, latent_dim, hidden_layer_sizes,
     reconstruction_wt, desired_dataset, train=True):
-    """Train or load TimeVAE, compute latent codes, downstream metrics,
-    and final reconstruction losses on REAL train/test data.
+    """Train or load TimeVAE, compute latent codes, downstream metrics, and final reconstruction losses on REAL train/test data.
     Returns:
         losses, r2, profiling_metrics,
         recon_loss_train, recon_loss_test,
@@ -61,13 +59,10 @@ def run_timevae(
             latent_dim=latent_dim,
             hidden_layer_sizes=hidden_layer_sizes,
             batch_size=batch_size,
-            reconstruction_wt=reconstruction_wt
-        ).to(device)
-
+            reconstruction_wt=reconstruction_wt).to(device)
         weights_path = os.path.join(model_dir, "TimeVAE_weights.pth")
         timevae_model.load_state_dict(torch.load(weights_path, map_location=device))
         timevae_model.eval()
-
     else:
         # pkl_path = timevae_file_path.replace(".npz", ".pkl")
         # timevae_model = TimeVAE.load(pkl_path).to(device).eval()
@@ -78,13 +73,11 @@ def run_timevae(
             latent_dim=latent_dim,
             hidden_layer_sizes=hidden_layer_sizes,
             batch_size=batch_size,
-            reconstruction_wt=reconstruction_wt
-        ).to(device)
+            reconstruction_wt=reconstruction_wt).to(device)
 
         weights_path = os.path.join(model_dir, "TimeVAE_weights.pth")
         timevae_model.load_state_dict(torch.load(weights_path, map_location=device))
         timevae_model.eval()
-
 
         timevae_model._print_model_param_summary()
         z_train = _encode_timevae_in_batches(timevae_model, X_train, batch_size=batch_size)
@@ -148,8 +141,6 @@ def log_timevae_results(dataset_name, window_size, losses, r2, metrics, recon_lo
     print("time & params & flops & memory")
     print(f"{metrics['runtime_s']:.3f} & {metrics['num_params_M']:.3f} & "
           f"{metrics['flops_M']:.3f} & {metrics['peak_memory_MB']:.3f}\n")
-
-
 
 
 # if __name__ == "__main__":

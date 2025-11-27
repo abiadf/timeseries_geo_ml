@@ -542,3 +542,11 @@ barlow_cnn/beijing: c1=8 c2=32 k=7 pool=2 latent=12 sslλ=0.1 sslw=0.1 aug=0.05 
 & Z (barlow_cnn) & 1.0024 & 1.0560 & 1.0092 & 2.7702
 R² (barlow_cnn): -0.234
 
+barlow_cnn/beijing: c1=8 c2=32 k=7 pool=2 latent=12 sslλ=0.1 sslw=0.1 aug=0.05 epochs=100 lr=0.01 (last SSL=0.0186, last Recon=1.9517)
+& Z (barlow_cnn) & 1.0024 & 1.0560 & 1.0092 & 2.7702
+R² (barlow_cnn): -0.234
+
+barlow_cnn/beijing: c1=8 c2=32 k=7 pool=2 latent=12 sslλ=0.1 sslw=0.1 aug=0.05 epochs=100 lr=0.01 (last SSL=0.1154, last Recon=1.9517)
+& Z (barlow_cnn) & 0.9998 & 1.1061 & 1.0746 & 4.5563
+R² (barlow_cnn): -0.399
+
