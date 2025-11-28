@@ -107,7 +107,7 @@ def train_sup_heads_joint(encoders_dict, X_train, y_train, X_val, y_val,
 
 
 def make_MLP_regression_head(embedding_dim: int, hidden_dims_list: list,
-                         y_train_tensor: torch.Tensor, dropout: float, device: str):
+                             y_train_tensor: torch.Tensor, dropout: float, device: str):
     """Creates a variable-layer MLP regression head"""
     layers = []
     in_dim = embedding_dim

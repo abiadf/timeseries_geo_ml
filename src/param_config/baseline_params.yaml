@@ -16,12 +16,12 @@ basics:
     # - asm
   label_frac_list:  [1, 0.5, 0.25]
   random_seed:      42  # for reproducibility
-  freeze_rand_seed: true # true=use same random seed for all runs, false=different seed for each run
+  freeze_rand_seed: false # true=use same random seed for all runs, false=different seed for each run
   do_we_scale_y:    true  # whether to scale y values
 
 run_console:
   mean_X:        false #true
-  barlow_cnn:    true
+  barlow_cnn:    false
   barlow_ae:     false
   barlow_ae_ssl: false
   cellsup:       false
@@ -30,9 +30,9 @@ run_console:
   kan:           false
   moment :       false
   moment_fed:    false
-  timevae:       true
-  ts2vec :       false
-  ts2vec_fed:    false
+  timevae:       false
+  ts2vec :       true
+  ts2vec_fed:    true
 
 general_params:
   top_features_big_dataset_pct: 10
