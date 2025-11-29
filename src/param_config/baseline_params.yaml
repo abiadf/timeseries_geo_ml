@@ -16,7 +16,7 @@ basics:
     # - asm
   label_frac_list:  [1, 0.5, 0.25]
   random_seed:      42  # for reproducibility
-  freeze_rand_seed: false # true=use same random seed for all runs, false=different seed for each run
+  freeze_rand_seed: true # true=use same random seed for all runs, false=different seed for each run
   do_we_scale_y:    true  # whether to scale y values
 
 run_console:
@@ -109,7 +109,7 @@ ts2vec:
   ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
   ts2vec_latent_dims : 8 # latent dim
   ts2vec_depth       : 3 # num layers
-  patience           : 15
+  patience           : 40
   ts2vec_batch_size  : 16
   ts2vec_epochs      : 100
   lr_encoder         : 0.009
@@ -123,3 +123,10 @@ ts2vec_fed:
   dim_splitting:   2 # which dim to split X along, 0 = HFL, 1 = VFL
   fine_tune:       true
   num_splits:      4
+
+federated:
+  which_encoder: "ts2vec" # options: "ts2vec" "timevae" "barlow_cnn" "moment"
+  type_of_split: "horizontal" # options: horizontal vertical
+  num_splits:    4
+
+

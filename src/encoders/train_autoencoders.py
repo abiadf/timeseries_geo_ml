@@ -9,7 +9,6 @@ from torch.utils.data import DataLoader
 from utils.metrics_utils import Losses
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Using device: {device}")
 
 class TrainAutoencoder:
     """Class dealing with training the autoencoder, measured by the loss. NOTE: include X in training"""

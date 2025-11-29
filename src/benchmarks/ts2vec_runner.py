@@ -11,19 +11,18 @@ def run_ts2vec(X_train, X_test, y_train_scaled, y_test_scaled, *,
     """Train TS2Vec with config dicts. Returns (losses, profiling_metrics)."""
 
     ts2vec = TS2VecEncoder(
-        z_pooling=model_cfg["z_pooling_method"],
-        lr=train_cfg["lr"],
-        device=device,
-        patience=train_cfg["patience"],
-        max_train_length=train_cfg["window_size"],
-        )
+        z_pooling= model_cfg["z_pooling_method"],
+        lr       = train_cfg["lr"],
+        device   = device,
+        patience = train_cfg["patience"],
+        max_train_length=train_cfg["window_size"],)
 
     metrics = ts2vec.fit_ts2vec(X_train,
-        hidden_dims=model_cfg["hidden_dims"],
-        output_dims=model_cfg["latent_dims"],
-        depth=model_cfg["depth"],
-        batch_size=train_cfg["batch_size"],
-        n_epochs=train_cfg["epochs"],)
+        hidden_dims= model_cfg["hidden_dims"],
+        output_dims= model_cfg["latent_dims"],
+        depth      = model_cfg["depth"],
+        batch_size = train_cfg["batch_size"],
+        n_epochs   = train_cfg["epochs"],)
 
     z_train = ts2vec.encode(X_train, pooling=None)
     z_test  = ts2vec.encode(X_test,  pooling=None)
@@ -31,8 +30,8 @@ def run_ts2vec(X_train, X_test, y_train_scaled, y_test_scaled, *,
     z_train_flat = z_train.reshape(len(z_train), -1)
     z_test_flat  = z_test.reshape(len(z_test),  -1)
 
-    losses, rf_model = Preds().evaluate_models_on_dataset(z_train_flat, y_train_scaled, z_test_flat,  y_test_scaled)
-    r2 = rf_model.score(z_test_flat, y_test_scaled)
+    losses, rf_model= Preds().evaluate_models_on_dataset(z_train_flat, y_train_scaled, z_test_flat,  y_test_scaled)
+    r2              = rf_model.score(z_test_flat, y_test_scaled)
     # ====== supervised MLP predictor ======
     # z_train_tensor = torch.tensor(z_train_flat, dtype=torch.float32, device=device)
     # z_test_tensor  = torch.tensor(z_test_flat, dtype=torch.float32, device=device)

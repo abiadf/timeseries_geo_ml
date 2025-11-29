@@ -1,6 +1,7 @@
 import torch
 import numpy as np
 from typing import List, Callable, Tuple
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class BaseFederatedEncoder:
     """Shared utilities for horizontal/vertical FL.
@@ -32,42 +33,41 @@ class BaseFederatedEncoder:
         z    = np.concatenate(outs, axis=0)
         return torch.tensor(z.reshape(z.shape[0], -1), dtype=torch.float32)
 
+    @staticmethod
+    def to_tensor(x: np.ndarray | torch.Tensor) -> torch.Tensor:
+        """Ensure numpy → torch.float32."""
+        if isinstance(x, torch.Tensor):
+            return x
+        return torch.tensor(x, dtype=torch.float32)
+
+
 class HorizontalFedEncoder(BaseFederatedEncoder):
     """Split along samples/pages. y must be split the same way."""
     def __init__(self, num_splits: int):
         super().__init__(num_splits, dim_splitting=0)
 
-    def run(
-        self,
-        X_train: torch.Tensor,
-        X_test: torch.Tensor,
-        y_train: torch.Tensor,
-        y_test: torch.Tensor,
-        encoder_builder: Callable,  # returns new encoder
-        fit_fn: Callable,            # fit_fn(encoder, X_split)
-        encode_fn: Callable          # encode_fn(encoder, X_split)
-    ) -> Tuple[np.ndarray, np.ndarray]:
+    def run(self, X_train: torch.Tensor, X_test: torch.Tensor, y_train: torch.Tensor, y_test: torch.Tensor,
+            encoder_builder: Callable, fit_function: Callable, batch_size: int) -> Tuple[np.ndarray, np.ndarray]:
+        X_train = self.to_tensor(X_train)
+        X_test  = self.to_tensor(X_test)
+        y_train = self.to_tensor(y_train)
+        y_test  = self.to_tensor(y_test)
 
         self._adjust_splits(X_train)
-
         Xtr_splits = self._split(X_train)
         Xte_splits = self._split(X_test)
-        ytr_splits = self._split(y_train)
-        yte_splits = self._split(y_test)
-
-        encoders, Ztr, Zte = [], [], []
+        encoders, Z_train, Z_test = [], [], []
 
         for i in range(self.num_splits):
             enc = encoder_builder()
-            fit_fn(enc, Xtr_splits[i])
+            fit_function(enc, Xtr_splits[i])
             encoders.append(enc)
+            Z_train.append(self._encode_in_batches(enc, Xtr_splits[i], bs=batch_size))
+            Z_test.append(self._encode_in_batches(enc, Xte_splits[i],  bs=batch_size))
 
-            Ztr.append(encode_fn(enc, Xtr_splits[i]))
-            Zte.append(encode_fn(enc, Xte_splits[i]))
-
-        Z_train = torch.cat(Ztr, dim=0).numpy()
-        Z_test  = torch.cat(Zte, dim=0).numpy()
-        return Z_train, Z_test
+        Z_train_cat = torch.cat(Z_train, dim=0).numpy()
+        Z_test_cat  = torch.cat(Z_test, dim=0).numpy()
+        return Z_train_cat, Z_test_cat
 
 
 class VerticalFedEncoder(BaseFederatedEncoder):
@@ -75,30 +75,24 @@ class VerticalFedEncoder(BaseFederatedEncoder):
     def __init__(self, num_splits: int):
         super().__init__(num_splits, dim_splitting=2)
 
-    def run(
-        self,
-        X_train: torch.Tensor,
-        X_test: torch.Tensor,
-        y_train: torch.Tensor,
-        y_test: torch.Tensor,
-        encoder_builder: Callable,
-        fit_fn: Callable,
-        encode_fn: Callable) -> Tuple[np.ndarray, np.ndarray]:
+    def run(self, X_train: torch.Tensor, X_test: torch.Tensor, y_train: torch.Tensor, y_test: torch.Tensor,
+            encoder_builder: Callable, fit_fn: Callable, batch_size: int) -> Tuple[np.ndarray, np.ndarray]:
+        X_train = self.to_tensor(X_train)
+        X_test  = self.to_tensor(X_test)
 
         self._adjust_splits(X_train)
         Xtr_splits = self._split(X_train)
         Xte_splits = self._split(X_test)
-
         encoders, Z_train, Z_test = [], [], []
 
         for i in range(self.num_splits):
             enc = encoder_builder()
             fit_fn(enc, Xtr_splits[i])
             encoders.append(enc)
+            Z_train.append(self._encode_in_batches(enc, Xtr_splits[i], bs=batch_size))
+            Z_test.append(self._encode_in_batches(enc, Xte_splits[i],  bs=batch_size))
 
-            Z_train.append(encode_fn(enc, Xtr_splits[i]))
-            Z_test.append(encode_fn(enc, Xte_splits[i]))
+        Z_train_cat = torch.cat(Z_train, dim=1).numpy()
+        Z_test_cat  = torch.cat(Z_test, dim=1).numpy()
+        return Z_train_cat, Z_test_cat
 
-        Z_train = torch.cat(Z_train, dim=1).numpy()
-        Z_test  = torch.cat(Z_test, dim=1).numpy()
-        return Z_train, Z_test

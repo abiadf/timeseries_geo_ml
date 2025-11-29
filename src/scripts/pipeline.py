@@ -54,10 +54,13 @@ def load_the_data(desired_dataset: str, NUM_PAGES_TO_USE: int, do_we_scale_y: bo
     return X_train, X_test, y_train_scaled, y_test_scaled, window_size
 
 # STEP 2: Split data into labeled + unlabeled portions
-def split_data_to_labeled_unlabeled(desired_dataset, interim_data_loc, data_splitting, label_frac, X_train, y_train_scaled, X_test, y_test_scaled, params):
+def split_data_to_labeled_unlabeled(desired_dataset, interim_data_loc, data_splitting, label_frac, X_train, y_train_scaled, X_test, y_test_scaled, params, rand_seed: int = None):
     """Given a data splitting method and its %, split the data into labeled and unlabeled portions."""
     n_train     = len(X_train)
     n_labeled   = int(np.ceil(label_frac * n_train))
+
+    if rand_seed is not None:
+        np.random.seed(rand_seed)  # fix shuffling
     shuffled_idx= np.random.permutation(n_train)
 
     if data_splitting == "missing_labels": # Keep all of X_train, split y

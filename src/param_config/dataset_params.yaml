@@ -2,14 +2,13 @@
 general:
   train_epochs:      100
   num_pages_to_use:  10
-  window_len:        1024
+  window_len:        256
   window_len_list:   [64, 128, 256, 512, 1024, 2048]
 
 asm:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
 
-  # train_epochs: 100
   batch_size        : 16
   latent_dim        : 32
   predictor_lr      : 0.006
@@ -44,7 +43,6 @@ china_weather:
   num_rows_per_page: 500  # number of rows per page to use from dataset
   window_len       : 2048 #4096
 
-  # train_epochs: 100
   batch_size        : 16
   latent_dim        : 6
   predictor_lr      : 0.006
@@ -62,7 +60,6 @@ germany_catchment:
   num_rows_per_page: 500  # number of rows per page to use from dataset
   window_len       : 512
 
-  # train_epochs: 100
   batch_size        : 16
   latent_dim        : 8
   predictor_lr      : 0.006
@@ -75,7 +72,6 @@ india_catchment:
   num_rows_per_page: 500  # number of rows per page to use from dataset
   window_len       : 512
 
-  # train_epochs: 100
   batch_size        : 16
   latent_dim        : 8
   predictor_lr      : 0.006
@@ -97,7 +93,6 @@ weather:
   num_rows_per_page: 500  # number of rows per page to use from dataset
   window_len       : 2048
 
-  # train_epochs: 100
   batch_size        : 16
   latent_dim        : 3
   predictor_lr      : 0.006

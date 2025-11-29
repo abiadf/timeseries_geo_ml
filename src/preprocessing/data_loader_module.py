@@ -312,6 +312,9 @@ class DatasetLoading:
 def load_or_preprocess_dataset(desired_dataset: str, page_num, do_we_scale_y, random_seed,
                                use_cache: bool = True, dataset_window = None, num_rows_per_window:int=None) -> tuple[np.ndarray, ...]:
     """Load cached preprocessed dataset if available, otherwise preprocess and cache it."""
+    np.random.seed(random_seed)
+    torch.manual_seed(random_seed)
+    
     new_dir_name   = f"{desired_dataset}_{page_num}pages"
     save_dir       = f"{interim_data_loc}/{new_dir_name}"
     X_full, y_full = dataset_loaders_dict[desired_dataset]()
