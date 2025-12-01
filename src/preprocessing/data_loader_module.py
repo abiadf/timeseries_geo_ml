@@ -20,7 +20,6 @@ from preprocessing.window_folder import WindowFolder
 from param_config.config_paths import interim_data_loc, public_data_loc, encoders_folder, ts2vec_params_loc
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
 
 
 class DatasetLoading:
@@ -243,6 +242,75 @@ class DatasetLoading:
         return X_pages, y_pages
 
     @staticmethod
+    def X_load_beijing_data() -> tuple[np.ndarray, np.ndarray]:
+        """Load Beijing Air Quality dataset, encode wind direction, handle missing values.
+        - X: (stations, timesteps, features) unwindowed
+        - y: (stations, timesteps, 1) unwindowed
+        Folding, train/test split, and scaling are handled by load_or_preprocess_dataset."""
+        data_path    = "../public_datasets/3D/beijing"
+        target_col   = 'PM2.5'
+        cols_to_drop = ['No','year','month','day','hour','station']
+
+        def encode_wind_direction_simple(wd_series):
+            wd_map = {'N':0,'NNE':22.5,'NE':45,'ENE':67.5,
+                      'E':90,'ESE':112.5,'SE':135,'SSE':157.5,
+                      'S':180,'SSW':202.5,'SW':225,'WSW':247.5,
+                      'W':270,'WNW':292.5,'NW':315,'NNW':337.5}
+            angles = wd_series.map(wd_map).fillna(0.0).values
+            sin_wd = np.sin(np.deg2rad(angles))
+            cos_wd = np.cos(np.deg2rad(angles))
+            return np.stack([sin_wd, cos_wd], axis=-1)
+
+        X_list, y_list = [], []
+        for file in sorted(os.listdir(data_path)):
+            if not file.endswith(".csv"):
+                continue
+            df = pd.read_csv(f"{data_path}/{file}")
+            df = df.drop(columns=cols_to_drop, errors='ignore')
+
+            df = df.apply(pd.to_numeric, errors='coerce')
+            df = df.fillna(0.0)  # replace NaNs
+
+            # Encode wind direction
+            if 'wd' in df.columns:
+                wd_encoded = encode_wind_direction_simple(df['wd'])
+                df         = df.drop(columns=['wd'])
+                df[['wd_sin','wd_cos']] = wd_encoded
+
+            # Separate features and target
+            feature_cols = [c for c in df.columns if c != target_col]
+            X_station    = df[feature_cols].values.astype(np.float32)
+            y_station    = df[[target_col]].values.astype(np.float32)  # 2D: (timesteps, 1)
+            X_list.append(X_station)
+            y_list.append(y_station)
+
+        X_all = np.stack(X_list, axis=0)  # (stations, timesteps, features)
+        y_all = np.stack(y_list, axis=0)  # (stations, timesteps, 1)
+
+        # apply per–station masking
+        isnan_mask       = ~np.isnan(y_all[..., 0])
+        X_clean, y_clean = [], []
+        for s in range(X_all.shape[0]):
+            m = isnan_mask[s]
+            X_clean.append(X_all[s][m])
+            y_clean.append(y_all[s][m])
+
+        min_T = min(x.shape[0] for x in X_clean)
+        X_all = np.stack([x[:min_T] for x in X_clean], axis=0)
+        y_all = np.stack([y[:min_T] for y in y_clean], axis=0)
+        print(f"after dropping missing y: X={X_all.shape}, y={y_all.shape}")
+
+        total_nan_frac_X = np.isnan(X_all).sum() / X_all.size
+        total_nan_frac_y = np.isnan(y_all).sum() / y_all.size
+
+        print(f"Beijing X missing: {total_nan_frac_X:.3%}, y missing: {total_nan_frac_y:.3%}")
+        X_all = np.nan_to_num(X_all)
+        y_all = np.nan_to_num(y_all)
+
+        print(f"Beijing dataset loaded: X={X_all.shape}, y={y_all.shape}")
+        return X_all, y_all
+
+    @staticmethod
     def load_beijing_data() -> tuple[np.ndarray, np.ndarray]:
         """Load Beijing Air Quality dataset, encode wind direction, handle missing values.
         - X: (stations, timesteps, features) unwindowed
@@ -305,24 +373,31 @@ class DatasetLoading:
         X_all = np.nan_to_num(X_all)
         y_all = np.nan_to_num(y_all)
 
+        # plt.figure(figsize=(14, 14))
+        # # plt.plot(X_all[1, :2_100, 0])
+        # plt.scatter(np.arange(X_all.shape[1]), X_all[0, :, 0], s=1)
+        # plt.title("Beijing Air Quality - PM2.5")
+        # plt.xlabel("Time")
+        # plt.ylabel("PM2.5 Concentration")
+        # plt.show()
         print(f"Beijing dataset loaded: X={X_all.shape}, y={y_all.shape}")
         return X_all, y_all
 
 
-def load_or_preprocess_dataset(desired_dataset: str, page_num, do_we_scale_y, random_seed,
-                               use_cache: bool = True, dataset_window = None, num_rows_per_window:int=None) -> tuple[np.ndarray, ...]:
+def load_or_preprocess_dataset(desired_dataset: str, page_num: int, do_we_scale_y: bool, dataset_window=None, 
+                               random_seed=None, use_cache=False, num_rows_per_window=None) -> tuple[np.ndarray, ...]:
     """Load cached preprocessed dataset if available, otherwise preprocess and cache it."""
-    np.random.seed(random_seed)
-    torch.manual_seed(random_seed)
+    # np.random.seed(random_seed)
+    # torch.manual_seed(random_seed)
     
     new_dir_name   = f"{desired_dataset}_{page_num}pages"
     save_dir       = f"{interim_data_loc}/{new_dir_name}"
     X_full, y_full = dataset_loaders_dict[desired_dataset]()
     print(f"X_train: {X_full.shape} ({X_full.nbytes/1024**2:.1f} MB)")
-    print(f"y_full: {y_full.shape} ({y_full.nbytes/1024**2:.1f} MB)")
+    print(f"y_full:  {y_full.shape} ({y_full.nbytes/1024**2:.1f} MB)")
 
-    # if desired_dataset == 'asm':
-    #     return X_train, X_test, y_train_scaled, y_test_scaled, window_size
+    if desired_dataset == 'asm':
+        return X_train, X_test, y_train_scaled, y_test_scaled, window_size
 
     if dataset_window is not None:
         X_full, y_full, window_size, _ = WindowFolder.auto_fold_timeseries(X_full, y_full, fs=1.0, peak_strength=2.0, fallback_window=num_rows_per_window, 
@@ -369,5 +444,3 @@ dataset_loaders_dict = {
     "panama":            DatasetLoading.load_panama_data,
     "beijing":           DatasetLoading.load_beijing_data,
     "asm":               DatasetLoading.load_asm_data}
-
-

@@ -3260,3 +3260,135 @@ R² (TS2Vec): -0.058
 time & params & flops & memory 
 0.084 & 0.005 & 1.294 & 22.867
 
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 0.8925 & 0.4168  & 0.5726
+R² (TS2Vec): 0.576
+time & params & flops & memory 
+0.097 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.087 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 0.8259 & 0.4480  & 0.5761
+R² (TS2Vec): 0.571
+time & params & flops & memory 
+0.084 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 1.9067 & 0.8969  & 0.8907
+R² (TS2Vec): -0.026
+time & params & flops & memory 
+0.104 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 0.8407 & 0.4050  & 0.5424
+R² (TS2Vec): 0.620
+time & params & flops & memory 
+0.078 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 0.7899 & 0.4250  & 0.5316
+R² (TS2Vec): 0.635
+time & params & flops & memory 
+0.090 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.084 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.097 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.084 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.084 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.084 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.085 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.086 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 3.0209 & 0.9249  & 0.9203
+R² (TS2Vec): -0.092
+time & params & flops & memory 
+0.082 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.082 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.2835 & 0.9160  & 0.9047
+R² (TS2Vec): -0.058
+time & params & flops & memory 
+0.082 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 1.8158 & 0.9221  & 0.8936
+R² (TS2Vec): -0.033
+time & params & flops & memory 
+0.100 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 0.9297 & 0.4324  & 0.6081
+R² (TS2Vec): 0.522
+time & params & flops & memory 
+0.086 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 1.8158 & 0.9221  & 0.8936
+R² (TS2Vec): -0.033
+time & params & flops & memory 
+0.082 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 2.6937 & 0.9242  & 0.8902
+R² (TS2Vec): -0.025
+time & params & flops & memory 
+0.082 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 1.0249 & 0.4210  & 0.5069
+R² (TS2Vec): 0.668
+time & params & flops & memory 
+0.082 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 0.6916 & 0.4009  & 0.5185
+R² (TS2Vec): 0.652
+time & params & flops & memory 
+0.084 & 0.005 & 1.294 & 22.867
+

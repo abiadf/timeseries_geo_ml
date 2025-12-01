@@ -1,14 +1,9 @@
 import __main__
 import os
 from typing import Dict, List, Literal, Tuple, Optional
-
 import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import Dataset, TensorDataset, DataLoader
 
-from utils.data_utils import Slicing, Bootstrapping, assign_encoder_weights, convert_numpy, select_top_X_features, Augmentations
+from utils.data_utils import select_top_X_features
 from preprocessing.data_loader_module import DatasetLoading, load_or_preprocess_dataset
 from param_config.config_paths import interim_data_loc, public_data_loc, asm_folder_loc
 
@@ -21,8 +16,11 @@ def load_the_data(desired_dataset: str, NUM_PAGES_TO_USE: int, do_we_scale_y: bo
         X_train, X_test, y_train_scaled, y_test_scaled = DatasetLoading.load_nasa_data()
         window_size = "N/A"
     elif desired_dataset != "asm":
-        X_train, X_test, y_train_scaled, y_test_scaled, window_size = load_or_preprocess_dataset(desired_dataset, NUM_PAGES_TO_USE, do_we_scale_y, 
-                                                        dataset_window=dataset_window, random_seed=rand_seed, use_cache=False, num_rows_per_window=NUM_ROWS)
+        # X_train, X_test, y_train_scaled, y_test_scaled, window_size = load_or_preprocess_dataset(desired_dataset, NUM_PAGES_TO_USE, do_we_scale_y, 
+        #                                                 dataset_window=dataset_window, random_seed=rand_seed, use_cache=False, num_rows_per_window=NUM_ROWS)
+        X_train, X_test, y_train_scaled, y_test_scaled, window_size = load_or_preprocess_dataset(desired_dataset, NUM_PAGES_TO_USE, do_we_scale_y,
+                    dataset_window=dataset_window, random_seed=rand_seed, use_cache=False, num_rows_per_window=NUM_ROWS)
+
     elif desired_dataset == "asm":
         from asm_stuff.main_runner import prepare_asm_train_test
         top_idx = [479, 517, 54, 165, 121, 77, 177, 188, 55, 509, 53, 52, 76,
@@ -54,14 +52,21 @@ def load_the_data(desired_dataset: str, NUM_PAGES_TO_USE: int, do_we_scale_y: bo
     return X_train, X_test, y_train_scaled, y_test_scaled, window_size
 
 # STEP 2: Split data into labeled + unlabeled portions
-def split_data_to_labeled_unlabeled(desired_dataset, interim_data_loc, data_splitting, label_frac, X_train, y_train_scaled, X_test, y_test_scaled, params, rand_seed: int = None):
+def split_data_to_labeled_unlabeled(desired_dataset, interim_data_loc, data_splitting, label_frac, X_train, y_train_scaled,
+                                    X_test, y_test_scaled, params, rand_seed: int = None):
     """Given a data splitting method and its %, split the data into labeled and unlabeled portions."""
     n_train     = len(X_train)
     n_labeled   = int(np.ceil(label_frac * n_train))
 
-    if rand_seed is not None:
-        np.random.seed(rand_seed)  # fix shuffling
-    shuffled_idx= np.random.permutation(n_train)
+    if label_frac == 1.0:
+        # If we use all labels, use the pre-existing order from the loader (OLD code behavior).
+        shuffled_idx = np.arange(n_train) 
+    elif rand_seed is not None:
+        # Only perform the shuffle/permutation if we are actually subsampling (label_frac < 1.0)
+        rng          = np.random.default_rng(rand_seed)
+        shuffled_idx = rng.permutation(n_train)
+    else:
+        shuffled_idx = np.random.permutation(n_train)
 
     if data_splitting == "missing_labels": # Keep all of X_train, split y
         X_L = X_train[shuffled_idx[:n_labeled]]
