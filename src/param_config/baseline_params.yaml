@@ -21,17 +21,17 @@ basics:
 
 run_console:
   mean_X:        false #true
-  barlow_cnn:    false
+  barlow_cnn:    true
   barlow_ae:     false
   barlow_ae_ssl: false
   cellsup:       false
   cnn_lstm:      false
   flatten_X:     false #true
   kan:           false
-  moment :       false
+  moment :       true
   moment_fed:    false
   timevae:       true
-  ts2vec :       true
+  ts2vec :       false
   ts2vec_fed:    true
 
 general_params:
@@ -75,16 +75,16 @@ cellsup:
     cluster_max: 8
 
 moment:
-  epochs_finetune:    5
-  batch_size:         64
-  lr_encoder:         0.001
-  hidden_layer_sizes: [512, 128, 64, 8] # latent to y output. note thta latent dim  = 512
+  epochs_finetune:    20
+  batch_size:         32
+  lr_encoder:         0.0001
+  hidden_layer_sizes: [128, 64, 16] # latent to y output. note that MOMENT-small's latent dim  = 512
   unfreeze_last_n:    1
   fine_tune:          true
 
-  lr_predictor:       0.0005
+  lr_predictor:       0.001
   predictor_epochs:   100
-  predictor_dropout:  0.2
+  predictor_dropout:  0.0
   predictor_hidden_sizes: [32, 48, 64] # latent to y output
 
   model_task:         "regression"

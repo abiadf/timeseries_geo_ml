@@ -3440,3 +3440,8 @@ linreg=1.1315 catboost=0.9176 rf=0.8783R²=0.003 L_recons=1.704
 time & params & flops & memory
 0.295 & 1.483 & 1.569 & 148.850
 
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=256
+linreg=1.1315 catboost=0.9176 rf=0.8783R²=0.003 L_recons=1.704
+time & params & flops & memory
+0.292 & 1.483 & 1.569 & 148.850
+

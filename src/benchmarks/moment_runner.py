@@ -8,7 +8,6 @@ from momentfm import MOMENTPipeline
 
 from methods.mlp_heads import make_MLP_regression_head
 from utils.metrics_utils import Preds
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class MomentRunner:
@@ -167,15 +166,6 @@ class MomentRunner:
     def run_moment0(X_train: torch.Tensor, X_test: torch.Tensor, y_train: torch.Tensor, y_test: torch.Tensor, *,
                 model_cfg: dict, train_cfg: dict, device):
         """Full MOMENT training wrapper. Returns (losses, r2, metrics)."""
-        # seed = np.random.randint(0, 2**32 - 1)
-        # torch.manual_seed(seed)
-        # np.random.seed(seed)
-        # if device.type.startswith("cuda"):
-        #     torch.cuda.manual_seed(seed)
-        #     torch.cuda.manual_seed_all(seed)  # for multi-GPU setups
-        #     torch.backends.cudnn.deterministic = True
-        #     torch.backends.cudnn.benchmark = False
-
         X_train = torch.tensor(X_train, dtype=torch.float32)
         X_test  = torch.tensor(X_test,  dtype=torch.float32)
         y_train = torch.tensor(y_train, dtype=torch.float32)
@@ -225,22 +215,14 @@ class MomentRunner:
 
     @staticmethod
     def run_moment(X_train, X_test, y_train, y_test, *,
-                   model_cfg, train_cfg, device, seed=None, moment_model=None, head=None):
+                   model_cfg, train_cfg, device, moment_model=None, head=None):
         """Full MOMENT training wrapper. Returns (losses, r2, metrics).
-        - device: torch.device or str ("cuda" / "cpu")
-        - seed: optional integer for reproducibility"""
-        torch.cuda.empty_cache()
-
-        # Set seeds (only CPU + PyTorch RNG, not full CUDA determinism)
-        if seed is not None:
-            torch.manual_seed(seed)
-            np.random.seed(seed)
-
+        - device: torch.device or str ("cuda" / "cpu")"""
         X_train = torch.tensor(X_train, dtype=torch.float32)
         X_test  = torch.tensor(X_test,  dtype=torch.float32)
         y_train = torch.tensor(y_train, dtype=torch.float32)
         y_test  = torch.tensor(y_test, dtype=torch.float32)
-        torch.cuda.empty_cache()
+        # torch.cuda.empty_cache()
 
         # Ensure device is torch.device
         if isinstance(device, str):
@@ -275,11 +257,7 @@ class MomentRunner:
         criterion = nn.MSELoss()
 
         if head is None:
-            head = make_MLP_regression_head(embedding_dim,
-                                            model_cfg["hidden_layers"],
-                                            y_train,
-                                            model_cfg.get("dropout", 0.0),
-                                            device)
+            head = make_MLP_regression_head(embedding_dim, model_cfg["hidden_layers"], y_train, model_cfg.get("dropout", 0.0), device)
 
         MomentRunner.train_moment_encoders([moment_model], [head], [X_train], y_train,
                             train_cfg["batch_size"], train_cfg["epochs"],
@@ -290,7 +268,7 @@ class MomentRunner:
         z_train, z_test, preds_test, train_rmse, test_rmse = MomentRunner.evaluate_moment_rmse(moment_model, head, X_train, X_test, y_train,
                                                                                 y_test, train_cfg["batch_size"], device, criterion)
         losses, rf_model = Preds().evaluate_models_on_dataset(z_train.cpu().numpy(), y_train.cpu().numpy(),
-                                                            z_test.cpu().numpy(),  y_test.cpu().numpy())
+                                                              z_test.cpu().numpy(),  y_test.cpu().numpy())
         losses.append(test_rmse)
         r2 = r2_score(y_test.cpu().numpy(), preds_test.cpu().numpy())
         metrics = {}

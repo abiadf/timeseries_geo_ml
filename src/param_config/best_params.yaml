@@ -1,0 +1,21 @@
+backup:
+
+beijing:
+  barlow_cnn:
+    {SSL_LAMBDA: 0.005, SSL_WEIGHT: 0.8, CHANNELS_1: 64, CHANNELS_2: 128, KERNEL_SIZE: 5, POOL_KERNEL: 2, latent_dim: 32,
+    augment_const: 0.1, recon_weight: 0, latent_dim : 32, ssl_weight : 1.0, augment_const: 0.1, head_dims_list: [128, 64, 16]}
+
+  timevae:
+    {predictor_lr: 0.006, predictor_epochs: 200, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 48, 64]}
+
+  moment:
+    {epochs_finetune: 20, batch_size: 32, lr_encoder: 0.0001, hidden_layer_sizes: [128, 64, 16], unfreeze_last_n: 1, fine_tune: true,
+    lr_predictor: 0.001, predictor_epochs: 100, predictor_dropout: 0.0, predictor_hidden_sizes: [32, 48, 64], model_task: "regression",
+    model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
+
+  ts2vec:
+    {z_pooling_method: "None", ts2vec_hidden_dims: 16, ts2vec_latent_dims: 8, ts2vec_depth: 3, patience: 40, ts2vec_batch_size: 16,
+    ts2vec_epochs: 100, lr_encoder: 0.009, predictor_epochs: 150, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 48, 64]}
+
+
+
