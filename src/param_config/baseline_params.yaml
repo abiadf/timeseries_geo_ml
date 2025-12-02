@@ -31,7 +31,7 @@ run_console:
   moment :       true
   moment_fed:    false
   timevae:       true
-  ts2vec :       false
+  ts2vec :       true
   ts2vec_fed:    true
 
 general_params:
@@ -44,8 +44,7 @@ general_params:
     layer3_dim : 16
     lr         : 0.001
 
-barlow:
-  cnn:
+barlow_cnn:
     SSL_LAMBDA  :  0.005 # value from BT paper
     SSL_WEIGHT  :  0.8   # Weight for recon vs. SSL
     CHANNELS_1  :  64
@@ -55,6 +54,7 @@ barlow:
     latent_dim  :  32
     augment_const: 0.1
     recon_weight: 0
+barlow:
   ae:
     latent_dim :   32
     ssl_weight :   1.0

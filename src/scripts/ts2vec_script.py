@@ -1,6 +1,7 @@
 """TS2Vec"""
 from typing import Dict, Any
 from benchmarks.ts2vec_runner import run_ts2vec, log_ts2vec_results
+from param_config.config_paths import ts2vec_hyperparam_file
 
 def run_ts2vec_block(X_train, X_test, y_train_scaled, y_test_scaled, params: Dict[str, Any], desired_dataset: str,
                      window_size: int, device: str):
@@ -30,6 +31,6 @@ def run_ts2vec_block(X_train, X_test, y_train_scaled, y_test_scaled, params: Dic
     losses, r2, metrics = run_ts2vec(X_train, X_test, y_train_scaled, y_test_scaled,
         model_cfg=model_cfg, train_cfg=train_cfg, device=device)
     log_ts2vec_results(desired_dataset, window_size, losses, r2, metrics, model_cfg, train_cfg,
-                       filename="results/hyperparam_search_ts2vec.txt")
+                       filename=ts2vec_hyperparam_file)
 
     return losses, r2, metrics, model_cfg, train_cfg

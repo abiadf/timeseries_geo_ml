@@ -1,12 +1,13 @@
 "Barlow (CNN) runner"
 from typing import Dict, Any, Tuple
 from benchmarks.barlow_cnn_runner import BarlowCNNRunner
+from param_config.config_paths import barlow_hyperparam_file
 
 def run_barlow_cnn_block(X_train, X_test, y_train_scaled, y_test_scaled, params: Dict[str, Any],
                     desired_dataset: str, device: str) -> Tuple[Any, Any, Any, Any, Any, Dict[str, Any], Dict[str, Any]]:
     """Run Barlow CNN end-to-end: train, encode, regress, log results."""
 
-    c              = params["barlow"]["cnn"]
+    c              = params["barlow_cnn"]
     latent_dim     = c.get("latent_dim", 12)
     channels       = c.get("channels", [8, 32])
     kernel_size    = c.get("kernel_size", 7)
@@ -17,8 +18,8 @@ def run_barlow_cnn_block(X_train, X_test, y_train_scaled, y_test_scaled, params:
     augment_const  = c.get("augment_const", 0.05)
     head_dims_list = c.get("head_dims_list", [64, 32])
 
-    epochs         = params["barlow"].get("epochs", 100)
-    lr             = params["barlow"].get("lr", 0.01)
+    epochs         = params["barlow_cnn"].get("epochs", 100)
+    lr             = params["barlow_cnn"].get("lr", 0.01)
     rand_seed      = params.get("rand_seed", 0)
 
     model_cfg = {
@@ -40,6 +41,6 @@ def run_barlow_cnn_block(X_train, X_test, y_train_scaled, y_test_scaled, params:
     losses, r2, metrics, recon_train, recon_test = BarlowCNNRunner.run_barlow_cnn(X_train, X_test, y_train_scaled,
                                             y_test_scaled, model_cfg=model_cfg, train_cfg=train_cfg, device=device)
     BarlowCNNRunner.log_barlow_cnn_results(dataset_name=desired_dataset, losses=losses, r2=r2, model_cfg=model_cfg,
-                                train_cfg=train_cfg, metrics=metrics, filename="results/hyperparam_search_barlow.txt")
+                                           train_cfg=train_cfg, metrics=metrics, filename=barlow_hyperparam_file)
 
     return losses, r2, metrics, recon_train, recon_test, model_cfg, train_cfg

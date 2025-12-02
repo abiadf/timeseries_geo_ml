@@ -2,6 +2,7 @@
 there is no regression task in MOMENT (see 'moment_model.task_name'), so we make our own head"""
 from typing import Dict, Any, Tuple
 from benchmarks.moment_runner import MomentRunner
+from param_config.config_paths import moment_hyperparam_file
 
 def run_moment_block(X_train, X_test, y_train_scaled, y_test_scaled, params: Dict[str, Any],
                      desired_dataset: str, device: str) -> Tuple[Any, Any, Any, Dict[str, Any], Dict[str, Any]]:
@@ -39,6 +40,6 @@ def run_moment_block(X_train, X_test, y_train_scaled, y_test_scaled, params: Dic
                                                   model_cfg=model_cfg, train_cfg=train_cfg, device=device)
 
     MomentRunner.log_moment_results(dataset_name=desired_dataset, losses=losses, r2=r2, model_cfg=model_cfg,
-                                    train_cfg=train_cfg, filename="results/hyperparam_search_moment.txt")
+                                    train_cfg=train_cfg, filename=moment_hyperparam_file)
 
     return losses, r2, metrics, model_cfg, train_cfg

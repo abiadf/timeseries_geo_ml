@@ -2,15 +2,15 @@
 from typing import Dict, Any, Tuple
 from pathlib import Path
 from benchmarks.timevae_runner import run_timevae, log_timevae_results
+from param_config.config_paths import timevae_hyperparam_file
 
 def run_timevae_block(
     X_train, X_test, y_train_scaled, y_test_scaled, timevae_file_path,
     params: Dict[str, Any], desired_dataset: str,
     window_size: int, device: str,
-    force_train: bool = False) -> Tuple[Any, Any, Any, Dict[str, Any], Dict[str, Any]]:
+    force_train: bool = False) -> Tuple[Any, Any, Any, Any, Dict[str, Any], Dict[str, Any]]:
     """Run TimeVAE end-to-end: train/load model, encode latent space, compute downstream metrics, and log results.
-    Returns:
-        losses, r2, profiling_metrics, model_cfg, train_cfg"""
+    Returns: losses, recon_loss_test, r2, profiling_metrics, model_cfg, train_cfg"""
     # Hyperparameters
     lr_training       = params["timevae"].get("lr_training", 0.001)
     latent_dim        = params["timevae"].get("latent_dim", 8)
@@ -53,7 +53,7 @@ def run_timevae_block(
         recon_loss=recon_loss_test,
         model_cfg=model_cfg,
         train_cfg=train_cfg,
-        filename="results/hyperparam_search_timevae.txt")
+        filename=timevae_hyperparam_file)
 
-    return losses, r2, profiling_metrics, model_cfg, train_cfg
+    return losses, recon_loss_test, r2, profiling_metrics, model_cfg, train_cfg
 
