@@ -30,7 +30,7 @@ run_console:
   kan:           false
   moment :       false
   moment_fed:    false
-  timevae:       false
+  timevae:       true
   ts2vec :       true
   ts2vec_fed:    true
 

@@ -3421,3 +3421,17 @@ linreg=6180.9727 catboost=1.1372 rf=1.2041R²=-0.157 L_recons=220.141
 time & params & flops & memory
 0.190 & 20.074 & 20.412 & 433.555
 
+timevae/beijing: hidden_layers=[64, 32] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=16 window_size=256
+& Z (timevae) & 1.6653 & 0.9198 & 0.8981
+R²: -0.043, L_recons: 29.791
+time & params & flops & memory
+0.281 & 2.550 & 3.042 & 83.301
+
+timevae/beijing: hidden_layers=[64, 32] latent_dim=12 reconstruction_wt=3.5
+train_epochs=100 lr=0.001 batch_size=16 window_size=256
+& Z (timevae) & 1.6669 & 0.9589 & 0.9155
+R²: -0.084, L_recons: 29.716
+time & params & flops & memory
+0.263 & 2.550 & 3.042 & 84.219
+

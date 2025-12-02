@@ -24,8 +24,7 @@ def _encode_timevae_in_batches(model: torch.nn.Module, X: np.ndarray, batch_size
     return np.concatenate(zs, 0)
 
 
-def run_timevae(
-    X_train, X_test, y_train_scaled, y_test_scaled, *,
+def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
     timevae_file_path, device, batch_size, train_epochs, lr_training, latent_dim, hidden_layer_sizes,
     reconstruction_wt, desired_dataset, train=True):
     """Train or load TimeVAE, compute latent codes, downstream metrics, and final reconstruction losses on REAL train/test data.
@@ -43,7 +42,8 @@ def run_timevae(
     from vae.timevae import TimeVAE
 
     if train:
-        z_train, z_test, timevae_recon_loss_train, profiling_metrics, timevae_model = run_vae_pipeline(
+        # z_train, z_test, timevae_recon_loss_train, profiling_metrics, timvae_model = run_vae_pipeline(
+        z_train, z_test, timevae_recon_loss_train, profiling_metrics = run_vae_pipeline(
             timevae_file_path, desired_dataset,
             vae_type="timeVAE", train_epochs=train_epochs,
             lr_training=lr_training,

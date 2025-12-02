@@ -3410,3 +3410,15 @@ R² (TS2Vec): 0.652
 time & params & flops & memory 
 0.085 & 0.005 & 1.294 & 22.867
 
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 0.6916 & 0.4009  & 0.5185
+R² (TS2Vec): 0.652
+time & params & flops & memory 
+0.084 & 0.005 & 1.294 & 22.867
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=256
+& Z (ts2vec) & 0.6916 & 0.4009  & 0.5185
+R² (TS2Vec): 0.652
+time & params & flops & memory 
+0.087 & 0.005 & 1.294 & 22.867
+
