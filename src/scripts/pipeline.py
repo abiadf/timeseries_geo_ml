@@ -16,8 +16,6 @@ def load_the_data(desired_dataset: str, NUM_PAGES_TO_USE: int, do_we_scale_y: bo
         X_train, X_test, y_train_scaled, y_test_scaled = DatasetLoading.load_nasa_data()
         window_size = "N/A"
     elif desired_dataset != "asm":
-        # X_train, X_test, y_train_scaled, y_test_scaled, window_size = load_or_preprocess_dataset(desired_dataset, NUM_PAGES_TO_USE, do_we_scale_y, 
-        #                                                 dataset_window=dataset_window, random_seed=rand_seed, use_cache=False, num_rows_per_window=NUM_ROWS)
         X_train, X_test, y_train_scaled, y_test_scaled, window_size = load_or_preprocess_dataset(desired_dataset, NUM_PAGES_TO_USE, do_we_scale_y,
                     dataset_window=dataset_window, random_seed=rand_seed, use_cache=False, num_rows_per_window=NUM_ROWS)
 
@@ -55,8 +53,8 @@ def load_the_data(desired_dataset: str, NUM_PAGES_TO_USE: int, do_we_scale_y: bo
 def split_data_to_labeled_unlabeled(desired_dataset, interim_data_loc, data_splitting, label_frac, X_train, y_train_scaled,
                                     X_test, y_test_scaled, params, rand_seed: int = None):
     """Given a data splitting method and its %, split the data into labeled and unlabeled portions."""
-    n_train     = len(X_train)
-    n_labeled   = int(np.ceil(label_frac * n_train))
+    n_train   = len(X_train)
+    n_labeled = int(np.ceil(label_frac * n_train))
 
     if label_frac == 1.0:
         # If we use all labels, use the pre-existing order from the loader (OLD code behavior).

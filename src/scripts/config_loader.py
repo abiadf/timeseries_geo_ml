@@ -2,7 +2,7 @@ import os
 import __main__
 import numpy as np
 from types import SimpleNamespace
-from utils.io_utils import read_yaml_params, set_all_rand_seeds 
+from utils.io_utils import read_yaml_params 
 from param_config.config_paths import interim_data_loc, public_data_loc, asm_folder_loc
 
 def load_project_configuration(params_path, data_params_path, messager_path):
@@ -31,8 +31,6 @@ def load_project_configuration(params_path, data_params_path, messager_path):
     else:
         rng       = np.random.default_rng()
         rand_seed = rng.integers(0, 10_000)
-    
-    set_all_rand_seeds(rand_seed)
 
     # 5. Pack variables into the Namespace
     cfg = SimpleNamespace(
