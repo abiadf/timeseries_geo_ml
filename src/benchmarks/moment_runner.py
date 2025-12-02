@@ -1,7 +1,6 @@
 """"TS2Vec running functions"""
 import torch
 import torch.nn as nn
-import numpy as np
 from sklearn.metrics import r2_score
 
 from momentfm import MOMENTPipeline

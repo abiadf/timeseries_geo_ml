@@ -1,21 +1,39 @@
-backup:
 
 beijing:
   barlow_cnn:
-    {SSL_LAMBDA: 0.005, SSL_WEIGHT: 0.8, CHANNELS_1: 64, CHANNELS_2: 128, KERNEL_SIZE: 5, POOL_KERNEL: 2, latent_dim: 32,
-    augment_const: 0.1, recon_weight: 0, latent_dim : 32, ssl_weight : 1.0, augment_const: 0.1, head_dims_list: [128, 64, 16]}
+    {SSL_LAMBDA: 0.01, SSL_WEIGHT: 1, CHANNELS_1: 12, CHANNELS_2: 8, KERNEL_SIZE: 5, POOL_KERNEL: 2, latent_dim: 32,
+    augment_const: 0.05, recon_weight: 0.1, latent_dim : 32, ssl_weight : 1.0, head_dims_list: [64, 32], "lr": 0.001}
+    # 64  {"latent_dim": 32, "channels1": 12, "channels2": 32, "kernel_size": 3, "pool_kernel": 2, "ssl_lambda": 0.01, "ssl_weight": 0.1, "augment_const": 0.2, "recon_weight": 0.1, "epochs": 100, "lr": 0.01, "head_dims_list": [128, 64], "test_rmse": 0.7363375425338745, "r2": 0.38739571067072753}
+    # 128 {"latent_dim": 12, "channels1": 32, "channels2": 32, "kernel_size": 5, "pool_kernel": 2, "ssl_lambda": 0.01, "ssl_weight": 0.1, "augment_const": 0.2, "recon_weight": 0.1, "epochs": 100, "lr": 0.005, "head_dims_list": [128, 64], "test_rmse": 0.7587050199508667, "r2": 0.29614840705531775}
+    # 256 {"latent_dim": 32, "channels1": 12, "channels2": 8, "kernel_size": 5, "pool_kernel": 2, "ssl_lambda": 0.01, "ssl_weight": 1.0, "augment_const": 0.05, "recon_weight": 0.1, "epochs": 100, "lr": 0.001, "head_dims_list": [64, 32], "test_rmse": 0.8284971117973328, "r2": 0.08852234534018444}
+    # 512 {"latent_dim": 32, "channels1": 16, "channels2": 16, "kernel_size": 3, "pool_kernel": 2, "ssl_lambda": 0.1, "ssl_weight": 0.1, "augment_const": 0.2, "recon_weight": 0.1, "epochs": 100, "lr": 0.01, "head_dims_list": [64, 32], "test_rmse": 0.9774829745292664, "r2": 0.13042284266681714}
+    # 1024 {"latent_dim": 12, "channels1": 8, "channels2": 32, "kernel_size": 7, "pool_kernel": 2, "ssl_lambda": 0.1, "ssl_weight": 0.1, "augment_const": 0.05, "recon_weight": 0.5, "epochs": 100, "lr": 0.01, "head_dims_list": [64, 32], "test_rmse": 0.8310145139694214, "r2": 0.1556732126334256}
 
   timevae:
-    {predictor_lr: 0.006, predictor_epochs: 200, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 48, 64]}
+    {predictor_lr: 0.006, predictor_epochs: 200, predictor_dropout: 0.05, predictor_hidden_sizes: [128, 64, 32], latent_dim: 16,
+    reconstr_wt: 1, lr: 0.001, batch_size: 256}
+    # 1024: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
+    # 512: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
+    # 256: hidden_layers=[128, 64, 32] latent_dim=16 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+    # 128: hidden_layers=[40, 20, 36] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=128
+    # 64 : hidden_layers=[64, 32, 16] latent_dim=12 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=64
 
   moment:
-    {epochs_finetune: 20, batch_size: 32, lr_encoder: 0.0001, hidden_layer_sizes: [128, 64, 16], unfreeze_last_n: 1, fine_tune: true,
-    lr_predictor: 0.001, predictor_epochs: 100, predictor_dropout: 0.0, predictor_hidden_sizes: [32, 48, 64], model_task: "regression",
+    {epochs_finetune: 20, batch_size: 64, lr_encoder: 0.0005, hidden_layer_sizes: [12, 8, 6], unfreeze_last_n: 1, fine_tune: true,
+    lr_predictor: 0.005, predictor_epochs: 100, predictor_dropout: 0.2, predictor_hidden_sizes: [32, 48, 64], model_task: "regression",
     model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
+    # 64 {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.7971862380646015, "r2": 0.3561286926269531}
+    # 128 {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.7032694946667739, "r2": 0.21627724170684814}
+    # 256 {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [12, 8, 6], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 20, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.12932240962982178}
+    # 512 {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.9559669589291845, "r2": -0.006245732307434082}
+    # 1024 {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.9486960186216229, "r2": -0.00033092498779296875}
 
   ts2vec:
-    {z_pooling_method: "None", ts2vec_hidden_dims: 16, ts2vec_latent_dims: 8, ts2vec_depth: 3, patience: 40, ts2vec_batch_size: 16,
-    ts2vec_epochs: 100, lr_encoder: 0.009, predictor_epochs: 150, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 48, 64]}
-
-
+    {z_pooling_method: "None", ts2vec_hidden_dims: 12, ts2vec_latent_dims: 12, ts2vec_depth: 3, patience: 40, ts2vec_batch_size: 256,
+    ts2vec_epochs: 100, lr_encoder: 0.001, predictor_epochs: 150, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 48, 64]}
+    # 64 {"latent_dims": 20, "hidden_dims": 16, "depth": 5, "batch_size": 1024, "lr": 0.001, "epochs": 100, "window_size": 64, "z_pooling_method": "None", "test_rmse": 0.3716966291124734, "r2": 0.7918437005480853}
+    # 128 {"latent_dims": 12, "hidden_dims": 20, "depth": 5, "batch_size": 256, "lr": 0.005, "epochs": 100, "window_size": 128, "z_pooling_method": "None", "test_rmse": 0.33175338718775615, "r2": 0.798270964199426}
+    # 256 {"latent_dims": 12, "hidden_dims": 12, "depth": 3, "batch_size": 256, "lr": 0.001, "epochs": 100, "window_size": 256, "z_pooling_method": "None", "test_rmse": 0.3718352154136236, "r2": 0.6710430077020607}
+    # 512 {"latent_dims": 12, "hidden_dims": 16, "depth": 3, "batch_size": 256, "lr": 0.001, "epochs": 100, "window_size": 512, "z_pooling_method": "mean", "test_rmse": 0.3427687243209264, "r2": 0.6520028951481696}
+    # 1024 {"latent_dims": 16, "hidden_dims": 12, "depth": 5, "batch_size": 256, "lr": 0.005, "epochs": 100, "window_size": 1024, "z_pooling_method": "None", "test_rmse": 0.36828604547217364, "r2": 0.61756890068031}
 
