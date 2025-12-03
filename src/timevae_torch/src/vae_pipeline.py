@@ -78,7 +78,7 @@ def run_vae_pipeline(timevae_file_path, dataset_name, vae_type, train_epochs, lr
 
     z_train = get_posterior_samples(vae_model, scaled_train_data)
     z_test  = get_posterior_samples(vae_model, scaled_valid_data)  # or your notebook X_test
-    return z_train, z_test, final_recon_loss, profiling_metrics
+    return z_train, z_test, final_recon_loss, profiling_metrics, vae_model
 
     # ----------------------------------------------------------------------------------
     # Visualize posterior samples

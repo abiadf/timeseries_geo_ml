@@ -20,7 +20,7 @@ def run_timevae_block(
     train_epochs      = params["timevae"].get("train_epochs", 100)
 
     # Run TimeVAE
-    losses, r2, profiling_metrics, recon_loss_train, recon_loss_test, z_train, z_test = run_timevae(
+    losses, r2, profiling_metrics, recon_loss_train, recon_loss_test, z_train, z_test, = run_timevae(
         X_train, X_test, y_train_scaled, y_test_scaled,
         timevae_file_path=timevae_file_path,
         device=device,

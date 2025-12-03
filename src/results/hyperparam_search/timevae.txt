@@ -3540,3 +3540,75 @@ linreg=1.0880 catboost=0.9832 rf=0.9778R²=-0.037 L_recons=2.011
 time & params & flops & memory
 0.298 & 1.484 & 1.570 & 148.870
 
+============
+
+timevae/india: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=256
+linreg=1.8307 catboost=0.9983 rf=0.9610R²=0.046 L_recons=1.039
+time & params & flops & memory
+0.137 & 3.328 & 3.447 & 93.617
+
+timevae/india: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=0.5 train_epochs=100 lr=0.0001 batch_size=64 window_size=256
+linreg=1.0735 catboost=1.0178 rf=0.9842R²=0.000 L_recons=0.886
+time & params & flops & memory
+0.137 & 3.328 & 3.447 & 93.617
+
+timevae/india: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=0.5 train_epochs=1 lr=0.0001 batch_size=256 window_size=256
+linreg=0.9334 catboost=0.9717 rf=0.9467R²=0.011 L_recons=1.259
+time & params & flops & memory
+0.140 & 3.333 & 3.558 & 93.691
+
+timevae/india: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=0.5 train_epochs=200 lr=0.0001 batch_size=256 window_size=256
+linreg=1.1484 catboost=0.9848 rf=0.9521R²=-0.000 L_recons=0.909
+time & params & flops & memory
+0.127 & 3.333 & 3.558 & 141.800
+
+timevae/india: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=0.5 train_epochs=100 lr=0.0001 batch_size=256 window_size=256
+linreg=1.0377 catboost=0.9620 rf=0.9389R²=0.027 L_recons=0.897
+time & params & flops & memory
+0.129 & 3.333 & 3.558 & 155.741
+
+timevae/india: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=256 window_size=256
+linreg=1.0725 catboost=0.9832 rf=0.9587R²=-0.014 L_recons=0.934
+time & params & flops & memory
+0.139 & 3.333 & 3.558 & 155.741
+
+timevae/india: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=0.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2379 catboost=0.9948 rf=0.9550R²=-0.007 L_recons=1.018
+time & params & flops & memory
+0.127 & 3.333 & 3.558 & 155.741
+
+timevae/india: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.4505 catboost=1.0086 rf=0.9549R²=-0.008 L_recons=1.087
+time & params & flops & memory
+0.129 & 3.333 & 3.558 & 155.741
+
+timevae/india: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=0.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.3941 catboost=1.0006 rf=0.9549R²=-0.006 L_recons=1.069
+time & params & flops & memory
+0.151 & 3.333 & 3.558 & 155.741
+
+timevae/india: hidden_layers=[32, 16, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.6381 catboost=0.9906 rf=0.9434R²=0.017 L_recons=1.154
+time & params & flops & memory
+0.136 & 3.333 & 3.558 & 155.741
+
+timevae/india: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=0.5 train_epochs=100 lr=0.0001 batch_size=256 window_size=256
+linreg=1.0594 catboost=0.9917 rf=0.9556R²=-0.008 L_recons=0.964
+time & params & flops & memory
+0.143 & 3.351 & 3.907 & 156.102
+
+timevae/india: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0001 batch_size=256 window_size=256
+linreg=1.2058 catboost=0.9959 rf=0.9524R²=-0.001 L_recons=1.002
+time & params & flops & memory
+0.143 & 3.351 & 3.907 & 156.102
+
+timevae/india: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=0.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.2492 catboost=0.9967 rf=0.9542R²=-0.006 L_recons=1.011
+time & params & flops & memory
+0.141 & 3.351 & 3.907 & 156.102
+
+timevae/india: hidden_layers=[64, 32, 16] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.0005 batch_size=256 window_size=256
+linreg=1.5781 catboost=0.9908 rf=0.9391R²=0.026 L_recons=1.075
+time & params & flops & memory
+0.130 & 3.351 & 3.907 & 156.102
+

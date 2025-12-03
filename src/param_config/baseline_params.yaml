@@ -3,7 +3,7 @@ basics:
   label_frac:      1  # fraction of labeled training data
   data_splitting:  "reduced_data" # missing_labels, reduced_data
   num_runs:        5  # times to run the whole code
-  desired_dataset: "beijing" # ecg, india, germany, china, nasa, weather, asm, gas, beijing, panama
+  desired_dataset: "india" # ecg, india, germany, china, nasa, weather, asm, gas, beijing, panama
   dataset_list:
     - india
     # - germany

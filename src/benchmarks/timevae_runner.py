@@ -34,24 +34,26 @@ def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
         z_train, z_test"""
     # make sure timevae_torch/src is importable
     src_path = P.SRC_ROOT / "timevae_torch" / "src"
-
     if str(src_path) not in sys.path:
         sys.path.append(str(src_path))
     from vae_pipeline import run_vae_pipeline
     from vae.timevae import TimeVAE
 
-    model_dir       = str(Path(timevae_file_path).parent)
+    model_dir = str(Path(timevae_file_path).parent)
     checkpoint_path = os.path.join(model_dir, "TimeVAE_weights.pth")
-    model_exists    = os.path.exists(checkpoint_path)
+    model_exists = os.path.exists(checkpoint_path)
 
+    # Train or load
     if force_train or not model_exists:
-        z_train, z_test, recon_loss_train, profiling_metrics = run_vae_pipeline(
+        z_train, z_test, recon_loss_train, profiling_metrics, timevae_model = run_vae_pipeline(
             timevae_file_path, desired_dataset,
             vae_type="timeVAE", train_epochs=train_epochs,
             lr_training=lr_training, latent_dim=latent_dim,
             hidden_layer_sizes=hidden_layer_sizes, reconstruction_wt=reconstruction_wt)
+        timevae_model = timevae_model.to(device)
+        timevae_model.eval()
     else:
-        # Load model from checkpoint safely
+        # Load model from checkpoint
         try:
             timevae_model = TimeVAE(
                 seq_len=X_train.shape[1], feat_dim=X_train.shape[2],
@@ -64,15 +66,19 @@ def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
             z_test  = _encode_timevae_in_batches(timevae_model, X_test, batch_size=batch_size)
             recon_loss_train = None
         except RuntimeError:
+            # Checkpoint mismatch; retrain safely
             print("Checkpoint mismatch detected; retraining model to match hyperparameters.")
-            z_train, z_test, recon_loss_train, profiling_metrics = run_vae_pipeline(
+            z_train, z_test, recon_loss_train, profiling_metrics, trained_model = run_vae_pipeline(
                 timevae_file_path, desired_dataset,
                 vae_type="timeVAE", train_epochs=train_epochs,
                 lr_training=lr_training, latent_dim=latent_dim,
-                hidden_layer_sizes=hidden_layer_sizes, reconstruction_wt=reconstruction_wt)
-            model_exists = False  # marks that weights were regenerated
+                hidden_layer_sizes=hidden_layer_sizes, reconstruction_wt=reconstruction_wt,
+                return_model=True)
+            timevae_model = trained_model.to(device)
+            timevae_model.eval()
+            model_exists = False
 
-    # Encode for final recon losses
+    # Compute final recon losses
     with torch.no_grad():
         X_train_t = torch.from_numpy(X_train).float().to(device)
         X_test_t  = torch.from_numpy(X_test).float().to(device)
@@ -89,20 +95,20 @@ def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
 
     # Evaluate downstream predictors
     losses, rf_model = Preds().evaluate_models_on_dataset(z_train, y_train_scaled, z_test, y_test_scaled)
-    r2               = rf_model.score(z_test, y_test_scaled)
+    r2 = rf_model.score(z_test, y_test_scaled)
 
     return losses, r2, profiling_metrics, recon_loss_train, recon_loss_test, z_train, z_test
 
 
 def log_timevae_results(dataset_name, window_size, losses, r2, metrics, recon_loss,
-                        model_cfg, train_cfg, filename="results/hyperparam_search.txt"):
+                        model_cfg, train_cfg, filename=P.timevae_hyperparam_file):
     """Log TimeVAE results with hyperparameters, both to file and stdout."""
     linreg, catboost, rf = losses[:3]
 
     with open(filename, 'a') as f:
         f.write(f"timevae/{dataset_name}: hidden_layers={model_cfg['hidden_layers']} "
                 f"latent_dim={model_cfg['latent_dim']} reconstr_wt={model_cfg['reconstruction_wt']} train_epochs={train_cfg['train_epochs']} lr={train_cfg['lr']} batch_size={train_cfg['batch_size']} window_size={window_size}\n")
-        f.write(f"linreg={linreg:.4f} catboost={catboost:.4f} rf={rf:.4f}")
+        f.write(f"linreg={linreg:.4f} catboost={catboost:.4f} rf={rf:.4f} ")
         f.write(f"R²={r2:.3f} L_recons={recon_loss:.3f}\n")
         f.write("time & params & flops & memory\n")
         f.write(f"{metrics['runtime_s']:.3f} & {metrics['num_params_M']:.3f} & "
@@ -110,7 +116,7 @@ def log_timevae_results(dataset_name, window_size, losses, r2, metrics, recon_lo
 
     print(f"timevae/{dataset_name}: hidden_layers={model_cfg['hidden_layers']} "
           f"latent_dim={model_cfg['latent_dim']} reconstruction_wt={model_cfg['reconstruction_wt']}")
-    print(f"& Z (timevae) & {linreg:.4f} & {catboost:.4f} & {rf:.4f}")
+    print(f"& Z (timevae) & {linreg:.4f} & {catboost:.4f} & {rf:.4f} ")
     print(f"R²: {r2:.3f}, L_recons: {recon_loss:.3f}")
     print(f"train_epochs={train_cfg['train_epochs']} lr={train_cfg['lr']} batch_size={train_cfg['batch_size']}")
     print("time & params & flops & memory")
