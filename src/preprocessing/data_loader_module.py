@@ -13,9 +13,9 @@ if torch.cuda.is_available():
     print(torch.cuda.memory_reserved(0) / 1e6, "MB reserved")
     print(torch.cuda.memory_allocated(0) / 1e6, "MB allocated")
 
-from preprocessing.dataset_preprocessors import DatasetPreprocessor, ECGLoader, NasaLoader, GermanyDataset, WeatherDataset, process_argoverse_parquet
-from preprocessing.window_folder import WindowFolder
-from param_config.config_paths import interim_data_loc, public_data_loc, encoders_folder, ts2vec_params_loc
+from src.preprocessing.dataset_preprocessors import DatasetPreprocessor, ECGLoader, NasaLoader, GermanyDataset, WeatherDataset, process_argoverse_parquet
+from src.preprocessing.window_folder import WindowFolder
+import src.param_config.config_paths as P
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -23,7 +23,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 class DatasetLoading:
     @staticmethod
     def load_ecg_data():
-        ECG_data_path= "../public_datasets/3D/ptb-xl-1.0.3"
+        ECG_data_path= f"{P.public_data_loc}/3D/ptb-xl-1.0.3"
         loader       = ECGLoader(ECG_data_path)
         X, y, _, _   = loader.load_dataset(sampling="lr", target="diagnostic_superclass_multi",
                                         segment_duration_sec=200, max_records=2000,
@@ -32,7 +32,7 @@ class DatasetLoading:
 
     @staticmethod
     def load_argoverse_data():
-        argoverse_data_path = "../public_datasets/3D/argoverse_forecasting"
+        argoverse_data_path = f"{P.public_data_loc}/3D/argoverse_forecasting"
         folder_name = "00a0ec58-1fb9-4a2b-bfd7-f4e5da7a9eff"
         file_name   = "scenario_00a0ec58-1fb9-4a2b-bfd7-f4e5da7a9eff.parquet"
         return process_argoverse_parquet(f"{argoverse_data_path}/{folder_name}/{file_name}")
@@ -40,14 +40,14 @@ class DatasetLoading:
     @staticmethod
     def load_asm_data():
         "For info on processing search term 'Fouad intervening', points to a cell in the ASM notebook"
-        X_3d  = np.load("../public_datasets/3D/ASM/X_3d.npy")
-        y_asm = np.load("../public_datasets/3D/ASM/y_asm.npy")
+        X_3d  = np.load(f"{P.public_data_loc}/3D/ASM/X_3d.npy")
+        y_asm = np.load(f"{P.public_data_loc}/3D/ASM/y_asm.npy")
         return X_3d, y_asm
 
     @staticmethod
     def load_china_data() -> tuple[np.ndarray, np.ndarray]:
         """Load China weather, split first NUM_PAGES_TO_USE stations into SPLIT_RATIO windows."""
-        dataset_location = "../public_datasets/3D/china_weather/weather2k.npy"
+        dataset_location = f"{P.public_data_loc}/3D/china_weather/weather2k.npy"
         china_data       = np.load(dataset_location, mmap_mode='r').transpose(0, 2, 1)
         print(f"Original China data shape: {china_data.shape}")
 
@@ -74,7 +74,7 @@ class DatasetLoading:
         Returns:
             X_windows: (NUM_PAGES_TO_USE, NUM_ROWS, n_features)
             y_windows: (NUM_PAGES_TO_USE, n_targets)"""
-        gas_folder = "../public_datasets/3D/gas_emissions"
+        gas_folder = f"{P.public_data_loc}/3D/gas_emissions"
         csv_files  = sorted([f for f in os.listdir(gas_folder) if f.endswith(".csv")])
 
         X_pages, y_pages = [], []
@@ -105,7 +105,7 @@ class DatasetLoading:
     @staticmethod
     def load_germany_data() -> tuple[np.ndarray, np.ndarray]:
         """Load CAMELS-DE dataset, split each basin's timeseries into SPLIT_RATIO windows."""
-        camels_root_folder = f"{public_data_loc}/3D/camels_de"
+        camels_root_folder = f"{P.public_data_loc}/3D/camels_de"
         timeseries_folder  = os.path.join(camels_root_folder, "timeseries")
         zarr_path          = os.path.join(camels_root_folder, "camels_de_timeseries.zarr")
 
@@ -126,7 +126,7 @@ class DatasetLoading:
     @staticmethod
     def load_india_data():
         """Load India catchment dataset, split into windows like WeatherBench."""
-        data_path      = "../public_datasets/3D/india_catchments"
+        data_path      = f"{P.public_data_loc}/3D/india_catchments"
         forcing_folder = "catchment_mean_forcings"
         clim_file      = "attributes_csv/camels_ind_clim.csv"
 
@@ -155,7 +155,7 @@ class DatasetLoading:
         return X, y
 
     @staticmethod
-    def load_nasa_data(nasa_folder="../public_datasets/3D/NASA", specific_file="FD004",
+    def load_nasa_data(nasa_folder=f"{P.public_data_loc}/3D/NASA", specific_file="FD004",
                        single_target: bool=False):
         """Load and preprocess NASA FD004 dataset, returning padded and scaled arrays."""
 
@@ -201,7 +201,7 @@ class DatasetLoading:
     def load_panama_data() -> tuple[np.ndarray, np.ndarray]:
         """Load Panama electricity, split first NUM_PAGES_TO_USE stations into SPLIT_RATIO windows."""
         file_name     = "train.csv"
-        file_location = f"{public_data_loc}/3D/panama/{file_name}"
+        file_location = f"{P.public_data_loc}/3D/panama/{file_name}"
 
         df        = pd.read_csv(file_location)
         df        = df.drop(columns=['datetime'])
@@ -225,7 +225,7 @@ class DatasetLoading:
             y_windows: (NUM_PAGES_TO_USE * SPLIT_RATIO, n_targets)"""
         variables_X    = ["2m_temperature", "10m_u_component_of_wind", "10m_v_component_of_wind"]
         variables_y    = ["mean_sea_level_pressure", "total_precipitation_6hr"]
-        dataset_folder = "../public_datasets/3D/weather_bench"
+        dataset_folder = f"{P.public_data_loc}/3D/weather_bench"
         weather        = WeatherDataset(dataset_folder, variables_X, variables_y)
         X_xarr, y_xarr = weather.load_dataset()
 
@@ -245,7 +245,8 @@ class DatasetLoading:
         - X: (stations, timesteps, features) unwindowed
         - y: (stations, timesteps, 1) unwindowed
         Folding, train/test split, and scaling are handled by load_or_preprocess_dataset."""
-        data_path    = "../public_datasets/3D/beijing"
+        data_path    = f"{P.public_data_loc}/3D/beijing"
+        
         target_col   = 'PM2.5'
         cols_to_drop = ['No','year','month','day','hour','station']
 
@@ -317,7 +318,7 @@ def load_or_preprocess_dataset(desired_dataset: str, page_num: int, do_we_scale_
                                random_seed=None, use_cache=False, num_rows_per_window=None) -> tuple[np.ndarray, ...]:
     """Load cached preprocessed dataset if available, otherwise preprocess and cache it."""
     new_dir_name   = f"{desired_dataset}_{page_num}pages"
-    save_dir       = f"{interim_data_loc}/{new_dir_name}"
+    save_dir       = f"{P.interim_data_loc}/{new_dir_name}"
     X_full, y_full = dataset_loaders_dict[desired_dataset]()
     print(f"X_train: {X_full.shape} ({X_full.nbytes/1024**2:.1f} MB)")
     print(f"y_full:  {y_full.shape} ({y_full.nbytes/1024**2:.1f} MB)")

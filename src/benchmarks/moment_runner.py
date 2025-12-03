@@ -5,8 +5,8 @@ from sklearn.metrics import r2_score
 
 from momentfm import MOMENTPipeline
 
-from methods.mlp_heads import make_MLP_regression_head
-from utils.metrics_utils import Preds
+from src.methods.mlp_heads import make_MLP_regression_head
+from src.utils.metrics_utils import Preds
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class MomentRunner:

@@ -1,9 +1,10 @@
 """"TS2Vec running functions"""
 import torch
 from torch.utils.data import DataLoader, TensorDataset 
-from encoders.ts2vec_encoder import TS2VecEncoder
-from utils.model_utils import profile_epoch
-from utils.metrics_utils import Preds
+
+from src.encoders.ts2vec_encoder import TS2VecEncoder
+from src.utils.model_utils import profile_epoch
+from src.utils.metrics_utils import Preds
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def run_ts2vec(X_train, X_test, y_train_scaled, y_test_scaled, *,

@@ -10,15 +10,16 @@ import tracemalloc
 from collections import defaultdict
 from typing import Tuple, List
 
+from catboost import CatBoostRegressor
+from fvcore.nn import FlopCountAnalysis
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.decomposition import PCA
-import matplotlib.pyplot as plt
 from sklearn.feature_selection import RFE
-from catboost import CatBoostRegressor
-from methods.predictions import SingleOutputModelPredictor
 
-from fvcore.nn import FlopCountAnalysis
+from src.methods.predictions import SingleOutputModelPredictor
+
 
 def profile_epoch(model, loader, optimizer, criterion, device, warmup=False, measure_epochs=1):
     """Run one full pass (epoch) over `loader` for profiling purposes.

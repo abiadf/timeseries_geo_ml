@@ -1,8 +1,8 @@
 """TimeVAE Script"""
 from typing import Dict, Any, Tuple
 from pathlib import Path
-from benchmarks.timevae_runner import run_timevae, log_timevae_results
-from param_config.config_paths import timevae_hyperparam_file
+from src.benchmarks.timevae_runner import run_timevae, log_timevae_results
+import src.param_config.config_paths as P
 
 def run_timevae_block(
     X_train, X_test, y_train_scaled, y_test_scaled, timevae_file_path,
@@ -53,7 +53,7 @@ def run_timevae_block(
         recon_loss=recon_loss_test,
         model_cfg=model_cfg,
         train_cfg=train_cfg,
-        filename=timevae_hyperparam_file)
+        filename=P.timevae_hyperparam_file)
 
     return losses, recon_loss_test, r2, profiling_metrics, model_cfg, train_cfg
 

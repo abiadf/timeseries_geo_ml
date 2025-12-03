@@ -7,8 +7,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 from sklearn.metrics import root_mean_squared_error
 
-from encoders.latents import Latents
-
+from src.encoders.latents import Latents
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def _get_orthogonality_penalty(encoders, X_batch, device):

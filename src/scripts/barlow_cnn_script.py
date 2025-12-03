@@ -1,7 +1,7 @@
 "Barlow (CNN) runner"
 from typing import Dict, Any, Tuple
-from benchmarks.barlow_cnn_runner import BarlowCNNRunner
-from param_config.config_paths import barlow_hyperparam_file
+from src.benchmarks.barlow_cnn_runner import BarlowCNNRunner
+import src.param_config.config_paths as P
 
 def run_barlow_cnn_block(X_train, X_test, y_train_scaled, y_test_scaled, params: Dict[str, Any],
                     desired_dataset: str, device: str) -> Tuple[Any, Any, Any, Any, Any, Dict[str, Any], Dict[str, Any]]:
@@ -41,6 +41,6 @@ def run_barlow_cnn_block(X_train, X_test, y_train_scaled, y_test_scaled, params:
     losses, r2, metrics, recon_train, recon_test = BarlowCNNRunner.run_barlow_cnn(X_train, X_test, y_train_scaled,
                                             y_test_scaled, model_cfg=model_cfg, train_cfg=train_cfg, device=device)
     BarlowCNNRunner.log_barlow_cnn_results(dataset_name=desired_dataset, losses=losses, r2=r2, model_cfg=model_cfg,
-                                           train_cfg=train_cfg, metrics=metrics, filename=barlow_hyperparam_file)
+                                           train_cfg=train_cfg, metrics=metrics, filename=P.barlow_hyperparam_file)
 
     return losses, r2, metrics, recon_train, recon_test, model_cfg, train_cfg

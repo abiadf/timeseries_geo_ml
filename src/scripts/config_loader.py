@@ -2,8 +2,9 @@ import os
 import __main__
 import numpy as np
 from types import SimpleNamespace
-from utils.io_utils import read_yaml_params 
-from param_config.config_paths import interim_data_loc, public_data_loc, asm_folder_loc
+
+from src.utils.io_utils import read_yaml_params 
+import src.param_config.config_paths as P
 
 def load_project_configuration(params_path, data_params_path, messager_path):
     """Load global config, apply env overrides, construct namespace."""
@@ -35,9 +36,9 @@ def load_project_configuration(params_path, data_params_path, messager_path):
         data_params    = data_params,
 
         # Paths
-        interim_data_loc = interim_data_loc,
-        public_data_loc  = public_data_loc,
-        asm_folder_loc   = asm_folder_loc,
+        interim_data_loc = P.interim_data_loc,
+        public_data_loc  = P.public_data_loc,
+        asm_folder_loc   = P.asm_folder_loc,
         webhook_url      = messager_params.get("webhook_url"),
 
         # Data config

@@ -5,9 +5,10 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset 
-from utils.model_utils import profile_epoch
-from utils.metrics_utils import Preds
 from pathlib import Path
+
+from src.utils.model_utils import profile_epoch
+from src.utils.metrics_utils import Preds
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 @torch.no_grad()

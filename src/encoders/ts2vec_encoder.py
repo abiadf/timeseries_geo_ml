@@ -2,8 +2,9 @@
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset 
-from ts2vec_model.ts2vec import TS2Vec # the real ts2vec library
-from utils.model_utils import profile_epoch
+
+from src.ts2vec_model.ts2vec import TS2Vec # the real ts2vec library
+from src.utils.model_utils import profile_epoch
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class TS2VecEncoder:

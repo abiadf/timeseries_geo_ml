@@ -3,9 +3,9 @@ import os
 from typing import Dict, List, Literal, Tuple, Optional
 import numpy as np
 
-from utils.data_utils import select_top_X_features
-from preprocessing.data_loader_module import DatasetLoading, load_or_preprocess_dataset
-from param_config.config_paths import interim_data_loc, public_data_loc, asm_folder_loc
+from src.utils.data_utils import select_top_X_features
+from src.preprocessing.data_loader_module import DatasetLoading, load_or_preprocess_dataset
+import src.param_config.config_paths as P
 
 # STEP 1: Load and preprocess the data
 def load_the_data(desired_dataset: str, NUM_PAGES_TO_USE: int, do_we_scale_y: bool, dataset_window: int,
@@ -27,7 +27,7 @@ def load_the_data(desired_dataset: str, NUM_PAGES_TO_USE: int, do_we_scale_y: bo
                 204, 98, 101, 157, 128, 207, 202, 159, 409, 158, 156, 415, 99,
                 203, 103, 97, 201, 96, 200, 1]
 
-        X_train, X_test, y_train_scaled, y_test_scaled = prepare_asm_train_test(asm_folder_loc, top_idx, keep_frac=0.08, keep='first')
+        X_train, X_test, y_train_scaled, y_test_scaled = prepare_asm_train_test(P.asm_folder_loc, top_idx, keep_frac=0.08, keep='first')
         print(X_train.shape, y_train_scaled.shape)
         window_size = window_size if 'window_size' in locals() else X_train.shape[1]
         label_frac  = label_frac if 'label_frac' in locals() else 1

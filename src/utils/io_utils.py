@@ -50,6 +50,7 @@ class Notifiers:
             os.system('afplay /System/Library/Sounds/Blow.aiff')
             time.sleep(delay)
 
+
 class JSONLogger:
     @staticmethod
     def load_json_file_safely(file_path: str) -> dict:
@@ -65,9 +66,16 @@ class JSONLogger:
     def log_result_to_json(dataset: str, method: str, values: list[float], file_location: str, result_type: str = "metrics"):
         """Append one run's list/tuple of metrics for a dataset + method."""
         data = JSONLogger.load_json_file_safely(file_location)
-        # data.setdefault(dataset, {}).setdefault(method, []).append(list(values))
-        # json.dump(data, open(file_location, "w"), indent=2)
         data.setdefault(dataset, {}).setdefault(result_type, {}).setdefault(method, []).append(list(values))
         with open(file_location, "w") as f:
             json.dump(data, f, indent=2)
 
+    @staticmethod
+    def safe_call(func, *args, **kwargs):
+        """Run func safely; swallow all exceptions."""
+        try:
+            func(*args, **kwargs)
+        except Exception as e:
+            args_repr = tuple(repr(a) for a in args)
+            kwargs_repr = {k: repr(v) for k, v in kwargs.items()}
+            print(f"[log skipped] {e} | args={args_repr} kwargs={kwargs_repr}")

@@ -1322,3 +1322,36 @@ flattened(X) & \val{0.410}{0.000} & \val{0.338}{0.000} & \val{0.422}{0.000}
 -- beijing 22:40 data_splitting='reduced_data' label_frac=1 window_size=64 result_type='l_recons' --
 TimeVAE & \val{14.560}{0.000}
 -- beijing 22:40 data_splitting='reduced_data' label_frac=1 window_size=64 result_type='profiling' --
+-- beijing 14:35 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 14:35 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+TimeVAE & \val{1.811}{0.000}
+-- beijing 15:23 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+Barlow (CNN) & \val{0.901}{0.000} & \val{0.876}{0.000} & \val{0.871}{0.000} & \val{0.894}{0.000}
+-- beijing 15:23 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+TimeVAE & \val{1.811}{0.000}
+-- beijing 15:26 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:37 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:39 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:40 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+Barlow (CNN) & \val{0.894}{0.005} & \val{0.863}{0.010} & \val{0.873}{0.002} & \val{0.890}{0.004}
+-- beijing 15:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:43 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:43 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 16:26 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}

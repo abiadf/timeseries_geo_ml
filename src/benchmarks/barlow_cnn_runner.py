@@ -2,10 +2,11 @@ import __main__
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from methods.mlp_heads import make_MLP_regression_head
-from utils.metrics_utils import Preds
-from utils.data_utils import Augmentations
-from encoders.cnn import CnnAutoencoder
+
+from src.methods.mlp_heads import make_MLP_regression_head
+from src.utils.metrics_utils import Preds
+from src.utils.data_utils import Augmentations
+from src.encoders.cnn import CnnAutoencoder
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
