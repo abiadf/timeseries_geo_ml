@@ -1355,3 +1355,9 @@ Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \
 -- beijing 16:26 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
 TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
 TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}
+-- beijing 19:01 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.876}{0.000}
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.839}{0.000}
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}

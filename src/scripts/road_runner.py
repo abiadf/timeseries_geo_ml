@@ -1,14 +1,11 @@
+"""Run this from src, ie: 'python -m src.scripts.road_runner.py' """
 import __main__
-import os
-from typing import Dict, List, Literal, Tuple, Optional
 import logging
 import yaml
 from datetime import datetime
 import numexpr as ne # makes numpy operations faster
 import category_encoders as ce
-from matplotlib import pyplot as plt
 import numpy as np
-from tqdm import tqdm
 
 import torch
 if torch.cuda.is_available():
@@ -23,6 +20,7 @@ from src.scripts.moment_script import run_moment_block
 from src.scripts.barlow_cnn_script import run_barlow_cnn_block
 from src.scripts.config_loader import load_project_configuration, load_specific_method_params
 from src.scripts.pipeline import load_the_data, split_data_to_labeled_unlabeled
+from src.scripts.direct_preds_script import eval_mean_row, eval_custom_row, eval_random_row, eval_flattened
 
 from src.utils.io_utils import JSONLogger, Notifiers, read_yaml_params, set_all_rand_seeds
 import src.param_config.config_paths as P
@@ -35,9 +33,7 @@ logging.info("Starting process...")
 logging.warning("Something looks off...")
 logging.error("Something failed.")
 
-
 # %%
-
 "[RUN ME] Setup step"
 cfg         = load_project_configuration(P.params_path, P.data_params_yaml_path, P.messager_yaml_path)
 params      = cfg.params
@@ -66,7 +62,6 @@ X_L, y_L, X_U, y_U, y_train_scaled, y_test_scaled, timevae_file_path = split_dat
     rand_seed=cfg.rand_seed)
 
 # %%
-
 "script runs"
 best_params = yaml.safe_load(open(P.best_params_path))
 
@@ -114,14 +109,31 @@ if params["run_console"]["barlow_cnn"]:
         desired_dataset=cfg.desired_dataset,
         device=device)
 
+if params["run_console"]["direct_preds"]["mean_X"]:
+    mean_losses, rf_model_mean = eval_mean_row(X_L, X_test, y_L, y_test_scaled, cfg, device)
+
+if params["run_console"]["direct_preds"]["custom_row"]:
+    custom_row_number = -1
+    custom_losses, rf_model_custom = eval_custom_row(X_L, X_test, y_L, y_test_scaled, cfg, device, custom_row_number)
+
+if params["run_console"]["direct_preds"]["random_row"]:
+    rand_losses, rf_model_rand = eval_random_row(X_L, X_test, y_L, y_test_scaled, cfg, device)
+
+if params["run_console"]["direct_preds"]["flatten_X"]:
+    flat_losses, rf_model_flat = eval_flattened(X_L, X_test, y_L, y_test_scaled, cfg, device)
 
 # %%
 "Saving to file"
 
-if params["run_console"]["mean_X"] == True:
+if params["run_console"]["direct_preds"]["mean_X"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "mean(X)", mean_losses, P.results_file, result_type="rmse")
-if params["run_console"]["flatten_X"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "flattened(X)", flat_mean_losses, P.results_file, result_type="rmse")
+if params["run_console"]["direct_preds"]["flatten_X"] == True:
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "flattened(X)", flat_losses, P.results_file, result_type="rmse")
+if params["run_console"]["direct_preds"]["random_row"] == True:
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "random_row(X)", rand_losses, P.results_file, result_type="rmse")
+if params["run_console"]["direct_preds"]["custom_row"] == True:
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "custom_row(X)", custom_losses, P.results_file, result_type="rmse")
+
 if params["run_console"]["timevae"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TimeVAE", timevae_losses, P.results_file, result_type="rmse")
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TimeVAE", [timevae_recon_loss_test], P.results_file, result_type="l_recons")

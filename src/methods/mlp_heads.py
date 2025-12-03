@@ -3,7 +3,6 @@ import numpy as np
 
 import torch
 import torch.nn as nn
-import torch.optim as optim
 import torch.nn.functional as F
 from sklearn.metrics import root_mean_squared_error
 
@@ -119,24 +118,28 @@ def make_MLP_regression_head(embedding_dim: int, hidden_dims_list: list,
     return nn.Sequential(*layers).to(device)
 
 def evaluate_MLP_regressor(model: nn.Module, z_train: torch.Tensor, z_test: torch.Tensor, y_train: torch.Tensor,
-                       y_test: torch.Tensor, epochs: int, lr: float, device: str = "cpu"):
+                       y_test: torch.Tensor, epochs: int, lr: float, device: str):
     """Train a regression MLP on z and return RMSE on test split."""
     model.to(device)
-    opt     = torch.optim.AdamW(model.parameters(), lr=lr)
-    loss_fn = nn.MSELoss()
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
+    loss_fn   = nn.MSELoss()
 
-    z_train = z_train.to(device).float()
-    z_test  = z_test.to(device).float()
-    y_train = y_train.to(device).float()
-    y_test  = y_test.to(device).float()
+    # z_train = z_train.to(device).float()
+    # z_test  = z_test.to(device).float()
+    # y_train = y_train.to(device).float()
+    # y_test  = y_test.to(device).float()
+    z_train = torch.tensor(z_train, device=device, dtype=torch.float32)
+    z_test  = torch.tensor(z_test, device=device, dtype=torch.float32)
+    y_train = torch.tensor(y_train, device=device, dtype=torch.float32)
+    y_test  = torch.tensor(y_test, device=device, dtype=torch.float32)
 
     for epoch in range(epochs):
         model.train()
-        opt.zero_grad()
+        optimizer.zero_grad()
         pred = model(z_train)
         loss = loss_fn(pred, y_train)
         loss.backward()
-        opt.step()
+        optimizer.step()
         if epoch % 2 == 0:
             print(f"{epoch} | loss={loss.item():.4f}")
 

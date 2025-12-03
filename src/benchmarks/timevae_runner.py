@@ -4,11 +4,11 @@ import os
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torch.utils.data import DataLoader, TensorDataset 
 from pathlib import Path
 
 from src.utils.model_utils import profile_epoch
 from src.utils.metrics_utils import Preds
+import src.param_config.config_paths as P
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 @torch.no_grad()
@@ -33,8 +33,8 @@ def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
         recon_loss_train, recon_loss_test,
         z_train, z_test"""
     # make sure timevae_torch/src is importable
-    notebook_dir = Path().resolve()
-    src_path = notebook_dir / "timevae_torch" / "src"
+    src_path = P.SRC_ROOT / "timevae_torch" / "src"
+
     if str(src_path) not in sys.path:
         sys.path.append(str(src_path))
     from vae_pipeline import run_vae_pipeline

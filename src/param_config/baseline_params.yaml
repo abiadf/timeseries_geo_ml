@@ -5,14 +5,14 @@ basics:
   num_runs:        5  # times to run the whole code
   desired_dataset: "beijing" # ecg, india_catchment, germany_catchment, china_weather, nasa, weather, asm, gas, beijing, panama
   dataset_list:
-    - india_catchment
-    - germany_catchment
-    - china_weather
-    - weather
-    - gas
-    - nasa
+    # - india_catchment
+    # - germany_catchment
+    # - china_weather
+    # - weather
+    # - gas
+    # - nasa
     - beijing
-    - panama
+    # - panama
     # - asm
   label_frac_list:  [1, 0.5, 0.25]
   random_seed:      42  # for reproducibility
@@ -20,19 +20,22 @@ basics:
   do_we_scale_y:    true  # whether to scale y values
 
 run_console:
-  mean_X:        false #true
   barlow_cnn:    true
   barlow_ae:     false
   barlow_ae_ssl: false
   cellsup:       false
   cnn_lstm:      false
-  flatten_X:     false #true
   kan:           false
   moment :       true
   moment_fed:    false
   timevae:       true
   ts2vec :       true
-  ts2vec_fed:    true
+  ts2vec_fed:    false
+  direct_preds:
+    mean_X:        true
+    flatten_X:     true
+    custom_row:    false
+    random_row:    false
 
 general_params:
   top_features_big_dataset_pct: 10

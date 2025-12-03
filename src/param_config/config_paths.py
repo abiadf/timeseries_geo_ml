@@ -28,4 +28,3 @@ ts2vec_hyperparam_file  = results_folder / "hyperparam_search_ts2vec.txt"
 results_file            = results_folder / "results_numbers.json"
 latex_results_file      = results_folder / "latex_results.txt"
 
-

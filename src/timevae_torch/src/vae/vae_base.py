@@ -7,7 +7,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 import joblib
 
-from utils.model_utils import profile_epoch
+from src.utils.model_utils import profile_epoch
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
