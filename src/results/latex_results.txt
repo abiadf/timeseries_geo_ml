@@ -1361,3 +1361,118 @@ flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \v
 TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
 TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}
 Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 20:16 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006}
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008}
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+-- beijing 20:16 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+TimeVAE & \val{1.811}{0.000}
+-- beijing 20:16 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+
+\begin{tabular}{lrl}
+\toprule
+method & metric_idx & value \\
+\midrule
+mean(X) & 0 & \val{0.866}{0.000} \\
+mean(X) & 1 & \val{0.882}{0.000} \\
+mean(X) & 2 & \val{0.865}{0.000} \\
+mean(X) & 3 & \val{0.888}{0.006} \\
+flattened(X) & 0 & \val{0.717}{0.000} \\
+flattened(X) & 1 & \val{0.330}{0.000} \\
+flattened(X) & 2 & \val{0.492}{0.000} \\
+flattened(X) & 3 & \val{0.823}{0.008} \\
+TimeVAE & 0 & \val{1.009}{0.000} \\
+TimeVAE & 1 & \val{0.901}{0.000} \\
+TimeVAE & 2 & \val{0.890}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:16 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{lrl}
+\toprule
+method & metric_idx & value \\
+\midrule
+TimeVAE & 0 & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:29 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006} \\
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008} \\
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000} & NaN \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:29 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{ll}
+\toprule
+method & metric_0 \\
+\midrule
+TimeVAE & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:30 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006} \\
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008} \\
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000} & NaN \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:30 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{ll}
+\toprule
+method & metric_0 \\
+\midrule
+TimeVAE & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 21:09 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006} \\
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008} \\
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000} & NaN \\
+\bottomrule
+\end{tabular}
+
+-- beijing 21:09 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{ll}
+\toprule
+method & metric_0 \\
+\midrule
+TimeVAE & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 21:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006} \\
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008} \\
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000} & NaN \\
+\bottomrule
+\end{tabular}
+
+-- beijing 21:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{ll}
+\toprule
+method & metric_0 \\
+\midrule
+TimeVAE & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+

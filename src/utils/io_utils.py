@@ -4,8 +4,9 @@ import os
 import requests
 import time
 import yaml
-import numpy as np
 import torch
+import numpy as np
+import pandas as pd
 
 def read_yaml_params(file_path: str) -> dict:
     """Read parameters from a YAML file."""
@@ -79,3 +80,24 @@ class JSONLogger:
             args_repr = tuple(repr(a) for a in args)
             kwargs_repr = {k: repr(v) for k, v in kwargs.items()}
             print(f"[log skipped] {e} | args={args_repr} kwargs={kwargs_repr}")
+
+    @staticmethod
+    def summarize_runs_to_latex(methods: dict, num_runs: int) -> pd.DataFrame:
+        """Return a DataFrame with LaTeX-ready mean±std for the last full block of N runs per method."""
+        rows = []
+        for method, runs in methods.items():
+            total = len(runs)
+            # Must have at least N runs, and must be divisible by N
+            if total < num_runs or total % num_runs != 0:
+                continue
+            # Use the LAST COMPLETE BLOCK
+            block = runs[-num_runs:] # safe because divisible by N
+            arr   = np.array(block)  # shape (N, num_metrics)
+            means = arr.mean(axis=0)
+            stds  = arr.std(axis=0)
+            row   = {"method": method}
+            for i, (m, s) in enumerate(zip(means, stds)):
+                row[f"metric_{i}"] = f"\\val{{{m:.3f}}}{{{s:.3f}}}"
+            rows.append(row)
+        # return pd.DataFrame(rows)
+        return pd.DataFrame(rows).fillna("--")

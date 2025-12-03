@@ -10,8 +10,6 @@ import torch
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats()
-    print(torch.cuda.memory_reserved(0) / 1e6, "MB reserved")
-    print(torch.cuda.memory_allocated(0) / 1e6, "MB allocated")
 
 from src.preprocessing.dataset_preprocessors import DatasetPreprocessor, ECGLoader, NasaLoader, GermanyDataset, WeatherDataset, process_argoverse_parquet
 from src.preprocessing.window_folder import WindowFolder
@@ -47,7 +45,7 @@ class DatasetLoading:
     @staticmethod
     def load_china_data() -> tuple[np.ndarray, np.ndarray]:
         """Load China weather, split first NUM_PAGES_TO_USE stations into SPLIT_RATIO windows."""
-        dataset_location = f"{P.public_data_loc}/3D/china_weather/weather2k.npy"
+        dataset_location = f"{P.public_data_loc}/3D/china/weather2k.npy"
         china_data       = np.load(dataset_location, mmap_mode='r').transpose(0, 2, 1)
         print(f"Original China data shape: {china_data.shape}")
 
@@ -364,9 +362,9 @@ dataset_loaders_dict = {
     "ecg":               DatasetLoading.load_ecg_data,
     "argoverse":         DatasetLoading.load_argoverse_data,
     "weather":           DatasetLoading.load_weather_data,
-    "india_catchment":   DatasetLoading.load_india_data,
-    "germany_catchment": DatasetLoading.load_germany_data,
-    "china_weather":     DatasetLoading.load_china_data,
+    "india":   DatasetLoading.load_india_data,
+    "germany": DatasetLoading.load_germany_data,
+    "china":     DatasetLoading.load_china_data,
     "gas":               DatasetLoading.load_gas_data,
     "panama":            DatasetLoading.load_panama_data,
     "beijing":           DatasetLoading.load_beijing_data,

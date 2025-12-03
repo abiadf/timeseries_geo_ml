@@ -42,8 +42,7 @@ ecg:
       predictor_dropout : 0.05
       predictor_hidden_sizes : [2048, 256, 128] # latent to y output
 
-
-india_catchment:
+india:
   downsampling: (0.3, 0.08)
   timevae:
     params : "none"
@@ -61,7 +60,7 @@ india_catchment:
     predictor_dropout  : 0.05
     predictor_hidden_sizes : [16, 28, 36]
 
-germany_catchment:
+germany:
   timevae:
     params: "none"
 
@@ -98,7 +97,7 @@ germany_catchment:
     predictor_hidden_sizes : [256, 128] # latent to y output
 
 
-china_weather:
+china:
   timevae:
     epochs: 300
     nn:

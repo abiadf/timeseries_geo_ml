@@ -3530,3 +3530,13 @@ linreg=1.0088 catboost=0.9009 rf=0.8895R²=-0.023 L_recons=1.811
 time & params & flops & memory
 0.295 & 1.484 & 1.570 & 148.870
 
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0088 catboost=0.9009 rf=0.8895R²=-0.023 L_recons=1.811
+time & params & flops & memory
+0.305 & 1.484 & 1.570 & 148.870
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=256
+linreg=1.0880 catboost=0.9832 rf=0.9778R²=-0.037 L_recons=2.011
+time & params & flops & memory
+0.298 & 1.484 & 1.570 & 148.870
+

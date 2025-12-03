@@ -5,14 +5,11 @@ import yaml
 from datetime import datetime
 import numexpr as ne # makes numpy operations faster
 import category_encoders as ce
-import numpy as np
 
 import torch
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats()
-    print(torch.cuda.memory_reserved(0) / 1e6, "MB reserved")
-    print(torch.cuda.memory_allocated(0) / 1e6, "MB allocated")
 
 from src.scripts.timevae_script import run_timevae_block
 from src.scripts.ts2vec_script import run_ts2vec_block
@@ -150,30 +147,29 @@ if params["run_console"]["cellsup"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Cellsup", cellsup_losses, P.results_file, result_type="rmse")
 if params["run_console"]["barlow_cnn"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Barlow (CNN)", barlow_cnn_losses, P.results_file, result_type="rmse")
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Barlow (CNN)", [barlow_recon_test], P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Barlow (CNN)", [barlow_recon_test], P.results_file, result_type="l_recons")
 if params["run_console"]["cnn_lstm"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "LSTM (X)", lstm_losses, P.results_file, result_type="rmse")
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "CNN (X)", cnn_mean_losses, P.results_file, result_type="rmse")
 
-# ---- Read JSON ----
+# ---- Read JSON, then write to latex file ----
 data = JSONLogger.load_json_file_safely(P.results_file)
 methods_by_type = data.get(cfg.desired_dataset, {})
 
 for result_type, methods in methods_by_type.items():
-    ready_methods = {}
-    for method, runs in methods.items():
-        if len(runs) >= cfg.num_runs and len(runs) % cfg.num_runs == 0:
-            ready_methods[method] = runs
-            print(f"Added {cfg.desired_dataset} / {method} / {result_type} to latex results")
-    if ready_methods:
-        timestamp = datetime.now().strftime("%H:%M")
-        with open(P.latex_results_file, "a") as f:
-            f.write(f"-- {cfg.desired_dataset} {timestamp} {cfg.data_splitting=} {cfg.label_frac=} {cfg.dataset_window=} {result_type=} --\n")
-            for method, runs in ready_methods.items():
-                arr = np.array(runs[-cfg.num_runs:])
-                means, stds = arr.mean(axis=0), arr.std(axis=0)
-                line = f"{method} & " + " & ".join(f"\\val{{{m:.3f}}}{{{std:.3f}}}" for m, std in zip(means, stds)) + "\n"
-                f.write(line)
+    df = JSONLogger.summarize_runs_to_latex(methods, cfg.num_runs)
+    if df.empty:
+        continue
+    print(f"Added {cfg.desired_dataset} / {result_type} to LaTeX")
+    timestamp = datetime.now().strftime("%H:%M")
+    header = (
+        f"-- {cfg.desired_dataset} {timestamp} "
+        f"{cfg.data_splitting=} {cfg.label_frac=} "
+        f"{cfg.dataset_window=} {result_type=} --\n")
+    latex = df.to_latex(index=False, escape=False)
+    with open(P.latex_results_file, "a") as f:
+        f.write(header)
+        f.write(latex)
+        f.write("\n")
 
 Notifiers.send_discord_message(cfg.webhook_url, "Run finished")
-# Notifiers.make_beep_sound(times=3, delay=0.2)

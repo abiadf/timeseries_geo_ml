@@ -38,7 +38,7 @@ panama:
   num_rows_per_page: 500  # number of rows per page to use from dataset
   window_len       : 32
 
-china_weather:
+china:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
   window_len       : 2048 #4096
@@ -55,7 +55,7 @@ gas:
   num_rows_per_page: 500  # number of rows per page to use from dataset
   window_len       : 2048 #4096
 
-germany_catchment:
+germany:
   num_window_splits: 10 # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
   window_len       : 512
@@ -67,7 +67,7 @@ germany_catchment:
   predictor_dropout : 0.05
   predictor_hidden_sizes : [32, 48, 64] # latent to y output
 
-india_catchment:
+india:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset
   window_len       : 512

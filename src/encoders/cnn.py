@@ -7,11 +7,8 @@ import torch.nn.functional as F
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats()
-    print(torch.cuda.memory_reserved(0) / 1e6, "MB reserved")
-    print(torch.cuda.memory_allocated(0) / 1e6, "MB allocated")
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
 
 import logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
