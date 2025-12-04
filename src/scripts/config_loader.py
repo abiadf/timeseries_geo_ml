@@ -75,20 +75,20 @@ def load_project_configuration(params_path, data_params_path, messager_path):
     print(f"Config Loaded: Dataset={cfg.desired_dataset}, Window={cfg.dataset_window}, Seed={cfg.rand_seed}")
     return cfg
 
-def load_specific_method_params(dataset: str, method: str, best_params: dict, dataset_params: dict) -> dict:
+def load_specific_method_params(dataset_name: str, method: str, best_params_dict: dict, dataset_params: dict) -> dict:
     """Merge generic method defaults + dataset-specific override."""
-    merged = {}
+    merged_params = {}
 
     # 1. generic defaults for the method
     if method in dataset_params:
-        merged.update(dataset_params[method])
+        merged_params.update(dataset_params[method])
 
     # 2. dataset–specific overrides
     try:
-        if dataset in best_params and method in best_params[dataset]:
-                print(f"Found best params for ({dataset}+{method}), overriding...")
-                merged.update(best_params[dataset][method])
+        if dataset_name in best_params_dict and method in best_params_dict[dataset_name]:
+            print(f"Found best params for ({dataset_name}+{method}), overriding...")
+            merged_params.update(best_params_dict[dataset_name][method])
     except Exception:
-        print(f"No best params found for ({dataset}+{method}), using defaults.")
-    return merged
+        print(f"No best params found for ({dataset_name}+{method}), using defaults.")
+    return merged_params
 

@@ -123,37 +123,37 @@ if params["run_console"]["direct_preds"]["flatten_X"]:
 "Saving to file"
 
 if params["run_console"]["direct_preds"]["mean_X"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "mean(X)", mean_losses, P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "mean(X)", mean_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["direct_preds"]["flatten_X"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "flattened(X)", flat_losses, P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "flattened(X)", flat_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["direct_preds"]["random_row"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "random_row(X)", rand_losses, P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "random_row(X)", rand_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["direct_preds"]["custom_row"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "custom_row(X)", custom_losses, P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "custom_row(X)", custom_losses, P.json_results_file, result_type="rmse")
 
 if params["run_console"]["timevae"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TimeVAE", timevae_losses, P.results_file, result_type="rmse")
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TimeVAE", [timevae_recon_loss_test], P.results_file, result_type="l_recons")
-    # JSONLogger.log_result_to_json(cfg.desired_dataset, "TimeVAE", [timevae_profiling_metrics], P.results_file, result_type="profiling")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TimeVAE", timevae_losses, P.json_results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TimeVAE", [timevae_recon_loss_test], P.json_results_file, result_type="l_recons")
+    # JSONLogger.log_result_to_json(cfg.desired_dataset, "TimeVAE", [timevae_profiling_metrics], P.json_results_file, result_type="profiling")
 if params["run_console"]["ts2vec"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TS2Vec", ts2vec_losses, P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TS2Vec", ts2vec_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["ts2vec_fed"] == True:
-    JSONLogger.log_result_to_json(cfg.desired_dataset, "TS2Vec (fed)", ts2vec_fed_losses, P.results_file, result_type="rmse")
+    JSONLogger.log_result_to_json(cfg.desired_dataset, "TS2Vec (fed)", ts2vec_fed_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["moment"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Moment (cent)", moment_losses, P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Moment (cent)", moment_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["moment_fed"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, f"Moment (fed, dim={dim_splitting})", moment_fed_losses, P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, f"Moment (fed, dim={dim_splitting})", moment_fed_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["cellsup"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Cellsup", cellsup_losses, P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Cellsup", cellsup_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["barlow_cnn"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Barlow (CNN)", barlow_cnn_losses, P.results_file, result_type="rmse")
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Barlow (CNN)", [barlow_recon_test], P.results_file, result_type="l_recons")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Barlow (CNN)", barlow_cnn_losses, P.json_results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Barlow (CNN)", [barlow_recon_test], P.json_results_file, result_type="l_recons")
 if params["run_console"]["cnn_lstm"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "LSTM (X)", lstm_losses, P.results_file, result_type="rmse")
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "CNN (X)", cnn_mean_losses, P.results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "LSTM (X)", lstm_losses, P.json_results_file, result_type="rmse")
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "CNN (X)", cnn_mean_losses, P.json_results_file, result_type="rmse")
 
 # ---- Read JSON, then write to latex file ----
-data = JSONLogger.load_json_file_safely(P.results_file)
+data = JSONLogger.load_json_file_safely(P.json_results_file)
 methods_by_type = data.get(cfg.desired_dataset, {})
 
 for result_type, methods in methods_by_type.items():

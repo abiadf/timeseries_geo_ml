@@ -25,7 +25,7 @@ barlow_hyperparam_file  = results_folder / "hyperparam_search_barlow.txt"
 moment_hyperparam_file  = results_folder / "hyperparam_search_moment.txt"
 timevae_hyperparam_file = results_folder / "hyperparam_search_timevae.txt"
 ts2vec_hyperparam_file  = results_folder / "hyperparam_search_ts2vec.txt"
-results_file            = results_folder / "results_numbers.json"
+json_results_file       = results_folder / "results_numbers.json"
 latex_results_file      = results_folder / "latex_results.txt"
 
 #hyperparam search results files

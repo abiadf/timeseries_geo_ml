@@ -54,7 +54,7 @@ class Notifiers:
 
 class JSONLogger:
     @staticmethod
-    def load_json_file_safely(file_path: str) -> dict:
+    def load_json_file_safely(file_path) -> dict:
         """Load JSON file or return empty dict if missing/empty/invalid."""
         if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
             return {}
