@@ -84,8 +84,11 @@ def load_specific_method_params(dataset: str, method: str, best_params: dict, da
         merged.update(dataset_params[method])
 
     # 2. dataset–specific overrides
-    if dataset in best_params and method in best_params[dataset]:
-        print(f"Found best params for ({dataset}+{method}), overriding...")
-        merged.update(best_params[dataset][method])
+    try:
+        if dataset in best_params and method in best_params[dataset]:
+                print(f"Found best params for ({dataset}+{method}), overriding...")
+                merged.update(best_params[dataset][method])
+    except Exception:
+        print(f"No best params found for ({dataset}+{method}), using defaults.")
     return merged
 

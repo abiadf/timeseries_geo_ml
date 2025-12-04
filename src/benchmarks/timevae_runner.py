@@ -39,9 +39,9 @@ def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
     from vae_pipeline import run_vae_pipeline
     from vae.timevae import TimeVAE
 
-    model_dir = str(Path(timevae_file_path).parent)
+    model_dir       = str(Path(timevae_file_path).parent)
     checkpoint_path = os.path.join(model_dir, "TimeVAE_weights.pth")
-    model_exists = os.path.exists(checkpoint_path)
+    model_exists    = os.path.exists(checkpoint_path)
 
     # Train or load
     if force_train or not model_exists:
@@ -92,6 +92,19 @@ def run_timevae(X_train, X_test, y_train_scaled, y_test_scaled, *,
     # Clip extreme values and reshape
     z_train = np.clip(z_train, -1e3, 1e3).reshape(z_train.shape[0], -1)
     z_test  = np.clip(z_test, -1e3, 1e3).reshape(z_test.shape[0], -1)
+
+    def _align_latent_and_target_length(z_train, z_test, y_train_scaled, y_test_scaled):
+        """Ensure z and y have matching lengths by truncating the longer one."""
+        min_test_len   = min(z_test.shape[0], y_test_scaled.shape[0])
+        z_test         = z_test[:min_test_len]
+        y_test_scaled  = y_test_scaled[:min_test_len]
+
+        min_train_len  = min(z_train.shape[0], y_train_scaled.shape[0])
+        z_train        = z_train[:min_train_len]
+        y_train_scaled = y_train_scaled[:min_train_len]
+        return z_train, z_test, y_train_scaled, y_test_scaled
+
+    z_train, z_test, y_train_scaled, y_test_scaled = _align_latent_and_target_length(z_train, z_test, y_train_scaled, y_test_scaled)
 
     # Evaluate downstream predictors
     losses, rf_model = Preds().evaluate_models_on_dataset(z_train, y_train_scaled, z_test, y_test_scaled)

@@ -125,6 +125,33 @@ class WindowFolder:
                     y_per_window = np.tile(y_padded[i], (n_windows, 1))
                 all_y.append(y_per_window)
 
+            # seq = X_padded[i]
+            # orig_len = X[i].shape[0]                   # <–– key fix
+            # seq = seq[:orig_len]                       # remove extra padding
+
+            # n_windows = int(np.ceil(orig_len / window_size))
+
+            # pad_len = n_windows * window_size - orig_len
+            # if pad_len > 0:
+            #     seq = np.pad(seq, ((0, pad_len), (0, 0)))
+
+            # folded_X = seq.reshape(n_windows, window_size, X.shape[2])
+            # all_X.append(folded_X)
+
+            # if y is not None:
+            #     y_seq = y_padded[i]
+            #     y_seq = y_seq[:orig_len]              # match X crop
+
+            #     if y.ndim == 3:
+            #         if pad_len > 0:
+            #             y_seq = np.pad(y_seq, ((0, pad_len), (0, 0)))
+            #         y_per_window = y_seq[window_size - 1::window_size]
+            #     else:
+            #         y_per_window = np.tile(y_seq, (n_windows, 1))
+
+            #     all_y.append(y_per_window)
+            # ==========
+
         X_out = np.vstack(all_X)
         y_out = np.vstack(all_y) if y is not None else None
         return X_out, y_out

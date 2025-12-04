@@ -45,7 +45,7 @@ class DatasetLoading:
     @staticmethod
     def load_china_data() -> tuple[np.ndarray, np.ndarray]:
         """Load China weather, split first NUM_PAGES_TO_USE stations into SPLIT_RATIO windows."""
-        dataset_location = f"{P.public_data_loc}/3D/china/weather2k.npy"
+        dataset_location = f"{P.public_data_loc}/3D/china_weather/weather2k.npy"
         china_data       = np.load(dataset_location, mmap_mode='r').transpose(0, 2, 1)
         print(f"Original China data shape: {china_data.shape}")
 

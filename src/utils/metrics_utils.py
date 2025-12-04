@@ -475,16 +475,15 @@ class Preds:
         return root_mean_squared_error(y_test, y_pred)
 
     def predict_catboost_multioutput(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray) -> Tuple[Optional[MultiOutputRegressor], np.ndarray, float, List[int]]:
-        """Train multi-output CatBoost models and predict test set.
+        """Train a multi-output CatBoost regressor on X_train → y_train and predict X_test → y_pred
+        - Each row of X corresponds to one sample (e.g., a page), each column of y to a target
+        - Columns of y that are constant are skipped during training and filled in predictions
+        - RMSE is computed by averaging squared errors over all samples and all targets
         Returns:
             model: trained MultiOutputRegressor (or None if all targets constant)
-            y_pred: predictions on test set
-            rmse: RMSE across all targets"""
-        # flatten if X is 3D
-        # if X_train.ndim == 3:
-        #     X_train = X_train.reshape(X_train.shape[0], -1)
-        #     X_test  = X_test.reshape(X_test.shape[0], -1)
-
+            y_pred: predicted values for X_test, with constant targets filled
+            rmse: scalar RMSE across all targets and samples
+            non_constant_idx: indices of targets used for training"""
         y_pred           = np.zeros_like(y_test, dtype=float)
         non_constant_idx = [i for i in range(y_train.shape[1])
                             if not np.all(y_train[:, i] == y_train[0, i])]
