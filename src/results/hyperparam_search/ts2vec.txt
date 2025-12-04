@@ -1,75 +1,75 @@
 window_size=128
 ===============
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=30, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.001
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=30, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.001
 & Z (ts2vec) & 0.6939 & 0.3605  & 0.4917 & 0.8069 
 R² (TS2Vec): 0.725 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=12, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_epochs=100, ts2vec_lr=0.001
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=12, ts2vec_depth=3, batch_size=16, ts2vec_epochs=100, ts2vec_lr=0.001
 & Z (ts2vec) & 1.0312 & 0.3965  & 0.4934 & 0.8307 
 R² (TS2Vec): 0.723 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.001
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.001
 & Z (ts2vec) & 1.2259 & 0.3483  & 0.4674 & 0.8281 
 R² (TS2Vec): 0.751 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=32, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.001
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=32, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.001
 & Z (ts2vec) & 1.2292 & 0.4039  & 0.5027 & 0.8185 
 R² (TS2Vec): 0.712 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=24, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.001
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=24, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.001
 & Z (ts2vec) & 1.2497 & 0.3827  & 0.4945 & 0.8347 
 R² (TS2Vec): 0.722 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=20, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.001
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=20, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.001
 & Z (ts2vec) & 1.5427 & 0.4173  & 0.5021 & 0.8160 
 R² (TS2Vec): 0.713 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.005
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.005
 & Z (ts2vec) & 1.4430 & 0.3667  & 0.4568 & 0.8141 
 R² (TS2Vec): 0.762 
 
 best
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.05
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.05
 & Z (ts2vec) & 1.5107 & 0.3345  & 0.5207 & 0.9297 
 R² (TS2Vec): 0.691 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.08
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.08
 & Z (ts2vec) & 2.4718 & 0.3707  & 0.5123 & 0.8855 
 R² (TS2Vec): 0.701 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.01
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.01
 & Z (ts2vec) & 1.1476 & 0.3385  & 0.4274 & 0.8775 
 R² (TS2Vec): 0.792 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.02
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.02
 & Z (ts2vec) & 1.7151 & 0.3941  & 0.5367 & 0.9093 
 R² (TS2Vec): 0.672 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.03
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.03
 & Z (ts2vec) & 1.7987 & 0.3619  & 0.4983 & 0.8993 
 R² (TS2Vec): 0.717 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, ts2vec_batch_size=16, ts2vec_lr=0.04
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=3, batch_size=16, ts2vec_lr=0.04
 & Z (ts2vec) & 1.5598 & 0.3976  & 0.5612 & 0.9085 
 R² (TS2Vec): 0.642 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=4, ts2vec_batch_size=16, ts2vec_lr=0.05
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=4, batch_size=16, ts2vec_lr=0.05
 & Z (ts2vec) & 2.4094 & 0.3371  & 0.4796 & 0.8471 
 R² (TS2Vec): 0.738 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=2, ts2vec_batch_size=16, ts2vec_lr=0.05
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=2, batch_size=16, ts2vec_lr=0.05
 & Z (ts2vec) & 6.9922 & 0.3834  & 0.5125 & 0.8767 
 R² (TS2Vec): 0.701 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=5, ts2vec_batch_size=16, ts2vec_lr=0.05
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=16, ts2vec_depth=5, batch_size=16, ts2vec_lr=0.05
 & Z (ts2vec) & 4.0760 & 0.3350  & 0.4737 & 0.8619 
 R² (TS2Vec): 0.745 
 
 window_size=256
 ===============
 
-ts2vec/beijing: ts2vec_hidden_dims=16 ts2vec_latent_dims=16 ts2vec_depth=3 ts2vec_batch_size=16 ts2vec_lr=0.05 window_size=256
+ts2vec/beijing: ts2vec_hidden_dims=16 ts2vec_latent_dims=16 ts2vec_depth=3 batch_size=16 ts2vec_lr=0.05 window_size=256
 & Z (ts2vec) & 1.3738 & 0.4496  & 0.6599 & 1.0450 
 R² (TS2Vec): 0.603 
 

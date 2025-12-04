@@ -10,7 +10,7 @@ beijing:
     # 1024 {"latent_dim": 12, "channels1": 8, "channels2": 32, "kernel_size": 7, "pool_kernel": 2, "ssl_lambda": 0.1, "ssl_weight": 0.1, "augment_const": 0.05, "recon_weight": 0.5, "epochs": 100, "lr": 0.01, "head_dims_list": [64, 32], "test_rmse": 0.8310145139694214, "r2": 0.1556732126334256}
 
   timevae:
-    {predictor_lr: 0.006, predictor_epochs: 200, predictor_dropout: 0.05, predictor_hidden_sizes: [128, 64, 32], latent_dim: 16,
+    {predictor_lr: 0.006, predictor_epochs: 100, predictor_dropout: 0.05, predictor_hidden_sizes: [128, 64, 32], latent_dim: 16,
     reconstr_wt: 1, lr: 0.001, batch_size: 256}
     # 1024: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
     # 512: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
@@ -29,7 +29,7 @@ beijing:
     # 1024 {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.9486960186216229, "r2": -0.00033092498779296875}
 
   ts2vec:
-    {z_pooling_method: "None", ts2vec_hidden_dims: 12, ts2vec_latent_dims: 12, ts2vec_depth: 3, patience: 40, ts2vec_batch_size: 256,
+    {z_pooling_method: "None", ts2vec_hidden_dims: 12, ts2vec_latent_dims: 12, ts2vec_depth: 3, patience: 40, batch_size: 256,
     ts2vec_epochs: 100, lr_encoder: 0.001, predictor_epochs: 150, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 48, 64]}
     # 64 {"latent_dims": 20, "hidden_dims": 16, "depth": 5, "batch_size": 1024, "lr": 0.001, "epochs": 100, "window_size": 64, "z_pooling_method": "None", "test_rmse": 0.3716966291124734, "r2": 0.7918437005480853}
     # 128 {"latent_dims": 12, "hidden_dims": 20, "depth": 5, "batch_size": 256, "lr": 0.005, "epochs": 100, "window_size": 128, "z_pooling_method": "None", "test_rmse": 0.33175338718775615, "r2": 0.798270964199426}
@@ -44,9 +44,12 @@ germany:
   ts2vec:
     {"hidden_dims": 12, "latent_dims": 12, "depth": 4, "z_pooling_method": "None", "lr": 0.005, "batch_size": 512, "epochs": 100, "patience": 25, "window_size": 64} #, "test_rmse": 0.5935380458831787, "r2": 0.7571455972773423}
   barlow_cnn:
-  # {"latent_dim": 16, "channels": [32, 32], "kernel_size": 9, "pool_kernel": 4, "ssl_lambda": 0.1, "ssl_weight": 1.0, "recon_weight": 1.0, "augment_const": 0.05, "head_dims_list": [64, 32], "epochs": 100, "lr": 0.01, "rand_seed": 42, "test_rmse": 0.6142319440841675, "r2": 0.60463242406486, "final_recon_train": 0.6286686062812805, "final_recon_test": 0.6249363422393799}
+    {SSL_LAMBDA: 0.1, SSL_WEIGHT: 1, CHANNELS_1: 32, CHANNELS_2: 32, KERNEL_SIZE: 9, POOL_KERNEL: 4, latent_dim: 32,
+    augment_const: 0.05, recon_weight: 1, latent_dim : 16, ssl_weight : 1.0, head_dims_list: [64, 32], "lr": 0.01}
   moment:
-  # {"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.8163479268550873, "r2": 0.06598184630274773}
+    {epochs_finetune: 10, batch_size: 256, lr_encoder: 0.0001, hidden_layer_sizes: [256, 128, 64], unfreeze_last_n: 2, fine_tune: true,
+    lr_predictor: 0.001, predictor_epochs: 100, predictor_dropout: 0, predictor_hidden_sizes: [32, 48, 64], model_task: "regression",
+    model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
 
 india:
   timevae:

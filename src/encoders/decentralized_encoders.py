@@ -85,7 +85,7 @@ class VerticalFedEncoder(BaseFederatedEncoder):
         super().__init__(num_splits, dim_splitting=2)
 
     def encode_federated(self, X_train: torch.Tensor, X_test: torch.Tensor, y_train: torch.Tensor, y_test: torch.Tensor,
-            encoder_builder: Callable, fit_fn: Callable, batch_size: int): # -> Tuple[np.ndarray, np.ndarray]:
+            encoder_builder: Callable, fit_function: Callable, batch_size: int): # -> Tuple[np.ndarray, np.ndarray]:
         """Encode data in a vertical manner. Outputs latents"""
         X_train = self.to_tensor(X_train)
         X_test  = self.to_tensor(X_test)
@@ -97,7 +97,7 @@ class VerticalFedEncoder(BaseFederatedEncoder):
 
         for i in range(self.num_splits):
             enc = encoder_builder()
-            fit_fn(enc, Xtr_splits[i])
+            fit_function(enc, Xtr_splits[i])
             encoders.append(enc)
             Z_train_list.append(self._encode_in_batches(enc, Xtr_splits[i], bs=batch_size))
             Z_test_list.append(self._encode_in_batches(enc, Xte_splits[i],  bs=batch_size))
