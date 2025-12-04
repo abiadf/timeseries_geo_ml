@@ -807,4 +807,7 @@ best {"latent_dim": 16, "channels": [12, 32], "kernel_size": 5, "pool_kernel": 2
 {"latent_dim": 16, "channels": [12, 32], "kernel_size": 9, "pool_kernel": 2, "ssl_lambda": 0.01, "ssl_weight": 0.5, "recon_weight": 0.5, "augment_const": 0.1, "head_dims_list": [128, 64], "epochs": 100, "lr": 0.01, "rand_seed": 42, "test_rmse": 0.7697834968566895, "r2": 0.2578185082128999, "final_recon_train": 0.20326364040374756, "final_recon_test": 0.2669604420661926}
 
 
-nasa
+nasabarlow_cnn/beijing: c1=8 c2=32 k=7 pool=2 latent=32 sslλ=0.1 sslw=1.0 aug=0.05 epochs=100 lr=0.001 (last SSL=4.4115, last Recon=1.1524)
+& Z (barlow_cnn) & 0.8572 & 0.8215 & 0.8207 & 0.9475
+R² (barlow_cnn): 0.246
+

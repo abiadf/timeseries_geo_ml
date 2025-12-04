@@ -1581,3 +1581,170 @@ TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
 \bottomrule
 \end{tabular}
 
+-- beijing 14:56 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:05 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:10 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:17 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:25 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:31 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:36 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:41 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:43 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:47 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+TS2Vec (8-VFL) & \val{0.545}{0.081} & \val{0.424}{0.058} & \val{0.492}{0.044} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 18:05 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+TS2Vec (8-VFL) & \val{0.545}{0.081} & \val{0.424}{0.058} & \val{0.492}{0.044} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 18:06 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+TS2Vec (8-VFL) & \val{0.545}{0.081} & \val{0.424}{0.058} & \val{0.492}{0.044} \\
+\bottomrule
+\end{tabular}
+

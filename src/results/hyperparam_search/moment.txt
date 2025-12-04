@@ -1186,3 +1186,8 @@ best {"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfre
 {"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.920549750328064, "r2": 0.09278625249862671}
 
 nasa
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.7236 & test_RMSE=0.7543
+R² (MLP head): 0.323
+

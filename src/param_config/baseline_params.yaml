@@ -81,7 +81,7 @@ cellsup:
 
 moment:
   epochs_finetune:    20
-  batch_size:         32
+  batch_size:         512
   lr_encoder:         0.0001
   hidden_layer_sizes: [128, 64, 16] # latent to y output. note that MOMENT-small's latent dim  = 512
   unfreeze_last_n:    1
@@ -115,7 +115,7 @@ ts2vec:
   ts2vec_latent_dims : 8 # latent dim
   ts2vec_depth       : 3 # num layers
   patience           : 40
-  ts2vec_batch_size  : 16
+  ts2vec_batch_size  : 512
   ts2vec_epochs      : 100
   lr_encoder         : 0.009
 

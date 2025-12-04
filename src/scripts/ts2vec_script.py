@@ -1,6 +1,5 @@
 """TS2Vec"""
 from typing import Dict, Any
-
 from src.benchmarks.ts2vec_runner import run_ts2vec, log_ts2vec_results
 import src.param_config.config_paths as P
 

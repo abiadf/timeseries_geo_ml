@@ -3733,3 +3733,8 @@ best {"latent_dim": 8, "hidden_layers": [64, 32, 16], "reconstruction_wt": 1.179
 
 
 nasa
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=0.9694 catboost=0.9574 rf=0.9572 R²=-0.026 L_recons=0.989
+time & params & flops & memory
+1.141 & 0.153 & 0.176 & 115.444
+
