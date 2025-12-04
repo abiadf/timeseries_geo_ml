@@ -63,8 +63,8 @@ X_L, y_L, X_U, y_U, y_train_scaled, y_test_scaled, timevae_file_path = split_dat
 best_params = yaml.safe_load(open(P.best_params_path))
 
 if params["run_console"]["timevae"]:
-    timevae_raw = load_specific_method_params(dataset=cfg.desired_dataset, method="timevae",
-                                              best_params=best_params, dataset_params=data_params)
+    timevae_raw = load_specific_method_params(dataset_name=cfg.desired_dataset, method="timevae",
+                                              best_params_dict=best_params, dataset_params=data_params)
     timevae_cfg = {"timevae": timevae_raw}
     timevae_losses, timevae_recon_loss_test, r2, metrics, model_cfg, train_cfg = run_timevae_block(
         X_train, X_test, y_train_scaled, y_test_scaled,
@@ -76,8 +76,8 @@ if params["run_console"]["timevae"]:
         force_train=False)
 
 if params["run_console"]["ts2vec"]:
-    ts2vec_raw = load_specific_method_params(dataset=cfg.desired_dataset, method="ts2vec",
-                                      best_params=best_params, dataset_params=data_params)
+    ts2vec_raw = load_specific_method_params(dataset_name=cfg.desired_dataset, method="ts2vec",
+                                      best_params_dict=best_params, dataset_params=data_params)
     ts2vec_cfg = {"ts2vec": ts2vec_raw}
     ts2vec_losses, r2, metrics, model_cfg, train_cfg = run_ts2vec_block(
         X_train, X_test, y_train_scaled, y_test_scaled,
@@ -87,8 +87,8 @@ if params["run_console"]["ts2vec"]:
         device)
 
 if params["run_console"]["moment"]:
-    moment_raw = load_specific_method_params(dataset=cfg.desired_dataset, method="moment",
-                                      best_params=best_params, dataset_params=data_params)
+    moment_raw = load_specific_method_params(dataset_name=cfg.desired_dataset, method="moment",
+                                      best_params_dict=best_params, dataset_params=data_params)
     moment_cfg = {"moment": moment_raw}
     moment_losses, r2, metrics, model_cfg, train_cfg = run_moment_block(
         X_train, X_test, y_train_scaled, y_test_scaled,
@@ -97,8 +97,8 @@ if params["run_console"]["moment"]:
         device)
 
 if params["run_console"]["barlow_cnn"]:
-    barlow_raw = load_specific_method_params(dataset=cfg.desired_dataset, method="barlow_cnn",
-                                      best_params=best_params, dataset_params=data_params)
+    barlow_raw = load_specific_method_params(dataset_name=cfg.desired_dataset, method="barlow_cnn",
+                                      best_params_dict=best_params, dataset_params=data_params)
     barlow_cfg = {"barlow_cnn": barlow_raw}
     barlow_cnn_losses, r2, metrics, barlow_recon_train, barlow_recon_test, model_cfg, train_cfg = run_barlow_cnn_block(
         X_train, X_test, y_train_scaled, y_test_scaled,
@@ -121,15 +121,14 @@ if params["run_console"]["direct_preds"]["flatten_X"]:
 
 # %%
 "Saving to file"
-
 if params["run_console"]["direct_preds"]["mean_X"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "mean(X)", mean_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["direct_preds"]["flatten_X"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "flattened(X)", flat_losses, P.json_results_file, result_type="rmse")
-if params["run_console"]["direct_preds"]["random_row"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "random_row(X)", rand_losses, P.json_results_file, result_type="rmse")
-if params["run_console"]["direct_preds"]["custom_row"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "custom_row(X)", custom_losses, P.json_results_file, result_type="rmse")
+if params["run_console"]["direct_preds"]["custom_row"]:
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "custom(X)", custom_losses, P.json_results_file, result_type="rmse")
+if params["run_console"]["direct_preds"]["random_row"]:
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "random(X)", rand_losses, P.json_results_file, result_type="rmse")
 
 if params["run_console"]["timevae"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TimeVAE", timevae_losses, P.json_results_file, result_type="rmse")
@@ -137,12 +136,8 @@ if params["run_console"]["timevae"] == True:
     # JSONLogger.log_result_to_json(cfg.desired_dataset, "TimeVAE", [timevae_profiling_metrics], P.json_results_file, result_type="profiling")
 if params["run_console"]["ts2vec"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TS2Vec", ts2vec_losses, P.json_results_file, result_type="rmse")
-if params["run_console"]["ts2vec_fed"] == True:
-    JSONLogger.log_result_to_json(cfg.desired_dataset, "TS2Vec (fed)", ts2vec_fed_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["moment"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Moment (cent)", moment_losses, P.json_results_file, result_type="rmse")
-if params["run_console"]["moment_fed"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, f"Moment (fed, dim={dim_splitting})", moment_fed_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["cellsup"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Cellsup", cellsup_losses, P.json_results_file, result_type="rmse")
 if params["run_console"]["barlow_cnn"] == True:
@@ -151,6 +146,7 @@ if params["run_console"]["barlow_cnn"] == True:
 if params["run_console"]["cnn_lstm"] == True:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "LSTM (X)", lstm_losses, P.json_results_file, result_type="rmse")
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "CNN (X)", cnn_mean_losses, P.json_results_file, result_type="rmse")
+
 
 # ---- Read JSON, then write to latex file ----
 data = JSONLogger.load_json_file_safely(P.json_results_file)

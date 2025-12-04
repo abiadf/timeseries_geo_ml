@@ -109,7 +109,7 @@ class VerticalFedEncoder(BaseFederatedEncoder):
 
     def combine_latents(self, Z_train_list, Z_test_list) -> Tuple[np.ndarray, np.ndarray]:
         """Combine latents from different splits by concat along sample dimension"""
-        Z_train_cat = torch.cat(Z_train_list, dim=0).numpy()
-        Z_test_cat  = torch.cat(Z_test_list, dim=0).numpy()
+        Z_train_cat = torch.cat(Z_train_list, dim=1).numpy()
+        Z_test_cat  = torch.cat(Z_test_list, dim=1).numpy()
         return Z_train_cat, Z_test_cat
 
