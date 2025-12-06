@@ -68,9 +68,6 @@ class HorizontalFedEncoder(BaseFederatedEncoder):
             Z_test_list.append(self._encode_in_batches(enc, Xte_splits[i],  bs=batch_size))
 
         return Z_train_list, Z_test_list
-        # Z_train_cat = torch.cat(Z_train, dim=0).numpy()
-        # Z_test_cat  = torch.cat(Z_test, dim=0).numpy()
-        # return Z_train_cat, Z_test_cat
 
     def combine_latents(self, Z_train_list, Z_test_list) -> Tuple[np.ndarray, np.ndarray]:
         """Combine latents from different splits by concat along sample dimension"""
@@ -96,16 +93,14 @@ class VerticalFedEncoder(BaseFederatedEncoder):
         encoders, Z_train_list, Z_test_list = [], [], []
 
         for i in range(self.num_splits):
-            enc = encoder_builder()
+            # enc = encoder_builder()
+            enc = encoder_builder(Xtr_splits[i])
             fit_function(enc, Xtr_splits[i])
             encoders.append(enc)
             Z_train_list.append(self._encode_in_batches(enc, Xtr_splits[i], bs=batch_size))
             Z_test_list.append(self._encode_in_batches(enc, Xte_splits[i],  bs=batch_size))
 
         return Z_train_list, Z_test_list
-        # Z_train_cat = torch.cat(Z_train_list, dim=1).numpy()
-        # Z_test_cat  = torch.cat(Z_test_list, dim=1).numpy()
-        # return Z_train_cat, Z_test_cat
 
     def combine_latents(self, Z_train_list, Z_test_list) -> Tuple[np.ndarray, np.ndarray]:
         """Combine latents from different splits by concat along sample dimension"""

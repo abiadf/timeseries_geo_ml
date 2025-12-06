@@ -1,6 +1,5 @@
 """TimeVAE Script"""
 from typing import Dict, Any, Tuple
-from pathlib import Path
 from src.benchmarks.timevae_runner import run_timevae, log_timevae_results
 import src.param_config.config_paths as P
 

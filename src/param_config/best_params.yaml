@@ -10,7 +10,7 @@ beijing:
     # 1024 {"latent_dim": 12, "channels1": 8, "channels2": 32, "kernel_size": 7, "pool_kernel": 2, "ssl_lambda": 0.1, "ssl_weight": 0.1, "augment_const": 0.05, "recon_weight": 0.5, "epochs": 100, "lr": 0.01, "head_dims_list": [64, 32], "test_rmse": 0.8310145139694214, "r2": 0.1556732126334256}
 
   timevae:
-    {predictor_lr: 0.006, predictor_epochs: 100, predictor_dropout: 0.05, predictor_hidden_sizes: [128, 64, 32], latent_dim: 16,
+    {predictor_lr: 0.006, predictor_epochs: 100, predictor_dropout: 0.05, hidden_layers: [128, 64, 32], latent_dim: 16,
     reconstr_wt: 1, lr: 0.001, batch_size: 256}
     # 1024: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=64 window_size=1024
     # 512: hidden_layers=[32, 64, 32] latent_dim=12 reconstr_wt=1 train_epochs=100 lr=0.001 batch_size=256 window_size=512
@@ -39,7 +39,7 @@ beijing:
 
 germany:
   timevae:
-    {predictor_lr: 0.006, predictor_epochs: 200, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 16, 8], latent_dim: 32,
+    {predictor_lr: 0.006, predictor_epochs: 200, predictor_dropout: 0.05, hidden_layers: [32, 16, 8], latent_dim: 32,
     reconstr_wt: 0.5, lr: 0.0009619738579838561, batch_size: 256} # window=64, "rmse": 0.74, "r2": 0.24, "recon_loss": 1.247
   ts2vec:
     {"hidden_dims": 12, "latent_dims": 12, "depth": 4, "z_pooling_method": "None", "lr": 0.005, "batch_size": 512, "epochs": 100, "patience": 25, "window_size": 64} #, "test_rmse": 0.5935380458831787, "r2": 0.7571455972773423}
@@ -89,7 +89,8 @@ gas:
 
 panama:
   timevae:
-  # {"latent_dim": 32, "hidden_layers": [12, 8, 12], "reconstruction_wt": 1.8028790266330572, "train_epochs": 100, "lr": 0.00010299089007046655, "batch_size": 128, "rmse": 0.9595651030540466, "r2": 0.021474479788057277, "recon_loss": 1.073250412940979}
+    {predictor_lr: 0.006, predictor_epochs: 100, predictor_dropout: 0.05, hidden_layers: [12, 8, 12], latent_dim: 32,
+      reconstr_wt: 1.8028790266330572, lr: 0.00010299089007046655, batch_size: 256}
   ts2vec:
     {"hidden_dims": 24, "latent_dims": 20, "depth": 3, "z_pooling_method": "None", "lr": 0.005, "batch_size": 1024, "epochs": 100, "patience": 25, "window_size": 64} #, "test_rmse": 0.5604118704795837, "r2": 0.8395909340042458}
   moment:
@@ -99,7 +100,8 @@ panama:
 
 weather:
   timevae:
-    # {"latent_dim": 8, "hidden_layers": [32, 16, 8], "reconstruction_wt": 0.9968424076505834, "train_epochs": 100, "lr": 0.00022136235954813366, "batch_size": 128, "rmse": 0.9656834602355957, "r2": -0.0160549461092635, "recon_loss": 0.9754874110221863}
+    {predictor_lr: 0.006, predictor_epochs: 200, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 16, 8], latent_dim: 8,
+    reconstr_wt: 0.9968424076505834, lr: 0.00022136235954813366, batch_size: 128} # "rmse": 0.9656834602355957, "r2": -0.0160549461092635, "recon_loss": 0.9754874110221863}
   ts2vec:
     {"hidden_dims": 24, "latent_dims": 16, "depth": 3, "z_pooling_method": "None", "lr": 0.005, "batch_size": 1024, "epochs": 100, "patience": 25, "window_size": 64} #, "test_rmse": 0.7085065841674805, "r2": 0.43987264488177225}
   moment:
