@@ -5,7 +5,7 @@ dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=30, 
 & Z (ts2vec) & 0.6939 & 0.3605  & 0.4917 & 0.8069 
 R² (TS2Vec): 0.725 
 
-dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=12, ts2vec_depth=3, batch_size=16, ts2vec_epochs=100, ts2vec_lr=0.001
+dataset: beijing, method: ts2vec, ts2vec_hidden_dims=16, ts2vec_latent_dims=12, ts2vec_depth=3, batch_size=16, epochs=100, ts2vec_lr=0.001
 & Z (ts2vec) & 1.0312 & 0.3965  & 0.4934 & 0.8307 
 R² (TS2Vec): 0.723 
 

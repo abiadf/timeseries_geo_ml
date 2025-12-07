@@ -4,7 +4,8 @@ import torch
 import torch.nn as nn
 import joblib
 
-from vae.vae_base import BaseVariationalAutoencoder, Sampling
+# from vae.vae_base import BaseVariationalAutoencoder, Sampling
+from timevae_torch.src.vae.vae_base import BaseVariationalAutoencoder, Sampling
 
 class DenseEncoder(nn.Module):
     def __init__(self, seq_len, feat_dim, hidden_layer_sizes, latent_dim):

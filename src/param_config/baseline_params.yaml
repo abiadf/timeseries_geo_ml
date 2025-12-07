@@ -32,6 +32,7 @@ run_console:
   ts2vec :       true
   fed:
     ts2vec_fed:    true
+    timevae_fed:   true
 
   direct_preds:
     mean_X:        true
@@ -116,7 +117,7 @@ ts2vec:
   ts2vec_depth       : 3 # num layers
   patience           : 40
   ts2vec_batch_size  : 512
-  ts2vec_epochs      : 100
+  epochs      : 100
   lr_encoder         : 0.009
 
   predictor_epochs   : 150

@@ -28,7 +28,7 @@ ecg:
     ts2vec_latent_dims : 16 # latent dim
     ts2vec_depth       : 4 # num layers
     ts2vec_batch_size  : 32
-    ts2vec_epochs      : 20
+    epochs      : 20
 
     predictor_lr       : 0.02
     predictor_epochs   : 300
@@ -53,7 +53,7 @@ india:
     ts2vec_latent_dims : 8 # latent dim
     ts2vec_depth       : 2 # num layers
     ts2vec_batch_size  : 32
-    ts2vec_epochs      : 20
+    epochs      : 20
 
     predictor_lr       : 0.009
     predictor_epochs   : 150
@@ -75,7 +75,7 @@ germany:
     ts2vec_latent_dims : 8 # latent dim
     ts2vec_depth       : 2 # num layers
     ts2vec_batch_size  : 32
-    ts2vec_epochs      : 20
+    epochs      : 20
 
     predictor_lr       : 0.009
     predictor_epochs   : 150
@@ -112,7 +112,7 @@ china:
     ts2vec_latent_dims : 8 # latent dim
     ts2vec_depth       : 2 # num layers
     ts2vec_batch_size  : 32
-    ts2vec_epochs      : 20
+    epochs      : 20
 
     predictor_lr       : 0.009
     predictor_epochs   : 150
@@ -145,7 +145,7 @@ weatherbench:
     ts2vec_latent_dims : 2 # latent dim
     ts2vec_depth       : 2 # num layers
     ts2vec_batch_size  : 32
-    ts2vec_epochs      : 20
+    epochs      : 20
 
     predictor_lr       : 0.007
     predictor_epochs   : 150

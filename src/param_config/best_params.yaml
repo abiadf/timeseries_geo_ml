@@ -30,7 +30,7 @@ beijing:
 
   ts2vec:
     {z_pooling_method: "None", ts2vec_hidden_dims: 12, ts2vec_latent_dims: 12, ts2vec_depth: 3, patience: 40, batch_size: 256,
-    ts2vec_epochs: 100, lr_encoder: 0.001, predictor_epochs: 150, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 48, 64]}
+    epochs: 100, lr_encoder: 0.001, predictor_epochs: 150, predictor_dropout: 0.05, predictor_hidden_sizes: [32, 48, 64]}
     # 64 {"latent_dims": 20, "hidden_dims": 16, "depth": 5, "batch_size": 1024, "lr": 0.001, "epochs": 100, "window_size": 64, "z_pooling_method": "None", "test_rmse": 0.3716966291124734, "r2": 0.7918437005480853}
     # 128 {"latent_dims": 12, "hidden_dims": 20, "depth": 5, "batch_size": 256, "lr": 0.005, "epochs": 100, "window_size": 128, "z_pooling_method": "None", "test_rmse": 0.33175338718775615, "r2": 0.798270964199426}
     # 256 {"latent_dims": 12, "hidden_dims": 12, "depth": 3, "batch_size": 256, "lr": 0.001, "epochs": 100, "window_size": 256, "z_pooling_method": "None", "test_rmse": 0.3718352154136236, "r2": 0.6710430077020607}

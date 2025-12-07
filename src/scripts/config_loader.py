@@ -1,5 +1,6 @@
-import os
 import __main__
+import os
+import yaml
 import numpy as np
 from types import SimpleNamespace
 
@@ -75,7 +76,7 @@ def load_project_configuration(params_path, data_params_path, messager_path):
     print(f"Config Loaded: Dataset={cfg.desired_dataset}, Window={cfg.dataset_window}, Seed={cfg.rand_seed}")
     return cfg
 
-def load_specific_method_params(dataset_name: str, method: str, best_params_dict: dict, dataset_params: dict) -> dict:
+def X_load_specific_method_params(dataset_name: str, method: str, best_params_dict: dict, dataset_params: dict) -> dict:
     """Merge generic method defaults + dataset-specific override."""
     merged_params = {}
 
@@ -91,4 +92,40 @@ def load_specific_method_params(dataset_name: str, method: str, best_params_dict
     except Exception:
         print(f"No best params found for ({dataset_name}+{method}), using defaults.")
     return merged_params
+
+
+def load_specific_method_params(dataset_name: str, method: str, best_params_dict: dict, dataset_params: dict) -> dict:
+    """Merge generic method defaults + dataset-specific override.
+    Automatically ensures an 'epochs' key exists for any method:
+      - Uses an existing key containing 'epoch' if present
+      - Else falls back to general train_epochs from P.data_params_yaml_path"""
+    merged_params = {}
+
+    # 1. Generic defaults for the method
+    if method in dataset_params:
+        merged_params.update(dataset_params[method])
+
+    # 2. Dataset-specific best params
+    try:
+        if dataset_name in best_params_dict and method in best_params_dict[dataset_name]:
+            print(f"Found best params for ({dataset_name}+{method}), overriding...")
+            merged_params.update(best_params_dict[dataset_name][method])
+    except Exception:
+        print(f"No best params found for ({dataset_name}+{method}), using defaults.")
+
+    # 3. Ensure an 'epochs' key exists
+    if "epochs" not in merged_params:
+        # Check for any key containing 'epoch' (case-insensitive)
+        for k, v in merged_params.items():
+            if "epoch" in k.lower():
+                merged_params["epochs"] = v
+                break
+        else:
+            # Fallback to general train_epochs from the YAML
+            with open(P.data_params_yaml_path, "r") as f:
+                data_params_yaml = yaml.safe_load(f)
+            merged_params["epochs"] = data_params_yaml["general"]["train_epochs"]
+            print(f"No epoch-like key found, using fallback epochs={merged_params['epochs']}")
+    return merged_params
+
 

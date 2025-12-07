@@ -7,7 +7,7 @@ def run_ts2vec_block(X_train, X_test, y_train_scaled, y_test_scaled, params: Dic
                      window_size: int, device: str):
     """Run TS2Vec end-to-end and return metrics."""
     z_pooling_method   = params["ts2vec"]["z_pooling_method"]
-    ts2vec_epochs      = params["ts2vec"]["ts2vec_epochs"]
+    epochs      = params["ts2vec"]["epochs"]
     ts2vec_hidden_dims = 16
     ts2vec_depth       = 2
     patience           = 25
@@ -24,7 +24,7 @@ def run_ts2vec_block(X_train, X_test, y_train_scaled, y_test_scaled, params: Dic
     train_cfg = {
         "lr":          ts2vec_lr,
         "patience":    patience,
-        "epochs":      ts2vec_epochs,
+        "epochs":      epochs,
         "batch_size":  ts2vec_batch_size,
         "window_size": window_size,}
 

@@ -93,8 +93,8 @@ class VerticalFedEncoder(BaseFederatedEncoder):
         encoders, Z_train_list, Z_test_list = [], [], []
 
         for i in range(self.num_splits):
-            # enc = encoder_builder()
-            enc = encoder_builder(Xtr_splits[i])
+            enc = encoder_builder()
+            # enc = encoder_builder(Xtr_splits[i])
             fit_function(enc, Xtr_splits[i])
             encoders.append(enc)
             Z_train_list.append(self._encode_in_batches(enc, Xtr_splits[i], bs=batch_size))

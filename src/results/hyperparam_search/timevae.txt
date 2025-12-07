@@ -3738,3 +3738,8 @@ linreg=0.9694 catboost=0.9574 rf=0.9572 R²=-0.026 L_recons=0.989
 time & params & flops & memory
 1.141 & 0.153 & 0.176 & 115.444
 
+timevae/panama: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.3978 catboost=1.1275 rf=1.0952 R²=-0.101 L_recons=0.912
+time & params & flops & memory
+0.161 & 0.238 & 0.265 & 27.625
+

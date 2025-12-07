@@ -5,7 +5,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import joblib
 
-from vae.vae_base import BaseVariationalAutoencoder, Sampling
+# from vae.vae_base import BaseVariationalAutoencoder, Sampling
+from timevae_torch.src.vae.vae_base import BaseVariationalAutoencoder, Sampling
 
 
 class ConvEncoder(nn.Module):
