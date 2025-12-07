@@ -598,7 +598,12 @@ class Preds:
         return model, y_pred, rmse
 
     def evaluate_models_on_dataset(self, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray):
-        """Evaluate various models on the dataset and print RMSE results."""
+        """Evaluate various models on the dataset and print RMSE results.
+        Automatically flattens 3D latent inputs (n_samples, seq_len, latent_dim) to 2D."""
+        if X_train.ndim == 3: # Flatten if 3D
+            X_train = X_train.reshape(X_train.shape[0], -1)
+            X_test  = X_test.reshape(X_test.shape[0], -1)
+
         linreg_loss            = self.predict_linreg(X_train, y_train, X_test, y_test)
         print(f"Linear Regression done")
         _, _, catboost_loss, _ = self.predict_catboost_multioutput(X_train, y_train, X_test, y_test)
