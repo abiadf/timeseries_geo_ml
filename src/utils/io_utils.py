@@ -82,7 +82,7 @@ class JSONLogger:
             print(f"[log skipped] {e} | args={args_repr} kwargs={kwargs_repr}")
 
     @staticmethod
-    def summarize_runs_to_latex(methods: dict, num_runs: int) -> pd.DataFrame:
+    def X_summarize_runs_to_latex(methods: dict, num_runs: int) -> pd.DataFrame:
         """Return a DataFrame with LaTeX-ready mean±std for the last full block of N runs per method."""
         rows = []
         for method, runs in methods.items():
@@ -99,5 +99,43 @@ class JSONLogger:
             for i, (m, s) in enumerate(zip(means, stds)):
                 row[f"metric_{i}"] = f"\\val{{{m:.3f}}}{{{s:.3f}}}"
             rows.append(row)
-        # return pd.DataFrame(rows)
+        return pd.DataFrame(rows).fillna("--")
+
+    @staticmethod
+    def XX_summarize_runs_to_latex(methods: dict, num_runs: int, dataset: str) -> pd.DataFrame:
+        """Return a DataFrame with LaTeX-ready mean±std for the last full block of N runs per method."""
+        rows = []
+        for method, runs in methods.items():
+            total = len(runs)
+            if total < num_runs or total % num_runs != 0:
+                continue
+            block = runs[-num_runs:]
+            arr   = np.array(block)
+            means = arr.mean(axis=0)
+            stds  = arr.std(axis=0)
+            row   = {"dataset": dataset, "method": method}  # add dataset column
+            for i, (m, s) in enumerate(zip(means, stds)):
+                row[f"metric_{i}"] = f"\\val{{{m:.3f}}}{{{s:.3f}}}"
+            rows.append(row)
+        return pd.DataFrame(rows).fillna("--")
+
+    @staticmethod
+    def summarize_runs_to_latex(methods: dict, num_runs: int, dataset: str) -> pd.DataFrame:
+        """Return a DataFrame with LaTeX-ready mean±std for the last full block of N runs per method,
+        with dataset name only on the first row."""
+        rows = []
+        first_row = True
+        for method, runs in methods.items():
+            total = len(runs)
+            if total < num_runs or total % num_runs != 0:
+                continue
+            block = runs[-num_runs:]
+            arr   = np.array(block)
+            means = arr.mean(axis=0)
+            stds  = arr.std(axis=0)
+            row   = {"dataset": dataset if first_row else "", "method": method}  # only first row
+            for i, (m, s) in enumerate(zip(means, stds)):
+                row[f"metric_{i}"] = f"\\val{{{m:.3f}}}{{{s:.3f}}}"
+            rows.append(row)
+            first_row = False  # only show dataset in the first row of the group
         return pd.DataFrame(rows).fillna("--")

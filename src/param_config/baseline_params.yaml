@@ -31,7 +31,7 @@ run_console:
   timevae:       true
   ts2vec :       true
   fed:
-    ts2vec_fed:    true
+    ts2vec_fed:    false
     timevae_fed:   true
 
   direct_preds:

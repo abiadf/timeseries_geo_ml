@@ -2027,3 +2027,85 @@ TS2Vec (8-VFL) & \val{0.476}{0.013} & \val{0.310}{0.022} & \val{0.338}{0.035} \\
 \bottomrule
 \end{tabular}
 
+-- panama 00:35 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+TS2Vec (8-VFL) & \val{0.476}{0.013} & \val{0.310}{0.022} & \val{0.338}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:36 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+TS2Vec (8-VFL) & \val{0.476}{0.013} & \val{0.310}{0.022} & \val{0.338}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:36 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+TS2Vec (8-VFL) & \val{0.476}{0.013} & \val{0.310}{0.022} & \val{0.338}{0.035} \\
+TimeVAE (3-HFL) & \val{0.908}{0.074} & \val{0.903}{0.049} & \val{0.889}{0.033} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:48 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TimeVAE (3-HFL) & \val{0.865}{0.000} & \val{0.924}{0.000} & \val{0.899}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:48 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TimeVAE (3-HFL) & \val{0.865}{0.000} & \val{0.924}{0.000} & \val{0.899}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:57 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & TimeVAE (3-HFL) & \val{0.901}{0.000} & \val{0.941}{0.000} & \val{0.924}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:59 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & TimeVAE (3-HFL) & \val{0.655}{0.000} & \val{0.659}{0.000} & \val{0.667}{0.000} \\
+\bottomrule
+\end{tabular}
+
