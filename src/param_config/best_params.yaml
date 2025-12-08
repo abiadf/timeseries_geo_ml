@@ -57,7 +57,6 @@ india:
     {epochs_finetune: 10, batch_size: 32, lr_encoder: 0.001, hidden_layer_sizes: [64, 32, 8], unfreeze_last_n: 2, fine_tune: true,
     lr_predictor: 0.01, predictor_epochs: 100, predictor_dropout: 0.1, predictor_hidden_sizes: [32, 48, 64], model_task: "regression",
     model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
-
   barlow_cnn:
     {SSL_LAMBDA: 0.01, SSL_WEIGHT: 0.5, CHANNELS_1: 12, CHANNELS_2: 32, KERNEL_SIZE: 7, POOL_KERNEL: 3, epochs: 100,
     augment_const: 0.1, recon_weight: 0.1, latent_dim : 32, ssl_weight : 1.0, head_dims_list: [64, 32], "lr": 0.001}
@@ -84,7 +83,6 @@ gas:
     {epochs_finetune: 20, batch_size: 256, lr_encoder: 0.0001, hidden_layer_sizes: [256, 128, 64], unfreeze_last_n: 2, fine_tune: true,
     lr_predictor: 0.01, predictor_epochs: 100, predictor_dropout: 0.2, predictor_hidden_sizes: [32, 48, 64], model_task: "regression",
     model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
-
   barlow_cnn:
     {SSL_LAMBDA: 0.01, SSL_WEIGHT: 0.1, CHANNELS_1: 12, CHANNELS_2: 32, KERNEL_SIZE: 5, POOL_KERNEL: 2, epochs: 100,
     augment_const: 0.1, recon_weight: 0.5, latent_dim: 16, ssl_weight : 1.0, head_dims_list: [128, 64], "lr": 0.001}
