@@ -2,7 +2,7 @@
 beijing:
   barlow_cnn:
     {SSL_LAMBDA: 0.01, SSL_WEIGHT: 1, CHANNELS_1: 12, CHANNELS_2: 8, KERNEL_SIZE: 5, POOL_KERNEL: 2, latent_dim: 32,
-    augment_const: 0.05, recon_weight: 0.1, latent_dim : 32, ssl_weight : 1.0, head_dims_list: [64, 32], "lr": 0.001}
+    augment_const: 0.05, recon_weight: 0.1, latent_dim : 32, ssl_weight : 1.0, head_dims_list: [64, 32], "lr": 0.001, epochs: 100}
     # 64  {"latent_dim": 32, "channels1": 12, "channels2": 32, "kernel_size": 3, "pool_kernel": 2, "ssl_lambda": 0.01, "ssl_weight": 0.1, "augment_const": 0.2, "recon_weight": 0.1, "epochs": 100, "lr": 0.01, "head_dims_list": [128, 64], "test_rmse": 0.7363375425338745, "r2": 0.38739571067072753}
     # 128 {"latent_dim": 12, "channels1": 32, "channels2": 32, "kernel_size": 5, "pool_kernel": 2, "ssl_lambda": 0.01, "ssl_weight": 0.1, "augment_const": 0.2, "recon_weight": 0.1, "epochs": 100, "lr": 0.005, "head_dims_list": [128, 64], "test_rmse": 0.7587050199508667, "r2": 0.29614840705531775}
     # 256 {"latent_dim": 32, "channels1": 12, "channels2": 8, "kernel_size": 5, "pool_kernel": 2, "ssl_lambda": 0.01, "ssl_weight": 1.0, "augment_const": 0.05, "recon_weight": 0.1, "epochs": 100, "lr": 0.001, "head_dims_list": [64, 32], "test_rmse": 0.8284971117973328, "r2": 0.08852234534018444}
@@ -41,7 +41,7 @@ germany:
   ts2vec:
     {"hidden_dims": 12, "latent_dims": 12, "depth": 4, "z_pooling_method": "None", "lr": 0.005, "batch_size": 512, "epochs": 100, "patience": 25, "window_size": 64} #, "test_rmse": 0.5935380458831787, "r2": 0.7571455972773423}
   barlow_cnn:
-    {SSL_LAMBDA: 0.1, SSL_WEIGHT: 1, CHANNELS_1: 32, CHANNELS_2: 32, KERNEL_SIZE: 9, POOL_KERNEL: 4,
+    {SSL_LAMBDA: 0.1, SSL_WEIGHT: 1, CHANNELS_1: 32, CHANNELS_2: 32, KERNEL_SIZE: 9, POOL_KERNEL: 4, epochs: 100,
     augment_const: 0.05, recon_weight: 1, latent_dim : 16, ssl_weight : 1.0, head_dims_list: [64, 32], "lr": 0.01}
   moment:
     {epochs_finetune: 10, batch_size: 256, lr_encoder: 0.0001, hidden_layer_sizes: [256, 128, 64], unfreeze_last_n: 2, fine_tune: true,
@@ -59,7 +59,7 @@ india:
     model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
 
   barlow_cnn:
-    {SSL_LAMBDA: 0.01, SSL_WEIGHT: 0.5, CHANNELS_1: 12, CHANNELS_2: 32, KERNEL_SIZE: 7, POOL_KERNEL: 3,
+    {SSL_LAMBDA: 0.01, SSL_WEIGHT: 0.5, CHANNELS_1: 12, CHANNELS_2: 32, KERNEL_SIZE: 7, POOL_KERNEL: 3, epochs: 100,
     augment_const: 0.1, recon_weight: 0.1, latent_dim : 32, ssl_weight : 1.0, head_dims_list: [64, 32], "lr": 0.001}
 
 china:
@@ -72,7 +72,7 @@ china:
     lr_predictor: 0.005, predictor_epochs: 100, predictor_dropout: 0.2, predictor_hidden_sizes: [32, 48, 64], model_task: "regression",
     model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
   barlow_cnn:
-    {SSL_LAMBDA: 0.1, SSL_WEIGHT: 1.0, CHANNELS_1: 12, CHANNELS_2: 8, KERNEL_SIZE: 3, POOL_KERNEL: 4,
+    {SSL_LAMBDA: 0.1, SSL_WEIGHT: 1.0, CHANNELS_1: 12, CHANNELS_2: 8, KERNEL_SIZE: 3, POOL_KERNEL: 4, epochs: 100,
     augment_const: 0.2, recon_weight: 1, latent_dim: 16, ssl_weight : 1.0, head_dims_list: [64, 32], "lr": 0.005}
 
 gas:
@@ -86,7 +86,7 @@ gas:
     model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
 
   barlow_cnn:
-    {SSL_LAMBDA: 0.01, SSL_WEIGHT: 0.1, CHANNELS_1: 12, CHANNELS_2: 32, KERNEL_SIZE: 5, POOL_KERNEL: 2,
+    {SSL_LAMBDA: 0.01, SSL_WEIGHT: 0.1, CHANNELS_1: 12, CHANNELS_2: 32, KERNEL_SIZE: 5, POOL_KERNEL: 2, epochs: 100,
     augment_const: 0.1, recon_weight: 0.5, latent_dim: 16, ssl_weight : 1.0, head_dims_list: [128, 64], "lr": 0.001}
 
 panama:
@@ -100,7 +100,7 @@ panama:
     lr_predictor: 0.01, predictor_epochs: 100, predictor_dropout: 0.0, predictor_hidden_sizes: [32, 48, 64], model_task: "regression",
     model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
   barlow_cnn:
-    {SSL_LAMBDA: 0.01, SSL_WEIGHT: 0.1, CHANNELS_1: 12, CHANNELS_2: 32, KERNEL_SIZE: 3, POOL_KERNEL: 3,
+    {SSL_LAMBDA: 0.01, SSL_WEIGHT: 0.1, CHANNELS_1: 12, CHANNELS_2: 32, KERNEL_SIZE: 3, POOL_KERNEL: 3, epochs: 100,
     augment_const: 0.1, recon_weight: 0.5, latent_dim: 32, ssl_weight : 1.0, head_dims_list: [128, 64], "lr": 0.005}
 
 weather:
@@ -114,7 +114,7 @@ weather:
     lr_predictor: 0.005, predictor_epochs: 100, predictor_dropout: 0.2, predictor_hidden_sizes: [32, 48, 64], model_task: "regression",
     model_type: "repres_learning", model_name: "MOMENT-1-small", reload_model: true}
   barlow_cnn:
-    {SSL_LAMBDA: 0.1, SSL_WEIGHT: 0.1, CHANNELS_1: 32, CHANNELS_2: 16, KERNEL_SIZE: 3, POOL_KERNEL: 2,
+    {SSL_LAMBDA: 0.1, SSL_WEIGHT: 0.1, CHANNELS_1: 32, CHANNELS_2: 16, KERNEL_SIZE: 3, POOL_KERNEL: 2, epochs: 100,
     augment_const: 0.2, recon_weight: 0.1, latent_dim: 32, ssl_weight : 1.0, head_dims_list: [128, 64], "lr": 0.005}
 
 # nasa:

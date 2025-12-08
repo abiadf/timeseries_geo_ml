@@ -2,6 +2,7 @@ import __main__
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import numpy as np
 
 from src.methods.mlp_heads import make_MLP_regression_head
 from src.utils.metrics_utils import Preds
@@ -151,4 +152,27 @@ class BarlowCNNRunner:
         print(f"& Z (barlow_cnn) & {rmse:.4f} & {linreg:.4f} & {catboost:.4f} & {rforest:.4f}")
         print(f"R² (barlow_cnn): {r2:.3f}\n")
 
+    @staticmethod
+    def encode_split(X_train: np.ndarray, X_test: np.ndarray, model_cfg: dict, device: str):
+        """Encode both train and test arrays using a trained CNN."""
+        n_rows, n_cols = X_train.shape[1], X_train.shape[2]  # infer from input shape
 
+        cnn = CnnAutoencoder(
+            n_cols, n_rows, model_cfg["latent_dim"],
+            channels=model_cfg["channels"],
+            kernel_size=model_cfg["kernel_size"],
+            pool_kernel=model_cfg["pool_kernel"]
+        ).to(device)
+
+        # load trained weights
+        cnn.load_state_dict(torch.load(model_cfg["save_path"], map_location=device))
+        cnn.eval()
+
+        Xtr_t = torch.tensor(X_train, dtype=torch.float32).to(device)
+        Xte_t = torch.tensor(X_test, dtype=torch.float32).to(device)
+
+        with torch.no_grad():
+            ztr = BarlowCNNRunner.encode_in_batches(cnn, Xtr_t, batch_size=model_cfg.get("batch_size", 128), device=device)
+            zte = BarlowCNNRunner.encode_in_batches(cnn, Xte_t, batch_size=model_cfg.get("batch_size", 128), device=device)
+
+        return ztr.cpu().numpy(), zte.cpu().numpy()
