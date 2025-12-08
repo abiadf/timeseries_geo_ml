@@ -33,6 +33,7 @@ run_console:
   fed:
     ts2vec_fed:    false
     timevae_fed:   true
+    moment_fed:    true
 
   direct_preds:
     mean_X:        true
