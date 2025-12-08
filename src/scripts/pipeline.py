@@ -94,10 +94,6 @@ def split_data_to_labeled_unlabeled(desired_dataset, interim_data_loc, data_spli
     timevae_file_path = None
     if params["run_console"]["timevae"] == True:
         # timevae_file_name = f"X.npz"
-        # timevae_folder    = f"{interim_data_loc}/timevae/{desired_dataset}_frac{label_frac}"
-        # os.makedirs(timevae_folder, exist_ok=True)
-        # np.savez_compressed(f"{timevae_folder}/{timevae_file_name}", data=np.array(X_small, dtype=np.float32))
-
         timevae_file_name = "TimeVAE_parameters.npz"
         timevae_folder    = f"{interim_data_loc}/timevae/{desired_dataset}_frac{label_frac}"
         os.makedirs(timevae_folder, exist_ok=True)

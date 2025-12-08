@@ -3743,3 +3743,153 @@ linreg=1.3978 catboost=1.1275 rf=1.0952 R²=-0.101 L_recons=0.912
 time & params & flops & memory
 0.161 & 0.238 & 0.265 & 27.625
 
+timevae/india: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=2.775213863631379 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=0.9879 catboost=0.9650 rf=0.9581 R²=0.024 L_recons=1.000
+time & params & flops & memory
+0.530 & 0.340 & 0.372 & 33.639
+
+timevae/india: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=2.775213863631379 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=0.9853 catboost=0.9632 rf=0.9569 R²=0.024 L_recons=1.008
+time & params & flops & memory
+0.496 & 0.340 & 0.372 & 33.639
+
+timevae/india: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=2.775213863631379 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=0.9948 catboost=0.9541 rf=0.9459 R²=0.026 L_recons=0.868
+time & params & flops & memory
+0.550 & 0.340 & 0.372 & 33.639
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=0.9608 catboost=0.9461 rf=0.9453 R²=-0.042 L_recons=1.180
+time & params & flops & memory
+1.143 & 0.153 & 0.176 & 115.444
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.0408 catboost=1.0444 rf=1.0456 R²=-0.038 L_recons=1.116
+time & params & flops & memory
+1.148 & 0.153 & 0.176 & 115.444
+
+timevae/beijing: hidden_layers=[18, 12, 8] latent_dim=16 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=0.9916 catboost=0.9968 rf=1.0015 R²=-0.047 L_recons=1.142
+time & params & flops & memory
+1.173 & 0.153 & 0.176 & 115.444
+
+timevae/germany: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=0.7594 catboost=0.7452 rf=0.7423 R²=0.237 L_recons=2.263
+time & params & flops & memory
+0.909 & 0.461 & 0.497 & 45.118
+
+timevae/germany: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=0.7601 catboost=0.7511 rf=0.7495 R²=0.246 L_recons=1.506
+time & params & flops & memory
+0.860 & 0.461 & 0.497 & 45.118
+
+timevae/germany: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=0.7647 catboost=0.7588 rf=0.7571 R²=0.232 L_recons=1.515
+time & params & flops & memory
+0.922 & 0.461 & 0.497 & 45.118
+
+timevae/china: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=0.6430788843244492 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=0.9902 catboost=1.0043 rf=1.0027 R²=-0.033 L_recons=0.948
+time & params & flops & memory
+0.456 & 0.071 & 0.088 & 23.518
+
+timevae/china: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=0.6430788843244492 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=0.9891 catboost=1.0092 rf=1.0112 R²=-0.055 L_recons=1.112
+time & params & flops & memory
+0.470 & 0.071 & 0.088 & 23.518
+
+timevae/china: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=0.6430788843244492 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=0.9701 catboost=0.9760 rf=0.9737 R²=-0.021 L_recons=1.007
+time & params & flops & memory
+0.498 & 0.071 & 0.088 & 23.518
+
+timevae/weather: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=128 window_size=64
+linreg=1.0531 catboost=1.0558 rf=1.0598 R²=-0.014 L_recons=37809176.000
+time & params & flops & memory
+3.043 & 0.012 & 0.023 & 184.038
+
+timevae/weather: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=128 window_size=64
+linreg=1.0087 catboost=1.0127 rf=1.0190 R²=-0.021 L_recons=5056674866862751744.000
+time & params & flops & memory
+2.961 & 0.012 & 0.023 & 184.038
+
+timevae/weather: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=128 window_size=64
+linreg=0.9773 catboost=0.9802 rf=0.9866 R²=-0.021 L_recons=667343.188
+time & params & flops & memory
+3.057 & 0.012 & 0.023 & 184.038
+
+timevae/gas: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1.1791628819420452 train_epochs=100 lr=0.001 batch_size=128 window_size=64
+linreg=1.0576 catboost=1.1277 rf=1.0921 R²=-0.140 L_recons=0.725
+time & params & flops & memory
+0.137 & 0.088 & 0.107 & 1386.143
+
+timevae/gas: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1.1791628819420452 train_epochs=100 lr=0.001 batch_size=128 window_size=64
+linreg=1.0083 catboost=1.0648 rf=1.0390 R²=-0.079 L_recons=0.738
+time & params & flops & memory
+0.139 & 0.088 & 0.107 & 1386.143
+
+timevae/gas: hidden_layers=[18, 12, 8] latent_dim=8 reconstr_wt=1.1791628819420452 train_epochs=100 lr=0.001 batch_size=128 window_size=64
+linreg=0.9579 catboost=1.0167 rf=0.9941 R²=-0.161 L_recons=0.795
+time & params & flops & memory
+0.139 & 0.088 & 0.107 & 1386.143
+
+timevae/panama: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.0657 catboost=1.0584 rf=1.0405 R²=-0.051 L_recons=1.129
+time & params & flops & memory
+0.157 & 0.238 & 0.265 & 27.625
+
+timevae/panama: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.0862 catboost=1.0772 rf=1.0439 R²=-0.202 L_recons=1.061
+time & params & flops & memory
+0.156 & 0.238 & 0.265 & 27.625
+
+timevae/panama: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=1.4812 catboost=1.1715 rf=1.1464 R²=-0.098 L_recons=1.105
+time & params & flops & memory
+0.159 & 0.238 & 0.265 & 27.625
+
+timevae/india: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=2.775213863631379 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=1.0183 catboost=0.9493 rf=0.9356 R²=0.026 L_recons=1.393
+time & params & flops & memory
+0.339 & 0.340 & 0.372 & 30.820
+
+timevae/india: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=2.775213863631379 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=1.0441 catboost=0.9876 rf=0.9721 R²=-0.018 L_recons=0.912
+time & params & flops & memory
+0.309 & 0.340 & 0.372 & 30.820
+
+timevae/india: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=2.775213863631379 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=1.0517 catboost=0.9767 rf=0.9568 R²=-0.022 L_recons=0.932
+time & params & flops & memory
+0.313 & 0.340 & 0.372 & 30.820
+
+timevae/germany: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=0.7644 catboost=0.7571 rf=0.7510 R²=0.214 L_recons=1.560
+time & params & flops & memory
+0.573 & 0.461 & 0.497 & 38.075
+
+timevae/germany: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=0.7602 catboost=0.7422 rf=0.7369 R²=0.242 L_recons=1.346
+time & params & flops & memory
+0.525 & 0.461 & 0.497 & 38.075
+
+timevae/germany: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=3.5 train_epochs=100 lr=0.001 batch_size=256 window_size=64
+linreg=0.7898 catboost=0.7715 rf=0.7643 R²=0.219 L_recons=1.329
+time & params & flops & memory
+0.518 & 0.461 & 0.497 & 38.075
+
+timevae/china: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=0.6430788843244492 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=1.0052 catboost=1.0206 rf=1.0134 R²=-0.056 L_recons=1.040
+time & params & flops & memory
+0.307 & 0.071 & 0.088 & 21.671
+
+timevae/china: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=0.6430788843244492 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=0.9953 catboost=1.0135 rf=1.0064 R²=-0.083 L_recons=1.072
+time & params & flops & memory
+0.285 & 0.071 & 0.088 & 21.671
+
+timevae/india: hidden_layers=[18, 12, 8] latent_dim=32 reconstr_wt=2.775213863631379 train_epochs=100 lr=0.001 batch_size=512 window_size=64
+linreg=1.0425 catboost=0.9636 rf=0.9496 R²=0.020 L_recons=0.962
+time & params & flops & memory
+0.307 & 0.340 & 0.372 & 30.820
+

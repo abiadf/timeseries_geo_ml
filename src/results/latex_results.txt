@@ -2109,3 +2109,61 @@ panama & TimeVAE (3-HFL) & \val{0.655}{0.000} & \val{0.659}{0.000} & \val{0.667}
 \bottomrule
 \end{tabular}
 
+
+-- india 10:36 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+india & mean(X) & \val{0.669}{0.008} & \val{0.519}{0.009} & \val{0.561}{0.006} & \val{0.975}{0.006} \\
+india & flattened(X) & \val{1.058}{0.027} & \val{0.494}{0.008} & \val{0.583}{0.002} & \val{0.965}{0.004} \\
+india & TimeVAE & \val{0.989}{0.004} & \val{0.961}{0.005} & \val{0.954}{0.005} \\
+india & TimeVAE & \val{0.959}{0.064} \\
+india & TS2Vec & \val{0.979}{0.028} & \val{0.656}{0.019} & \val{0.725}{0.022} \\
+india & Moment (cent) & \val{0.847}{0.012} & \val{0.821}{0.013} & \val{0.849}{0.010} & \val{0.907}{0.021} \\
+india & Barlow (CNN) & \val{0.787}{0.026} & \val{0.739}{0.022} & \val{0.749}{0.020} & \val{0.974}{0.006} \\
+beijing & mean(X) & \val{0.863}{0.055} & \val{0.831}{0.077} & \val{0.817}{0.079} & \val{0.966}{0.040} \\
+beijing & flattened(X) & \val{0.560}{0.138} & \val{0.323}{0.043} & \val{0.462}{0.108} & \val{0.890}{0.022} \\
+beijing & TimeVAE & \val{1.030}{0.052} & \val{0.991}{0.041} & \val{0.990}{0.042} \\
+beijing & TimeVAE & \val{1.436}{0.408} \\
+beijing & TS2Vec & \val{0.551}{0.173} & \val{0.381}{0.051} & \val{0.521}{0.082} \\
+beijing & Moment (cent) & \val{0.802}{0.095} & \val{0.798}{0.053} & \val{0.831}{0.055} & \val{0.792}{0.064} \\
+beijing & Barlow (CNN) & \val{0.908}{0.048} & \val{0.889}{0.058} & \val{0.892}{0.052} & \val{0.973}{0.042} \\
+germany & mean(X) & \val{0.506}{0.007} & \val{0.247}{0.004} & \val{0.306}{0.001} & \val{0.870}{0.007} \\
+germany & flattened(X) & \val{0.596}{0.003} & \val{0.352}{0.012} & \val{0.376}{0.010} & \val{0.856}{0.008} \\
+germany & TimeVAE & \val{0.761}{0.002} & \val{0.752}{0.006} & \val{0.750}{0.006} \\
+germany & TimeVAE & \val{1.761}{0.355} \\
+germany & TS2Vec & \val{0.608}{0.032} & \val{0.541}{0.034} & \val{0.569}{0.035} \\
+germany & Moment (cent) & \val{0.705}{0.008} & \val{0.674}{0.005} & \val{0.669}{0.006} & \val{0.838}{0.008} \\
+germany & Barlow (CNN) & \val{0.582}{0.025} & \val{0.430}{0.004} & \val{0.421}{0.008} & \val{0.967}{0.022} \\
+china & mean(X) & \val{0.742}{0.016} & \val{0.698}{0.016} & \val{0.704}{0.018} & \val{0.988}{0.014} \\
+china & flattened(X) & \val{0.509}{0.005} & \val{0.510}{0.005} & \val{0.645}{0.007} & \val{0.969}{0.012} \\
+china & TimeVAE & \val{0.983}{0.009} & \val{0.997}{0.015} & \val{0.996}{0.016} \\
+china & TimeVAE & \val{1.022}{0.068} \\
+china & TS2Vec & \val{0.541}{0.029} & \val{0.566}{0.011} & \val{0.646}{0.020} \\
+china & Moment (cent) & \val{0.779}{0.006} & \val{0.783}{0.010} & \val{0.829}{0.009} & \val{0.843}{0.027} \\
+china & Barlow (CNN) & \val{0.839}{0.034} & \val{0.775}{0.019} & \val{0.769}{0.018} & \val{0.986}{0.009} \\
+weather & mean(X) & \val{0.953}{0.033} & \val{0.825}{0.028} & \val{0.829}{0.028} & \val{1.020}{0.032} \\
+weather & flattened(X) & \val{0.865}{0.022} & \val{0.712}{0.016} & \val{0.744}{0.021} & \val{1.007}{0.027} \\
+weather & TimeVAE & \val{1.013}{0.031} & \val{1.016}{0.031} & \val{1.022}{0.030} \\
+weather & TimeVAE & \val{1685558288967076096.000}{2383739392400420352.000} \\
+weather & TS2Vec & \val{0.779}{0.030} & \val{0.732}{0.026} & \val{0.767}{0.035} \\
+weather & Moment (cent) & \val{0.962}{0.029} & \val{0.965}{0.032} & \val{0.977}{0.031} & \val{0.966}{0.035} \\
+weather & Barlow (CNN) & \val{0.864}{0.028} & \val{0.850}{0.027} & \val{0.847}{0.026} & \val{1.015}{0.030} \\
+gas & mean(X) & \val{0.678}{0.059} & \val{0.711}{0.042} & \val{0.703}{0.042} & \val{0.964}{0.039} \\
+gas & flattened(X) & \val{4.992}{4.243} & \val{0.463}{0.034} & \val{0.517}{0.046} & \val{0.838}{0.056} \\
+gas & TimeVAE & \val{1.008}{0.041} & \val{1.070}{0.045} & \val{1.042}{0.040} \\
+gas & TimeVAE & \val{0.753}{0.031} \\
+gas & TS2Vec & \val{1.890}{0.749} & \val{0.517}{0.032} & \val{0.575}{0.043} \\
+gas & Moment (cent) & \val{2.611}{0.131} & \val{0.749}{0.057} & \val{0.753}{0.056} & \val{0.810}{0.067} \\
+gas & Barlow (CNN) & \val{0.767}{0.065} & \val{0.757}{0.045} & \val{0.735}{0.047} & \val{0.985}{0.043} \\
+panama & mean(X) & \val{0.977}{0.028} & \val{1.001}{0.025} & \val{0.990}{0.033} & \val{1.048}{0.042} \\
+panama & flattened(X) & \val{0.707}{0.011} & \val{0.320}{0.032} & \val{0.345}{0.027} & \val{0.850}{0.040} \\
+panama & TimeVAE & \val{1.211}{0.191} & \val{1.102}{0.049} & \val{1.077}{0.049} \\
+panama & TimeVAE & \val{1.098}{0.028} \\
+panama & TS2Vec & \val{0.742}{0.045} & \val{0.410}{0.037} & \val{0.459}{0.043} \\
+panama & Moment (cent) & \val{1.968}{0.260} & \val{0.619}{0.051} & \val{0.687}{0.043} & \val{0.727}{0.021} \\
+panama & Barlow (CNN) & \val{0.940}{0.037} & \val{0.974}{0.039} & \val{0.977}{0.051} & \val{1.022}{0.057} \\
+\bottomrule
+\end{tabular}
+

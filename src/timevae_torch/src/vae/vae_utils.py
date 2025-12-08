@@ -4,9 +4,12 @@ from typing import Union, List, Optional
 import torch
 import numpy as np
 
-from timevae_torch.src.vae.vae_dense_model import VariationalAutoencoderDense as VAE_Dense
-from timevae_torch.src.vae.vae_conv_model import VariationalAutoencoderConv as VAE_Conv
-from timevae_torch.src.vae.timevae import TimeVAE
+# from timevae_torch.src.vae.vae_dense_model import VariationalAutoencoderDense as VAE_Dense
+# from timevae_torch.src.vae.vae_conv_model import VariationalAutoencoderConv as VAE_Conv
+# from timevae_torch.src.vae.timevae import TimeVAE
+from src.timevae_torch.src.vae.vae_dense_model import VariationalAutoencoderDense as VAE_Dense
+from src.timevae_torch.src.vae.vae_conv_model import VariationalAutoencoderConv as VAE_Conv
+from src.timevae_torch.src.vae.timevae import TimeVAE
 
 
 def set_seeds(seed: int = 111) -> None:

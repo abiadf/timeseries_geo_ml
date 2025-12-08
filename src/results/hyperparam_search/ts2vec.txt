@@ -3652,3 +3652,129 @@ best {"hidden_dims": 20, "latent_dims": 20, "depth": 3, "z_pooling_method": "Non
 
 
 nasa
+ts2vec/india: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.9404 & 0.6376  & 0.6960
+R² (TS2Vec): 0.474
+time & params & flops & memory 
+0.125 & 0.005 & 0.330 & 19.382
+
+ts2vec/india: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 1.0070 & 0.6826  & 0.7497
+R² (TS2Vec): 0.397
+time & params & flops & memory 
+0.126 & 0.005 & 0.330 & 19.382
+
+ts2vec/india: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.9884 & 0.6470  & 0.7287
+R² (TS2Vec): 0.419
+time & params & flops & memory 
+0.122 & 0.005 & 0.330 & 19.382
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.4281 & 0.3176  & 0.4535
+R² (TS2Vec): 0.760
+time & params & flops & memory 
+0.289 & 0.005 & 0.324 & 19.355
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.4299 & 0.3813  & 0.4739
+R² (TS2Vec): 0.787
+time & params & flops & memory 
+0.259 & 0.005 & 0.324 & 19.355
+
+ts2vec/beijing: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.4230 & 0.4503  & 0.5302
+R² (TS2Vec): 0.707
+time & params & flops & memory 
+0.255 & 0.005 & 0.324 & 19.355
+
+ts2vec/germany: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.6517 & 0.5518  & 0.5778
+R² (TS2Vec): 0.534
+time & params & flops & memory 
+0.220 & 0.005 & 0.333 & 19.394
+
+ts2vec/germany: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.5753 & 0.5756  & 0.6059
+R² (TS2Vec): 0.503
+time & params & flops & memory 
+0.206 & 0.005 & 0.333 & 19.394
+
+ts2vec/germany: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.5968 & 0.4947  & 0.5227
+R² (TS2Vec): 0.625
+time & params & flops & memory 
+0.218 & 0.005 & 0.333 & 19.394
+
+ts2vec/china: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.5028 & 0.5563  & 0.6487
+R² (TS2Vec): 0.561
+time & params & flops & memory 
+0.113 & 0.005 & 0.319 & 19.779
+
+ts2vec/china: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.5490 & 0.5808  & 0.6699
+R² (TS2Vec): 0.526
+time & params & flops & memory 
+0.118 & 0.005 & 0.319 & 19.779
+
+ts2vec/china: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.5724 & 0.5613  & 0.6209
+R² (TS2Vec): 0.572
+time & params & flops & memory 
+0.122 & 0.005 & 0.319 & 19.779
+
+ts2vec/weather: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.8200 & 0.7461  & 0.7748
+R² (TS2Vec): 0.457
+time & params & flops & memory 
+0.772 & 0.005 & 0.314 & 19.316
+
+ts2vec/weather: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.7683 & 0.7545  & 0.8055
+R² (TS2Vec): 0.361
+time & params & flops & memory 
+0.699 & 0.005 & 0.314 & 19.316
+
+ts2vec/weather: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.7496 & 0.6958  & 0.7210
+R² (TS2Vec): 0.449
+time & params & flops & memory 
+0.729 & 0.005 & 0.314 & 19.316
+
+ts2vec/gas: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 2.9269 & 0.5621  & 0.6257
+R² (TS2Vec): 0.618
+time & params & flops & memory 
+0.039 & 0.005 & 0.321 & 19.343
+
+ts2vec/gas: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 1.5549 & 0.4939  & 0.5771
+R² (TS2Vec): 0.658
+time & params & flops & memory 
+0.039 & 0.005 & 0.321 & 19.343
+
+ts2vec/gas: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 1.1875 & 0.4949  & 0.5216
+R² (TS2Vec): 0.660
+time & params & flops & memory 
+0.040 & 0.005 & 0.321 & 19.343
+
+ts2vec/panama: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.6793 & 0.3586  & 0.3989
+R² (TS2Vec): 0.846
+time & params & flops & memory 
+0.042 & 0.005 & 0.327 & 19.367
+
+ts2vec/panama: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.7693 & 0.4294  & 0.4834
+R² (TS2Vec): 0.742
+time & params & flops & memory 
+0.046 & 0.005 & 0.327 & 19.367
+
+ts2vec/panama: hidden_dims=16 latent_dims=16 depth=2 batch_size=16 lr=0.05 window_size=64
+& Z (ts2vec) & 0.7786 & 0.4434  & 0.4951
+R² (TS2Vec): 0.795
+time & params & flops & memory 
+0.044 & 0.005 & 0.327 & 19.367
+

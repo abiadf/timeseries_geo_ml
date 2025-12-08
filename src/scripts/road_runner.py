@@ -32,6 +32,7 @@ logging.error("Something failed.")
 
 # %%
 "[RUN ME] Setup step"
+best_params = yaml.safe_load(open(P.best_params_path))
 cfg         = load_project_configuration(P.params_path, P.data_params_yaml_path, P.messager_yaml_path)
 params      = cfg.params
 data_params = cfg.data_params
@@ -59,13 +60,12 @@ X_L, y_L, X_U, y_U, y_train_scaled, y_test_scaled, timevae_file_path = split_dat
     rand_seed=cfg.rand_seed)
 
 # %%
-"script runs"
-best_params = yaml.safe_load(open(P.best_params_path))
+"[RUN SCRIPTS]"
 
 if params["run_console"]["timevae"]:
-    timevae_raw = load_specific_method_params(dataset_name=cfg.desired_dataset, method="timevae",
+    timevae_raw_params = load_specific_method_params(dataset_name=cfg.desired_dataset, method="timevae",
                                               best_params_dict=best_params, dataset_params=data_params)
-    timevae_cfg = {"timevae": timevae_raw}
+    timevae_cfg = {"timevae": timevae_raw_params}
     timevae_losses, timevae_recon_loss_test, r2, metrics, model_cfg, train_cfg = run_timevae_block(
         X_train, X_test, y_train_scaled, y_test_scaled,
         timevae_file_path,
@@ -76,30 +76,28 @@ if params["run_console"]["timevae"]:
         force_train=False)
 
 if params["run_console"]["ts2vec"]:
-    ts2vec_raw = load_specific_method_params(dataset_name=cfg.desired_dataset, method="ts2vec",
-                                      best_params_dict=best_params, dataset_params=data_params)
-    ts2vec_cfg = {"ts2vec": ts2vec_raw}
-    ts2vec_losses, r2, metrics, model_cfg, train_cfg = run_ts2vec_block(
-        X_train, X_test, y_train_scaled, y_test_scaled,
+    ts2vec_raw_params = load_specific_method_params(dataset_name=cfg.desired_dataset, method="ts2vec",
+                                             best_params_dict=best_params, dataset_params=data_params)
+    ts2vec_cfg = {"ts2vec": ts2vec_raw_params}
+    ts2vec_losses, r2, metrics, model_cfg, train_cfg = run_ts2vec_block(X_train, X_test, y_train_scaled, y_test_scaled,
         ts2vec_cfg,
         cfg.desired_dataset,
         window_size,
         device)
 
 if params["run_console"]["moment"]:
-    moment_raw = load_specific_method_params(dataset_name=cfg.desired_dataset, method="moment",
-                                      best_params_dict=best_params, dataset_params=data_params)
-    moment_cfg = {"moment": moment_raw}
-    moment_losses, r2, metrics, model_cfg, train_cfg = run_moment_block(
-        X_train, X_test, y_train_scaled, y_test_scaled,
+    moment_raw_params = load_specific_method_params(dataset_name=cfg.desired_dataset, method="moment",
+                                             best_params_dict=best_params, dataset_params=data_params)
+    moment_cfg = {"moment": moment_raw_params}
+    moment_losses, r2, metrics, model_cfg, train_cfg = run_moment_block(X_train, X_test, y_train_scaled, y_test_scaled,
         moment_cfg,
         cfg.desired_dataset,
         device)
 
 if params["run_console"]["barlow_cnn"]:
-    barlow_raw = load_specific_method_params(dataset_name=cfg.desired_dataset, method="barlow_cnn",
-                                      best_params_dict=best_params, dataset_params=data_params)
-    barlow_cfg = {"barlow_cnn": barlow_raw}
+    barlow_raw_params = load_specific_method_params(dataset_name=cfg.desired_dataset, method="barlow_cnn",
+                                             best_params_dict=best_params, dataset_params=data_params)
+    barlow_cfg = {"barlow_cnn": barlow_raw_params}
     barlow_cnn_losses, r2, metrics, barlow_recon_train, barlow_recon_test, model_cfg, train_cfg = run_barlow_cnn_block(
         X_train, X_test, y_train_scaled, y_test_scaled,
         barlow_cfg,
@@ -108,61 +106,71 @@ if params["run_console"]["barlow_cnn"]:
 
 if params["run_console"]["direct_preds"]["mean_X"]:
     mean_losses, rf_model_mean = eval_mean_row(X_L, X_test, y_L, y_test_scaled, cfg, device)
-
+if params["run_console"]["direct_preds"]["flatten_X"]:
+    flat_losses, rf_model_flat = eval_flattened(X_L, X_test, y_L, y_test_scaled, cfg, device)
 if params["run_console"]["direct_preds"]["custom_row"]:
     custom_row_number = -1
     custom_losses, rf_model_custom = eval_custom_row(X_L, X_test, y_L, y_test_scaled, cfg, device, custom_row_number)
-
 if params["run_console"]["direct_preds"]["random_row"]:
     rand_losses, rf_model_rand = eval_random_row(X_L, X_test, y_L, y_test_scaled, cfg, device)
 
-if params["run_console"]["direct_preds"]["flatten_X"]:
-    flat_losses, rf_model_flat = eval_flattened(X_L, X_test, y_L, y_test_scaled, cfg, device)
-
 # %%
 "Saving to file"
-if params["run_console"]["direct_preds"]["mean_X"] == True:
+added_entries = []
+
+if params["run_console"]["direct_preds"]["mean_X"]:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "mean(X)", mean_losses, P.json_results_file, result_type="rmse")
-if params["run_console"]["direct_preds"]["flatten_X"] == True:
+    added_entries.append((cfg.desired_dataset, "rmse", "mean(X)"))
+if params["run_console"]["direct_preds"]["flatten_X"]:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "flattened(X)", flat_losses, P.json_results_file, result_type="rmse")
+    added_entries.append((cfg.desired_dataset, "rmse", "flattened(X)"))
 if params["run_console"]["direct_preds"]["custom_row"]:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "custom(X)", custom_losses, P.json_results_file, result_type="rmse")
+    added_entries.append((cfg.desired_dataset, "rmse", "custom(X)"))
 if params["run_console"]["direct_preds"]["random_row"]:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "random(X)", rand_losses, P.json_results_file, result_type="rmse")
+    added_entries.append((cfg.desired_dataset, "rmse", "random(X)"))
 
-if params["run_console"]["timevae"] == True:
+if params["run_console"]["timevae"]:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TimeVAE", timevae_losses, P.json_results_file, result_type="rmse")
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TimeVAE", [timevae_recon_loss_test], P.json_results_file, result_type="l_recons")
     # JSONLogger.log_result_to_json(cfg.desired_dataset, "TimeVAE", [timevae_profiling_metrics], P.json_results_file, result_type="profiling")
-if params["run_console"]["ts2vec"] == True:
+    added_entries.append((cfg.desired_dataset, "rmse", "TimeVAE"))
+    added_entries.append((cfg.desired_dataset, "l_recons", "TimeVAE"))
+if params["run_console"]["ts2vec"]:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "TS2Vec", ts2vec_losses, P.json_results_file, result_type="rmse")
-if params["run_console"]["moment"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Moment (cent)", moment_losses, P.json_results_file, result_type="rmse")
-if params["run_console"]["cellsup"] == True:
-    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Cellsup", cellsup_losses, P.json_results_file, result_type="rmse")
-if params["run_console"]["barlow_cnn"] == True:
+    added_entries.append((cfg.desired_dataset, "rmse", "TS2Vec"))
+if params["run_console"]["barlow_cnn"]:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Barlow (CNN)", barlow_cnn_losses, P.json_results_file, result_type="rmse")
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Barlow (CNN)", [barlow_recon_test], P.json_results_file, result_type="l_recons")
-if params["run_console"]["cnn_lstm"] == True:
+    added_entries.append((cfg.desired_dataset, "rmse", "Barlow (CNN)"))
+if params["run_console"]["moment"]:
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Moment (cent)", moment_losses, P.json_results_file, result_type="rmse")
+    added_entries.append((cfg.desired_dataset, "rmse", "Moment (cent)"))
+if params["run_console"]["cellsup"]:
+    JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "Cellsup", cellsup_losses, P.json_results_file, result_type="rmse")
+    added_entries.append((cfg.desired_dataset, "rmse", "Cellsup"))
+if params["run_console"]["cnn_lstm"]:
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "LSTM (X)", lstm_losses, P.json_results_file, result_type="rmse")
     JSONLogger.safe_call(JSONLogger.log_result_to_json, cfg.desired_dataset, "CNN (X)", cnn_mean_losses, P.json_results_file, result_type="rmse")
+    added_entries.append((cfg.desired_dataset, "rmse", "LSTM (X)"))
+    added_entries.append((cfg.desired_dataset, "rmse", "CNN (X)"))
 
 
 # ---- Read JSON, then write to latex file ----
 data = JSONLogger.load_json_file_safely(P.json_results_file)
 methods_by_type = data.get(cfg.desired_dataset, {})
-
-for result_type, methods in methods_by_type.items():
-    df = JSONLogger.summarize_runs_to_latex(methods, cfg.num_runs)
+for dataset, result_type, method in added_entries:
+    methods = data.get(dataset, {}).get(result_type, {})
+    if method not in methods:
+        continue
+    df = JSONLogger.summarize_runs_to_latex({method: methods[method]}, cfg.num_runs, dataset)
     if df.empty:
         continue
-    print(f"Added {cfg.desired_dataset} / {result_type} to LaTeX")
+    print(f"Added {dataset} / {result_type} / {method} to LaTeX")
     timestamp = datetime.now().strftime("%H:%M")
-    header = (
-        f"-- {cfg.desired_dataset} {timestamp} "
-        f"{cfg.data_splitting=} {cfg.label_frac=} "
-        f"{cfg.dataset_window=} {result_type=} --\n")
-    latex = df.to_latex(index=False, escape=False)
+    header    = f"-- {dataset} {timestamp} {cfg.data_splitting=} {cfg.label_frac=} {cfg.dataset_window=} {result_type=} --\n"
+    latex     = df.to_latex(index=False, escape=False)
     with open(P.latex_results_file, "a") as f:
         f.write(header)
         f.write(latex)
