@@ -1,6 +1,6 @@
 # file for the params of BASELINE METHODS
 basics:
-  label_frac:      0.5  # fraction of labeled training data
+  label_frac:      1  # fraction of labeled training data
   data_splitting:  "reduced_data" # missing_labels, reduced_data
   num_runs:        3  # times to run the whole code
   desired_dataset: "india" # ecg, india, germany, china, nasa, weather, asm, gas, beijing, panama
@@ -31,9 +31,10 @@ run_console:
   timevae:       true
   ts2vec :       true
   fed:
-    ts2vec_fed:    false
+    ts2vec_fed:    true
     timevae_fed:   true
     moment_fed:    true
+    barlow_fed:    true
 
   direct_preds:
     mean_X:        true

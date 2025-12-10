@@ -36,7 +36,7 @@ beijing:
 
 china:
   timevae:
-    {"latent_dim": 32, "hidden_layers": [64, 32, 16], "reconstruction_wt": 0.6430788843244492, "train_epochs": 100, "lr": 0.0005185411364044587, "batch_size": 512} # , "rmse": 1.0038787126541138, "r2": -0.0007439937836403399, "recon_loss": 1.132570743560791}
+    {"latent_dim": 32, "hidden_layers": [64, 32, 16], "reconstr_wt": 0.6430788843244492, "train_epochs": 100, "lr": 0.0005185411364044587, "batch_size": 512} # , "rmse": 1.0038787126541138, "r2": -0.0007439937836403399, "recon_loss": 1.132570743560791}
   ts2vec:
     {"hidden_dims": 16, "latent_dims": 8, "depth": 4, "z_pooling_method": "None", "lr": 0.005, "batch_size": 1024, "epochs": 100, "patience": 25, "window_size": 64} #, "test_rmse": 0.6644366979598999, "r2": 0.5492411707463585}
   moment:
@@ -63,7 +63,7 @@ germany:
 
 gas:
   timevae:
-    {"latent_dim": 8, "hidden_layers": [64, 32, 16], "reconstruction_wt": 1.1791628819420452, "train_epochs": 100, "lr": 0.0007620911648536336, "batch_size": 128} #, "rmse": 0.978033185005188, "r2": -0.09924203599155657, "recon_loss": 0.6503278017044067}
+    {"latent_dim": 8, "hidden_layers": [64, 32, 16], "reconstr_wt": 1.1791628819420452, "train_epochs": 100, "lr": 0.0007620911648536336, "batch_size": 128} #, "rmse": 0.978033185005188, "r2": -0.09924203599155657, "recon_loss": 0.6503278017044067}
   ts2vec:
     {"hidden_dims": 20, "latent_dims": 20, "depth": 3, "z_pooling_method": "None", "lr": 0.005, "batch_size": 1024, "epochs": 100, "patience": 25, "window_size": 64} #, "test_rmse": 1.0185039043426514, "r2": 0.5647200234386032}
   moment:
@@ -76,7 +76,7 @@ gas:
 
 india:
   timevae:
-    {"latent_dim": 32, "hidden_layers": [12, 8, 12], "reconstruction_wt": 2.775213863631379, "train_epochs": 100, "lr": 0.00012391486564538158, "batch_size": 512} #, "rmse": 0.9639636278152466, "r2": 0.03677780049185856, "recon_loss": 0.9600451588630676}
+    {"latent_dim": 32, "hidden_layers": [12, 8, 12], "reconstr_wt": 2.775213863631379, "train_epochs": 100, "lr": 0.00012391486564538158, "batch_size": 512} #, "rmse": 0.9639636278152466, "r2": 0.03677780049185856, "recon_loss": 0.9600451588630676}
   ts2vec:
     {"hidden_dims": 24, "latent_dims": 12, "depth": 4, "z_pooling_method": "None", "lr": 0.001, "batch_size": 1024, "epochs": 100, "patience": 25, "window_size": 64} #, "test_rmse": 0.8722416162490845, "r2": 0.4478261951910517}
   moment:

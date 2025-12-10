@@ -67,7 +67,8 @@ if params["run_console"]["timevae"]:
                                               best_params_dict=best_params, dataset_params=data_params)
     timevae_cfg = {"timevae": timevae_raw_params}
     timevae_losses, timevae_recon_loss_test, r2, metrics, model_cfg, train_cfg = run_timevae_block(
-        X_train, X_test, y_train_scaled, y_test_scaled,
+        # X_train, X_test, y_train_scaled, y_test_scaled,
+        X_L, X_test, y_L, y_test_scaled,
         timevae_file_path,
         params=timevae_cfg,
         desired_dataset=cfg.desired_dataset,
@@ -79,7 +80,9 @@ if params["run_console"]["ts2vec"]:
     ts2vec_raw_params = load_specific_method_params(dataset_name=cfg.desired_dataset, method="ts2vec",
                                              best_params_dict=best_params, dataset_params=data_params)
     ts2vec_cfg = {"ts2vec": ts2vec_raw_params}
-    ts2vec_losses, r2, metrics, model_cfg, train_cfg = run_ts2vec_block(X_train, X_test, y_train_scaled, y_test_scaled,
+    ts2vec_losses, r2, metrics, model_cfg, train_cfg = run_ts2vec_block(
+        # X_train, X_test, y_train_scaled, y_test_scaled,
+        X_L, X_test, y_L, y_test_scaled,
         ts2vec_cfg,
         cfg.desired_dataset,
         window_size,
@@ -89,7 +92,9 @@ if params["run_console"]["moment"]:
     moment_raw_params = load_specific_method_params(dataset_name=cfg.desired_dataset, method="moment",
                                              best_params_dict=best_params, dataset_params=data_params)
     moment_cfg = {"moment": moment_raw_params}
-    moment_losses, r2, metrics, model_cfg, train_cfg = run_moment_block(X_train, X_test, y_train_scaled, y_test_scaled,
+    moment_losses, r2, metrics, model_cfg, train_cfg = run_moment_block(
+        # X_train, X_test, y_train_scaled, y_test_scaled,
+        X_L, X_test, y_L, y_test_scaled,
         moment_cfg,
         cfg.desired_dataset,
         device)
@@ -99,7 +104,8 @@ if params["run_console"]["barlow_cnn"]:
                                              best_params_dict=best_params, dataset_params=data_params)
     barlow_cfg = {"barlow_cnn": barlow_raw_params}
     barlow_cnn_losses, r2, metrics, barlow_recon_train, barlow_recon_test, model_cfg, train_cfg = run_barlow_cnn_block(
-        X_train, X_test, y_train_scaled, y_test_scaled,
+        # X_train, X_test, y_train_scaled, y_test_scaled,
+        X_L, X_test, y_L, y_test_scaled,
         barlow_cfg,
         desired_dataset=cfg.desired_dataset,
         device=device)

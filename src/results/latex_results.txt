@@ -2167,3 +2167,102 @@ panama & Barlow (CNN) & \val{0.940}{0.037} & \val{0.974}{0.039} & \val{0.977}{0.
 \bottomrule
 \end{tabular}
 
+-- beijing 13:10 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+beijing & TimeVAE (3-HFL) & \val{0.630}{0.010} & \val{0.596}{0.010} & \val{0.601}{0.009} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:10 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+beijing & Moment (3-HFL) & \val{0.699}{0.021} & \val{0.711}{0.023} & \val{0.740}{0.025} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:10 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+beijing & Moment (3-HFL) & \val{0.699}{0.021} & \val{0.711}{0.023} & \val{0.740}{0.025} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:15 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+beijing & Barlow (3-VFL) & \val{0.658}{0.041} & \val{0.679}{0.035} & \val{0.710}{0.025} \\
+\bottomrule
+\end{tabular}
+
+-- panama 13:17 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & TimeVAE (3-VFL) & \val{0.883}{0.076} & \val{0.948}{0.083} & \val{0.950}{0.084} \\
+\bottomrule
+\end{tabular}
+
+-- panama 13:17 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & Moment (3-VFL) & \val{1.811}{0.051} & \val{0.603}{0.011} & \val{0.671}{0.024} \\
+\bottomrule
+\end{tabular}
+
+-- panama 13:17 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & Barlow (3-VFL) & \val{0.493}{0.012} & \val{0.597}{0.031} & \val{0.766}{0.016} \\
+\bottomrule
+\end{tabular}
+
+-- india 13:28 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+india & TS2Vec (3-VFL) & \val{0.970}{0.016} & \val{0.567}{0.000} & \val{0.631}{0.003} \\
+\bottomrule
+\end{tabular}
+
+-- india 13:32 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+india & TimeVAE (3-VFL) & \val{0.901}{0.001} & \val{0.896}{0.007} & \val{0.900}{0.005} \\
+\bottomrule
+\end{tabular}
+
+-- india 13:32 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+india & Moment (3-VFL) & \val{1.400}{0.054} & \val{0.745}{0.009} & \val{0.800}{0.008} \\
+\bottomrule
+\end{tabular}
+
+-- india 13:32 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+india & Barlow (3-VFL) & \val{0.672}{0.011} & \val{0.622}{0.008} & \val{0.666}{0.009} \\
+\bottomrule
+\end{tabular}
+
