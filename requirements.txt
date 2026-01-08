@@ -5,6 +5,7 @@ dtype_diet
 einops
 # fastdtw
 fvcore
+geomstats
 h5py
 huggingface_hub
 ipykernel
