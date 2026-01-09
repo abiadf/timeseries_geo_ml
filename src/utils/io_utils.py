@@ -36,6 +36,24 @@ def set_all_rand_seeds(seed: int) -> None:
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark     = False
 
+def split_npy_file(file_path: str, output_prefix: str, num_splits: int):
+    """Splits a large .npy file along the first axis into multiple smaller .npy files.
+    Args:
+        file_path: Path to the original .npy file.
+        output_prefix: Prefix for the output files.
+        num_splits: Number of splits to create."""
+    data            = np.load(file_path, mmap_mode='r')  # memory-map so we don't load all into RAM
+    total_pages     = data.shape[0]
+    pages_per_split = total_pages // num_splits
+    remainder       = total_pages % num_splits
+
+    start = 0
+    for i in range(num_splits):
+        end   = start + pages_per_split + (1 if i < remainder else 0)
+        np.save(f"{output_prefix}_{i:03d}.npy", data[start:end])
+        start = end
+
+
 
 class Notifiers:
     @staticmethod
