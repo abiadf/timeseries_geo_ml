@@ -69,9 +69,34 @@ def split_dataset_to_linear_and_cyclic(dataset: pd.DataFrame, thresh: float = 0.
     for col in dataset.columns:
         score = compute_cyclicity_score(dataset[col].to_numpy())
         (cyc_cols if score > thresh else lin_cols).append(col)
+        print(f"Col: {col}, cyclicity score: {score:.4f} → {'Cyclic' if score > thresh else 'Linear'}")
     return dataset[lin_cols], dataset[cyc_cols]
 
-def make_windows_from_data(x: torch.Tensor, win: int) -> torch.Tensor:
-    """x: (T, D) → (N, win, D)"""
-    return torch.stack([x[i:i+win] for i in range(len(x) - win + 1)])
+def make_windows_from_data(X: torch.Tensor, window_size: int, sliding_size: int = 1) -> torch.Tensor:
+    """Sliding window function.
+    Converts:
+    - 2D input (T, D) → 3D output (num_windows, window_size, D)
+    - 3D input (N, T, D) → 3D output (N * num_windows, window_size, D)
+    Parameters
+    X : torch.Tensor
+        Input tensor, 2D or 3D
+    window_size : int
+        Number of timesteps per window
+    sliding_size : int
+        Step size for sliding
+    Returns: Windowed tensor as described above"""
+    if X.ndim == 2:  # (T, D)
+        timesteps, _ = X.shape
+        num_windows  = (timesteps - window_size) // sliding_size + 1
+        windows      = torch.stack([X[i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)])
+        return windows  # (num_windows, window_size, cols)
+    elif X.ndim == 3:  # (N, T, D)
+        pages, timesteps, _ = X.shape
+        num_windows         = (timesteps - window_size) // sliding_size + 1
+        windows_list        = []
+        for n in range(pages):
+            windows_list.append(torch.stack([X[n, i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)]))
+        return torch.cat(windows_list, dim=0)  # (N*num_windows, window_size, D)
+    else:
+        raise ValueError(f"X must be 2D or 3D, got {X.shape}")
 
