@@ -61,7 +61,7 @@ def compute_cyclicity_score(time_series: np.ndarray) -> float:
     power[0] = 0.0  # remove DC component
     return power.max() / (power.sum() + 1e-8)
 
-def split_dataset_to_linear_and_cyclic(dataset: pd.DataFrame, threshold: float = 0.5):
+def split_dataset_to_linear_and_cyclic(dataset: pd.DataFrame, threshold: float = 0.5, verbose: bool = True) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Split dataset X columns into 2; cyclic and linear features, based on cyclicity score
     Returns column indices, NOT values
     dataset: pd/pl dataframe"""
@@ -69,8 +69,10 @@ def split_dataset_to_linear_and_cyclic(dataset: pd.DataFrame, threshold: float =
     for col in dataset.columns:
         score = compute_cyclicity_score(dataset[col].to_numpy())
         (cyc_cols if score > threshold else lin_cols).append(col)
-        print(f"col {col} cycl. score: {score:.3f} → {'cyclic' if score > threshold else 'linear'}")
-    print(f"{100*len(cyc_cols)/len(dataset.columns):.2f}% cyclic cols, {100*len(lin_cols)/len(dataset.columns):.2f}% linear cols")
+        if verbose:
+            print(f"col {col} cycl. score: {score:.3f} → {'cyclic' if score > threshold else 'linear'}")
+    if verbose:
+        print(f"{100*len(cyc_cols)/len(dataset.columns):.2f}% cyclic cols, {100*len(lin_cols)/len(dataset.columns):.2f}% linear cols")
     return dataset[lin_cols], dataset[cyc_cols]
 
 def make_windows_from_data(X: torch.Tensor, window_size: int, sliding_size: int = 1) -> torch.Tensor:
