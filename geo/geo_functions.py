@@ -75,31 +75,74 @@ def split_dataset_to_linear_and_cyclic(dataset: pd.DataFrame, threshold: float =
         print(f"{100*len(cyc_cols)/len(dataset.columns):.2f}% cyclic cols, {100*len(lin_cols)/len(dataset.columns):.2f}% linear cols")
     return dataset[lin_cols], dataset[cyc_cols]
 
-def make_windows_from_data(X: torch.Tensor, window_size: int, sliding_size: int = 1) -> torch.Tensor:
-    """Sliding window function.
-    Converts:
-    - 2D input (T, D) → 3D output (num_windows, window_size, D)
-    - 3D input (N, T, D) → 3D output (N * num_windows, window_size, D)
-    Parameters
-    X : torch.Tensor
-        Input tensor, 2D or 3D
-    window_size : int
-        Number of timesteps per window
-    sliding_size : int
-        Step size for sliding
-    Returns: Windowed tensor as described above"""
-    if X.ndim == 2:  # (T, D)
-        timesteps, _ = X.shape
-        num_windows  = (timesteps - window_size) // sliding_size + 1
-        windows      = torch.stack([X[i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)])
-        return windows  # (num_windows, window_size, cols)
-    elif X.ndim == 3:  # (N, T, D)
-        pages, timesteps, _ = X.shape
-        num_windows         = (timesteps - window_size) // sliding_size + 1
-        windows_list        = []
-        for n in range(pages):
-            windows_list.append(torch.stack([X[n, i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)]))
-        return torch.cat(windows_list, dim=0)  # (N*num_windows, window_size, D)
-    else:
-        raise ValueError(f"X must be 2D or 3D, got {X.shape}")
+class Windowing:
+    @staticmethod
+    def make_windows_from_X(X: torch.Tensor, window_size: int, sliding_size: int = 1) -> torch.Tensor:
+        """Sliding window function, task agnostic.
+        Converts:
+        - 2D input (T, D) → 3D output (num_windows, window_size, D)
+        - 3D input (N, T, D) → 3D output (N * num_windows, window_size, D)
+        Parameters
+        X : torch.Tensor
+            Input tensor, 2D or 3D
+        window_size : int
+            Number of timesteps per window
+        sliding_size : int
+            Step size for sliding
+        Returns: Windowed tensor as described above"""
+
+        if isinstance(X, pd.DataFrame) or isinstance(X, np.ndarray):
+            X = torch.tensor(np.array(X), dtype=torch.float32)
+
+        if X.ndim == 2:  # (T, D)
+            timesteps, _ = X.shape
+            num_windows  = (timesteps - window_size) // sliding_size + 1
+            windows      = torch.stack([X[i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)])
+            return windows  # (num_windows, window_size, cols)
+        elif X.ndim == 3:  # (N, T, D)
+            pages, timesteps, _ = X.shape
+            num_windows         = (timesteps - window_size) // sliding_size + 1
+            windows_list        = []
+            for n in range(pages):
+                windows_list.append(torch.stack([X[n, i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)]))
+            return torch.cat(windows_list, dim=0)  # (N*num_windows, window_size, D)
+        else:
+            raise ValueError(f"X must be 2D or 3D, got {X.shape}")
+
+    @staticmethod
+    def make_windows_from_y(y: np.ndarray, window_size: int, sliding_size: int, task: str,) -> np.ndarray:
+        """Window labels to match X windows.
+        Args:
+            - y: np.ndarray, single sequence of shape (T,) or batch of sequences (N, T)
+            - window_size: int
+            - sliding_size: int
+            - task: str, one of ["forecast", "nowcast", "tabular"]
+                - "forecast": take last value of each window
+                - "nowcast": take mean value of each window
+                - "tabular": take first value of each window"""
+        y = np.asarray(y)
+
+        # ---- multi y-sequence ----
+        if y.ndim == 3:
+            return np.concatenate([Windowing.make_windows_from_y(y[i], window_size, sliding_size, task)
+                                   for i in range(y.shape[0])], axis=0,)
+        # ---- single y sequence ----
+        windows = []
+        T       = len(y)
+        last_start_idx = (T - window_size) // sliding_size * sliding_size
+
+        if last_start_idx < 0:
+            return np.empty((0,) + y.shape[1:])
+
+        for i in range(0, last_start_idx + 1, sliding_size):
+            w = y[i : i + window_size]
+            if task == "forecast": # take last value
+                windows.append(w[-1])
+            elif task == "nowcast": # take last value
+                windows.append(w[-1])   # causal nowcasting
+            elif task == "tabular": # take first value, doesnt matter since for tabular window_size = 1
+                windows.append(w[0])
+            else:
+                raise ValueError(task)
+        return np.asarray(windows)
 
