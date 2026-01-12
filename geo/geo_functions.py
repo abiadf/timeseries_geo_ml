@@ -105,16 +105,23 @@ class Windowing:
 
         if X.ndim == 2:  # (T, D)
             timesteps, _ = X.shape
-            num_windows  = (timesteps - window_size) // sliding_size + 1
-            windows      = torch.stack([X[i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)])
-            return windows  # (num_windows, window_size, cols)
+            num_windows = max((timesteps - window_size) // sliding_size + 1, 0)
+            if num_windows == 0:
+                # return entire sequence as single "window" if shorter than window_size
+                return X.unsqueeze(0)  # shape (1, T, D)
+            windows = torch.stack([X[i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)])
+            return windows
+
         elif X.ndim == 3:  # (N, T, D)
             pages, timesteps, _ = X.shape
-            num_windows         = (timesteps - window_size) // sliding_size + 1
-            windows_list        = []
+            num_windows = max((timesteps - window_size) // sliding_size + 1, 0)
+            windows_list = []
             for n in range(pages):
-                windows_list.append(torch.stack([X[n, i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)]))
-            return torch.cat(windows_list, dim=0)  # (N*num_windows, window_size, D)
+                if num_windows == 0:
+                    windows_list.append(X[n].unsqueeze(0))  # single "window" if short
+                else:
+                    windows_list.append(torch.stack([X[n, i:i + window_size] for i in range(0, num_windows*sliding_size, sliding_size)]))
+            return torch.cat(windows_list, dim=0)
         else:
             raise ValueError(f"X must be 2D or 3D, got {X.shape}")
 
