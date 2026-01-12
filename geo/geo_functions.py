@@ -2,7 +2,7 @@ import __main__
 import sys, os
 project_root = os.path.abspath("..")  # adjust if notebook is elsewhere
 sys.path.insert(0, project_root)
-from typing import Dict, List, Literal, Tuple, Optional, Any
+from typing import Dict, List, Literal, Tuple, Optional, Any, Union
 import logging
 from pathlib import Path
 
@@ -47,6 +47,15 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logging.info("Starting process...")
 logging.warning("Something looks off...")
 logging.error("Something failed.")
+
+
+def scale_train_and_test_sets(train_set: Union[pd.DataFrame, np.ndarray], test_set: Union[pd.DataFrame, np.ndarray]) -> tuple[torch.Tensor, torch.Tensor]:
+    "works for X or y, of type pd.DataFrame or np.ndarray, ouputs the scaled sets as torch tensors"
+    scaler           = StandardScaler()
+    train_set_scaled = torch.tensor(scaler.fit_transform(train_set), dtype=torch.float32)
+    test_set_scaled  = torch.tensor(scaler.transform(test_set), dtype=torch.float32)
+    return train_set_scaled, test_set_scaled
+
 
 def compute_cyclicity_score(time_series: np.ndarray) -> float:
     """Compute a cyclicity score for a 1D time series.
