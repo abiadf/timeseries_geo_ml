@@ -22,6 +22,7 @@ pandas
 polars
 pykan
 pycatch22
+pyriemann
 # ==== hyperparam search ====
 ray[data,train,tune,serve]
 hpbandster #for ray
