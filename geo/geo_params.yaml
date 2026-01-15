@@ -21,14 +21,17 @@ dataset:
     # batch_size  : 128
 
   longterm_weather:
-    cyclic_threshold: 0.27
-    # window_size : 8
-    # sliding_size: 1
-    # z_dim_total : 24 #16
-    # hidden_dim  : 64
-    # lr_optimizer: 1e-3
-    # batch_size  : 128
-
+    base:
+      cyclic_threshold: 0.27
+      # window_size : 8
+      # sliding_size: 1
+      # z_dim_total : 24 #16
+      # hidden_dim  : 64
+      # lr_optimizer: 1e-3
+      # batch_size  : 128
+    override:
+      {window_size: 64, sliding_size: 16, z_dim_total: 67, hidden_dim: 122, lr_optimizer: 0.0014, batch_size: 64, epochs: 50,
+      cyclic_threshold: 0.3353, earlystop_patience: 8, lambda_recon: 1.9996, lambda_latent: 0.0080, task: forecast}
 
 
 
