@@ -49,13 +49,17 @@ logging.warning("Something looks off...")
 logging.error("Something failed.")
 
 
+def drop_low_variance_cols(X: pd.DataFrame, threshold: float = 1e-6) -> pd.DataFrame:
+    """Drop columns in X whose variance is below threshold."""
+    return X.loc[:, X.var(ddof=0) >= threshold]
+
+
 def scale_train_and_test_sets(train_set: Union[pd.DataFrame, np.ndarray], test_set: Union[pd.DataFrame, np.ndarray]) -> tuple[torch.Tensor, torch.Tensor]:
     "works for X or y, of type pd.DataFrame or np.ndarray, ouputs the scaled sets as torch tensors"
     scaler           = StandardScaler()
     train_set_scaled = torch.tensor(scaler.fit_transform(train_set), dtype=torch.float32)
     test_set_scaled  = torch.tensor(scaler.transform(test_set), dtype=torch.float32)
     return train_set_scaled, test_set_scaled
-
 
 def compute_cyclicity_score(time_series_1d: np.ndarray) -> float:
     """Compute a cyclicity score for a 1D time series. The cyclicity score measures how strongly periodic a signal is
@@ -72,12 +76,17 @@ def compute_cyclicity_score(time_series_1d: np.ndarray) -> float:
     - Cyclicity score = (Fourier power of strongest freq) / sum of all Fourier power (total variance of zero-mean time series)
         - Close to 1 → strongly cyclic
         - Close to 0 → weak or non-cyclic"""
-    x        = np.asarray(time_series_1d, dtype=float)
-    x        = x - x.mean()
-    fft_vals = np.fft.rfft(x) # Fourier transform
-    power    = np.abs(fft_vals) ** 2 # fourier power, not spectral density
-    power[0] = 0.0 # remove DC component
-    return power.max() / (power.sum() + 1e-8)
+    try:
+        x        = np.asarray(time_series_1d, dtype=float)
+        x        = x - x.mean()
+        fft_vals = np.fft.rfft(x) # Fourier transform
+        power    = np.abs(fft_vals) ** 2 # fourier power, not spectral density
+        power[0] = 0.0 # remove DC component
+        return power.max() / (power.sum() + 1e-8)
+    except Exception as e:
+        print(f"{e}, col type incompatible")
+        return 0
+
 
 def split_dataset_to_linear_and_cyclic(dataset: pd.DataFrame, threshold: float = 0.5, verbose: bool = True) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Split dataset X columns into 2; cyclic and linear features, based on cyclicity score
@@ -85,10 +94,14 @@ def split_dataset_to_linear_and_cyclic(dataset: pd.DataFrame, threshold: float =
     dataset: pd/pl dataframe"""
     cyc_cols, lin_cols = [], []
     for col in dataset.columns:
-        score = compute_cyclicity_score(dataset[col].to_numpy())
-        (cyc_cols if score > threshold else lin_cols).append(col)
-        if verbose:
-            print(f"col {col} cycl. score: {score:.3f} → {'cyclic' if score > threshold else 'linear'}")
+        try:
+            score = compute_cyclicity_score(dataset[col].to_numpy())
+            (cyc_cols if score > threshold else lin_cols).append(col)
+            if verbose:
+                print(f"col {col} cycl. score: {score:.3f} → {'cyclic' if score > threshold else 'linear'}")
+        except Exception as e:
+            if verbose:
+                print(f"Error processing col {col}: {e}")
     if verbose:
         print(f"{100*len(cyc_cols)/len(dataset.columns):.2f}% cyclic cols, {100*len(lin_cols)/len(dataset.columns):.2f}% linear cols")
     return dataset[lin_cols], dataset[cyc_cols]
