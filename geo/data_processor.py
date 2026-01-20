@@ -71,30 +71,48 @@ logging.error("Something failed.")
 
 
 def process_dataset_given_filename(file_loc, y_cols: List[str]):
+    """GIven a dataset file location and target column names, process and return X and y"""
+    if isinstance(y_cols, str):
+        y_cols = [y_cols]
     X      = pd.read_csv(file_loc)
     y      = X[y_cols].values
     X      = X.drop(columns=y_cols)
     return X, y
 
-
-def process_china_weather_dataset(file_location, y_col_indices, page_choice):
+def process_china_weather_dataset(file_location: str, y_col_indices: list[int]):
+    """Process China weather tensor dataset."""
+    if not all(isinstance(i, int) for i in y_col_indices):
+        raise TypeError("y_col_indices must be integer feature indices")
+    page_choice = 7
     china_weather_array = np.load(file_location).transpose(0, 2, 1)
-    mask                = np.ones(china_weather_array.shape[2], dtype=bool)
+    mask = np.ones(china_weather_array.shape[2], dtype=bool)
     mask[y_col_indices] = False
-    X_cut               = china_weather_array[:, :, mask]      # (stations, timesteps, n_features)
-    y_cut               = china_weather_array[:, :, y_col_indices] # (stations, timesteps, n_targets)
-
-    assert X_cut.shape[2] + y_cut.shape[2] == china_weather_array.shape[2]
-
+    X_cut = china_weather_array[:, :, mask]
+    y_cut = china_weather_array[:, :, y_col_indices]
     X = pd.DataFrame(X_cut[page_choice])
     y = y_cut[page_choice]
     return X, y
 
 
 
+def get_household_power_consumption(file_loc: str, y_cols: list[str]):
+    """Load household power consumption dataset."""
+    target = y_cols[0]
+    if os.path.exists(file_loc):
+        df = pl.read_parquet(file_loc)
+    else:
+        ds = fetch_ucirepo(id=235)
+        df_pd = ds.data.original
+        cols_to_fix = [c for c in df_pd.columns if c not in ["Date", "Time"]]
+        for col in cols_to_fix:
+            df_pd[col] = pd.to_numeric(df_pd[col], errors='coerce')
+        df = pl.from_pandas(df_pd)
+        df.write_parquet(file_loc)
 
-
-
+    df = df.filter(pl.col(target).is_not_null())
+    y  = df.get_column(target)
+    X  = df.drop(target).fill_null(0)
+    return X.to_pandas(), y.to_pandas()
 
 
 
