@@ -124,7 +124,8 @@ class LSTMToroidalEncoder(nn.Module):
         mu = F.normalize(mu, dim=-1)
         
         # Kappa for each circle [Batch, N_features, 1]
-        kappa = F.softplus(self.kappa(h)).view(-1, self.n_cyc, 1) + 1e-3
+        # kappa = F.softplus(self.kappa(h)).view(-1, self.n_cyc, 1) + 1e-3  # 3D
+        kappa = F.softplus(self.kappa(h)).view(-1, self.n_cyc) + 1e-3  # 2D
         return mu, kappa
 
 class LSTMDecoder(nn.Module):
@@ -224,7 +225,6 @@ def kl_vmf_uniform(mu: torch.Tensor, kappa: torch.Tensor) -> torch.Tensor:
     log_c = (d/2 - 1) * torch.log(kappa) - (d/2) * torch.log(torch.tensor(2*torch.pi, device=mu.device)) - kappa
     kl    = kappa.squeeze(-1) - log_c  # per-batch, KL ≈ kappa * (μ · μ) + log C_d(kappa)  (simplified)
     return kl.mean()
-
 
 class MixedEncoder(nn.Module):
     """Encoder producing mixed latent variables:
