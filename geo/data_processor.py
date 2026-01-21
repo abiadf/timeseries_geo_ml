@@ -99,7 +99,7 @@ dataset_dict = {"szeged_weather":    {"file_loc": "../public_datasets/2D/tabular
                 "wind_power":        {"file_loc": f"../public_datasets/2D/tabular/wind_power/wind_power_dataset.csv",
                                       "y_cols": ["LV ActivePower (kW)"],
                                       "function": process_dataset_given_filename},
-                "turbine_power":     {"file_loc": "../public_datasets/2D/tabular/turbine_power/Location1.csv",
+                "turbine_power":     {"file_loc": "../public_datasets/2D/tabular/turbine_power/Location1_light.csv",
                                       "y_cols": ["Power"],
                                       "function": process_dataset_given_filename},
                 "electric_power":    {"file_loc": "../public_datasets/2D/tabular/electric_power/household_power.parquet",

@@ -77,7 +77,6 @@ class Decoder(nn.Module):
         return self.net(z)  # shape (B, window_size*output_dim)
 
 # for timeseries
-
 # old
 class old_LSTMSphericalEncoder(nn.Module):
     """Spherical latent LSTM encoder (vMF z_s)."""

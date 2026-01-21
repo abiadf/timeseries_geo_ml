@@ -48,6 +48,10 @@ logging.info("Starting process...")
 logging.warning("Something looks off...")
 logging.error("Something failed.")
 
+def read_csv_and_skip_rows_then_save(file_loc: str, file_name: str, rows_to_skip: int, changed_file_name: str):
+    "rows_to_skip: 0 (no skipping), 1 (skip every other), 2 (skip 2 out of 3), etc."
+    df = pd.read_csv(file_loc+file_name, skiprows=lambda i: i % rows_to_skip == 1)
+    df.to_csv(file_loc+changed_file_name, index=False)
 
 def drop_low_variance_cols(X: pd.DataFrame, threshold: float = 1e-6) -> pd.DataFrame:
     """Drop columns in X whose variance is below threshold."""
