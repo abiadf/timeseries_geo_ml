@@ -54,12 +54,31 @@ def drop_low_variance_cols(X: pd.DataFrame, threshold: float = 1e-6) -> pd.DataF
     return X.loc[:, X.var(ddof=0) >= threshold]
 
 
-def scale_train_and_test_sets(train_set: Union[pd.DataFrame, np.ndarray], test_set: Union[pd.DataFrame, np.ndarray]) -> tuple[torch.Tensor, torch.Tensor]:
-    "works for X or y, of type pd.DataFrame or np.ndarray, ouputs the scaled sets as torch tensors"
-    scaler           = StandardScaler()
-    train_set_scaled = torch.tensor(scaler.fit_transform(train_set), dtype=torch.float32)
-    test_set_scaled  = torch.tensor(scaler.transform(test_set), dtype=torch.float32)
-    return train_set_scaled, test_set_scaled
+def scale_train_and_test_sets(train_set: Union[pd.DataFrame, pd.Series, np.ndarray],
+                              test_set: Union[pd.DataFrame, pd.Series, np.ndarray]) -> tuple[torch.Tensor, torch.Tensor]:
+    """Standard-scale train/test sets; supports empty blocks; returns torch tensors."""
+
+    # ---- handle empty blocks (DataFrame or ndarray) ----
+    if (isinstance(train_set, pd.DataFrame) and train_set.shape[1] == 0) or \
+       (isinstance(train_set, np.ndarray) and train_set.ndim == 2 and train_set.shape[1] == 0):
+        n_train = len(train_set)
+        n_test  = len(test_set)
+        return (torch.empty((n_train, 0), dtype=torch.float32),
+                torch.empty((n_test, 0), dtype=torch.float32))
+
+    # ---- normalize input types ----
+    if isinstance(train_set, pd.Series):
+        train_set = train_set.to_frame()
+        test_set  = test_set.to_frame()
+    elif isinstance(train_set, np.ndarray) and train_set.ndim == 1:
+        train_set = train_set.reshape(-1, 1)
+        test_set  = test_set.reshape(-1, 1)
+
+    scaler = StandardScaler()
+    train_scaled = torch.tensor(scaler.fit_transform(train_set), dtype=torch.float32)
+    test_scaled  = torch.tensor(scaler.transform(test_set), dtype=torch.float32)
+    return train_scaled, test_scaled
+
 
 def compute_cyclicity_score(time_series_1d: np.ndarray) -> float:
     """Compute a cyclicity score for a 1D time series. The cyclicity score measures how strongly periodic a signal is

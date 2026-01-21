@@ -76,8 +76,24 @@ class Decoder(nn.Module):
         # z: (B, z_dim_total)
         return self.net(z)  # shape (B, window_size*output_dim)
 
-
 # for timeseries
+
+# old
+class old_LSTMSphericalEncoder(nn.Module):
+    """Spherical latent LSTM encoder (vMF z_s)."""
+    def __init__(self, input_dim, hidden_dim, z_dim):
+        super().__init__()
+        self.lstm   = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.mu_raw = nn.Linear(hidden_dim, z_dim)
+        self.kappa  = nn.Linear(hidden_dim, 1)
+
+    def forward(self, x):
+        _, (h_n, _) = self.lstm(x)
+        h      = h_n.squeeze(0)
+        mu_dir = F.normalize(self.mu_raw(h), dim=-1)  # = cos theta, sin theta
+        kappa  = F.softplus(self.kappa(h)) + 1e-3
+        return mu_dir, kappa
+
 class LSTMEncoderEuclid(nn.Module):
     """Euclidean latent LSTM encoder (Gaussian z_e)."""
     def __init__(self, input_dim, hidden_dim, z_dim):
@@ -93,19 +109,21 @@ class LSTMEncoderEuclid(nn.Module):
         return self.mu(encoder_hidden), self.logvar(encoder_hidden)  # [B, z_dim], [B, z_dim]
 
 class LSTMSphericalEncoder(nn.Module):
-    """Spherical latent LSTM encoder (vMF z_s)."""
-    def __init__(self, input_dim, hidden_dim, z_dim):
+    def __init__(self, input_dim, hidden_dim, z_dim, n_layers=2, epsilon=1e-3):
         super().__init__()
-        self.lstm   = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.lstm = nn.LSTM(input_dim, hidden_dim, num_layers=n_layers, batch_first=True)
         self.mu_raw = nn.Linear(hidden_dim, z_dim)
-        self.kappa  = nn.Linear(hidden_dim, 1)
+        self.kappa = nn.Linear(hidden_dim, 1)
+        self.epsilon = epsilon
 
     def forward(self, x):
-        _, (h_n, _) = self.lstm(x)
-        h      = h_n.squeeze(0)
-        mu_dir = F.normalize(self.mu_raw(h), dim=-1)  # = cos theta, sin theta
-        kappa  = F.softplus(self.kappa(h)) + 1e-3
+        _, (h, _) = self.lstm(x)
+        h = h[-1] 
+        mu_dir = F.normalize(self.mu_raw(h), dim=-1)
+        # Ensure kappa is [B, 1] or [B]
+        kappa = F.softplus(self.kappa(h)) + self.epsilon 
         return mu_dir, kappa
+
 
 # # old
 # class LSTMToroidalEncoder(nn.Module):
@@ -130,24 +148,25 @@ class LSTMSphericalEncoder(nn.Module):
 #         return mu, kappa
 
 class LSTMToroidalEncoder(nn.Module):
-    def __init__(self, input_dim, hidden_dim, num_cyc_features):
+    def __init__(self, input_dim, hidden_dim, num_cyc_features, n_layers=2, epsilon=1e-3):
         super().__init__()
-        self.n_cyc = num_cyc_features
-        self.lstm = nn.LSTM(input_dim, hidden_dim, batch_first=True)
-        self.mu_layer = nn.Linear(hidden_dim, num_cyc_features * 2)
+        self.n_cyc       = num_cyc_features
+        self.epsilon     = epsilon
+        self.lstm        = nn.LSTM(input_dim, hidden_dim, num_layers=n_layers, batch_first=True)
+        self.mu_layer    = nn.Linear(hidden_dim, num_cyc_features * 2)
         self.kappa_layer = nn.Linear(hidden_dim, num_cyc_features)
 
     def forward(self, x):
         # x: [Batch, Seq, Feats]
         _, (h, _) = self.lstm(x)
-        h = h[-1] # Take last layer's hidden state: [Batch, hidden_dim]
+        h         = h[-1] # Take last layer's hidden state: [Batch, hidden_dim]
         
         # mu: [Batch, n_cyc, 2]
         mu = self.mu_layer(h).view(-1, self.n_cyc, 2)
         mu = F.normalize(mu, dim=-1)
         
         # kappa: [Batch, n_cyc]
-        kappa = F.softplus(self.kappa_layer(h)).view(-1, self.n_cyc) + 1e-3
+        kappa = F.softplus(self.kappa_layer(h)).view(-1, self.n_cyc) + self.epsilon
         return mu, kappa
 
 class LSTMDecoder(nn.Module):
@@ -179,7 +198,9 @@ class MLPDecoder(nn.Module):
         self.net = nn.Sequential(
             nn.Linear(z_dim_total, hidden_dim),
             nn.ReLU(),
-            nn.Linear(hidden_dim, window_size * output_dim)  # flattened output
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+                nn.Linear(hidden_dim, window_size * output_dim)  # flattened output
         )
 
     def forward(self, z):
@@ -194,15 +215,17 @@ class Reparam:
         eps = torch.randn_like(std)
         return mu + eps * std
 
-    @staticmethod #old, maybe remove
+    @staticmethod
     def reparam_vmf(mu_dir: torch.Tensor, kappa: torch.Tensor) -> torch.Tensor:
         """vMF has no closed form, so approximate vMF sampling: Gaussian noise + projection. Radius = 1 by construction.
         This is what Davidson (2018) does as well, fine because ELBO needs approximate sampling"""
+        """Fixed: Uses broadcasting for kappa."""
         eps = torch.randn_like(mu_dir)
-        z   = mu_dir + eps / (kappa + 1e-6)
-        return F.normalize(z, dim= -1) #this projects to unit sphere
+        # Ensure kappa is [B, 1] to broadcast with mu_dir [B, D]
+        z = mu_dir + eps / (kappa.view(-1, 1) + 1e-6)
+        return F.normalize(z, dim=-1)
 
-    @staticmethod
+    @staticmethod # old
     def sample_vmf(mu: torch.Tensor, kappa: torch.Tensor) -> torch.Tensor:
         """Sample from vMF distribution on S^{d-1} with direction mu and concentration kappa.
         mu: (batch, dim), must be unit norm
@@ -222,6 +245,23 @@ class Reparam:
         # combine
         z = w * mu + torch.sqrt(1 - w**2) * v
         return F.normalize(z, dim=-1)
+
+    @staticmethod
+    def sample_vmf_approximate(mu, kappa):
+        """Fixed: Uses broadcasting for kappa."""
+        noise = torch.randn_like(mu) * (1.0 / (kappa.view(-1, 1) + 1e-6))
+        return F.normalize(mu + noise, dim=-1)
+
+    @staticmethod
+    def sample_vmf_exact(mu_xy: torch.Tensor, kappa: torch.Tensor):
+        """Exact S¹ sampler."""
+        mu_xy = F.normalize(mu_xy, dim=-1)
+        mu_angle = torch.atan2(mu_xy[:, 1], mu_xy[:, 0])
+        # Note: VonMises.rsample() is only available in newer PyTorch versions
+        # If rsample() fails, use sample(), but it won't be backprop-friendly.
+        dist = torch.distributions.VonMises(mu_angle, kappa.view(-1))
+        theta = dist.sample() 
+        return torch.stack([torch.cos(theta), torch.sin(theta)], dim=-1)
 
 
 def kl_gaussian(mu, logvar):
@@ -370,7 +410,47 @@ class WithSplit:
         return lambdas["reconstr"]*L_recon + lambdas["euc"]*L_kl_e + lambdas["sph"]*L_kl_s
 
     @staticmethod
-    def vae_train_step_for_timeseries(x_lin: torch.Tensor, x_cyc: torch.Tensor,
+    def vae_train_step_for_timeseries(x_lin, x_cyc, lin_encoder, cyc_encoder, decoder, lambdas):
+        """Supports cases where lin_encoder or cyc_encoder are None."""
+        z_parts = []
+        kl_e = torch.tensor(0.0, device=x_lin.device)
+        kl_s = torch.tensor(0.0, device=x_lin.device)
+
+        # Euclidean branch: Skip if encoder is None or input has no features
+        if lin_encoder is not None and x_lin.shape[-1] > 0:
+            mu_e, logvar_e = lin_encoder(x_lin)
+            z_e = Reparam.reparam_gaussian(mu_e, logvar_e)
+            z_parts.append(z_e)
+            kl_e = kl_gaussian(mu_e, logvar_e)
+
+        # Spherical branch: Skip if encoder is None or input has no features
+        if cyc_encoder is None or x_cyc.shape[-1] == 0:
+            mu_s = kappa = z_s = None
+        else:
+            mu_s, kappa = cyc_encoder(x_cyc)
+            # Pass kappa explicitly reshaped to ensure no broadcast errors
+            z_s = Reparam.reparam_vmf(mu_s, kappa.view(-1, 1))
+            kl_s = kl_vmf_uniform(mu_s, kappa.view(-1))
+
+        # Combine latents
+        z = torch.cat(z_parts, dim=-1)
+        x_hat = decoder(z)
+
+        # Flatten inputs to match MLPDecoder output (B, win * D_total)
+        # Only concatenate if both have features; otherwise just reshape the active one
+        inputs_to_concat = []
+        if x_lin.shape[-1] > 0: inputs_to_concat.append(x_lin.reshape(x_lin.size(0), -1))
+        if x_cyc.shape[-1] > 0: inputs_to_concat.append(x_cyc.reshape(x_cyc.size(0), -1))
+        
+        x_target = torch.cat(inputs_to_concat, dim=-1)
+        recon_loss = F.mse_loss(x_hat, x_target)
+
+        return (lambdas["reconstr"] * recon_loss + 
+                lambdas["euc"] * kl_e + 
+                lambdas["sph"] * kl_s)
+
+    @staticmethod
+    def old_vae_train_step_for_timeseries(x_lin: torch.Tensor, x_cyc: torch.Tensor,
                     lin_encoder: nn.Module, cyc_encoder: nn.Module,
                     decoder: nn.Module, lambdas: dict) -> torch.Tensor:
         """Single VAE training step for split latent VAE.
@@ -384,9 +464,17 @@ class WithSplit:
         x_lin_flat = x_lin
         x_cyc_flat = x_cyc
 
-        # ---- encode ----
-        mu_e, logvar_e = lin_encoder(x_lin_flat)
-        mu_s, kappa    = cyc_encoder(x_cyc_flat)
+        # ---- Euclidean branch ----
+        if lin_encoder is not None:
+            mu_e, logvar_e = lin_encoder(x_lin_flat)
+        else:
+            mu_e = logvar_e = None
+
+        # ---- Spherical branch ----
+        if cyc_encoder is not None:
+            mu_s, kappa = cyc_encoder(x_cyc_flat)
+        else:
+            mu_s = kappa = None
 
         # ---- reparameterize ----
         z_e = Reparam.reparam_gaussian(mu_e, logvar_e)  # [B, z_e]
@@ -417,8 +505,11 @@ class WithSplit:
             decoder     : Decoder
             optimizer   : Optimizer
             lambdas     : dict of loss weights"""
-        lin_encoder.train()
-        cyc_encoder.train()
+
+        if lin_encoder is not None:
+            lin_encoder.train()
+        if cyc_encoder is not None:
+            cyc_encoder.train()
         decoder.train()
 
         epoch_loss = 0
