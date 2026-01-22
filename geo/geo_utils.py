@@ -58,6 +58,23 @@ def drop_low_variance_cols(X: pd.DataFrame, threshold: float = 1e-6) -> pd.DataF
     return X.loc[:, X.var(ddof=0) >= threshold]
 
 
+class Periodicity:
+    def _dominant_periods(x: np.ndarray, fs: float = 1.0, topk: int = 2, max_period: int = None) -> list[int]:
+        """Return top-k dominant periods, ignoring near-DC artifacts."""
+        n       = len(x)
+        freqs   = np.fft.rfftfreq(n, d=1/fs)[1:]
+        power   = np.abs(np.fft.rfft(x))[1:]**2
+        periods = 1 / freqs
+
+        if max_period is None:
+            max_period = int(n * 0.25)
+
+        mask = periods <= max_period
+        idxs = np.argsort(power[mask])[-topk:]
+        return sorted(int(round(periods[mask][i])) for i in idxs)
+
+
+
 def scale_train_and_test_sets(train_set: Union[pd.DataFrame, pd.Series, np.ndarray],
                               test_set: Union[pd.DataFrame, pd.Series, np.ndarray]) -> tuple[torch.Tensor, torch.Tensor]:
     """Standard-scale train/test sets; supports empty blocks; returns torch tensors."""
@@ -206,4 +223,36 @@ class Windowing:
             else:
                 raise ValueError(task)
         return np.asarray(windows)
+
+    @staticmethod
+    def split_timeseries_by_windows(X, y, window_size: int, sliding_fraction: float, test_ratio: float,):
+        """to use when test set < window size. Split time series so test set contains ceil(test_ratio) of windows."""
+        sliding_size = int(window_size * sliding_fraction)
+        if sliding_size <= 0:
+            raise ValueError("sliding_fraction too small")
+
+        X_len = len(X)
+        if X_len < window_size:
+            raise ValueError("X shorter than window_size")
+
+        num_windows  = 1 + (X_len - window_size) // sliding_size
+        test_windows = max(1, int(np.ceil(num_windows * test_ratio)))
+
+        test_samples = window_size + (test_windows - 1) * sliding_size
+        split_idx    = X_len - test_samples
+
+        if split_idx <= 0:
+            raise ValueError("Test set consumes entire series")
+
+        slicer = slice(None, split_idx)
+        slicer_test = slice(split_idx, None)
+
+        def _slice(obj, sl):
+            return obj[sl] if isinstance(obj, np.ndarray) else obj.iloc[sl]
+
+        return (
+            _slice(X, slicer),
+            _slice(X, slicer_test),
+            _slice(y, slicer),
+            _slice(y, slicer_test),)
 

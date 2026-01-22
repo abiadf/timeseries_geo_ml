@@ -1,7 +1,7 @@
 """Contains the logic for processing a dataset to X and y"""
 "🇮🇳 india ocean wave timeseries (https://www.kaggle.com/competitions/ml-for-oceanography/data)"
 "🇭🇺 Szeged (https://www.kaggle.com/datasets/budincsevity/szeged-weather)"
-"longterm weather (https://www.kaggle.com/datasets/alistairking/weather-long-term-time-series-forecasting)"
+"🌦️ longterm weather (https://www.kaggle.com/datasets/alistairking/weather-long-term-time-series-forecasting)"
 "💨 wind power (https://www.kaggle.com/datasets/berkerisen/wind-turbine-scada-dataset)"
 "🚁 wind turbine power (https://www.kaggle.com/datasets/mubashirrahim/wind-power-generation-data-forecasting?select=Location1.csv)"
 "⚡️ Electric power data (https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption)"
@@ -40,7 +40,6 @@ logging.info("Starting process...")
 logging.warning("Something looks off...")
 logging.error("Something failed.")
 
-
 def process_dataset_given_filename(file_loc, y_cols: List[str]):
     """GIven a dataset file location and target column names, process and return X and y"""
     if isinstance(y_cols, str):
@@ -54,14 +53,14 @@ def process_china_weather_dataset(file_location: str, y_col_indices: list[int]):
     """Process China weather tensor dataset."""
     if not all(isinstance(i, int) for i in y_col_indices):
         raise TypeError("y_col_indices must be integer feature indices")
-    page_choice = 7
+    page_choice         = 7
     china_weather_array = np.load(file_location).transpose(0, 2, 1)
-    mask = np.ones(china_weather_array.shape[2], dtype=bool)
+    mask                = np.ones(china_weather_array.shape[2], dtype=bool)
     mask[y_col_indices] = False
     X_cut = china_weather_array[:, :, mask]
     y_cut = china_weather_array[:, :, y_col_indices]
-    X = pd.DataFrame(X_cut[page_choice])
-    y = y_cut[page_choice]
+    X     = pd.DataFrame(X_cut[page_choice])
+    y     = y_cut[page_choice]
     return X, y
 
 def get_household_power_consumption(file_loc: str, y_cols: list[str]):

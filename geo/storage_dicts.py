@@ -1,3 +1,4 @@
+"""Dictionaties for datasets to use in main code"""
 
 dataset_modality_dict = {"longterm_weather":  "timeseries",
                          "electric_power":    "timeseries",
@@ -24,7 +25,7 @@ cols_to_drop = {"longterm_weather":  ["date"],
 
 periodic_threshold_dict = {"longterm_weather":  0.52,
                            "electric_power":    0.5,
-                           "china_weather":     0.25,
+                           "china_weather":     0.3,
                            "cali_housing":      0.3,
                            "bike_sharing":      0.3,
                            "forest_fires":      0.3,
@@ -34,6 +35,19 @@ periodic_threshold_dict = {"longterm_weather":  0.52,
                            "szeged_weather":    0.25,
                            "turbine_power":     0.3,
                            "imu_gyro":          0.7,}
+
+sliding_window_frac_dict = {"longterm_weather":  0.1, # ✅
+                            "electric_power":    0.25,
+                            "china_weather":     0.1, # ✅
+                            "cali_housing":      0.25,
+                            "bike_sharing":      0.25,
+                            "forest_fires":      0.25,
+                            "panama":            0.25,
+                            "wind_power":        0.25,
+                            "india_ocean_waves": 0.25,
+                            "szeged_weather":    0.25,
+                            "turbine_power":     0.25,
+                            "imu_gyro":          0.25,}
 
 angular_features_list = {"longterm_weather": [],
                         "electric_power":    [],
@@ -49,4 +63,12 @@ angular_features_list = {"longterm_weather": [],
                         "turbine_power":     ["winddirection_10m", "winddirection_100m"],
                         }
 
+dataset_method_mapping = {"longterm_weather":  "periodic",
+                          "china_weather":     "periodic",
+                          "panama":            "periodic",
+                          "wind_power":        "periodic",
+                          "india_ocean_waves": "angular",
+                          "szeged_weather":    "angular",
+                          "turbine_power":     "angular",
+                          "imu_gyro":          "?",}
 

@@ -27,7 +27,7 @@ if torch.cuda.is_available():
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# for tabular
+# %% tabular
 class EuclidEncoder(nn.Module):
     def __init__(self, window_size, input_dim, z_dim, hidden):
         super().__init__()
@@ -76,7 +76,8 @@ class Decoder(nn.Module):
         # z: (B, z_dim_total)
         return self.net(z)  # shape (B, window_size*output_dim)
 
-# for timeseries
+# %% timeseries
+
 # old
 class old_LSTMSphericalEncoder(nn.Module):
     """Spherical latent LSTM encoder (vMF z_s)."""
@@ -148,6 +149,7 @@ class LSTMSphericalEncoder(nn.Module):
 
 class LSTMToroidalEncoder(nn.Module):
     def __init__(self, input_dim, hidden_dim, num_cyc_features, n_layers=2, epsilon=1e-3):
+        """epsilon: small value to ensure kappa > 0"""
         super().__init__()
         self.n_cyc       = num_cyc_features
         self.epsilon     = epsilon
@@ -206,6 +208,8 @@ class MLPDecoder(nn.Module):
         # z: [B, z_dim_total]
         return self.net(z)  # [B, window_size*output_dim]
 
+
+# %% reparameterization tricks
 class Reparam:
     @staticmethod
     def reparam_gaussian(mu: torch.Tensor, logvar: torch.Tensor) -> torch.Tensor:
