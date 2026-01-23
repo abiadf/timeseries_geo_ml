@@ -108,7 +108,6 @@ class LSTMEncoderEuclid(nn.Module):
         encoder_hidden      = lstm_hidden.squeeze(0) # [B, H]
         return self.mu(encoder_hidden), self.logvar(encoder_hidden)  # [B, z_dim], [B, z_dim]
 
-
 class LSTMSphericalEncoder(nn.Module):
     """Turns a sequence into a spherical latent representation.
     The LSTM collapses the time dimension and produces a final hidden state h_last.
@@ -133,7 +132,6 @@ class LSTMSphericalEncoder(nn.Module):
         # Ensure kappa is [B, 1] or [B]
         kappa     = F.softplus(self.kappa(h_last)) + self.epsilon 
         return mu_dir, kappa
-
 
 # # old
 # class LSTMToroidalEncoder(nn.Module):
@@ -211,8 +209,7 @@ class MLPDecoder(nn.Module):
             nn.ReLU(),
             nn.Linear(hidden_dim, hidden_dim),
             nn.ReLU(),
-                nn.Linear(hidden_dim, window_size * output_dim)  # flattened output
-        )
+                nn.Linear(hidden_dim, window_size * output_dim))  # flattened output
 
     def forward(self, z):
         # z: [B, z_dim_total]

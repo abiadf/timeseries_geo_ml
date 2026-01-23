@@ -328,7 +328,7 @@ class Sphlin:
         return torch.cat(zs, dim=0)
 
     @staticmethod
-    def train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas):
+    def train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas, epoch):
         """One VAE + prediction step."""
         z_parts, kl_e, kl_s = [], torch.tensor(0., device=x_lin.device), torch.tensor(0., device=x_lin.device)
 
@@ -357,11 +357,10 @@ class Sphlin:
         y_hat     = pred_head(z)
         pred_loss = F.mse_loss(y_hat, y_win)
 
+        kl_weight  = min(1.0, epoch/20) # warm-up for KL
         total_loss = (lambdas["reconstr"] * recon_loss +
-                    lambdas["euc"] * kl_e +
-                    lambdas["sph"] * kl_s +
+                    kl_weight * (lambdas["euc"] * kl_e + lambdas["sph"] * kl_s) +
                     lambdas["pred"] * pred_loss)
-
         return {
             "total": total_loss,
             "recon": recon_loss,
@@ -371,17 +370,16 @@ class Sphlin:
             "mu_s": mu_s if encoder_s else None,
             "kappa": kappa if encoder_s else None,
             "z_s": z_s if encoder_s else None,
-            "z_e": z_e if encoder_e else None
-        }
+            "z_e": z_e if encoder_e else None}
 
     @staticmethod
-    def train_epoch(loader, encoder_e, encoder_s, decoder, pred_head, optimizer, lambdas, device):
+    def train_epoch(loader, encoder_e, encoder_s, decoder, pred_head, optimizer, lambdas, device, epoch):
         totals = {}
         counts = {}
         for x_lin, x_cyc, y_win in loader:
             x_lin, x_cyc, y_win = x_lin.to(device), x_cyc.to(device), y_win.to(device)
             optimizer.zero_grad()
-            losses = Sphlin.train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas)
+            losses = Sphlin.train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas, epoch)
             losses["total"].backward()
             optimizer.step()
 
@@ -408,7 +406,7 @@ class Sphlin:
         logs = {"total": [], "recon": [], "kl_e": [], "kl_s": [], "pred": [], "kappa": [], "mu_s": [], "z_s": [], "z_e": []}
 
         for epoch in range(p.epochs):
-            losses = Sphlin.train_epoch(loader, encoder_e, encoder_s, decoder, pred_head, optimizer, lambdas, device)
+            losses = Sphlin.train_epoch(loader, encoder_e, encoder_s, decoder, pred_head, optimizer, lambdas, device, epoch)
             for k in logs:
                 if k in losses and losses[k] is not None:
                     logs[k].append(losses[k])
@@ -422,7 +420,7 @@ class Sphlin:
         return logs
 
     @staticmethod
-    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p):
+    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=None):
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
         X_lin_tr, X_cyc_tr = split_dataset_to_linear_and_cyclic(X_train, threshold=p.cyclic_threshold, verbose=False)
@@ -438,20 +436,20 @@ class Sphlin:
         elif n_lin == 0:
             z_euc, z_sph = 0, p.z_dim_total
         else:
-            z_sph = max(1, min(int(round(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
+            z_sph = max(1, min(int(np.floor(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
             z_euc = p.z_dim_total - z_sph
 
         print(f"z_euc={z_euc}, z_sph={z_sph}, %feats_cyc={100*n_cyc/n_tot:.2f}")
 
         def make_w(X, d):
             if d == 0: return None
-            return Windowing.make_windows_from_X(X, p.window_size, p.sliding_size).to(device).view(-1, p.window_size, d)
+            return Windowing.make_windows_from_X(X, p.window_size, sliding_size).to(device).view(-1, p.window_size, d)
 
         X_lin_tr_w, X_lin_te_w = make_w(X_lin_tr, n_lin), make_w(X_lin_te, n_lin)
         X_cyc_tr_w, X_cyc_te_w = make_w(X_cyc_tr, n_cyc), make_w(X_cyc_te, n_cyc)
 
-        y_tr_w = Windowing.make_windows_from_y(y_tr_s, p.window_size, p.sliding_size, task=p.task)
-        y_te_w = Windowing.make_windows_from_y(y_te_s, p.window_size, p.sliding_size, task=p.task)
+        y_tr_w = Windowing.make_windows_from_y(y_tr_s, p.window_size, sliding_size, task=p.task)
+        y_te_w = Windowing.make_windows_from_y(y_te_s, p.window_size, sliding_size, task=p.task)
         y_tr_w = torch.tensor(y_tr_w, dtype=torch.float32, device=device)
         y_te_w = torch.tensor(y_te_w, dtype=torch.float32, device=device)
 

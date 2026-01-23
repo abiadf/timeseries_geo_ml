@@ -9,3 +9,6 @@ natural period of datasets (domain knowledge + observed cycles):
 
 - wind_power: 10min per step. do 2weeks (2160 steps)
 
+- turbine_power: 1h per step for 4 years (43k steps).
+
+

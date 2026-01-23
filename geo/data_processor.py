@@ -3,7 +3,7 @@
 "🇭🇺 Szeged (https://www.kaggle.com/datasets/budincsevity/szeged-weather)"
 "🌦️ longterm weather (https://www.kaggle.com/datasets/alistairking/weather-long-term-time-series-forecasting)"
 "💨 wind power (https://www.kaggle.com/datasets/berkerisen/wind-turbine-scada-dataset)"
-"🚁 wind turbine power (https://www.kaggle.com/datasets/mubashirrahim/wind-power-generation-data-forecasting?select=Location1.csv)"
+"🚁 turbine power (https://www.kaggle.com/datasets/mubashirrahim/wind-power-generation-data-forecasting?select=Location1.csv)"
 "⚡️ Electric power data (https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption)"
 
 import __main__
@@ -98,7 +98,7 @@ dataset_dict = {"szeged_weather":    {"file_loc": "../public_datasets/2D/tabular
                 "wind_power":        {"file_loc": f"../public_datasets/2D/tabular/wind_power/wind_power_dataset.csv",
                                       "y_cols": ["LV ActivePower (kW)"],
                                       "function": process_dataset_given_filename},
-                "turbine_power":     {"file_loc": "../public_datasets/2D/tabular/turbine_power/Location1_light.csv",
+                "turbine_power":     {"file_loc": "../public_datasets/2D/tabular/turbine_power/Location1.csv",
                                       "y_cols": ["Power"],
                                       "function": process_dataset_given_filename},
                 "electric_power":    {"file_loc": "../public_datasets/2D/tabular/electric_power/household_power.parquet",
