@@ -127,6 +127,33 @@ def compute_cyclicity_score(time_series_1d: np.ndarray) -> float:
         print(f"{e}, col type incompatible")
         return 0
 
+def compute_multicyclicity_scores(time_series_1d: np.ndarray, top_k: int = 3, threshold: float = 0.1):
+    """Compute the top_k dominant frequencies of a 1D signal using FFT.
+    Args:
+        time_series_1d: 1D signal shape (T,)
+        top_k: number of dominant frequencies to return
+        threshold: minimum power_ratio to consider the feature cyclic
+    Returns:
+        List of tuples (freq, power_ratio) sorted by descending power_ratio.
+        freq:
+            normalized frequency (cycles per sample)
+        power_ratio:
+            power at that frequency divided by total power
+            (fraction of variance explained by that frequency)
+        If power_ratio < threshold, the feature is considered non-cyclic."""
+    x           = np.asarray(time_series_1d, dtype=float)
+    x           = x - x.mean()
+    fft_vals    = np.fft.rfft(x)
+    power       = np.abs(fft_vals) ** 2
+    power[0]    = 0
+    power_total = power.sum() + 1e-12
+
+    idx    = np.argsort(power)[-top_k:][::-1]
+    freqs  = idx / len(x)
+    ratios = power[idx] / power_total
+    return [(float(freqs[i]), float(ratios[i])) for i in range(top_k) if ratios[i] >= threshold]
+
+
 
 def split_dataset_to_linear_and_cyclic(dataset: pd.DataFrame, threshold: float = 0.5, verbose: bool = True) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Split dataset X columns into 2; cyclic and linear features, based on cyclicity score
