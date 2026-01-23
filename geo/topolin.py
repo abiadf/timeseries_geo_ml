@@ -93,8 +93,8 @@ class Oldtor:
 
         # 5. Training
         lambdas = {'reconstr': p.lambda_recon,
-                'euc': p.lambda_latent/np.sqrt(z_dim_euclid),
-                'sph': p.lambda_latent/np.sqrt(z_dim_torus)}
+                   'euc': p.lambda_kl_euc/np.sqrt(z_dim_euclid),
+                   'sph': p.lambda_kl_sph/np.sqrt(z_dim_torus)}
 
         for _ in range(p.epochs):
             train_linear_and_toroidal_vaes_1_epoch(loader, encoder_e, encoder_t, decoder, optimizer, lambdas, num_cyc_features)
@@ -228,8 +228,8 @@ class Sphlin:
         This is NOT exact vMF sampling; it is a heuristic used for speed.
         Valid for large kappa (high concentration) where vMF ≈ Gaussian on the sphere."""
         # kappa is [B, 1], mu is [B, D]
-        # eps = torch.randn_like(mu)
-        # z   = mu + eps / (kappa.view(-1, 1) + 1e-6)
+        # heuristic version to make things faster
+        # z = mu + torch.randn_like(mu) / (kappa.view(-1,1) + 1e-6)
         # return F.normalize(z, dim=-1)
 
         """EXACT vMF sampler using Wood's algorithm. “Simulation of the von Mises Fisher Distribution” (Wood 1994)
@@ -238,7 +238,7 @@ class Sphlin:
         kappa: [B, 1] concentration (>=0)
         Returns z: [B, D] unit vectors."""
         B, D = mu.shape
-        kappa = kappa.view(-1)
+        kappa = kappa.view(-1).clamp(min=0.5)
         b = (-2 * kappa + torch.sqrt(4 * kappa ** 2 + (D - 1) ** 2)) / (D - 1)
         x0 = (1 - b) / (1 + b)
         c = kappa * x0 + (D - 1) * torch.log1p(-x0 ** 2)
@@ -269,14 +269,15 @@ class Sphlin:
         return F.normalize(z, dim=-1)
 
     @staticmethod
-    def kl_vmf(mu: torch.Tensor, kappa: torch.Tensor) -> torch.Tensor:
+    def kl_vmf(mu: torch.Tensor, logkappa: torch.Tensor) -> torch.Tensor:
         # method 1: Standard vMF KL approximation: mu is normalized, so mu^2 sum is 1. problematic as mu=1, so its =0
         # return (kappa.view(-1) * (1 - torch.sum(mu ** 2, dim=-1))).mean()
 
         # method 2: use this (davidson also doesnt use the exact KL, but a concentr. penalty proport. to kappa)
         # why: Exact KL involves modified Bessel functions of fractional order. Numerically unstable. Adds nothing
         # empirically beyond “don’t collapse to high κ”
-        return kappa.mean()
+        # kappa = kappa.view(-1, 1).clamp(min=0.2)  # prevent collapse
+        # return kappa.mean()
 
         """Compute vMF KL divergence between q(z|mu,kappa) and p(z)=Uniform(S^{d-1}).
         Uses a stable 'standard ratio approximation' for A_d(kappa)=I_{d/2}(kappa)/I_{d/2-1}(kappa).
@@ -284,18 +285,18 @@ class Sphlin:
             - mu: unit vectors, shape [B, D]
             - kappa: concentration, shape [B, 1]
             - scalar KL mean over batch"""
-        # method 3
-        # D = mu.shape[-1]
-        # kappa = kappa.view(-1)
-        # # log normalization constant for vMF: log C_d(kappa)
-        # # C_d(kappa) = kappa^{d/2-1} / ((2π)^{d/2} I_{d/2-1}(kappa))
-        # log_bessel = torch.log(torch.special.iv(D/2 - 1, kappa) + 1e-20)
-        # log_c = (D/2 - 1) * torch.log(kappa + 1e-20) - (D/2) * torch.log(torch.tensor(2 * torch.pi, device=mu.device)) - log_bessel
-        # log_c0 = - (D/2) * torch.log(torch.tensor(2 * torch.pi, device=mu.device))  # kappa=0 uniform
-        # # expected value of mu^T z under vMF is A_d(kappa)=I_{d/2}(kappa)/I_{d/2-1}(kappa)
-        # A  = torch.special.iv(D/2, kappa) / (torch.special.iv(D/2 - 1, kappa) + 1e-20)
-        # kl = (kappa * A) - log_c + log_c0
-        # return kl.mean()
+        # method 3, KL between vMF(q(z|mu,kappa)) and uniform p(z), where encoder outputs logkappa (why logkappa? cause its +ve)
+        kappa = torch.exp(logkappa).clamp(min=0.5) + 1e-6
+        D = mu.shape[-1]
+        kappa = kappa.view(-1)
+        nu = D/2 - 1
+        A = kappa / (nu + torch.sqrt(nu**2 + kappa**2) + 1e-20)
+        pi = torch.tensor(np.pi, device=kappa.device, dtype=kappa.dtype)
+        log_2pi = torch.log(2*pi)
+        log_c = nu*torch.log(kappa + 1e-20) - (D/2)*log_2pi - torch.log(torch.special.i0(kappa) + 1e-20)
+        log_c0 = -(D/2)*log_2pi
+        kl = kappa*A - log_c + log_c0
+        return kl.mean()
 
         # # method 4
         # D      = mu.shape[-1]
@@ -330,6 +331,8 @@ class Sphlin:
     @staticmethod
     def train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas, epoch):
         """One VAE + prediction step."""
+        mu_s, logkappa, z_s = None, None, None
+        mu_e, z_e           = None, None
         z_parts, kl_e, kl_s = [], torch.tensor(0., device=x_lin.device), torch.tensor(0., device=x_lin.device)
 
         if encoder_e and x_lin.shape[-1] > 0:
@@ -339,10 +342,10 @@ class Sphlin:
             kl_e = Sphlin.kl_gaussian(mu_e, logvar_e)
 
         if encoder_s and x_cyc.shape[-1] > 0:
-            mu_s, kappa = encoder_s(x_cyc)
-            z_s  = Sphlin.sample_vmf(mu_s, kappa)
+            mu_s, logkappa = encoder_s(x_cyc)
+            z_s  = Sphlin.sample_vmf(mu_s, logkappa)
             z_parts.append(z_s)
-            kl_s = Sphlin.kl_vmf(mu_s, kappa)
+            kl_s = Sphlin.kl_vmf(mu_s, logkappa)
 
         z = torch.cat(z_parts, dim=-1)
 
@@ -351,31 +354,19 @@ class Sphlin:
         if x_cyc.shape[-1] > 0: targets.append(x_cyc.reshape(x_cyc.size(0), -1))
         x_target = torch.cat(targets, dim=-1)
 
-        # x_hat      = decoder(z)
-        x_hat      = decoder(z).reshape(x_target.shape)
+        x_hat = decoder(z).reshape(x_target.shape)
         recon_loss = F.mse_loss(x_hat, x_target)
 
-        assert decoder(z).numel() == x_target.numel()
-        assert x_hat.shape == x_target.shape
-
-        y_hat     = pred_head(z)
+        y_hat = pred_head(z)
         y_win = y_win.unsqueeze(-1) if y_win.dim() == 1 else y_win
         pred_loss = F.mse_loss(y_hat, y_win)
 
-        kl_weight  = min(1.0, epoch/20) # warm-up for KL
-        total_loss = (lambdas["reconstr"] * recon_loss +
-                    kl_weight * (lambdas["euc"] * kl_e + lambdas["sph"] * kl_s) +
-                    lambdas["pred"] * pred_loss)
-        return {
-            "total": total_loss,
-            "recon": recon_loss,
-            "kl_e": kl_e,
-            "kl_s": kl_s,
-            "pred": pred_loss,
-            "mu_s": mu_s if encoder_s else None,
-            "kappa": kappa if encoder_s else None,
-            "z_s": z_s if encoder_s else None,
-            "z_e": z_e if encoder_e else None}
+        kl_weight  = min(1.0, epoch / 20)
+        total_loss = lambdas["reconstr"] * recon_loss + kl_weight * (lambdas["euc"] * kl_e + lambdas["sph"] * kl_s) + lambdas["pred"] * pred_loss
+
+        kappa = torch.exp(logkappa) + 1e-6
+        return {"total": total_loss, "recon": recon_loss, "kl_e": kl_e, "kl_s": kl_s,
+                "pred": pred_loss, "mu_s": mu_s, "logkappa": logkappa, "kappa": kappa, "z_s": z_s, "z_e": z_e}
 
     @staticmethod
     def train_epoch(loader, encoder_e, encoder_s, decoder, pred_head, optimizer, lambdas, device, epoch):
@@ -404,9 +395,11 @@ class Sphlin:
         if not torch.is_tensor(y_w): y_w = torch.tensor(y_w, dtype=torch.float32, device=device)
 
         loader  = DataLoader(TensorDataset(XL_w, XC_w, y_w), batch_size=p.batch_size, shuffle=True)
-        lambdas = {"reconstr": p.lambda_recon, "pred": p.lambda_pred,
-                "euc": 0. if encoder_e is None else p.lambda_latent / np.sqrt(p.z_dim_total),
-                "sph": 0. if encoder_s is None else p.lambda_latent / np.sqrt(p.z_dim_total)}
+        lambdas = {"reconstr": p.lambda_recon,
+                   "pred": p.lambda_pred,
+                   "euc": p.lambda_kl_euc, # 0.1 #0. if encoder_e is None else p.lambda_latent / np.sqrt(p.z_dim_total),
+                   "sph": p.lambda_kl_sph #0.25 #0. if encoder_s is None else p.lambda_latent / np.sqrt(p.z_dim_total)
+                   }
 
         best, counter = float("inf"), 0
         logs = {"total": [], "recon": [], "kl_e": [], "kl_s": [], "pred": [], "kappa": [], "mu_s": [], "z_s": [], "z_e": []}
@@ -420,7 +413,9 @@ class Sphlin:
             # best, counter, stop = early_stop(losses["total"], best, counter, p.earlystop_patience)
             best, counter, stop = early_stop(losses["pred"], best, counter, p.earlystop_patience)
             if epoch % 10 == 0:
-                print(f"Epoch {epoch+1}/{p.epochs}, Total={losses['total']:.4f}, Recon={losses['recon']:.4f}, KL_e={losses['kl_e']:.4f}, KL_s={losses['kl_s']:.4f}, Pred={losses['pred']:.4f}, κ={losses.get('kappa',float('nan')):.4f}")
+                # print(f"Epoch {epoch+1}/{p.epochs}, Total={losses['total']:.4f}, Recon={losses['recon']:.4f}, KL_e={losses['kl_e']:.4f}, KL_s={losses['kl_s']:.4f}, Pred={losses['pred']:.4f}, logkappa={losses.get('logkappa',float('nan')):.4f}")
+                print(f"Epoch {epoch+1}/{p.epochs}, Total={losses['total']:.4f}, Recon={losses['recon']:.4f}, KL_e={losses['kl_e']:.4f}, KL_s={losses['kl_s']:.4f}, Pred={losses['pred']:.4f}, kappa={losses.get('kappa',float('nan')):.4f}")
+
             if stop:
                 print(f"Early stopping at epoch {epoch+1}")
                 break
@@ -458,7 +453,6 @@ class Sphlin:
             # z_sph = max(1, min(int(np.ceil(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
             z_sph = n_cyc
             z_euc = p.z_dim_total - z_sph
-
         print(f"z_euc={z_euc}, z_sph={z_sph}, %feats_cyc={100*n_cyc/n_tot:.2f}")
 
         def make_w(X, d):
@@ -550,17 +544,17 @@ class Torlin:
         """Full Toroidal VAE pipeline with Reconstruction Decoder and original latent dimension splitting logic."""
         if len(angular_features_list) > 0:
             X_cyc_train = X_train[angular_features_list]
-            X_cyc_test = X_test[angular_features_list]
+            X_cyc_test  = X_test[angular_features_list]
             X_linear_train = X_train.drop(columns=angular_features_list)
-            X_linear_test = X_test.drop(columns=angular_features_list)
+            X_linear_test  = X_test.drop(columns=angular_features_list)
         else:
             X_cyc_train = pd.DataFrame()
-            X_cyc_test = pd.DataFrame()
+            X_cyc_test  = pd.DataFrame()
             X_linear_train = X_train.copy()
-            X_linear_test = X_test.copy()
+            X_linear_test  = X_test.copy()
 
         num_cyc_features = X_cyc_train.shape[1]
-        z_dim_torus = 2 * num_cyc_features
+        z_dim_torus  = 2 * num_cyc_features
         z_dim_euclid = p.z_dim_total - z_dim_torus
         if z_dim_euclid < 8:
             z_dim_euclid = 8
@@ -571,7 +565,7 @@ class Torlin:
             X_cyc_train, X_cyc_test = scale_train_and_test_sets(X_cyc_train, X_cyc_test)
         else:
             X_cyc_train = torch.empty((len(X_lin_train), 0), dtype=torch.float32)
-            X_cyc_test = torch.empty((len(X_lin_test), 0), dtype=torch.float32)
+            X_cyc_test  = torch.empty((len(X_lin_test), 0), dtype=torch.float32)
 
         X_lin_tr_w = Windowing.make_windows_from_X(X_lin_train, p.window_size, sliding_size, horizon=p.horizon).to(device)
         X_cyc_tr_w = Windowing.make_windows_from_X(X_cyc_train, p.window_size, sliding_size, horizon=p.horizon).to(device)
@@ -583,11 +577,13 @@ class Torlin:
         enc_t = LSTMToroidalEncoder(X_cyc_train.shape[1], hidden_dim_split, num_cyc_features).to(device) if num_cyc_features > 0 else None
 
         output_dim = X_lin_train.shape[1] + X_cyc_train.shape[1]
-        decoder = MLPDecoder(z_dim_total=z_dim_euclid + z_dim_torus, window_size=p.window_size, output_dim=output_dim, hidden_dim=p.hidden_dim).to(device)
-        optimizer = torch.optim.AdamW(list(enc_e.parameters()) + (list(enc_t.parameters()) if enc_t else []) + list(decoder.parameters()), lr=p.lr_optimizer)
+        decoder    = MLPDecoder(z_dim_total=z_dim_euclid + z_dim_torus, window_size=p.window_size, output_dim=output_dim, hidden_dim=p.hidden_dim).to(device)
+        optimizer  = torch.optim.AdamW(list(enc_e.parameters()) + (list(enc_t.parameters()) if enc_t else []) + list(decoder.parameters()), lr=p.lr_optimizer)
 
-        loader = DataLoader(TensorDataset(X_lin_tr_w, X_cyc_tr_w), batch_size=p.batch_size, shuffle=True)
-        lambdas = {'recon': p.lambda_recon, 'euc': p.lambda_latent / np.sqrt(z_dim_euclid), 'tor': p.lambda_latent / np.sqrt(z_dim_torus if z_dim_torus > 0 else 1)}
+        loader  = DataLoader(TensorDataset(X_lin_tr_w, X_cyc_tr_w), batch_size=p.batch_size, shuffle=True)
+        lambdas = {'recon': p.lambda_recon,
+                   'euc': p.lambda_latent / np.sqrt(z_dim_euclid),
+                   'tor': p.lambda_latent / np.sqrt(z_dim_torus if z_dim_torus > 0 else 1)}
         criterion = nn.MSELoss()
         best_loss = float("inf")
         counter = 0

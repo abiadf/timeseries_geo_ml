@@ -152,8 +152,10 @@ class LSTMSphericalEncoder(nn.Module):
         h_last    = h[-1] 
         mu_dir    = F.normalize(self.mu_raw(h_last), dim=-1)
         # Ensure kappa is [B, 1] or [B]
-        kappa     = F.softplus(self.kappa(h_last)) + self.epsilon 
-        return mu_dir, kappa
+        # kappa     = F.softplus(self.kappa(h_last)) + self.epsilon
+        # return mu_dir, kappa
+        logkappa  = self.kappa(h_last)
+        return mu_dir, logkappa
 
 class LSTMToroidalEncoder(nn.Module):
     def __init__(self, input_dim, hidden_dim, num_cyc_features, n_layers=2, epsilon=1e-3):
