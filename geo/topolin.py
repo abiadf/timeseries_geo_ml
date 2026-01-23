@@ -5,8 +5,6 @@ project_root = os.path.abspath("..")  # adjust if notebook is elsewhere
 sys.path.insert(0, project_root)
 from typing import Dict, List, Literal, Tuple, Optional, Any, Union
 import logging
-import random
-import umap
 from dataclasses import dataclass
 
 import category_encoders as ce
@@ -27,7 +25,6 @@ from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.manifold import TSNE
 from sklearn.metrics import mean_squared_error, accuracy_score, f1_score, mean_absolute_error, root_mean_squared_error, r2_score, silhouette_score
-from sklearn.model_selection import train_test_split
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.neighbors import NearestNeighbors, KernelDensity
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder
@@ -53,12 +50,6 @@ if torch.cuda.is_available():
     # print(torch.cuda.memory_allocated(0) / 1e6, "MB allocated")
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# import logging
-# logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-# logging.info("Starting process...")
-# logging.warning("Something looks off...")
-# logging.error("Something failed.")
 
 class Oldtor:
     @staticmethod
@@ -316,17 +307,6 @@ class Sphlin:
         # kl     = (kappa * A) - log_c + log_c0
         # return kl.mean()
 
-    @staticmethod#, to remove
-    def old_encode_full_dataset(X_lin, X_cyc, encoder_e, encoder_s, z_dim_euclid, device):
-        zs = []
-        if encoder_e is not None and X_lin is not None and X_lin.shape[-1] > 0:
-            mu, _ = encoder_e(X_lin.to(device))
-            zs.append(mu)
-        if encoder_s is not None and X_cyc is not None and X_cyc.shape[-1] > 0:
-            mu_s, _ = encoder_s(X_cyc.to(device))
-            zs.append(mu_s)
-        return torch.cat(zs, dim=-1)
-    
     @staticmethod
     def encode_full_dataset(X_lin, X_cyc, encoder_e, encoder_s, z_dim_euclid, device, batch_size=64):
         """encodes the full dataset in batches to avoid OOM errors."""
@@ -354,13 +334,13 @@ class Sphlin:
 
         if encoder_e and x_lin.shape[-1] > 0:
             mu_e, logvar_e = encoder_e(x_lin)
-            z_e = Sphlin.sample_gaussian(mu_e, logvar_e)
+            z_e  = Sphlin.sample_gaussian(mu_e, logvar_e)
             z_parts.append(z_e)
             kl_e = Sphlin.kl_gaussian(mu_e, logvar_e)
 
         if encoder_s and x_cyc.shape[-1] > 0:
             mu_s, kappa = encoder_s(x_cyc)
-            z_s = Sphlin.sample_vmf(mu_s, kappa)
+            z_s  = Sphlin.sample_vmf(mu_s, kappa)
             z_parts.append(z_s)
             kl_s = Sphlin.kl_vmf(mu_s, kappa)
 
@@ -371,10 +351,10 @@ class Sphlin:
         if x_cyc.shape[-1] > 0: targets.append(x_cyc.reshape(x_cyc.size(0), -1))
         x_target = torch.cat(targets, dim=-1)
 
-        x_hat = decoder(z)
+        x_hat      = decoder(z)
         recon_loss = F.mse_loss(x_hat, x_target)
 
-        y_hat = pred_head(z)
+        y_hat     = pred_head(z)
         pred_loss = F.mse_loss(y_hat, y_win)
 
         total_loss = (lambdas["reconstr"] * recon_loss +
@@ -387,21 +367,50 @@ class Sphlin:
             "recon": recon_loss,
             "kl_e": kl_e,
             "kl_s": kl_s,
-            "pred": pred_loss
+            "pred": pred_loss,
+            "mu_s": mu_s if encoder_s else None,
+            "kappa": kappa if encoder_s else None,
+            "z_s": z_s if encoder_s else None,
+            "z_e": z_e if encoder_e else None
         }
+
 
     @staticmethod
     def train_epoch(loader, encoder_e, encoder_s, decoder, pred_head, optimizer, lambdas, device):
-        totals = {"total": 0., "recon": 0., "kl_e": 0., "kl_s": 0., "pred": 0.}
+        totals = {"total": 0., "recon": 0., "kl_e": 0., "kl_s": 0., "pred": 0., "kappa": 0., "mu_s": 0., "z_s": 0., "z_e": 0.}
+        counts = {"kappa": 0, "mu_s": 0, "z_s": 0, "z_e": 0}
         for x_lin, x_cyc, y_win in loader:
             x_lin, x_cyc, y_win = x_lin.to(device), x_cyc.to(device), y_win.to(device)
             optimizer.zero_grad()
             losses = Sphlin.train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas)
             losses["total"].backward()
             optimizer.step()
-            for k, v in losses.items():
-                totals[k] += v.item()
-        return {k: totals[k] / len(loader) for k in totals}
+
+            totals["total"] += losses["total"].item()
+            totals["recon"] += losses["recon"].item()
+            totals["kl_e"] += losses["kl_e"].item()
+            totals["kl_s"] += losses["kl_s"].item()
+            totals["pred"] += losses["pred"].item()
+
+            if losses["kappa"] is not None:
+                totals["kappa"] += losses["kappa"].mean().item()
+                counts["kappa"] += 1
+            if losses["mu_s"] is not None:
+                totals["mu_s"] += losses["mu_s"].mean().item()
+                counts["mu_s"] += 1
+            if losses["z_s"] is not None:
+                totals["z_s"] += losses["z_s"].mean().item()
+                counts["z_s"] += 1
+            if losses["z_e"] is not None:
+                totals["z_e"] += losses["z_e"].mean().item()
+                counts["z_e"] += 1
+
+        out = {k: totals[k] / len(loader) for k in ["total", "recon", "kl_e", "kl_s", "pred"]}
+        if counts["kappa"]>0: out["kappa"] = totals["kappa"] / counts["kappa"]
+        if counts["mu_s"]>0: out["mu_s"] = totals["mu_s"] / counts["mu_s"]
+        if counts["z_s"]>0: out["z_s"] = totals["z_s"] / counts["z_s"]
+        if counts["z_e"]>0: out["z_e"] = totals["z_e"] / counts["z_e"]
+        return out
 
     @staticmethod
     def train_loop(XL_w, XC_w, y_w, encoder_e, encoder_s, decoder, pred_head, optimizer, p, device):
@@ -411,19 +420,23 @@ class Sphlin:
 
         loader  = DataLoader(TensorDataset(XL_w, XC_w, y_w), batch_size=p.batch_size, shuffle=True)
         lambdas = {"reconstr": p.lambda_recon, "pred": p.lambda_pred,
-                   "euc": 0. if encoder_e is None else p.lambda_latent / np.sqrt(p.z_dim_total),
-                   "sph": 0. if encoder_s is None else p.lambda_latent / np.sqrt(p.z_dim_total)}
+                "euc": 0. if encoder_e is None else p.lambda_latent / np.sqrt(p.z_dim_total),
+                "sph": 0. if encoder_s is None else p.lambda_latent / np.sqrt(p.z_dim_total)}
 
         best, counter = float("inf"), 0
+        logs = {"total": [], "recon": [], "kl_e": [], "kl_s": [], "pred": [], "kappa": []}
         for epoch in range(p.epochs):
             losses = Sphlin.train_epoch(loader, encoder_e, encoder_s, decoder, pred_head, optimizer, lambdas, device)
+            for k in logs: 
+                if k in losses: logs[k].append(losses[k])
 
             best, counter, stop = early_stop(losses["total"], best, counter, p.earlystop_patience)
             if epoch % 10 == 0:
-                print(f"Epoch {epoch+1}/{p.epochs}, Total={losses['total']:.4f}, Recon={losses['recon']:.4f}, KL_e={losses['kl_e']:.4f}, KL_s={losses['kl_s']:.4f}, Pred={losses['pred']:.4f}")
+                print(f"Epoch {epoch+1}/{p.epochs}, Total={losses['total']:.4f}, Recon={losses['recon']:.4f}, KL_e={losses['kl_e']:.4f}, KL_s={losses['kl_s']:.4f}, Pred={losses['pred']:.4f}, κ={losses.get('kappa',float('nan')):.4f}")
             if stop:
                 print(f"Early stopping at epoch {epoch+1}")
                 break
+        return logs
 
     @staticmethod
     def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p):
@@ -465,6 +478,7 @@ class Sphlin:
         if X_cyc_tr_w is None: X_cyc_tr_w = torch.zeros((ref_tr.shape[0], p.window_size, 0), device=device)
         if X_lin_te_w is None: X_lin_te_w = torch.zeros((ref_te.shape[0], p.window_size, 0), device=device)
         if X_cyc_te_w is None: X_cyc_te_w = torch.zeros((ref_te.shape[0], p.window_size, 0), device=device)
+
         h_split   = int(p.hidden_dim / np.sqrt(2))
         enc_e     = LSTMEncoderEuclid(n_lin, h_split, z_euc).to(device) if z_euc > 0 else None
         enc_s     = LSTMSphericalEncoder(n_cyc, h_split, z_sph).to(device) if z_sph > 0 else None
@@ -496,6 +510,7 @@ class Sphlin:
         mae  = mean_absolute_error(y_te_w, y_hat)
         # return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w, y_te_w)
         return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_w), (z_euc, z_sph)
+
 
 class Torlin:
     @staticmethod

@@ -108,20 +108,30 @@ class LSTMEncoderEuclid(nn.Module):
         encoder_hidden      = lstm_hidden.squeeze(0) # [B, H]
         return self.mu(encoder_hidden), self.logvar(encoder_hidden)  # [B, z_dim], [B, z_dim]
 
+
 class LSTMSphericalEncoder(nn.Module):
-    def __init__(self, input_dim, hidden_dim, z_dim, n_layers=2, epsilon=1e-3):
+    """Turns a sequence into a spherical latent representation.
+    The LSTM collapses the time dimension and produces a final hidden state h_last.
+    h_last is projected to:
+      - mu_dir: a unit-length vector in R^z_dim (a direction on the (z_dim-1)-sphere)
+      - kappa: a positive scalar controlling concentration around that direction"""
+    def __init__(self, input_dim: int, hidden_dim: int, z_dim: int, n_layers: int =2, epsilon=1e-3):
         super().__init__()
-        self.lstm = nn.LSTM(input_dim, hidden_dim, num_layers=n_layers, batch_first=True)
-        self.mu_raw = nn.Linear(hidden_dim, z_dim)
-        self.kappa = nn.Linear(hidden_dim, 1)
+        self.lstm    = nn.LSTM(input_dim, hidden_dim, num_layers=n_layers, batch_first=True)
+        self.mu_raw  = nn.Linear(hidden_dim, z_dim)
+        self.kappa   = nn.Linear(hidden_dim, 1)
         self.epsilon = epsilon
 
     def forward(self, x):
+        """x: (B, T, input_dim), B=batchsize (inferred from x, not defined)
+        Returns:
+        mu_dir: (B, z_dim) unit vectors (points on S^{z_dim-1})
+        kappa:  (B, 1) positive concentration value"""
         _, (h, _) = self.lstm(x)
-        h = h[-1] 
-        mu_dir = F.normalize(self.mu_raw(h), dim=-1)
+        h_last    = h[-1] 
+        mu_dir    = F.normalize(self.mu_raw(h_last), dim=-1)
         # Ensure kappa is [B, 1] or [B]
-        kappa = F.softplus(self.kappa(h)) + self.epsilon 
+        kappa     = F.softplus(self.kappa(h_last)) + self.epsilon 
         return mu_dir, kappa
 
 
