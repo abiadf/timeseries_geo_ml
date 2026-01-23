@@ -180,23 +180,25 @@ class LSTMToroidalEncoder(nn.Module):
 
 class LSTMDecoder(nn.Module):
     """LSTM decoder mapping latent z -> sequence output."""
+    """Autoregressive LSTM decoder from latent z to sequence."""
     def __init__(self, z_dim, hidden_dim, output_dim, window_size):
         super().__init__()
         self.window_size = window_size
         self.hidden_dim  = hidden_dim
+        self.output_dim  = output_dim
         self.lstm = nn.LSTM(output_dim, hidden_dim, batch_first=True)
         self.h0   = nn.Linear(z_dim, hidden_dim)
         self.c0   = nn.Linear(z_dim, hidden_dim)
         self.out  = nn.Linear(hidden_dim, output_dim)
 
     def forward(self, z):
-        """Decode latent vector into a sequence."""
         B = z.size(0)
-        h0 = self.h0(z).unsqueeze(0)  # [1, B, H]
-        c0 = self.c0(z).unsqueeze(0)  # [1, B, H]
-        x  = torch.zeros(B, self.window_size, self.out.out_features, device=z.device)
+        h0 = self.h0(z).unsqueeze(0)
+        c0 = self.c0(z).unsqueeze(0)
+        x  = torch.zeros(B, self.window_size, self.output_dim, device=z.device)
         y, _ = self.lstm(x, (h0, c0))
-        return self.out(y)  # [B, T, D]
+        return self.out(y)
+
 
 class MLPDecoder(nn.Module):
     """Decode concatenated latent vector z_e + z_s -> windowed features."""
@@ -627,7 +629,8 @@ def fit_catboost_multi(X_train: Union[np.ndarray, torch.Tensor], y_train: Union[
     if isinstance(X_test, torch.Tensor):
         X_test = X_test.detach().cpu().numpy()
 
-    model = MultiOutputRegressor(CatBoostRegressor(verbose=cb_verbose))
+    # model = MultiOutputRegressor(CatBoostRegressor(verbose=cb_verbose))
+    model = MultiOutputRegressor(CatBoostRegressor(iterations=300, depth=5, learning_rate=0.1, task_type="GPU", verbose=cb_verbose))
     model.fit(X_train, y_train)
     return model.predict(X_test)
 

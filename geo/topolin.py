@@ -351,10 +351,15 @@ class Sphlin:
         if x_cyc.shape[-1] > 0: targets.append(x_cyc.reshape(x_cyc.size(0), -1))
         x_target = torch.cat(targets, dim=-1)
 
-        x_hat      = decoder(z)
+        # x_hat      = decoder(z)
+        x_hat      = decoder(z).reshape(x_target.shape)
         recon_loss = F.mse_loss(x_hat, x_target)
 
+        assert decoder(z).numel() == x_target.numel()
+        assert x_hat.shape == x_target.shape
+
         y_hat     = pred_head(z)
+        y_win = y_win.unsqueeze(-1) if y_win.dim() == 1 else y_win
         pred_loss = F.mse_loss(y_hat, y_win)
 
         kl_weight  = min(1.0, epoch/20) # warm-up for KL
@@ -377,6 +382,7 @@ class Sphlin:
         totals = {}
         counts = {}
         for x_lin, x_cyc, y_win in loader:
+            y_win = y_win.squeeze(-1)
             x_lin, x_cyc, y_win = x_lin.to(device), x_cyc.to(device), y_win.to(device)
             optimizer.zero_grad()
             losses = Sphlin.train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas, epoch)
@@ -411,7 +417,8 @@ class Sphlin:
                 if k in losses and losses[k] is not None:
                     logs[k].append(losses[k])
 
-            best, counter, stop = early_stop(losses["total"], best, counter, p.earlystop_patience)
+            # best, counter, stop = early_stop(losses["total"], best, counter, p.earlystop_patience)
+            best, counter, stop = early_stop(losses["pred"], best, counter, p.earlystop_patience)
             if epoch % 10 == 0:
                 print(f"Epoch {epoch+1}/{p.epochs}, Total={losses['total']:.4f}, Recon={losses['recon']:.4f}, KL_e={losses['kl_e']:.4f}, KL_s={losses['kl_s']:.4f}, Pred={losses['pred']:.4f}, κ={losses.get('kappa',float('nan')):.4f}")
             if stop:
@@ -456,13 +463,16 @@ class Sphlin:
 
         def make_w(X, d):
             if d == 0: return None
-            return Windowing.make_windows_from_X(X, p.window_size, sliding_size).to(device).view(-1, p.window_size, d)
+            return Windowing.make_windows_from_X(X, p.window_size, sliding_size, horizon=p.horizon).to(device).view(-1, p.window_size, d)
 
         X_lin_tr_w, X_lin_te_w = make_w(X_lin_tr, n_lin), make_w(X_lin_te, n_lin)
         X_cyc_tr_w, X_cyc_te_w = make_w(X_cyc_tr, n_cyc), make_w(X_cyc_te, n_cyc)
 
-        y_tr_w = Windowing.make_windows_from_y(y_tr_s, p.window_size, sliding_size, task=p.task)
-        y_te_w = Windowing.make_windows_from_y(y_te_s, p.window_size, sliding_size, task=p.task)
+        y_tr_w = Windowing.make_windows_from_y(y_tr_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+        y_te_w = Windowing.make_windows_from_y(y_te_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+        y_tr_w = y_tr_w.reshape(y_tr_w.shape[0], -1)
+        y_te_w = y_te_w.reshape(y_te_w.shape[0], -1)
+
         y_tr_w = torch.tensor(y_tr_w, dtype=torch.float32, device=device)
         y_te_w = torch.tensor(y_te_w, dtype=torch.float32, device=device)
 
@@ -476,7 +486,9 @@ class Sphlin:
         h_split   = int(p.hidden_dim / np.sqrt(2))
         enc_e     = LSTMEncoderEuclid(n_lin, h_split, z_euc).to(device) if z_euc > 0 else None
         enc_s     = LSTMSphericalEncoder(n_cyc, h_split, z_sph).to(device) if z_sph > 0 else None
-        dec       = MLPDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
+        dec       = LSTMDecoder(p.z_dim_total, p.hidden_dim, n_tot, p.window_size).to(device)
+        # dec       = LSTMDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
+        # dec       = MLPDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
         pred_head = torch.nn.Linear(p.z_dim_total, y_tr_w.shape[1]).to(device)
 
         params = list(dec.parameters()) + list(pred_head.parameters())
@@ -496,8 +508,9 @@ class Sphlin:
         torch.cuda.empty_cache()
         Z_test  = Sphlin.encode_full_dataset(X_lin_te_w, X_cyc_te_w, enc_e, enc_s, z_euc, device)
 
-        y_hat  = fit_catboost_multi(Z_train.detach().cpu().numpy(), y_tr_w.detach().cpu().numpy(), Z_test.detach().cpu().numpy())
-        y_te_w = y_te_w.detach().cpu().numpy()
+        y_hat  = fit_catboost_multi(Z_train.detach().cpu().numpy(), y_tr_w.reshape(y_tr_w.shape[0], -1).detach().cpu().numpy(),
+                                    Z_test.detach().cpu().numpy())
+        y_te_w = y_te_w.reshape(y_te_w.shape[0], -1).detach().cpu().numpy()
 
         rmse = root_mean_squared_error(y_te_w, y_hat)
         r2   = r2_score(y_te_w, y_hat)
@@ -560,10 +573,10 @@ class Torlin:
             X_cyc_train = torch.empty((len(X_lin_train), 0), dtype=torch.float32)
             X_cyc_test = torch.empty((len(X_lin_test), 0), dtype=torch.float32)
 
-        X_lin_tr_w = Windowing.make_windows_from_X(X_lin_train, p.window_size, p.sliding_size).to(device)
-        X_cyc_tr_w = Windowing.make_windows_from_X(X_cyc_train, p.window_size, p.sliding_size).to(device)
-        X_lin_te_w = Windowing.make_windows_from_X(X_lin_test, p.window_size, p.sliding_size).to(device)
-        X_cyc_te_w = Windowing.make_windows_from_X(X_cyc_test, p.window_size, p.sliding_size).to(device)
+        X_lin_tr_w = Windowing.make_windows_from_X(X_lin_train, p.window_size, sliding_size, horizon=p.horizon).to(device)
+        X_cyc_tr_w = Windowing.make_windows_from_X(X_cyc_train, p.window_size, sliding_size, horizon=p.horizon).to(device)
+        X_lin_te_w = Windowing.make_windows_from_X(X_lin_test, p.window_size, sliding_size, horizon=p.horizon).to(device)
+        X_cyc_te_w = Windowing.make_windows_from_X(X_cyc_test, p.window_size, sliding_size, horizon=p.horizon).to(device)
 
         hidden_dim_split = int(p.hidden_dim / np.sqrt(2))
         enc_e = LSTMEncoderEuclid(X_lin_train.shape[1], hidden_dim_split, z_dim_euclid).to(device)
