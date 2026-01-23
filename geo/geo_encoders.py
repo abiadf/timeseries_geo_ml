@@ -94,6 +94,28 @@ class old_LSTMSphericalEncoder(nn.Module):
         kappa  = F.softplus(self.kappa(h)) + 1e-3
         return mu_dir, kappa
 
+# old
+class old_LSTMToroidalEncoder(nn.Module):
+    def __init__(self, input_dim, hidden_dim, n_cyc):
+        super().__init__()
+        self.n_cyc  = n_cyc
+        self.lstm   = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.mu_raw = nn.Linear(hidden_dim, n_cyc * 2)
+        self.kappa  = nn.Linear(hidden_dim, n_cyc)
+
+    def forward(self, x):
+        _, (h, _) = self.lstm(x)
+        h         = h.squeeze(0)
+        
+        # Reshape mu to [Batch, N_features, 2] and normalize each circle
+        mu = self.mu_raw(h).view(-1, self.n_cyc, 2)
+        mu = F.normalize(mu, dim=-1)
+        
+        # Kappa for each circle [Batch, N_features, 1]
+        # kappa = F.softplus(self.kappa(h)).view(-1, self.n_cyc, 1) + 1e-3  # 3D
+        kappa = F.softplus(self.kappa(h)).view(-1, self.n_cyc) + 1e-3  # 2D
+        return mu, kappa
+
 class LSTMEncoderEuclid(nn.Module):
     """Euclidean latent LSTM encoder (Gaussian z_e)."""
     def __init__(self, input_dim, hidden_dim, z_dim):
@@ -132,28 +154,6 @@ class LSTMSphericalEncoder(nn.Module):
         # Ensure kappa is [B, 1] or [B]
         kappa     = F.softplus(self.kappa(h_last)) + self.epsilon 
         return mu_dir, kappa
-
-# # old
-# class LSTMToroidalEncoder(nn.Module):
-#     def __init__(self, input_dim, hidden_dim, n_cyc):
-#         super().__init__()
-#         self.n_cyc  = n_cyc
-#         self.lstm   = nn.LSTM(input_dim, hidden_dim, batch_first=True)
-#         self.mu_raw = nn.Linear(hidden_dim, n_cyc * 2)
-#         self.kappa  = nn.Linear(hidden_dim, n_cyc)
-
-#     def forward(self, x):
-#         _, (h, _) = self.lstm(x)
-#         h         = h.squeeze(0)
-        
-#         # Reshape mu to [Batch, N_features, 2] and normalize each circle
-#         mu = self.mu_raw(h).view(-1, self.n_cyc, 2)
-#         mu = F.normalize(mu, dim=-1)
-        
-#         # Kappa for each circle [Batch, N_features, 1]
-#         # kappa = F.softplus(self.kappa(h)).view(-1, self.n_cyc, 1) + 1e-3  # 3D
-#         kappa = F.softplus(self.kappa(h)).view(-1, self.n_cyc) + 1e-3  # 2D
-#         return mu, kappa
 
 class LSTMToroidalEncoder(nn.Module):
     def __init__(self, input_dim, hidden_dim, num_cyc_features, n_layers=2, epsilon=1e-3):

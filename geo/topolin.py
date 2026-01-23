@@ -420,7 +420,7 @@ class Sphlin:
         return logs
 
     @staticmethod
-    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=None, manually_set_cols: list[str] | None = None):
+    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
         """Run sphlin LSTM with optional manual cyclic column names."""
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -448,7 +448,8 @@ class Sphlin:
         elif n_lin == 0:
             z_euc, z_sph = 0, p.z_dim_total
         else:
-            z_sph = max(1, min(int(np.floor(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
+            # z_sph = max(1, min(int(np.ceil(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
+            z_sph = n_cyc
             z_euc = p.z_dim_total - z_sph
 
         print(f"z_euc={z_euc}, z_sph={z_sph}, %feats_cyc={100*n_cyc/n_tot:.2f}")

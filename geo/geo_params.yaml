@@ -66,9 +66,16 @@ dataset:
       # {lambda_recon: 1.1944435, lambda_latent: 1.7838651, window_size: 600, sliding_size: 25, z_dim_total: 49, z_dim_sph: 28, hidden_dim: 54,
       # lr_optimizer: 0.0019, batch_size: 256, epochs: 50, cyclic_threshold: 0.7000, earlystop_patience: 8,
       # lambda_pred: 1.0, task: forecast}
-      {lambda_recon: 1.8897452, lambda_latent: 1.2717184, lambda_pred: 1.7539471, window_size: 2190, z_dim_total: 16,
-      z_dim_sph: 61, hidden_dim: 64, lr_optimizer: 0.0018, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8,
-      lambda_recon: 1.8897, lambda_latent: 1.2717, lambda_pred: 1.7539, task: forecast}
+      # {lambda_recon: 1.8897452, lambda_latent: 1.2717184, lambda_pred: 1.7539471, window_size: 2190, z_dim_total: 16,
+      # z_dim_sph: 61, hidden_dim: 64, lr_optimizer: 0.0018, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8,
+      # lambda_recon: 1.8897, lambda_latent: 1.2717, lambda_pred: 1.7539, task: forecast}
+
+      # {lambda_recon: 0.5832610, lambda_latent: 1.1195391, lambda_pred: 1.7644125, window_size: 2190, z_dim_total: 37, hidden_dim: 62,
+      # lr_optimizer: 0.0025, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8, task: forecast}
+
+      {lambda_recon: 0.8606426, lambda_latent: 0.6232297, lambda_pred: 1.9268416, window_size: 2190, z_dim_total: 33,
+      hidden_dim: 60, lr_optimizer: 0.0010, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8, 
+      task: forecast}
 
 
   imu_gyro:
