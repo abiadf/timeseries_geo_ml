@@ -420,11 +420,23 @@ class Sphlin:
         return logs
 
     @staticmethod
-    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=None):
+    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=None, manually_set_cols: list[str] | None = None):
+        """Run sphlin LSTM with optional manual cyclic column names."""
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
-        X_lin_tr, X_cyc_tr = split_dataset_to_linear_and_cyclic(X_train, threshold=p.cyclic_threshold, verbose=False)
-        X_lin_te, X_cyc_te = X_test[X_lin_tr.columns], X_test[X_cyc_tr.columns]
+        if manually_set_cols is not None:
+            assert len(set(manually_set_cols)) == len(manually_set_cols), "Duplicate column names"
+            missing = set(manually_set_cols) - set(X_train.columns)
+            assert not missing, f"Columns not in X_train: {missing}"
+            print(f"⏰ using manually set cols: {manually_set_cols}")
+
+            X_cyc_tr = X_train[manually_set_cols]
+            X_lin_tr = X_train.drop(columns=manually_set_cols)
+        else:
+            X_lin_tr, X_cyc_tr = split_dataset_to_linear_and_cyclic(X_train, threshold=p.cyclic_threshold, verbose=False)
+
+        X_lin_te = X_test[X_lin_tr.columns]
+        X_cyc_te = X_test[X_cyc_tr.columns]
 
         y_tr_s, y_te_s     = scale_train_and_test_sets(y_train, y_test)
         X_lin_tr, X_lin_te = scale_train_and_test_sets(X_lin_tr, X_lin_te)
