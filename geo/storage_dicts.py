@@ -30,20 +30,19 @@ periodic_threshold_dict = {"longterm_weather":  0.52,
                            "bike_sharing":      0.3,
                            "forest_fires":      0.3,
                            "panama":            0.3,
-                           "wind_power":        0.047,
+                           "wind_power":        0.1,
                            "india_ocean_waves": 0.3,
                            "szeged_weather":    0.25,
                            "turbine_power":     0.3,
                            "imu_gyro":          0.7,}
 
 sliding_window_frac_dict = {"longterm_weather":  0.1, # ✅
-                            "electric_power":    0.25,
                             "china_weather":     0.1, # ✅
                             "cali_housing":      0.25,
                             "bike_sharing":      0.25,
                             "forest_fires":      0.25,
-                            "panama":            0.25,
-                            "wind_power":        0.25,
+                            "panama":            0.1, # ✅
+                            "wind_power":        0.1, # ✅
                             "india_ocean_waves": 0.25,
                             "szeged_weather":    0.25,
                             "turbine_power":     0.25,

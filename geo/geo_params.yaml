@@ -6,7 +6,7 @@ dataset:
 
   wind_power: # ✅
     override:
-      {lambda_recon: 2.3110710, lambda_latent: 0.0046531, window_size: 143, sliding_size: 35, z_dim_total: 55, z_dim_sph: 28,
+      {lambda_recon: 2.3110710, lambda_latent: 0.0046531, window_size: 2016, sliding_size: 35, z_dim_total: 55, z_dim_sph: 28,
       hidden_dim: 87, lr_optimizer: 0.0022, batch_size: 64, epochs: 50, cyclic_threshold: 0.2500, earlystop_patience: 8, task: forecast}
 
   china_weather:  # ✅
@@ -35,7 +35,7 @@ dataset:
 
   panama: # ✅
     override:
-      {lambda_recon: 2.4298239, lambda_latent: 0.0036995, window_size: 24, sliding_size: 6, z_dim_total: 89, z_dim_sph: 30, hidden_dim: 107,
+      {lambda_recon: 2.4298239, lambda_latent: 0.0036995, window_size: 720, sliding_size: 6, z_dim_total: 89, z_dim_sph: 30, hidden_dim: 107,
       lr_optimizer: 0.0036, batch_size: 32, epochs: 50, cyclic_threshold: 0.1500, earlystop_patience: 8, task: forecast}
 
   india_ocean_waves: # ✅

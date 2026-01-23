@@ -90,7 +90,7 @@ dataset_dict = {"szeged_weather":    {"file_loc": "../public_datasets/2D/tabular
                                       "y_cols": ["WVHT(m)"],
                                       "function": process_dataset_given_filename},
                 "longterm_weather":  {"file_loc": '../public_datasets/2D/tabular/longterm_weather/longterm_weather.csv',
-                                      "y_cols": ["rain"],
+                                      "y_cols": ["VPact"],
                                       "function": process_dataset_given_filename},
                 "panama":            {"file_loc": f"../public_datasets/3D/panama/train.csv",
                                       "y_cols": ["T2M_toc"],

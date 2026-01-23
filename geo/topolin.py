@@ -279,11 +279,13 @@ class Sphlin:
 
     @staticmethod
     def kl_vmf(mu: torch.Tensor, kappa: torch.Tensor) -> torch.Tensor:
-        # method 1
-        # mu is normalized, so mu^2 sum is 1. Standard vMF KL approximation:
+        # method 1: Standard vMF KL approximation: mu is normalized, so mu^2 sum is 1. problematic as mu=1, so its =0
         # return (kappa.view(-1) * (1 - torch.sum(mu ** 2, dim=-1))).mean()
-        # method 2
-        # return kappa.mean()
+
+        # method 2: use this (davidson also doesnt use the exact KL, but a concentr. penalty proport. to kappa)
+        # why: Exact KL involves modified Bessel functions of fractional order. Numerically unstable. Adds nothing
+        # empirically beyond “don’t collapse to high κ”
+        return kappa.mean()
 
         """Compute vMF KL divergence between q(z|mu,kappa) and p(z)=Uniform(S^{d-1}).
         Uses a stable 'standard ratio approximation' for A_d(kappa)=I_{d/2}(kappa)/I_{d/2-1}(kappa).
@@ -304,15 +306,15 @@ class Sphlin:
         # kl = (kappa * A) - log_c + log_c0
         # return kl.mean()
 
-        # method 4
-        D      = mu.shape[-1]
-        kappa  = kappa.view(-1)
-        nu     = D / 2 - 1
-        A      = kappa / (nu + torch.sqrt(nu**2 + kappa**2) + 1e-20)  # approximation of I_{nu+1}/I_nu
-        log_c  = (nu) * torch.log(kappa + 1e-20) - (D / 2) * torch.log(torch.tensor(2 * torch.pi, device=mu.device)) - torch.log(torch.special.i0(kappa) + 1e-20)
-        log_c0 = - (D / 2) * torch.log(torch.tensor(2 * torch.pi, device=mu.device))
-        kl     = (kappa * A) - log_c + log_c0
-        return kl.mean()
+        # # method 4
+        # D      = mu.shape[-1]
+        # kappa  = kappa.view(-1)
+        # nu     = D / 2 - 1
+        # A      = kappa / (nu + torch.sqrt(nu**2 + kappa**2) + 1e-20)  # approximation of I_{nu+1}/I_nu
+        # log_c  = (nu) * torch.log(kappa + 1e-20) - (D / 2) * torch.log(torch.tensor(2 * torch.pi, device=mu.device)) - torch.log(torch.special.i0(kappa) + 1e-20)
+        # log_c0 = - (D / 2) * torch.log(torch.tensor(2 * torch.pi, device=mu.device))
+        # kl     = (kappa * A) - log_c + log_c0
+        # return kl.mean()
 
     @staticmethod#, to remove
     def old_encode_full_dataset(X_lin, X_cyc, encoder_e, encoder_s, z_dim_euclid, device):

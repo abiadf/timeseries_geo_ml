@@ -611,8 +611,8 @@ def early_stop(current_loss: float, best_loss: float, counter: int, patience: in
         return best_loss, counter, stop
 
 def fit_catboost_multi(X_train: Union[np.ndarray, torch.Tensor], y_train: Union[np.ndarray, torch.Tensor],
-                       X_test: Union[np.ndarray, torch.Tensor],) -> np.ndarray:
-    """Fit CatBoost for multi-output regression."""
+                       X_test: Union[np.ndarray, torch.Tensor], cb_verbose = 0) -> np.ndarray:
+    """Fit CatBoost for multi-output regression. logging_level = 0, 1, 2 for silent, info, debug."""
     if isinstance(X_train, torch.Tensor):
         X_train = X_train.detach().cpu().numpy()
     if isinstance(y_train, torch.Tensor):
@@ -620,7 +620,7 @@ def fit_catboost_multi(X_train: Union[np.ndarray, torch.Tensor], y_train: Union[
     if isinstance(X_test, torch.Tensor):
         X_test = X_test.detach().cpu().numpy()
 
-    model = MultiOutputRegressor(CatBoostRegressor(verbose=0))
+    model = MultiOutputRegressor(CatBoostRegressor(verbose=cb_verbose))
     model.fit(X_train, y_train)
     return model.predict(X_test)
 
