@@ -200,7 +200,6 @@ class LSTMDecoder(nn.Module):
         y, _ = self.lstm(x, (h0, c0))
         return self.out(y)
 
-
 class MLPDecoder(nn.Module):
     """Decode concatenated latent vector z_e + z_s -> windowed features."""
     def __init__(self, z_dim_total, window_size, output_dim, hidden_dim):

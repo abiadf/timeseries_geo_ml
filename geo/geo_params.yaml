@@ -3,7 +3,7 @@ dataset:
   general:
     epochs            : 50
     earlystop_patience: 8
-    desired_dataset: beijing #china_weather szeged_weather india_ocean_waves longterm_weather panama wind_power turbine_power
+    desired_dataset: szeged_weather #china_weather szeged_weather india_ocean_waves longterm_weather panama wind_power turbine_power
 
   default:
     {lambda_recon: 0.05, lambda_kl_euc: 0.05, lambda_pred: 200, window_size: 168, z_dim_total: 40,
