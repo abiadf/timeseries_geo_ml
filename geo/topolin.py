@@ -218,10 +218,6 @@ class Sphlin:
         return mu + torch.randn_like(std) * std
 
     @staticmethod
-    def kl_gaussian(mu, logvar):
-        return -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp(), dim=-1).mean()
-
-    @staticmethod
     def sample_vmf(mu: torch.Tensor, kappa: torch.Tensor) -> torch.Tensor:
         """Approximate vMF sampling by adding Gaussian noise and normalizing.
         This is NOT exact vMF sampling; it is a heuristic used for speed.
@@ -270,6 +266,10 @@ class Sphlin:
         v_h = F.normalize(mu0 - mu, dim=-1)
         z = z - 2 * (z * v_h).sum(dim=1, keepdim=True) * v_h
         return F.normalize(z, dim=-1)
+
+    @staticmethod
+    def kl_gaussian(mu, logvar):
+        return -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp(), dim=-1).mean()
 
     @staticmethod
     def kl_vmf(mu: torch.Tensor, logkappa: torch.Tensor) -> torch.Tensor:
@@ -433,6 +433,23 @@ class Sphlin:
         return logs
 
     @staticmethod
+    def latent_dim_handler(X_train, X_lin_tr, X_cyc_tr, p):
+        n_tot, n_lin, n_cyc = X_train.shape[1], X_lin_tr.shape[1], X_cyc_tr.shape[1]
+        if n_cyc == 0:
+            print("⬜️ 100% Euclidean VAE")
+            z_euc, z_sph = p.z_dim_total, 0
+        elif n_lin == 0:
+            z_euc, z_sph = 0, p.z_dim_total
+            print("🌐 100% Spherical VAE")
+        else:
+            print("⚽️ 🟪 Mixed Euclidean-Spherical VAE")
+            # z_sph = max(1, min(int(np.ceil(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
+            z_sph = 4*n_cyc
+            z_euc = p.z_dim_total - z_sph
+        print(f"z_euc={z_euc}, z_sph={z_sph}, {n_cyc=}, %feats_cyc={100*n_cyc/n_tot:.2f}")
+        return n_tot, n_lin, n_cyc, z_euc, z_sph
+
+    @staticmethod
     def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
         """Run sphlin LSTM with optional manual cyclic column names."""
         device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -456,19 +473,7 @@ class Sphlin:
         X_lin_tr, X_lin_te = scale_train_and_test_sets(X_lin_tr, X_lin_te)
         X_cyc_tr, X_cyc_te = scale_train_and_test_sets(X_cyc_tr, X_cyc_te)
 
-        n_tot, n_lin, n_cyc = X_train.shape[1], X_lin_tr.shape[1], X_cyc_tr.shape[1]
-        if n_cyc == 0:
-            print("⬜️ 100% Euclidean VAE")
-            z_euc, z_sph = p.z_dim_total, 0
-        elif n_lin == 0:
-            z_euc, z_sph = 0, p.z_dim_total
-            print("🌐 100% Spherical VAE")
-        else:
-            print("⚽️ 🟪 Mixed Euclidean-Spherical VAE")
-            # z_sph = max(1, min(int(np.ceil(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
-            z_sph = 4*n_cyc
-            z_euc = p.z_dim_total - z_sph
-        print(f"z_euc={z_euc}, z_sph={z_sph}, {n_cyc=}, %feats_cyc={100*n_cyc/n_tot:.2f}")
+        n_tot, n_lin, n_cyc, z_euc, z_sph = Sphlin.latent_dim_handler(X_train, X_lin_tr, X_cyc_tr, p)
 
         def make_w(X, d):
             if d == 0: return None
