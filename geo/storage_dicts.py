@@ -68,3 +68,65 @@ dataset_method_mapping = {"longterm_weather":  "periodic",
                           "turbine_power":     "angular",
                           "imu_gyro":          "?",}
 
+dataset_attributes = {
+                      "beijing":           {"cols_to_drop":        [],
+                                            "mapping":             "?",
+                                            "angular_features":    ["wd_deg"], # 📐
+                                            "sliding_window_frac": 1/7,
+                                            "periodic_threshold":  0.3},
+
+                      "china_weather":     {"cols_to_drop":        [],
+                                            "mapping":             "periodic",
+                                            "angular_features":    [], # 
+                                            "sliding_window_frac": 0.1,
+                                            "periodic_threshold":  0.3},
+
+                      "gas":               {"cols_to_drop":        [],
+                                            "mapping":             "?",
+                                            "angular_features":    [], # 
+                                            "sliding_window_frac": 1/7,
+                                            "periodic_threshold":  0.3},
+
+                      "imu_gyro":          {"cols_to_drop":        [],
+                                            "mapping":             "?",
+                                            "angular_features":    [], # 
+                                            "sliding_window_frac": 0.25,
+                                            "periodic_threshold":  0.7},
+
+                      "india_ocean_waves": {"cols_to_drop":        ['ID', '#YY', 'MM', 'DD', 'hh', 'mm'],
+                                            "mapping":             "angular",
+                                            "angular_features":    ['WDIR(degT)', 'MWD(degT)'], # ⭐️ 🚴📐
+                                            "sliding_window_frac": 1/14,
+                                            "periodic_threshold":  0.3},
+
+                      "longterm_weather":  {"cols_to_drop":        ["date"],
+                                            "mapping":             "periodic",
+                                            "angular_features":    [], # 
+                                            "sliding_window_frac": 0.1,
+                                            "periodic_threshold":  0.52},
+
+                      "panama":            {"cols_to_drop":        ["datetime"],
+                                            "mapping":             "periodic",
+                                            "angular_features":    [], # 
+                                            "sliding_window_frac": 0.1,
+                                            "periodic_threshold":  0.3},
+
+                      "szeged_weather":    {"cols_to_drop":        ["Precip Type","Summary", "Formatted Date", "Apparent Temperature (C)", "Loud Cover", "Daily Summary"],
+                                            "mapping":             "angular",
+                                            "angular_features":    ['Wind Bearing (degrees)'], #  📐
+                                            "sliding_window_frac": 1/7,
+                                            "periodic_threshold":  0.25},
+
+                      "turbine_power":     {"cols_to_drop":        ["Time"],
+                                            "mapping":             "angular",
+                                            "angular_features":    ["winddirection_10m", "winddirection_100m"], # 📐
+                                            "sliding_window_frac": 1/7,
+                                            "periodic_threshold":  0.3},
+
+                      "wind_power":        {"cols_to_drop":        ["Date/Time"],
+                                            "mapping":             "periodic",
+                                            "angular_features":    [], # 
+                                            "sliding_window_frac": 0.1,
+                                            "periodic_threshold":  0.1},
+                    }
+

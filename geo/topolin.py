@@ -316,23 +316,32 @@ class Sphlin:
 
     @staticmethod
     def encode_full_dataset(X_lin, X_cyc, encoder_e, encoder_s, z_dim_euclid, device, batch_size=64):
-        """encodes the full dataset in batches to avoid OOM errors."""
+        """Encodes the full dataset in batches to avoid OOM errors, handling cases where one input is None."""
         if encoder_e is not None: encoder_e.eval()
         if encoder_s is not None: encoder_s.eval()
+        
+        # Use whichever one is not None to get the total length
+        n_samples = len(X_lin) if X_lin is not None else len(X_cyc)
+        
         zs = []
         with torch.no_grad():
-            for i in range(0, len(X_lin), batch_size):
-                x_lin   = X_lin[i:i+batch_size].to(device) if X_lin is not None else None
-                x_cyc   = X_cyc[i:i+batch_size].to(device) if X_cyc is not None else None
+            for i in range(0, n_samples, batch_size):
+                x_lin = X_lin[i:i+batch_size].to(device) if X_lin is not None else None
+                x_cyc = X_cyc[i:i+batch_size].to(device) if X_cyc is not None else None
+                
                 z_batch = []
+                # Check for encoder existence AND actual features in the tensor
                 if encoder_e is not None and x_lin is not None and x_lin.shape[-1] > 0:
                     mu, _ = encoder_e(x_lin)
                     z_batch.append(mu)
                 if encoder_s is not None and x_cyc is not None and x_cyc.shape[-1] > 0:
                     mu_s, _ = encoder_s(x_cyc)
                     z_batch.append(mu_s)
+                
                 zs.append(torch.cat(z_batch, dim=-1).cpu())
         return torch.cat(zs, dim=0)
+
+
 
     @staticmethod
     def train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas, epoch):
@@ -401,10 +410,24 @@ class Sphlin:
 
     @staticmethod
     def train_loop(XL_w, XC_w, y_w, encoder_e, encoder_s, decoder, pred_head, optimizer, p, device):
-        if not torch.is_tensor(XL_w): XL_w = torch.tensor(XL_w, dtype=torch.float32, device=device)
-        if not torch.is_tensor(XC_w): XC_w = torch.tensor(XC_w, dtype=torch.float32, device=device)
-        if not torch.is_tensor(y_w): y_w = torch.tensor(y_w, dtype=torch.float32, device=device)
+        # Determine total samples from whatever is available
+        batch_size_total = y_w.shape[0]
 
+        # Safely convert or create empty placeholders for the DataLoader
+        if XL_w is None:
+            XL_w = torch.zeros((batch_size_total, p.window_size, 0), device=device)
+        elif not torch.is_tensor(XL_w):
+            XL_w = torch.tensor(XL_w, dtype=torch.float32, device=device)
+            
+        if XC_w is None:
+            XC_w = torch.zeros((batch_size_total, p.window_size, 0), device=device)
+        elif not torch.is_tensor(XC_w):
+            XC_w = torch.tensor(XC_w, dtype=torch.float32, device=device)
+            
+        if not torch.is_tensor(y_w):
+            y_w = torch.tensor(y_w, dtype=torch.float32, device=device)
+
+        # Now the loader will receive Tensors, not None
         loader  = DataLoader(TensorDataset(XL_w, XC_w, y_w), batch_size=p.batch_size, shuffle=True)
         lambdas = {"reconstr": p.lambda_recon,
                    "pred": p.lambda_pred,
@@ -450,7 +473,7 @@ class Sphlin:
         return n_tot, n_lin, n_cyc, z_euc, z_sph
 
     @staticmethod
-    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
+    def XX_run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
         """Run sphlin LSTM with optional manual cyclic column names."""
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -500,9 +523,9 @@ class Sphlin:
         h_split   = int(p.hidden_dim / np.sqrt(2))
         enc_e     = LSTMEncoderEuclid(n_lin, h_split, z_euc).to(device) if z_euc > 0 else None
         enc_s     = LSTMSphericalEncoder(n_cyc, h_split, z_sph).to(device) if z_sph > 0 else None
-        dec       = LSTMDecoder(p.z_dim_total, p.hidden_dim, n_tot, p.window_size).to(device)
+        # dec       = LSTMDecoder(p.z_dim_total, p.hidden_dim, n_tot, p.window_size).to(device)
         # dec       = LSTMDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
-        # dec       = MLPDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
+        dec       = MLPDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
         # pred_head = torch.nn.Linear(p.z_dim_total, y_tr_w.shape[1]).to(device)
         pred_head = MLPPredHead(p.z_dim_total, y_tr_w.shape[1], hidden_dim=p.hidden_dim * 2).to(device)
         
@@ -547,6 +570,75 @@ class Sphlin:
         mae  = mean_absolute_error(y_te_w, y_hat)
         # return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w, y_te_w)
         return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_w), (z_euc, z_sph), logs
+
+    @staticmethod
+    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+
+        # 1. Feature Splitting
+        if manually_set_cols is not None:
+            X_cyc_tr = X_train[manually_set_cols]
+            X_lin_tr = X_train.drop(columns=manually_set_cols)
+        else:
+            X_lin_tr, X_cyc_tr = split_dataset_to_linear_and_cyclic(X_train, threshold=p.cyclic_threshold)
+
+        X_lin_te, X_cyc_te = X_test[X_lin_tr.columns], X_test[X_cyc_tr.columns]
+
+        # 2. Scaling
+        y_tr_s, y_te_s = scale_train_and_test_sets(y_train, y_test)
+        X_lin_tr, X_lin_te = scale_train_and_test_sets(X_lin_tr, X_lin_te)
+        X_cyc_tr, X_cyc_te = scale_train_and_test_sets(X_cyc_tr, X_cyc_te)
+
+        n_tot, n_lin, n_cyc, z_euc, z_sph = Sphlin.latent_dim_handler(X_train, X_lin_tr, X_cyc_tr, p)
+
+        # 3. Windowing (Keep d as None if 0 features)
+        def make_w(X, d):
+            if d == 0: return None
+            return Windowing.make_windows_from_X(X, p.window_size, sliding_size, horizon=p.horizon).to(device)
+
+        X_lin_tr_w, X_lin_te_w = make_w(X_lin_tr, n_lin), make_w(X_lin_te, n_lin)
+        X_cyc_tr_w, X_cyc_te_w = make_w(X_cyc_tr, n_cyc), make_w(X_cyc_te, n_cyc)
+
+        y_tr_w = Windowing.make_windows_from_y(y_tr_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+        y_te_w = Windowing.make_windows_from_y(y_te_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+        y_tr_w = torch.tensor(y_tr_w.reshape(y_tr_w.shape[0], -1), dtype=torch.float32, device=device)
+        y_te_w_tensor = torch.tensor(y_te_w.reshape(y_te_w.shape[0], -1), dtype=torch.float32, device=device)
+
+        # 4. Model Initialization
+        h_split = int(p.hidden_dim / np.sqrt(2))
+        enc_e = LSTMEncoderEuclid(n_lin, h_split, z_euc).to(device) if z_euc > 0 else None
+        enc_s = LSTMSphericalEncoder(n_cyc, h_split, z_sph).to(device) if z_sph > 0 else None
+        
+        # decoder: z_dim_total -> window_size * n_tot
+        dec = MLPDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
+        # pred_head: z_dim_total -> prediction target
+        pred_head = MLPPredHead(p.z_dim_total, y_tr_w.shape[1], hidden_dim=p.hidden_dim * 2).to(device)
+        
+        params = list(dec.parameters()) + list(pred_head.parameters())
+        if enc_e: params += list(enc_e.parameters())
+        if enc_s: params += list(enc_s.parameters())
+        opt = torch.optim.AdamW(params, lr=p.lr_optimizer)
+
+        # 5. Training Loop
+        logs = Sphlin.train_loop(X_lin_tr_w, X_cyc_tr_w, y_tr_w, enc_e, enc_s, dec, pred_head, opt, p, device)
+
+        # 6. Neural Inference
+        with torch.no_grad():
+            # Get test latents (passing back to CPU then back to device is safer for memory)
+            Z_test = Sphlin.encode_full_dataset(X_lin_te_w, X_cyc_te_w, enc_e, enc_s, z_euc, device)
+            pred_head.eval()
+            y_hat = pred_head(Z_test.to(device)).cpu().numpy()
+
+        # 7. Metrics
+        y_te_true = y_te_w_tensor.cpu().numpy()
+        rmse = root_mean_squared_error(y_te_true, y_hat)
+        r2   = r2_score(y_te_true, y_hat)
+        mae  = mean_absolute_error(y_te_true, y_hat)
+
+        # Fetch training latents for the return tuple if needed for visualization
+        Z_train = Sphlin.encode_full_dataset(X_lin_tr_w, X_cyc_tr_w, enc_e, enc_s, z_euc, device)
+        return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_true), (z_euc, z_sph), logs
+
 
 
 class Torlin:
