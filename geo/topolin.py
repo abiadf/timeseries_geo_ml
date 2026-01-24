@@ -238,7 +238,11 @@ class Sphlin:
         kappa: [B, 1] concentration (>=0)
         Returns z: [B, D] unit vectors."""
         B, D = mu.shape
-        kappa = kappa.view(-1).clamp(min=0.5)
+        # kappa = kappa.view(-1).clamp(min=0.5)
+        # kappa = torch.exp(kappa).clamp(min=2.0, max=20.0).view(-1)
+        # kappa = F.softplus(kappa).clamp(max=20.0).view(-1)
+        kappa = 1 + F.elu(kappa)
+
         b = (-2 * kappa + torch.sqrt(4 * kappa ** 2 + (D - 1) ** 2)) / (D - 1)
         x0 = (1 - b) / (1 + b)
         c = kappa * x0 + (D - 1) * torch.log1p(-x0 ** 2)
@@ -286,7 +290,10 @@ class Sphlin:
             - kappa: concentration, shape [B, 1]
             - scalar KL mean over batch"""
         # method 3, KL between vMF(q(z|mu,kappa)) and uniform p(z), where encoder outputs logkappa (why logkappa? cause its +ve)
-        kappa = torch.exp(logkappa).clamp(min=0.5) + 1e-6
+        # kappa = torch.exp(logkappa).clamp(min=2.0, max=20.0) + 1e-6
+        # kappa = F.softplus(logkappa).clamp(max=20.0) + 1e-6
+        kappa = 1 + F.elu(logkappa)
+
         D = mu.shape[-1]
         kappa = kappa.view(-1)
         nu = D/2 - 1
@@ -347,6 +354,8 @@ class Sphlin:
             z_parts.append(z_s)
             kl_s = Sphlin.kl_vmf(mu_s, logkappa)
 
+        if len(z_parts) == 0:
+            z_parts.append(torch.zeros((x_lin.shape[0], 0), device=x_lin.device))
         z = torch.cat(z_parts, dim=-1)
 
         targets = []
@@ -361,10 +370,13 @@ class Sphlin:
         y_win = y_win.unsqueeze(-1) if y_win.dim() == 1 else y_win
         pred_loss = F.mse_loss(y_hat, y_win)
 
-        kl_weight  = min(1.0, epoch / 20)
+        # kl_weight  = min(1.0, epoch / 100)
+        kl_weight  = 0.1 if epoch < 20 else 0.5 if epoch < 60 else 1.0
         total_loss = lambdas["reconstr"] * recon_loss + kl_weight * (lambdas["euc"] * kl_e + lambdas["sph"] * kl_s) + lambdas["pred"] * pred_loss
 
-        kappa = torch.exp(logkappa) + 1e-6
+        # kappa = torch.exp(logkappa).clamp(min=2.0, max=20.0)
+        # kappa = F.softplus(logkappa).clamp(max=20.0)
+        kappa = None if logkappa is None else 1 + F.elu(logkappa)
         return {"total": total_loss, "recon": recon_loss, "kl_e": kl_e, "kl_s": kl_s,
                 "pred": pred_loss, "mu_s": mu_s, "logkappa": logkappa, "kappa": kappa, "z_s": z_s, "z_e": z_e}
 

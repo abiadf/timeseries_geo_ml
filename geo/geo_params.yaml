@@ -73,9 +73,9 @@ dataset:
       # {lambda_recon: 0.5832610, lambda_latent: 1.1195391, lambda_pred: 1.7644125, window_size: 2190, z_dim_total: 37, hidden_dim: 62,
       # lr_optimizer: 0.0025, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8, task: forecast}
 
-      {lambda_recon: 0.3, lambda_kl_euc: 0.05, lambda_kl_sph: 0.5, lambda_pred: 10, window_size: 2190, z_dim_total: 33,
+      {lambda_recon: .1, lambda_kl_euc: 0.05, lambda_kl_sph: 0.005, lambda_pred: 100, window_size: 720, z_dim_total: 24,
       hidden_dim: 60, lr_optimizer: 0.0010, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8, 
-      task: forecast, horizon: 50}
+      task: forecast, horizon: 1}
 
   imu_gyro:
     override:
