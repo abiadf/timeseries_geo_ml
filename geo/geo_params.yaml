@@ -16,11 +16,6 @@ dataset:
       hidden_dim: 70, lr_optimizer: 0.0010, batch_size: 128, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8,
       task: forecast, horizon: 1}
 
-  wind_power: # ✅
-    override:
-      {lambda_recon: 2.3110710, lambda_kl_euc: 0.0046531, window_size: 2016, z_dim_total: 55, horizon: 50,
-      hidden_dim: 87, lr_optimizer: 0.0022, batch_size: 64, epochs: 50, cyclic_threshold: 0.2500, earlystop_patience: 8, task: forecast}
-
   china_weather:  # ✅
     base:
       {cyclic_threshold: 0.25, window_size: 8, z_dim_total: 24, hidden_dim: 64, lr_optimizer: 1e-3, batch_size: 128}
@@ -33,10 +28,23 @@ dataset:
       {lambda_recon: 1.00271533, lambda_kl_euc: .200654076, lambda_pred: 1.00744238, window_size: 730,
       z_dim_total: 16, hidden_dim: 128, lr_optimizer: 0.0029, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000,
       earlystop_patience: 8, lambda_recon: 2.4272, lambda_kl_sph: 0.001, lambda_kl_euc: 0.05, lambda_pred: 0.6744, task: forecast, horizon: 1}
+
   gas:  # ✅
     override:
       {lambda_recon: 0.05, lambda_kl_euc: 0.05, lambda_pred: 200, window_size: 168, z_dim_total: 20,
       hidden_dim: 70, lr_optimizer: 0.0010, batch_size: 128, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8,
+      task: forecast, horizon: 1}
+
+  imu_gyro:
+    override:
+      {window_size: 100, z_dim_total: 56, hidden_dim: 36, lr_optimizer: 0.0004, batch_size: 256, epochs: 50,
+      cyclic_threshold: 0.70, earlystop_patience: 8, lambda_recon: 1.6108, lambda_kl_euc: 0.0020, task: forecast,
+      horizon: 1}
+
+  india_ocean_waves: # ✅
+    override:
+      {lambda_recon: 0.1, lambda_kl_sph: 0.001, lambda_kl_euc: 0.05, lambda_pred: 250, window_size: 1680, z_dim_total: 65, 
+      hidden_dim: 26, lr_optimizer: 0.0012, batch_size: 64, epochs: 50, cyclic_threshold: 0.2500, earlystop_patience: 8,
       task: forecast, horizon: 1}
 
   longterm_weather: # ✅
@@ -48,12 +56,6 @@ dataset:
     override:
       {lambda_recon: 2.4298239, lambda_kl_sph: 0.001, window_size: 720, z_dim_total: 89, hidden_dim: 107,
       lr_optimizer: 0.0036, batch_size: 32, epochs: 50, cyclic_threshold: 0.1500, earlystop_patience: 8, task: forecast, horizon: 1}
-
-  india_ocean_waves: # ✅
-    override:
-      {lambda_recon: 0.1, lambda_kl_sph: 0.001, lambda_kl_euc: 0.05, lambda_pred: 250, window_size: 168, z_dim_total: 65, 
-      hidden_dim: 26, lr_optimizer: 0.0012, batch_size: 64, epochs: 50, cyclic_threshold: 0.2500, earlystop_patience: 8,
-      task: forecast, horizon: 1}
 
   szeged_weather: # ✅
     override:
@@ -85,8 +87,7 @@ dataset:
       hidden_dim: 60, lr_optimizer: 0.0010, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8, 
       task: forecast, horizon: 1}
 
-  imu_gyro:
+  wind_power: # ✅
     override:
-      {window_size: 100, z_dim_total: 56, hidden_dim: 36, lr_optimizer: 0.0004, batch_size: 256, epochs: 50,
-      cyclic_threshold: 0.70, earlystop_patience: 8, lambda_recon: 1.6108, lambda_kl_euc: 0.0020, task: forecast,
-      horizon: 1}
+      {lambda_recon: 2.3110710, lambda_kl_euc: 0.0046531, window_size: 2016, z_dim_total: 55, horizon: 50,
+      hidden_dim: 87, lr_optimizer: 0.0022, batch_size: 64, epochs: 50, cyclic_threshold: 0.2500, earlystop_patience: 8, task: forecast}
