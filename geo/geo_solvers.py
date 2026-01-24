@@ -49,6 +49,303 @@ logging.warning("Something looks off...")
 logging.error("Something failed.")
 
 
+# to use in main code
+from geo_utils import Windowing, scale_train_and_test_sets
+from geo_encoders import fit_catboost_multi
+
+class Predictors:
+    @staticmethod
+    def make_random_latent_prediction(Z_train, y_train, p, sliding_size, n_samples=1000):
+        """Evaluate a random latent baseline by sampling Z from the training set.
+        This preserves the exact empirical distribution and shape of Z_train,
+        then predicts y using a CatBoost model trained on (Z_train, y_train_windows).
+        Args:
+            Z_train: torch.Tensor of latent vectors (N, D).
+            y_train: target time series (torch.Tensor or np.array).
+            p: config object with window_size and task attributes.
+            n_samples: number of random latent samples to evaluate.
+        Returns:
+            rmse, r2: baseline performance of random latent samples."""
+        Z_train_np = Z_train.detach().cpu().numpy()
+        y_train_win = Windowing.make_windows_from_y(y_train, p.window_size, sliding_size, task=p.task).reshape(-1, 1)
+
+        idx = np.random.randint(0, Z_train_np.shape[0], size=n_samples)
+        Z_random_np = Z_train_np[idx]
+
+        y_hat_random = fit_catboost_multi(Z_train_np, y_train_win, Z_random_np)
+        y_dummy = np.tile(y_train_win.mean(axis=0), (n_samples, 1))
+        rmse = np.sqrt(mean_squared_error(y_dummy, y_hat_random))
+        r2 = r2_score(y_dummy, y_hat_random)
+        return rmse, r2
+
+    @staticmethod
+    def make_latent_pca_prediction(Z_train: torch.Tensor, Z_test: torch.Tensor, y_train: np.ndarray, y_test: np.ndarray,
+                                   p, n_components: float = 0.95, sliding_size=None) -> tuple[float, float]:
+        """Apply PCA to latents and predict with CatBoost."""
+        # window y to match latents
+        y_train_win = Windowing.make_windows_from_y(y_train, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+        y_test_win  = Windowing.make_windows_from_y(y_test,  p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+
+        # convert latents to numpy
+        Z_train_np = Z_train.cpu().numpy()
+        Z_test_np  = Z_test.cpu().numpy()
+
+        # PCA fit on training latents
+        pca = PCA(n_components=n_components)
+        Z_train_pca = pca.fit_transform(Z_train_np)
+        Z_test_pca  = pca.transform(Z_test_np)
+
+        # regression
+        model = LinearRegression()
+        model.fit(Z_train_pca, y_train_win)
+        y_hat = model.predict(Z_test_pca)
+
+        # y_hat = fit_catboost_multi(Z_train_pca, y_train_win, Z_test_pca)
+        rmse  = np.sqrt(mean_squared_error(y_test_win, y_hat))
+        r2    = r2_score(y_test_win, y_hat)
+        return rmse, r2
+
+    @staticmethod
+    def make_latent_umap_catboost(Z_train: torch.Tensor, Z_test: torch.Tensor, y_train: np.ndarray, y_test: np.ndarray,
+                                p, n_components: int = 5,  sliding_size=None, n_neighbors: int = 15, min_dist: float = 0.1, random_state: int = 42,
+                                catboost_params: dict = None) -> tuple[float, float]:
+        """Apply UMAP to latents and predict with CatBoost regression."""
+        # window y to match latents
+        y_train_win = Windowing.make_windows_from_y(y_train, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+        y_test_win  = Windowing.make_windows_from_y(y_test,  p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+
+        # convert latents to numpy
+        Z_train_np = Z_train.cpu().numpy()
+        Z_test_np  = Z_test.cpu().numpy()
+
+        # scale before UMAP
+        scaler = StandardScaler()
+        Z_train_scaled = scaler.fit_transform(Z_train_np)
+        Z_test_scaled  = scaler.transform(Z_test_np)
+
+        # UMAP
+        reducer = umap.UMAP(n_components=n_components, n_neighbors=n_neighbors, min_dist=min_dist, random_state=random_state)
+        Z_train_umap = reducer.fit_transform(Z_train_scaled)
+        Z_test_umap  = reducer.transform(Z_test_scaled)
+
+        y_hat = fit_catboost_multi(Z_train_umap, y_train_win, Z_test_umap)
+        rmse = np.sqrt(mean_squared_error(y_test_win, y_hat))
+        r2   = r2_score(y_test_win, y_hat)
+        return rmse, r2
+
+    @staticmethod
+    def run_riemann_catboost(Z_train, Z_test, y_train, y_test, window_size: int, sliding_size: int, prediction_task, eps: float = 1e-6):
+        """Riemannian covariance → tangent space (PGA) → scaling → CatBoost → RMSE/R2."""
+        # torch → numpy
+        Z_train_np = Z_train.cpu().numpy() if Z_train.is_cuda else Z_train.numpy()
+        Z_test_np  = Z_test.cpu().numpy()  if Z_test.is_cuda else Z_test.numpy()
+
+        # covariance
+        X_train_cov = compute_covariance_safe(Z_train_np)
+        X_test_cov  = compute_covariance_safe(Z_test_np)
+
+        # regularization
+        n = X_train_cov.shape[1]
+        X_train_cov += eps * np.eye(n)
+        X_test_cov  += eps * np.eye(n)
+
+        # tangent space (PGA)
+        ts = TangentSpace(metric='riemann')
+        Z_train_pga = ts.fit_transform(X_train_cov)
+        Z_test_pga  = ts.transform(X_test_cov)
+
+        # scale features
+        Z_train_scaled, Z_test_scaled = scale_train_and_test_sets(Z_train_pga, Z_test_pga)
+
+        # window + scale targets
+        y_train_w = Windowing.make_windows_from_y(y_train, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+        y_test_w  = Windowing.make_windows_from_y(y_test, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+        y_train_scaled, y_test_scaled = scale_train_and_test_sets(y_train_w, y_test_w)
+
+        # train + predict
+        y_hat = fit_catboost_multi(Z_train_scaled, y_train_scaled, Z_test_scaled)
+
+        # metrics
+        rmse = np.sqrt(mean_squared_error(y_test_scaled, y_hat))
+        r2   = r2_score(y_test_scaled, y_hat)
+        return y_hat, rmse, r2
+
+    @staticmethod
+    def cosine_similarity_samples(z: torch.Tensor) -> torch.Tensor:
+        """Mean pairwise cosine similarity between samples. z: (N, D), assumed normalized."""
+        z = torch.nn.functional.normalize(z, dim=1)
+        sim = z @ z.T
+        N = z.shape[0]
+        return (sim.sum() - N) / (N * (N - 1))
+
+    @staticmethod
+    def angular_variance_over_time(z: torch.Tensor) -> torch.Tensor:
+        """Angular variance across time. z: (T, D), normalized."""
+        z = torch.nn.functional.normalize(z, dim=1)
+        mean_dir = torch.mean(z, dim=0)
+        mean_dir = mean_dir / mean_dir.norm()
+        cos_angles = (z @ mean_dir).clamp(-1, 1)
+        angles = torch.acos(cos_angles)
+        return angles.var()
+
+    @staticmethod
+    def make_direct_prediction(X_train: np.ndarray, X_test: np.ndarray, y_train: np.ndarray, y_test: np.ndarray,
+                            window_size: int, sliding_size: int, prediction_task: str, p) -> tuple[float, float, float]:
+        """Direct CatBoost baseline with task-consistent windowing."""
+        print(f"X_train: {X_train.shape}, X_test: {X_test.shape}")
+
+        if prediction_task == "tabular":
+            X_train_flat, X_test_flat = X_train, X_test
+            y_train_w, y_test_w       = y_train, y_test
+        else:
+            # --- window X ---
+            y_train_w = Windowing.make_windows_from_y(y_train, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+            y_test_w  = Windowing.make_windows_from_y(y_test, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+            X_train_w = Windowing.make_windows_from_X(torch.from_numpy(X_train.to_numpy()).float(), window_size, sliding_size, horizon=p.horizon)
+            X_test_w  = Windowing.make_windows_from_X(torch.from_numpy(X_test.to_numpy()).float(), window_size, sliding_size, horizon=p.horizon)
+
+            X_train_flat = X_train_w.reshape(X_train_w.shape[0], -1).numpy()
+            X_test_flat  = X_test_w.reshape(X_test_w.shape[0], -1).numpy()
+
+        # --- scale ---
+        X_train_flat, X_test_flat = scale_train_and_test_sets(X_train_flat, X_test_flat)
+        y_train_prep = y_train_w.reshape(y_train_w.shape[0], -1)
+        y_test_prep  = y_test_w.reshape(y_test_w.shape[0], -1)
+        # y_train_prep = y_train_w.reshape(-1, 1) if y_train_w.ndim == 1 else y_train_w
+        # y_test_prep  = y_test_w.reshape(-1, 1) if y_test_w.ndim == 1 else y_test_w
+        y_train_scaled, y_test_scaled = scale_train_and_test_sets(y_train_prep, y_test_prep)
+
+        assert y_train_prep.ndim == 2
+        assert y_train_prep.shape[0] == X_train_flat.shape[0]
+
+        # y_hat = LinearRegression().fit(X_train_flat, y_train_scaled).predict(X_test_flat)
+        y_hat = fit_catboost_multi(X_train_flat, y_train_scaled, X_test_flat, cb_verbose=50)
+        rmse  = root_mean_squared_error(y_test_scaled, y_hat)
+        r2    = r2_score(y_test_scaled, y_hat)
+        mae   = mean_absolute_error(y_test_scaled, y_hat)
+        return rmse, r2, mae
+
+    @staticmethod
+    def make_direct_prediction_pca(X_train: np.ndarray, X_test: np.ndarray, y_train: np.ndarray, y_test: np.ndarray,
+                                window_size: int, sliding_size: int, prediction_task: str, n_components: int = 0.95) -> tuple[float, float]:
+        """Direct CatBoost baseline with optional PCA for dimensionality reduction."""
+
+        if prediction_task == "tabular":
+            X_train_flat, X_test_flat = X_train, X_test
+            y_train_w, y_test_w       = y_train, y_test
+        else:
+            y_train_w = Windowing.make_windows_from_y(y_train, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+            y_test_w  = Windowing.make_windows_from_y(y_test, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+
+            X_train_w = Windowing.make_windows_from_X(torch.from_numpy(X_train.to_numpy()).float(), window_size, sliding_size, horizon=p.horizon)
+            X_test_w  = Windowing.make_windows_from_X(torch.from_numpy(X_test.to_numpy()).float(), window_size, sliding_size, horizon=p.horizon)
+            X_train_flat = X_train_w.reshape(X_train_w.shape[0], -1).numpy()
+            X_test_flat  = X_test_w.reshape(X_test_w.shape[0], -1).numpy()
+
+        # --- PCA ---
+        pca = PCA(n_components=n_components)
+        X_train_flat = pca.fit_transform(X_train_flat)
+        X_test_flat  = pca.transform(X_test_flat)
+
+        # --- scale ---
+        X_train_flat, X_test_flat = scale_train_and_test_sets(X_train_flat, X_test_flat)
+
+        y_train_prep = y_train_w.reshape(-1, 1) if y_train_w.ndim == 1 else y_train_w
+        y_test_prep  = y_test_w.reshape(-1, 1) if y_test_w.ndim == 1 else y_test_w
+        y_train_scaled, y_test_scaled = scale_train_and_test_sets(y_train_prep, y_test_prep)
+
+        # --- regression ---
+        y_hat = fit_catboost_multi(X_train_flat, y_train_scaled, X_test_flat)
+        rmse  = root_mean_squared_error(y_test_scaled, y_hat)
+        r2    = r2_score(y_test_scaled, y_hat)
+        return rmse, r2
+
+    @staticmethod
+    def compute_covariance_safe(X, eps=1e-6):
+        """
+        Compute regularized covariance matrices for latent features.
+        Handles 1D, 2D, or 3D inputs.
+        Returns: [n_samples, n_channels, n_channels]
+        """
+        covs = []
+        for x in X:
+            # convert to 2D (samples × features)
+            if x.ndim == 0:
+                x_flat = x.reshape(1, 1)
+            elif x.ndim == 1:
+                x_flat = x.reshape(1, -1)
+            elif x.ndim == 2:
+                x_flat = x
+            else:  # >2D
+                x_flat = x.reshape(x.shape[0], -1)
+
+            if x_flat.shape[0] == 1:
+                # only one sample → covariance is outer product
+                C = np.outer(x_flat[0], x_flat[0])
+            else:
+                C = np.cov(x_flat, rowvar=False)
+
+            # regularize to make positive definite
+            C += eps * np.eye(C.shape[0])
+            covs.append(C)
+
+        return np.array(covs)
+
+    @staticmethod
+    def make_direct_prediction_cov_pca(X_train: np.ndarray, X_test: np.ndarray, y_train: np.ndarray, y_test: np.ndarray,
+                                    window_size: int, sliding_size: int, prediction_task: str, n_components: int = 0.95,
+                                    method: str = "PCA") -> tuple[float, float]:
+        """Direct CatBoost baseline with PCA or PGA on covariance matrices for fair comparison."""
+        
+        if prediction_task == "tabular":
+            raise ValueError("Covariance-based PCA/PGA requires time-windowed data")
+        
+        # --- create windows ---
+        y_train_w = Windowing.make_windows_from_y(y_train, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+        y_test_w  = Windowing.make_windows_from_y(y_test, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+        
+        X_train_w = Windowing.make_windows_from_X(torch.from_numpy(X_train.to_numpy()).float(), window_size, sliding_size, horizon=p.horizon)
+        X_test_w  = Windowing.make_windows_from_X(torch.from_numpy(X_test.to_numpy()).float(), window_size, sliding_size, horizon=p.horizon)
+        
+        # Ensure numpy
+        X_train_w = X_train_w.numpy() if isinstance(X_train_w, torch.Tensor) else X_train_w
+        X_test_w  = X_test_w.numpy() if isinstance(X_test_w, torch.Tensor) else X_test_w
+
+        # --- compute covariance matrices ---
+        X_train_cov = compute_covariance_safe(X_train_w)
+        X_test_cov  = compute_covariance_safe(X_test_w)
+
+        # --- dimensionality reduction ---
+        if method.upper() == "PCA":
+            # Flatten covariance matrices and apply linear PCA
+            n_samples, n_channels, _ = X_train_cov.shape
+            X_train_flat = X_train_cov.reshape(n_samples, -1)
+            X_test_flat  = X_test_cov.reshape(X_test_cov.shape[0], -1)
+            reducer = PCA(n_components=n_components)
+            X_train_flat = reducer.fit_transform(X_train_flat)
+            X_test_flat  = reducer.transform(X_test_flat)
+        elif method.upper() == "PGA":
+            ts = TangentSpace(metric='riemann')
+            X_train_flat = ts.fit_transform(X_train_cov)
+            X_test_flat  = ts.transform(X_test_cov)
+        else:
+            raise ValueError("method must be 'PCA' or 'PGA'")
+
+        # --- scale ---
+        X_train_flat, X_test_flat = scale_train_and_test_sets(X_train_flat, X_test_flat)
+
+        y_train_prep = y_train_w.reshape(-1, 1) if y_train_w.ndim == 1 else y_train_w
+        y_test_prep  = y_test_w.reshape(-1, 1) if y_test_w.ndim == 1 else y_test_w
+        y_train_scaled, y_test_scaled = scale_train_and_test_sets(y_train_prep, y_test_prep)
+
+        # --- regression ---
+        y_hat = fit_catboost_multi(X_train_flat, y_train_scaled, X_test_flat)
+        rmse  = root_mean_squared_error(y_test_scaled, y_hat)
+        r2    = r2_score(y_test_scaled, y_hat)
+        return rmse, r2
+
+
+
 # %% VAE
 
 class VAE(nn.Module):

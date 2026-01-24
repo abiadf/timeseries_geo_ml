@@ -8,7 +8,6 @@ from typing import Union
 from dataclasses import dataclass
 
 from sklearn.metrics import mean_squared_error, accuracy_score, f1_score, mean_absolute_error, root_mean_squared_error, r2_score, silhouette_score
-from sklearn.model_selection import train_test_split
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.neighbors import NearestNeighbors, KernelDensity
 

@@ -15,3 +15,9 @@ natural period of datasets (domain knowledge + observed cycles):
 
 
 -szeged_weather: 1h per timestep for 96453 timesteps (4018 days = 11 years)
+
+
+-gas: 1h per timestep for 1 year. go for 1 week window
+
+- beijing: sampled 1h for 4 years (35k timesteps)
+

@@ -5,7 +5,6 @@ project_root = os.path.abspath("..")  # adjust if notebook is elsewhere
 sys.path.insert(0, project_root)
 from typing import Dict, List, Literal, Tuple, Optional, Any, Union
 import logging
-from dataclasses import dataclass
 
 import category_encoders as ce
 import matplotlib.pyplot as plt
@@ -447,7 +446,8 @@ class Sphlin:
             X_cyc_tr = X_train[manually_set_cols]
             X_lin_tr = X_train.drop(columns=manually_set_cols)
         else:
-            X_lin_tr, X_cyc_tr = split_dataset_to_linear_and_cyclic(X_train, threshold=p.cyclic_threshold, verbose=False)
+            print(f"🔪 splitting the features, {p.cyclic_threshold=}")
+            X_lin_tr, X_cyc_tr = split_dataset_to_linear_and_cyclic(X_train, threshold=p.cyclic_threshold, verbose=True)
 
         X_lin_te = X_test[X_lin_tr.columns]
         X_cyc_te = X_test[X_cyc_tr.columns]
@@ -466,9 +466,9 @@ class Sphlin:
         else:
             print("⚽️ 🟪 Mixed Euclidean-Spherical VAE")
             # z_sph = max(1, min(int(np.ceil(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
-            z_sph = 2*n_cyc
+            z_sph = 4*n_cyc
             z_euc = p.z_dim_total - z_sph
-        print(f"z_euc={z_euc}, z_sph={z_sph}, %feats_cyc={100*n_cyc/n_tot:.2f}")
+        print(f"z_euc={z_euc}, z_sph={z_sph}, {n_cyc=}, %feats_cyc={100*n_cyc/n_tot:.2f}")
 
         def make_w(X, d):
             if d == 0: return None

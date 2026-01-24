@@ -82,6 +82,25 @@ def get_household_power_consumption(file_loc: str, y_cols: list[str]):
     X  = df.drop(target).fill_null(0)
     return X.to_pandas(), y.to_pandas()
 
+def clean_beijing_data(X_orig: pd.DataFrame, y_orig: np.ndarray):
+    wd_to_deg = {
+        "N": 0, "NNE": 22.5, "NE": 45, "ENE": 67.5,
+        "E": 90, "ESE": 112.5, "SE": 135, "SSE": 157.5,
+        "S": 180, "SSW": 202.5, "SW": 225, "WSW": 247.5,
+        "W": 270, "WNW": 292.5, "NW": 315, "NNW": 337.5}
+
+    X_orig["wd_deg"] = X_orig["wd"].map(wd_to_deg)
+    X_orig.drop(columns=["wd"], inplace=True)
+
+    X_orig.infer_objects(copy=False)
+    for col in X_orig.select_dtypes(include="object").columns:
+        X_orig[col] = pd.to_numeric(X_orig[col], errors="coerce")
+
+    X_orig = X_orig.interpolate(method="linear", limit_direction="both")
+    y_orig = np.interp(np.arange(len(y_orig)), np.where(~np.isnan(y_orig))[0], y_orig[~np.isnan(y_orig)])
+    print(f"🧹 Cleaned Beijing data")
+    return X_orig, y_orig
+
 
 dataset_dict = {"szeged_weather":    {"file_loc": "../public_datasets/2D/tabular/szeged_weather.csv",
                                       "y_cols": ["Temperature (C)"],
@@ -104,8 +123,16 @@ dataset_dict = {"szeged_weather":    {"file_loc": "../public_datasets/2D/tabular
                 "electric_power":    {"file_loc": "../public_datasets/2D/tabular/electric_power/household_power.parquet",
                                       "y_cols": ["Global_active_power"],
                                       "function": get_household_power_consumption},
-                "china_weather":    {"file_loc": "../public_datasets/3D/china_weather/china_weather_000.npy",
+                "china_weather":     {"file_loc": "../public_datasets/3D/china_weather/china_weather_000.npy",
                                       "y_cols": [7, 10], #[4, 5, 6, 7, 10]
-                                      "function": process_china_weather_dataset}
+                                      "function": process_china_weather_dataset},
+                "gas":               {"file_loc": f"../public_datasets/3D/gas_emissions/gt_2011.csv",
+                                      "y_cols": ["CO","NOX"],
+                                      "function": process_dataset_given_filename},
+                "beijing":           {"file_loc": f"../public_datasets/3D/beijing/PRSA_Data_Changping_20130301-20170228.csv",
+                                      "y_cols": ["PM2.5"],
+                                      "function": process_dataset_given_filename,
+                                      "processing": clean_beijing_data},
                 }
+
 

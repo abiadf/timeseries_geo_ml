@@ -1,15 +1,5 @@
 """Dictionaties for datasets to use in main code"""
 
-dataset_modality_dict = {"longterm_weather":  "timeseries",
-                         "electric_power":    "timeseries",
-                         "china_weather":     "timeseries",
-                         "panama":            "timeseries",
-                         "wind_power":        "timeseries",
-                         "india_ocean_waves": "timeseries",
-                         "szeged_weather":    "timeseries",
-                         "turbine_power":     "timeseries",
-                         "imu_gyro":          "timeseries",}
-
 cols_to_drop = {"longterm_weather":  ["date"],
                 "electric_power":    ["Date", "Time"],
                 "china_weather":     [],
@@ -21,7 +11,9 @@ cols_to_drop = {"longterm_weather":  ["date"],
                 "india_ocean_waves": ['ID', '#YY', 'MM', 'DD', 'hh', 'mm'],
                 "szeged_weather":    ["Precip Type","Summary", "Formatted Date", "Apparent Temperature (C)", "Loud Cover", "Daily Summary"],
                 "turbine_power":     ["Time"],
-                "imu_gyro":          [],}
+                "imu_gyro":          [],
+                "gas":               [],
+                "beijing":           ["No","year","month","day","hour", "station"],}
 
 periodic_threshold_dict = {"longterm_weather":  0.52,
                            "electric_power":    0.5,
@@ -34,7 +26,9 @@ periodic_threshold_dict = {"longterm_weather":  0.52,
                            "india_ocean_waves": 0.3,
                            "szeged_weather":    0.25,
                            "turbine_power":     0.3,
-                           "imu_gyro":          0.7,}
+                           "imu_gyro":          0.7,
+                           "gas":               0.3,
+                           "beijing":           0.3,}
 
 sliding_window_frac_dict = {"longterm_weather":  0.1, # ✅
                             "china_weather":     0.1, # ✅
@@ -46,7 +40,9 @@ sliding_window_frac_dict = {"longterm_weather":  0.1, # ✅
                             "india_ocean_waves": 1/14, # ✅
                             "szeged_weather":    1/7, # ✅
                             "turbine_power":     1/7, # ✅
-                            "imu_gyro":          0.25,}
+                            "imu_gyro":          0.25,
+                            "gas":               1/7,
+                            "beijing":           1/7,}
 
 angular_features_list = {"longterm_weather": [],
                         "electric_power":    [],
@@ -60,7 +56,8 @@ angular_features_list = {"longterm_weather": [],
                         "india_ocean_waves": ['WDIR(degT)', 'MWD(degT)'],
                         "szeged_weather":    ['Wind Bearing (degrees)'],
                         "turbine_power":     ["winddirection_10m", "winddirection_100m"],
-                        }
+                        "gas":               [],
+                        "beijing":           ["wd_deg"],}
 
 dataset_method_mapping = {"longterm_weather":  "periodic",
                           "china_weather":     "periodic",
