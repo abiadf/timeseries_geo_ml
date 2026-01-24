@@ -458,12 +458,15 @@ class Sphlin:
 
         n_tot, n_lin, n_cyc = X_train.shape[1], X_lin_tr.shape[1], X_cyc_tr.shape[1]
         if n_cyc == 0:
+            print("⬜️ 100% Euclidean VAE")
             z_euc, z_sph = p.z_dim_total, 0
         elif n_lin == 0:
             z_euc, z_sph = 0, p.z_dim_total
+            print("🌐 100% Spherical VAE")
         else:
+            print("⚽️ 🟪 Mixed Euclidean-Spherical VAE")
             # z_sph = max(1, min(int(np.ceil(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
-            z_sph = n_cyc
+            z_sph = 2*n_cyc
             z_euc = p.z_dim_total - z_sph
         print(f"z_euc={z_euc}, z_sph={z_sph}, %feats_cyc={100*n_cyc/n_tot:.2f}")
 

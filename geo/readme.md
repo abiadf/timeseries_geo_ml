@@ -11,4 +11,7 @@ natural period of datasets (domain knowledge + observed cycles):
 
 - turbine_power: 1h per step for 4 years (43k steps).
 
+- india_ocean_waves: 1h per timestep for 3887 timesteps, for 162 days = 5.4 months
 
+
+-szeged_weather: 1h per timestep for 96453 timesteps (4018 days = 11 years)

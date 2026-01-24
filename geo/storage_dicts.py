@@ -43,9 +43,9 @@ sliding_window_frac_dict = {"longterm_weather":  0.1, # ✅
                             "forest_fires":      0.25,
                             "panama":            0.1, # ✅
                             "wind_power":        0.1, # ✅
-                            "india_ocean_waves": 0.25,
-                            "szeged_weather":    0.25,
-                            "turbine_power":     0.04, # ??????
+                            "india_ocean_waves": 1/14, # ✅
+                            "szeged_weather":    1/7, # ✅
+                            "turbine_power":     1/7, # ✅
                             "imu_gyro":          0.25,}
 
 angular_features_list = {"longterm_weather": [],
