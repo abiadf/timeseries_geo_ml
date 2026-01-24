@@ -35,7 +35,7 @@ from pyriemann.tangentspace import TangentSpace
 from geo.geo_utils import compute_cyclicity_score, split_dataset_to_linear_and_cyclic, scale_train_and_test_sets, drop_low_variance_cols, Windowing
 
 from geo_encoders import EuclidEncoder, SphericalEncoder, Decoder, LSTMEncoderEuclid, LSTMSphericalEncoder, \
-LSTMToroidalEncoder, LSTMDecoder, MLPDecoder, Reparam, MixedEncoder, WithSplit, NoSplit, kl_gaussian, kl_vmf_uniform, \
+LSTMToroidalEncoder, LSTMDecoder, MLPDecoder, Reparam, MLPPredHead, WithSplit, NoSplit, kl_gaussian, kl_vmf_uniform, \
 regularization_vmf, early_stop, fit_catboost_multi, evaluate_model_full, estimate_entropy, pool_latents
 
 import torch
@@ -503,8 +503,9 @@ class Sphlin:
         dec       = LSTMDecoder(p.z_dim_total, p.hidden_dim, n_tot, p.window_size).to(device)
         # dec       = LSTMDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
         # dec       = MLPDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
-        pred_head = torch.nn.Linear(p.z_dim_total, y_tr_w.shape[1]).to(device)
-
+        # pred_head = torch.nn.Linear(p.z_dim_total, y_tr_w.shape[1]).to(device)
+        pred_head = MLPPredHead(p.z_dim_total, y_tr_w.shape[1], hidden_dim=p.hidden_dim * 2).to(device)
+        
         params = list(dec.parameters()) + list(pred_head.parameters())
         if enc_e: params += list(enc_e.parameters())
         if enc_s: params += list(enc_s.parameters())
@@ -521,6 +522,21 @@ class Sphlin:
         Z_train = Sphlin.encode_full_dataset(X_lin_tr_w, X_cyc_tr_w, enc_e, enc_s, z_euc, device)
         torch.cuda.empty_cache()
         Z_test  = Sphlin.encode_full_dataset(X_lin_te_w, X_cyc_te_w, enc_e, enc_s, z_euc, device)
+
+        # 2. Neural Inference: Use the trained pred_head
+        pred_head.eval() # Set to evaluation mode
+        with torch.no_grad():
+            # Pass Z_test (which is on CPU from encode_full_dataset) back to device
+            Z_test_device = Z_test.to(device)
+            y_hat_torch = pred_head(Z_test_device)
+            y_hat = y_hat_torch.cpu().numpy() # Convert to numpy for metrics
+
+        # 3. Final metrics calculation
+        y_te_w = y_te_w.reshape(y_te_w.shape[0], -1).detach().cpu().numpy()
+        rmse = root_mean_squared_error(y_te_w, y_hat)
+        r2   = r2_score(y_te_w, y_hat)
+        mae  = mean_absolute_error(y_te_w, y_hat)
+        return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_w), (z_euc, z_sph), logs
 
         y_hat  = fit_catboost_multi(Z_train.detach().cpu().numpy(), y_tr_w.reshape(y_tr_w.shape[0], -1).detach().cpu().numpy(),
                                     Z_test.detach().cpu().numpy())

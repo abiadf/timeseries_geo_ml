@@ -166,7 +166,7 @@ def split_dataset_to_linear_and_cyclic(dataset: pd.DataFrame, threshold: float =
             if verbose:
                 print(f"Error processing col {col}: {e}")
     if verbose:
-        print(f"{100*len(cyc_cols)/len(dataset.columns):.2f}% cyclic cols, {100*len(lin_cols)/len(dataset.columns):.2f}% linear cols")
+        print(f"{100*len(cyc_cols)/len(dataset.columns):.2f}% cyclic/{100*len(lin_cols)/len(dataset.columns):.2f}% linear cols")
     return dataset[lin_cols], dataset[cyc_cols]
 
 class Windowing:

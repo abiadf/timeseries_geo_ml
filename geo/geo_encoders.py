@@ -218,6 +218,19 @@ class MLPDecoder(nn.Module):
         # z: [B, z_dim_total]
         return self.net(z)  # [B, window_size*output_dim]
 
+class MLPPredHead(torch.nn.Module):
+    def __init__(self, z_dim, output_dim, hidden_dim=128):
+        super().__init__()
+        self.net = torch.nn.Sequential(
+            torch.nn.Linear(z_dim, hidden_dim),
+            torch.nn.ReLU(),
+            torch.nn.BatchNorm1d(hidden_dim),
+            torch.nn.Linear(hidden_dim, hidden_dim),
+            torch.nn.ReLU(),
+            torch.nn.Linear(hidden_dim, output_dim))
+
+    def forward(self, z):
+        return self.net(z)
 
 # %% reparameterization tricks
 class Reparam:

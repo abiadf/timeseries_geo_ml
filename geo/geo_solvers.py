@@ -51,7 +51,7 @@ logging.error("Something failed.")
 
 # to use in main code
 from geo_utils import Windowing, scale_train_and_test_sets
-from geo_encoders import fit_catboost_multi
+from geo_encoders import fit_catboost_multi, MLPPredHead
 
 class Predictors:
     @staticmethod
@@ -190,7 +190,7 @@ class Predictors:
 
     @staticmethod
     def make_direct_prediction(X_train: np.ndarray, X_test: np.ndarray, y_train: np.ndarray, y_test: np.ndarray,
-                            window_size: int, sliding_size: int, prediction_task: str, p) -> tuple[float, float, float]:
+                               sliding_size: int, prediction_task: str, p) -> tuple[float, float, float]:
         """Direct CatBoost baseline with task-consistent windowing."""
         print(f"X_train: {X_train.shape}, X_test: {X_test.shape}")
 
@@ -199,10 +199,10 @@ class Predictors:
             y_train_w, y_test_w       = y_train, y_test
         else:
             # --- window X ---
-            y_train_w = Windowing.make_windows_from_y(y_train, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
-            y_test_w  = Windowing.make_windows_from_y(y_test, window_size, sliding_size, task=prediction_task, horizon=p.horizon)
-            X_train_w = Windowing.make_windows_from_X(torch.from_numpy(X_train.to_numpy()).float(), window_size, sliding_size, horizon=p.horizon)
-            X_test_w  = Windowing.make_windows_from_X(torch.from_numpy(X_test.to_numpy()).float(), window_size, sliding_size, horizon=p.horizon)
+            y_train_w = Windowing.make_windows_from_y(y_train, p.window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+            y_test_w  = Windowing.make_windows_from_y(y_test, p.window_size, sliding_size, task=prediction_task, horizon=p.horizon)
+            X_train_w = Windowing.make_windows_from_X(torch.from_numpy(X_train.to_numpy()).float(), p.window_size, sliding_size, horizon=p.horizon)
+            X_test_w  = Windowing.make_windows_from_X(torch.from_numpy(X_test.to_numpy()).float(), p.window_size, sliding_size, horizon=p.horizon)
 
             X_train_flat = X_train_w.reshape(X_train_w.shape[0], -1).numpy()
             X_test_flat  = X_test_w.reshape(X_test_w.shape[0], -1).numpy()
@@ -223,6 +223,68 @@ class Predictors:
         rmse  = root_mean_squared_error(y_test_scaled, y_hat)
         r2    = r2_score(y_test_scaled, y_hat)
         mae   = mean_absolute_error(y_test_scaled, y_hat)
+        return rmse, r2, mae
+
+    @staticmethod
+    def make_direct_prediction_mlp(X_train, X_test, y_train, y_test, p, sliding_size, device="cuda"):
+        # 1. Scaling (Crucial for Neural Nets)
+        y_tr_s, y_te_s = scale_train_and_test_sets(y_train, y_test)
+        X_tr_s, X_te_s = scale_train_and_test_sets(X_train, X_test)
+
+        # 2. Windowing
+        # Ensure we have Tensors for the windowing logic
+        def to_tensor(data):
+            if torch.is_tensor(data): return data.float()
+            if hasattr(data, 'values'): return torch.from_numpy(data.values).float()
+            return torch.from_numpy(data).float()
+
+        X_tr_tensor = to_tensor(X_tr_s)
+        X_te_tensor = to_tensor(X_te_s)
+
+        X_tr_w = Windowing.make_windows_from_X(X_tr_tensor, p.window_size, sliding_size, horizon=p.horizon)
+        X_te_w = Windowing.make_windows_from_X(X_te_tensor, p.window_size, sliding_size, horizon=p.horizon)
+        
+        y_tr_w = Windowing.make_windows_from_y(y_tr_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+        y_te_w = Windowing.make_windows_from_y(y_te_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+
+        # Flatten windows into vectors for the MLP
+        X_tr_flat = X_tr_w.reshape(X_tr_w.size(0), -1)
+        X_te_flat = X_te_w.reshape(X_te_w.size(0), -1)
+        y_tr_flat = torch.tensor(y_tr_w.reshape(y_tr_w.shape[0], -1), dtype=torch.float32)
+        y_te_flat = torch.tensor(y_te_w.reshape(y_te_w.shape[0], -1), dtype=torch.float32)
+
+        # 3. Training Setup
+        loader = DataLoader(TensorDataset(X_tr_flat, y_tr_flat), batch_size=p.batch_size, shuffle=True)
+        # Hidden dim is doubled to handle the high-dimensional flattened window
+        direct_head = MLPPredHead(X_tr_flat.shape[1], y_tr_flat.shape[1], hidden_dim=p.hidden_dim * 2).to(device)
+        optimizer = torch.optim.AdamW(direct_head.parameters(), lr=p.lr_optimizer)
+
+        direct_head.train()
+        for epoch in range(p.epochs):
+            epoch_loss = 0
+            for xb, yb in loader:
+                xb, yb = xb.to(device), yb.to(device)
+                y_hat = direct_head(xb)
+                loss = F.mse_loss(y_hat, yb)
+                
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+                epoch_loss += loss.item()
+            
+            if epoch % 10 == 0:
+                print(f"Direct MLP Epoch {epoch}: Loss {epoch_loss/len(loader):.4f}")
+
+        # 4. Evaluation
+        direct_head.eval()
+        with torch.no_grad():
+            y_hat_final = direct_head(X_te_flat.to(device)).cpu().numpy()
+        
+        y_te_true = y_te_flat.numpy()
+        rmse = root_mean_squared_error(y_te_true, y_hat_final)
+        r2   = r2_score(y_te_true, y_hat_final)
+        mae  = mean_absolute_error(y_te_true, y_hat_final)
+        
         return rmse, r2, mae
 
     @staticmethod
