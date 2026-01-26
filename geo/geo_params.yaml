@@ -3,7 +3,7 @@ dataset:
   general:
     epochs            : 50
     earlystop_patience: 10
-    desired_dataset: china_weather #china_weather szeged_weather india_ocean_waves longterm_weather panama wind_power turbine_power
+    desired_dataset: india_ocean_waves #china_weather szeged_weather india_ocean_waves longterm_weather panama wind_power turbine_power
 
   default:
     {lambda_recon: 0.05, lambda_kl_euc: 0.05, lambda_pred: 200, window_size: 168, z_dim_total: 40,
@@ -25,7 +25,7 @@ dataset:
       # {lambda_recon: 2.4271533, lambda_latent: 1.7654076, lambda_pred: 0.6744238, window_size: 730, sliding_size: 42,
       # z_dim_total: 76, hidden_dim: 57, lr_optimizer: 0.0029, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000,
       # earlystop_patience: 8, lambda_recon: 2.4272, lambda_latent: 1.7654, lambda_pred: 0.6744, task: forecast}
-      {window_size: 730,
+      {window_size: 730, 
       z_dim_total: 16, hidden_dim: 128, lr_optimizer: 0.0029, batch_size: 256, epochs: 150, cyclic_threshold: 0.3000,
       earlystop_patience: 8, lambda_recon: 2.4272, lambda_kl_sph: 0.001, lambda_kl_euc: 0.05, lambda_pred: 0.6744, task: forecast, horizon: 1}
 
@@ -43,9 +43,9 @@ dataset:
 
   india_ocean_waves: # 🌊
     override:
-      {lambda_recon: 0.1, lambda_kl_sph: 0.001, lambda_kl_euc: 0.05, lambda_pred: 250, window_size: 168, z_dim_total: 65, 
-      hidden_dim: 26, lr_optimizer: 0.0012, batch_size: 64, epochs: 150, cyclic_threshold: 0.2500, earlystop_patience: 10,
-      task: forecast, horizon: 1}
+      {lambda_recon: 200, lambda_kl_sph: 0.05, lambda_kl_euc: 0.05, lambda_pred: 200, window_size: 168, z_dim_total: 6, 
+      hidden_dim: 128, lr_optimizer: 0.0012, batch_size: 64, epochs: 150, cyclic_threshold: 0.2500, earlystop_patience: 10,
+      task: forecast, horizon: 1, distinct_periods: 3}
 
   longterm_weather: # ✅
     override:
@@ -55,7 +55,7 @@ dataset:
   nasa_moon: # 🌕
     override:
       {window_size: 60, z_dim_total: 28, hidden_dim: 256, lr_optimizer: 0.001, batch_size: 64, epochs: 150,
-      cyclic_threshold: 0.70, earlystop_patience: 40, task: forecast,
+      cyclic_threshold: 0.70, earlystop_patience: 40, task: forecast, distinct_periods: 2,
       horizon: 1, lambda_recon: 800, lambda_kl_sph: 0.005, lambda_kl_euc: 0.05, lambda_pred: 1500}
 
   panama: # 🇵🇦
@@ -68,9 +68,9 @@ dataset:
       # {lambda_recon: 2.1553, lambda_latent: 0.0016, window_size: 24, sliding_size: 6, z_dim_total: 65, z_dim_sph: 28,
       # hidden_dim: 62, lr_optimizer: 0.0009, batch_size: 64, epochs: 50, cyclic_threshold: 0.4000, earlystop_patience: 8,
       # lambda_pred: 1.0, task: forecast}
-      {lambda_recon: .05, lambda_kl_euc: 0.05, lambda_pred: 200, lambda_kl_sph: 0.001, window_size: 168, z_dim_total: 23,
-      hidden_dim: 93, lr_optimizer: 0.0008, batch_size: 96, epochs: 150, cyclic_threshold: 0.2000, earlystop_patience: 8,
-      task: forecast, horizon: 1}
+      {lambda_recon: 50, lambda_kl_euc: 0.05, lambda_pred: 200, lambda_kl_sph: 0.001, window_size: 168, z_dim_total: 8,
+      hidden_dim: 93, lr_optimizer: 0.0008, batch_size: 96, epochs: 150, cyclic_threshold: 0.2000, earlystop_patience: 10,
+      task: forecast, horizon: 1, distinct_periods: 1}
 
   turbine_power: # 🚁
     override:
@@ -89,11 +89,17 @@ dataset:
       # lambda_recon: 1.8897, lambda_latent: 1.2717, lambda_pred: 1.7539, task: forecast}
       # {lambda_recon: 0.5832610, lambda_latent: 1.1195391, lambda_pred: 1.7644125, window_size: 2190, z_dim_total: 37, hidden_dim: 62,
       # lr_optimizer: 0.0025, batch_size: 256, epochs: 50, cyclic_threshold: 0.3000, earlystop_patience: 8, task: forecast}
-      {lambda_recon: .01, lambda_kl_euc: 0.05, lambda_kl_sph: 0.001, lambda_pred: 250, window_size: 168, z_dim_total: 24,
+      {lambda_recon: 1, lambda_kl_euc: 0.05, lambda_kl_sph: 0.001, lambda_pred: 250, window_size: 168, z_dim_total: 24,
       hidden_dim: 60, lr_optimizer: 0.0010, batch_size: 256, epochs: 150, cyclic_threshold: 0.3000, earlystop_patience: 8, 
-      task: forecast, horizon: 1}
+      task: forecast, horizon: 1, distinct_periods: 2}
 
   wind_power: # 💨
     override:
-      {lambda_recon: 2.3110710, lambda_kl_euc: 0.0046531, window_size: 2016, z_dim_total: 55, horizon: 50,
-      hidden_dim: 87, lr_optimizer: 0.0022, batch_size: 64, epochs: 150, cyclic_threshold: 0.2500, earlystop_patience: 8, task: forecast}
+      # {lambda_recon: 2.3110710, lambda_kl_euc: 0.0046531, window_size: 2016, z_dim_total: 55, horizon: 50, hidden_dim: 87, 
+      # lr_optimizer: 0.0022, batch_size: 64, epochs: 150, cyclic_threshold: 0.2500, earlystop_patience: 8, task: forecast, distinct_periods: 1}
+      {lambda_recon: .01, lambda_kl_euc: 0.05, lambda_kl_sph: 0.001, lambda_pred: 250, window_size: 2016, z_dim_total: 55, horizon: 50, hidden_dim: 87, 
+      lr_optimizer: 0.0022, batch_size: 64, epochs: 150, cyclic_threshold: 0.2500, earlystop_patience: 8, task: forecast, distinct_periods: 1}
+
+
+
+

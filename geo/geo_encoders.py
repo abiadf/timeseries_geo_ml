@@ -134,16 +134,18 @@ class old_LSTMToroidalEncoder(nn.Module):
 
 class LSTMEncoderEuclid(nn.Module):
     """Euclidean latent LSTM encoder (Gaussian z_e)."""
-    def __init__(self, input_dim, hidden_dim, z_dim):
+
+    def __init__(self, input_dim: int, hidden_dim: int, z_dim: int, n_layers: int =2):
         super().__init__()
-        self.lstm   = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.lstm   = nn.LSTM(input_dim, hidden_dim, num_layers=n_layers, batch_first=True)
         self.mu     = nn.Linear(hidden_dim, z_dim)
         self.logvar = nn.Linear(hidden_dim, z_dim)
 
     def forward(self, x):
         # x: [B, T, D]
         _, (lstm_hidden, _) = self.lstm(x)           # h_n: [1, B, H]
-        encoder_hidden      = lstm_hidden.squeeze(0) # [B, H]
+        # encoder_hidden      = lstm_hidden.squeeze(0) # [B, H]
+        encoder_hidden = lstm_hidden[-1]
         return self.mu(encoder_hidden), self.logvar(encoder_hidden)  # [B, z_dim], [B, z_dim]
 
 class LSTMSphericalEncoder(nn.Module):
@@ -226,7 +228,8 @@ class MLPDecoder(nn.Module):
         self.net = nn.Sequential(
             nn.Linear(z_dim_total, hidden_dim),
             nn.ReLU(),
-            nn.BatchNorm1d(hidden_dim), # Stabilizes training
+            # nn.BatchNorm1d(hidden_dim), # Stabilizes training
+            nn.LayerNorm(hidden_dim),
             nn.Linear(hidden_dim, hidden_dim),
             nn.ReLU(),
             nn.Linear(hidden_dim, window_size * output_dim) )
@@ -235,7 +238,8 @@ class MLPDecoder(nn.Module):
         # z: [B, z_dim_total]
         flat_out = self.net(z) 
         # Reshape to [B, T, D] for the MSE loss in train_step
-        return flat_out.view(-1, self.window_size, self.output_dim)
+        # return flat_out.view(-1, self.window_size, self.output_dim)
+        return flat_out.view(z.size(0), self.window_size, -1)
 
 class MLPPredHead(torch.nn.Module):
     def __init__(self, z_dim, output_dim, hidden_dim=128):

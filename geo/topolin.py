@@ -352,50 +352,93 @@ class Sphlin:
         return torch.cat(zs, dim=0)
 
     @staticmethod
-    def train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas, epoch):
-        """One VAE + prediction step."""
+    def train_step(x_lin: torch.Tensor, x_cyc: torch.Tensor, y_win: torch.Tensor,
+                encoder_e, encoder_s, decoder, pred_head,
+                lambdas: dict, epoch: int) -> dict:
+        """One VAE + prediction step with hard shape guards."""
+        device = x_lin.device
+        B = x_lin.size(0)
+
         mu_s, logkappa, z_s = None, None, None
         mu_e, z_e           = None, None
-        z_parts, kl_e, kl_s = [], torch.tensor(0., device=x_lin.device), torch.tensor(0., device=x_lin.device)
+        z_parts             = []
+        kl_e                = torch.tensor(0., device=device)
+        kl_s                = torch.tensor(0., device=device)
 
-        if encoder_e and x_lin.shape[-1] > 0:
+        # ---------- Encode ----------
+        if encoder_e is not None and x_lin.shape[-1] > 0:
             mu_e, logvar_e = encoder_e(x_lin)
-            z_e  = Sphlin.sample_gaussian(mu_e, logvar_e)
+            z_e = Sphlin.sample_gaussian(mu_e, logvar_e)
             z_parts.append(z_e)
             kl_e = Sphlin.kl_gaussian(mu_e, logvar_e)
 
-        if encoder_s and x_cyc.shape[-1] > 0:
+        if encoder_s is not None and x_cyc.shape[-1] > 0:
             mu_s, logkappa = encoder_s(x_cyc)
-            z_s  = Sphlin.sample_vmf(mu_s, logkappa)
-            z_parts.append(z_s) #original, stochastic
-            # z_parts.append(mu_s) # edited, deterministic
+            z_s = Sphlin.sample_vmf(mu_s, logkappa)
+            z_parts.append(z_s)
             kl_s = Sphlin.kl_vmf(mu_s, logkappa)
 
         if len(z_parts) == 0:
-            z_parts.append(torch.zeros((x_lin.shape[0], 0), device=x_lin.device))
+            z_parts.append(torch.zeros((B, 0), device=device))
+
         z = torch.cat(z_parts, dim=-1)
 
+        # ---------- Targets ----------
         targets = []
-        if x_lin.shape[-1] > 0: targets.append(x_lin.reshape(x_lin.size(0), -1))
-        if x_cyc.shape[-1] > 0: targets.append(x_cyc.reshape(x_cyc.size(0), -1))
+        if x_lin.shape[-1] > 0: targets.append(x_lin.reshape(B, -1))
+        if x_cyc.shape[-1] > 0: targets.append(x_cyc.reshape(B, -1))
         x_target = torch.cat(targets, dim=-1)
 
-        x_hat = decoder(z).reshape(x_target.shape)
-        recon_loss = F.mse_loss(x_hat, x_target)
+        # ================= HARD SHAPE ASSERTIONS =================
+        assert z.dim() == 2, f"z must be [B, latent], got {z.shape}"
+        assert z.shape[0] == B, f"z batch mismatch: {z.shape[0]} vs {B}"
+
+        x_hat_raw = decoder(z)
+        assert x_hat_raw.shape[0] == B, f"decoder batch mismatch: {x_hat_raw.shape}"
+        assert x_hat_raw.numel() % B == 0, f"decoder output not divisible by batch: {x_hat_raw.shape}"
+
+        x_hat = x_hat_raw.reshape(B, -1)
+        assert x_hat.shape == x_target.shape, (
+            f"RECON SHAPE MISMATCH\n"
+            f"x_hat    : {x_hat.shape}\n"
+            f"x_target : {x_target.shape}\n"
+            f"window   : {x_lin.shape[1]}\n"
+            f"n_lin    : {x_lin.shape[-1]}\n"
+            f"n_cyc    : {x_cyc.shape[-1]}"
+        )
 
         y_hat = pred_head(z)
-        y_win = y_win.unsqueeze(-1) if y_win.dim() == 1 else y_win
+        assert y_hat.shape[0] == B, f"pred batch mismatch: {y_hat.shape}"
+        # =========================================================
+
+        # ---------- Losses ----------
+        recon_loss = F.mse_loss(x_hat, x_target)
+
+        if y_win.dim() == 1:
+            y_win = y_win.unsqueeze(-1)
         pred_loss = F.mse_loss(y_hat, y_win)
 
-        # kl_weight  = min(1.0, epoch / 100)
-        kl_weight  = 0.1 if epoch < 20 else 0.5 if epoch < 60 else 1.0
-        total_loss = lambdas["reconstr"] * recon_loss + kl_weight * (lambdas["euc"] * kl_e + lambdas["sph"] * kl_s) + lambdas["pred"] * pred_loss
+        kl_weight = 0.1 if epoch < 20 else 0.5 if epoch < 60 else 1.0
+        total_loss = (
+            lambdas["reconstr"] * recon_loss
+            + kl_weight * (lambdas["euc"] * kl_e + lambdas["sph"] * kl_s)
+            + lambdas["pred"] * pred_loss
+        )
 
-        # kappa = torch.exp(logkappa).clamp(min=2.0, max=20.0)
-        # kappa = F.softplus(logkappa).clamp(max=20.0)
         kappa = None if logkappa is None else 1 + F.elu(logkappa)
-        return {"total": total_loss, "recon": recon_loss, "kl_e": kl_e, "kl_s": kl_s,
-                "pred": pred_loss, "mu_s": mu_s, "logkappa": logkappa, "kappa": kappa, "z_s": z_s, "z_e": z_e}
+
+        return {
+            "total": total_loss,
+            "recon": recon_loss,
+            "kl_e": kl_e,
+            "kl_s": kl_s,
+            "pred": pred_loss,
+            "mu_s": mu_s,
+            "logkappa": logkappa,
+            "kappa": kappa,
+            "z_s": z_s,
+            "z_e": z_e,
+        }
 
     @staticmethod
     def train_epoch(loader, encoder_e, encoder_s, decoder, pred_head, optimizer, lambdas, device, epoch):
@@ -530,14 +573,22 @@ class Sphlin:
         if X_cyc_te_w is None: X_cyc_te_w = torch.zeros((ref_te.shape[0], p.window_size, 0), device=device)
 
         h_split   = int(p.hidden_dim / np.sqrt(2))
-        enc_e     = LSTMEncoderEuclid(n_lin, h_split, z_euc).to(device) if z_euc > 0 else None
-        enc_s     = LSTMSphericalEncoder(n_cyc, h_split, z_sph).to(device) if z_sph > 0 else None
+        enc_e     = LSTMEncoderEuclid(n_lin, h_split, z_euc, n_layers=2).to(device) if z_euc > 0 else None
+        enc_s     = LSTMSphericalEncoder(n_cyc, h_split, z_sph, n_layers=2).to(device) if z_sph > 0 else None
         # dec       = LSTMDecoder(p.z_dim_total, p.hidden_dim, n_tot, p.window_size).to(device)
         # dec       = LSTMDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
-        dec       = MLPDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
+        # dec       = MLPDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
+
+        # output_dim= n_lin + n_cyc
+        # dec       = MLPDecoder(p.z_dim_total, p.window_size, output_dim, p.hidden_dim).to(device)
+
+        latent_dim= z_euc + z_sph   # NOT p.z_dim_total
+        dec       = MLPDecoder(latent_dim, p.window_size, n_lin + n_cyc, p.hidden_dim).to(device)
+
         # pred_head = torch.nn.Linear(p.z_dim_total, y_tr_w.shape[1]).to(device)
-        pred_head = MLPPredHead(p.z_dim_total, y_tr_w.shape[1], hidden_dim=p.hidden_dim * 2).to(device)
-        
+        # pred_head = MLPPredHead(p.z_dim_total, y_tr_w.shape[1], hidden_dim=p.hidden_dim * 2).to(device)
+        pred_head = MLPPredHead(latent_dim, y_tr_w.shape[1], hidden_dim=p.hidden_dim * 2).to(device)
+
         params = list(dec.parameters()) + list(pred_head.parameters())
         if enc_e: params += list(enc_e.parameters())
         if enc_s: params += list(enc_s.parameters())
@@ -568,7 +619,8 @@ class Sphlin:
         rmse = root_mean_squared_error(y_te_w, y_hat)
         r2   = r2_score(y_te_w, y_hat)
         mae  = mean_absolute_error(y_te_w, y_hat)
-        return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_w), (z_euc, z_sph), logs
+        return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_w), (z_euc, z_sph), logs, \
+                (enc_e, enc_s, pred_head, X_lin_te_w, X_cyc_te_w)
 
         y_hat  = fit_catboost_multi(Z_train.detach().cpu().numpy(), y_tr_w.reshape(y_tr_w.shape[0], -1).detach().cpu().numpy(),
                                     Z_test.detach().cpu().numpy())
