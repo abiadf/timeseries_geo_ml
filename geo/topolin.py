@@ -528,7 +528,6 @@ class Sphlin:
     def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None, prewindowed: bool = False):
         """Run sphlin LSTM with optional manual cyclic column names.
         If prewindowed=True, X_train/X_test must be tuples (X_lin_w, X_cyc_w) and y_train/y_test are already windowed."""
-        device = "cuda" if torch.cuda.is_available() else "cpu"
 
         if prewindowed:
             X_lin_tr_w, X_cyc_tr_w = X_train
