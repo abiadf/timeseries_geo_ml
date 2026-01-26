@@ -365,7 +365,6 @@ class Sphlin:
         kl_e                = torch.tensor(0., device=device)
         kl_s                = torch.tensor(0., device=device)
 
-        # ---------- Encode ----------
         if encoder_e is not None and x_lin.shape[-1] > 0:
             mu_e, logvar_e = encoder_e(x_lin)
             z_e = Sphlin.sample_gaussian(mu_e, logvar_e)
@@ -383,13 +382,11 @@ class Sphlin:
 
         z = torch.cat(z_parts, dim=-1)
 
-        # ---------- Targets ----------
         targets = []
         if x_lin.shape[-1] > 0: targets.append(x_lin.reshape(B, -1))
         if x_cyc.shape[-1] > 0: targets.append(x_cyc.reshape(B, -1))
         x_target = torch.cat(targets, dim=-1)
 
-        # ================= HARD SHAPE ASSERTIONS =================
         assert z.dim() == 2, f"z must be [B, latent], got {z.shape}"
         assert z.shape[0] == B, f"z batch mismatch: {z.shape[0]} vs {B}"
 
@@ -409,14 +406,17 @@ class Sphlin:
 
         y_hat = pred_head(z)
         assert y_hat.shape[0] == B, f"pred batch mismatch: {y_hat.shape}"
-        # =========================================================
 
-        # ---------- Losses ----------
         recon_loss = F.mse_loss(x_hat, x_target)
 
         if y_win.dim() == 1:
             y_win = y_win.unsqueeze(-1)
-        pred_loss = F.mse_loss(y_hat, y_win)
+
+        mask = ~torch.isnan(y_win)
+        if mask.sum() == 0:
+            pred_loss = torch.tensor(0., device=device)
+        else:
+            pred_loss = F.mse_loss(y_hat[mask], y_win[mask])
 
         kl_weight = 0.1 if epoch < 20 else 0.5 if epoch < 60 else 1.0
         total_loss = (
@@ -525,45 +525,55 @@ class Sphlin:
         return n_tot, n_lin, n_cyc, z_euc, z_sph
 
     @staticmethod # uses LSTM decoder
-    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
-        """Run sphlin LSTM with optional manual cyclic column names."""
+    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None, prewindowed: bool = False):
+        """Run sphlin LSTM with optional manual cyclic column names.
+        If prewindowed=True, X_train/X_test must be tuples (X_lin_w, X_cyc_w) and y_train/y_test are already windowed."""
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
-        if manually_set_cols is not None:
-            assert len(set(manually_set_cols)) == len(manually_set_cols), "Duplicate column names"
-            missing = set(manually_set_cols) - set(X_train.columns)
-            assert not missing, f"Columns not in X_train: {missing}"
-            print(f"⏰ using manually set cols: {manually_set_cols}")
+        if prewindowed:
+            X_lin_tr_w, X_cyc_tr_w = X_train
+            X_lin_te_w, X_cyc_te_w = X_test
+            y_tr_w, y_te_w = y_train, y_test
 
-            X_cyc_tr = X_train[manually_set_cols]
-            X_lin_tr = X_train.drop(columns=manually_set_cols)
+            n_lin = X_lin_tr_w.shape[-1]
+            n_cyc = X_cyc_tr_w.shape[-1]
+            n_tot = n_lin + n_cyc
+
+            y_tr_w = torch.tensor(y_tr_w, dtype=torch.float32, device=device)
+            y_te_w = torch.tensor(y_te_w, dtype=torch.float32, device=device)
+
+            n_tot, n_lin, n_cyc, z_euc, z_sph = Sphlin.latent_dim_handler(torch.zeros((1, n_tot)), torch.zeros((1, n_lin)), torch.zeros((1, n_cyc)), p)
+
         else:
-            print(f"🔪 splitting the features, {p.cyclic_threshold=}")
-            X_lin_tr, X_cyc_tr = split_dataset_to_linear_and_cyclic(X_train, threshold=p.cyclic_threshold, verbose=True)
+            if manually_set_cols is not None:
+                X_cyc_tr = X_train[manually_set_cols]
+                X_lin_tr = X_train.drop(columns=manually_set_cols)
+            else:
+                X_lin_tr, X_cyc_tr = split_dataset_to_linear_and_cyclic(X_train, threshold=p.cyclic_threshold, verbose=True)
 
-        X_lin_te = X_test[X_lin_tr.columns]
-        X_cyc_te = X_test[X_cyc_tr.columns]
+            X_lin_te = X_test[X_lin_tr.columns]
+            X_cyc_te = X_test[X_cyc_tr.columns]
 
-        y_tr_s, y_te_s     = scale_train_and_test_sets(y_train, y_test)
-        X_lin_tr, X_lin_te = scale_train_and_test_sets(X_lin_tr, X_lin_te)
-        X_cyc_tr, X_cyc_te = scale_train_and_test_sets(X_cyc_tr, X_cyc_te)
+            y_tr_s, y_te_s = scale_train_and_test_sets(y_train, y_test)
+            X_lin_tr, X_lin_te = scale_train_and_test_sets(X_lin_tr, X_lin_te)
+            X_cyc_tr, X_cyc_te = scale_train_and_test_sets(X_cyc_tr, X_cyc_te)
 
-        n_tot, n_lin, n_cyc, z_euc, z_sph = Sphlin.latent_dim_handler(X_train, X_lin_tr, X_cyc_tr, p)
+            n_tot, n_lin, n_cyc, z_euc, z_sph = Sphlin.latent_dim_handler(X_train, X_lin_tr, X_cyc_tr, p)
 
-        def make_w(X, d):
-            if d == 0: return None
-            return Windowing.make_windows_from_X(X, p.window_size, sliding_size, horizon=p.horizon).to(device).view(-1, p.window_size, d)
+            def make_w(X, d):
+                if d == 0: return None
+                return Windowing.make_windows_from_X(X, p.window_size, sliding_size, horizon=p.horizon).to(device).view(-1, p.window_size, d)
 
-        X_lin_tr_w, X_lin_te_w = make_w(X_lin_tr, n_lin), make_w(X_lin_te, n_lin)
-        X_cyc_tr_w, X_cyc_te_w = make_w(X_cyc_tr, n_cyc), make_w(X_cyc_te, n_cyc)
+            X_lin_tr_w, X_lin_te_w = make_w(X_lin_tr, n_lin), make_w(X_lin_te, n_lin)
+            X_cyc_tr_w, X_cyc_te_w = make_w(X_cyc_tr, n_cyc), make_w(X_cyc_te, n_cyc)
 
-        y_tr_w = Windowing.make_windows_from_y(y_tr_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
-        y_te_w = Windowing.make_windows_from_y(y_te_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
-        y_tr_w = y_tr_w.reshape(y_tr_w.shape[0], -1)
-        y_te_w = y_te_w.reshape(y_te_w.shape[0], -1)
+            y_tr_w = Windowing.make_windows_from_y(y_tr_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+            y_te_w = Windowing.make_windows_from_y(y_te_s, p.window_size, sliding_size, task=p.task, horizon=p.horizon)
+            y_tr_w = y_tr_w.reshape(y_tr_w.shape[0], -1)
+            y_te_w = y_te_w.reshape(y_te_w.shape[0], -1)
 
-        y_tr_w = torch.tensor(y_tr_w, dtype=torch.float32, device=device)
-        y_te_w = torch.tensor(y_te_w, dtype=torch.float32, device=device)
+            y_tr_w = torch.tensor(y_tr_w, dtype=torch.float32, device=device)
+            y_te_w = torch.tensor(y_te_w, dtype=torch.float32, device=device)
 
         ref_tr = X_lin_tr_w if X_lin_tr_w is not None else X_cyc_tr_w
         ref_te = X_lin_te_w if X_lin_te_w is not None else X_cyc_te_w
@@ -572,21 +582,12 @@ class Sphlin:
         if X_lin_te_w is None: X_lin_te_w = torch.zeros((ref_te.shape[0], p.window_size, 0), device=device)
         if X_cyc_te_w is None: X_cyc_te_w = torch.zeros((ref_te.shape[0], p.window_size, 0), device=device)
 
-        h_split   = int(p.hidden_dim / np.sqrt(2))
-        enc_e     = LSTMEncoderEuclid(n_lin, h_split, z_euc, n_layers=2).to(device) if z_euc > 0 else None
-        enc_s     = LSTMSphericalEncoder(n_cyc, h_split, z_sph, n_layers=2).to(device) if z_sph > 0 else None
-        # dec       = LSTMDecoder(p.z_dim_total, p.hidden_dim, n_tot, p.window_size).to(device)
-        # dec       = LSTMDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
-        # dec       = MLPDecoder(p.z_dim_total, p.window_size, n_tot, p.hidden_dim).to(device)
+        h_split = int(p.hidden_dim / np.sqrt(2))
+        enc_e = LSTMEncoderEuclid(n_lin, h_split, z_euc, n_layers=2).to(device) if z_euc > 0 else None
+        enc_s = LSTMSphericalEncoder(n_cyc, h_split, z_sph, n_layers=2).to(device) if z_sph > 0 else None
 
-        # output_dim= n_lin + n_cyc
-        # dec       = MLPDecoder(p.z_dim_total, p.window_size, output_dim, p.hidden_dim).to(device)
-
-        latent_dim= z_euc + z_sph   # NOT p.z_dim_total
-        dec       = MLPDecoder(latent_dim, p.window_size, n_lin + n_cyc, p.hidden_dim).to(device)
-
-        # pred_head = torch.nn.Linear(p.z_dim_total, y_tr_w.shape[1]).to(device)
-        # pred_head = MLPPredHead(p.z_dim_total, y_tr_w.shape[1], hidden_dim=p.hidden_dim * 2).to(device)
+        latent_dim = z_euc + z_sph
+        dec = MLPDecoder(latent_dim, p.window_size, n_lin + n_cyc, p.hidden_dim).to(device)
         pred_head = MLPPredHead(latent_dim, y_tr_w.shape[1], hidden_dim=p.hidden_dim * 2).to(device)
 
         params = list(dec.parameters()) + list(pred_head.parameters())
@@ -604,33 +605,21 @@ class Sphlin:
 
         Z_train = Sphlin.encode_full_dataset(X_lin_tr_w, X_cyc_tr_w, enc_e, enc_s, z_euc, device)
         torch.cuda.empty_cache()
-        Z_test  = Sphlin.encode_full_dataset(X_lin_te_w, X_cyc_te_w, enc_e, enc_s, z_euc, device)
+        Z_test = Sphlin.encode_full_dataset(X_lin_te_w, X_cyc_te_w, enc_e, enc_s, z_euc, device)
 
-        # 2. Neural Inference: Use the trained pred_head
-        pred_head.eval() # Set to evaluation mode
+        pred_head.eval()
         with torch.no_grad():
-            # Pass Z_test (which is on CPU from encode_full_dataset) back to device
             Z_test_device = Z_test.to(device)
             y_hat_torch = pred_head(Z_test_device)
-            y_hat = y_hat_torch.cpu().numpy() # Convert to numpy for metrics
+            y_hat = y_hat_torch.cpu().numpy()
 
-        # 3. Final metrics calculation
         y_te_w = y_te_w.reshape(y_te_w.shape[0], -1).detach().cpu().numpy()
         rmse = root_mean_squared_error(y_te_w, y_hat)
-        r2   = r2_score(y_te_w, y_hat)
-        mae  = mean_absolute_error(y_te_w, y_hat)
+        r2 = r2_score(y_te_w, y_hat)
+        mae = mean_absolute_error(y_te_w, y_hat)
+
         return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_w), (z_euc, z_sph), logs, \
-                (enc_e, enc_s, pred_head, X_lin_te_w, X_cyc_te_w)
-
-        y_hat  = fit_catboost_multi(Z_train.detach().cpu().numpy(), y_tr_w.reshape(y_tr_w.shape[0], -1).detach().cpu().numpy(),
-                                    Z_test.detach().cpu().numpy())
-        y_te_w = y_te_w.reshape(y_te_w.shape[0], -1).detach().cpu().numpy()
-
-        rmse = root_mean_squared_error(y_te_w, y_hat)
-        r2   = r2_score(y_te_w, y_hat)
-        mae  = mean_absolute_error(y_te_w, y_hat)
-        # return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w, y_te_w)
-        return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_w), (z_euc, z_sph), logs
+            (enc_e, enc_s, pred_head, X_lin_te_w, X_cyc_te_w)
 
     @staticmethod #uses MLP decoder
     def XX_run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
