@@ -50,6 +50,7 @@ if torch.cuda.is_available():
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+# very old verson, to remove
 class Oldtor:
     @staticmethod
     def run_oldtor_LSTM(X_train, X_test, y_train, y_test, p):
@@ -243,7 +244,7 @@ class Sphlin:
         # kappa = torch.exp(kappa).clamp(min=2.0, max=20.0).view(-1)
         # kappa = F.softplus(kappa).clamp(max=20.0).view(-1)
         # kappa = 1 + F.elu(kappa)
-        kappa = F.softplus(kappa) + 20.0
+        kappa = F.softplus(kappa) #+ 20.0
 
         b = (-2 * kappa + torch.sqrt(4 * kappa ** 2 + (D - 1) ** 2)) / (D - 1)
         x0 = (1 - b) / (1 + b)
@@ -474,8 +475,8 @@ class Sphlin:
             print("🌐 100% Spherical VAE 🌐")
         else:
             print("⚽️ 🟪 Mixed Euclidean-Spherical VAE 🟪 ⚽️")
-            # z_sph = max(1, min(int(np.ceil(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
-            z_sph = 4*n_cyc
+            z_sph = max(1, min(int(np.ceil(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
+            # z_sph = 4*n_cyc
             z_euc = p.z_dim_total - z_sph
         print(f"z_euc={z_euc}, z_sph={z_sph}, {n_cyc=}, %feats_cyc={100*n_cyc/n_tot:.2f}")
         return n_tot, n_lin, n_cyc, z_euc, z_sph
@@ -1035,9 +1036,6 @@ class OldTorlin:
 
         TopolinPlots.plot_kappa_dist(encoder_t, loader, device)
         return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_train_w, y_test_w), (z_dim_euclid, z_dim_torus)
-
-class Torlin(Sphlin):
-    pass
 
 
 class TopolinPlots:

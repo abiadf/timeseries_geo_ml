@@ -54,9 +54,9 @@ dataset:
 
   nasa_moon: # 🌕
     override:
-      {window_size: 60, z_dim_total: 3, hidden_dim: 256, lr_optimizer: 0.001, batch_size: 64, epochs: 150,
+      {window_size: 60, z_dim_total: 28, hidden_dim: 256, lr_optimizer: 0.001, batch_size: 64, epochs: 150,
       cyclic_threshold: 0.70, earlystop_patience: 40, task: forecast,
-      horizon: 1, lambda_recon: 500, lambda_kl_sph: 0.0, lambda_kl_euc: 0.05, lambda_pred: 1500}
+      horizon: 1, lambda_recon: 800, lambda_kl_sph: 0.005, lambda_kl_euc: 0.05, lambda_pred: 1500}
 
   panama: # ✅
     override:
