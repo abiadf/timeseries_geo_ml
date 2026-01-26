@@ -96,7 +96,7 @@ dataset_attributes = {
                       "india_ocean_waves": {"cols_to_drop":        ['ID', '#YY', 'MM', 'DD', 'hh', 'mm'],
                                             "mapping":             "angular",
                                             "angular_features":    ['WDIR(degT)', 'MWD(degT)'], # ⭐️ 🚴📐
-                                            "sliding_window_frac": 1/14,
+                                            "sliding_window_frac": 1/28,
                                             "periodic_threshold":  0.3},
 
                       "longterm_weather":  {"cols_to_drop":        ["date"],

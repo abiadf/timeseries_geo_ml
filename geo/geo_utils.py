@@ -48,11 +48,12 @@ logging.info("Starting process...")
 logging.warning("Something looks off...")
 logging.error("Something failed.")
 
-def append_run_to_csv(params: Dict[str, Any], metrics: Dict[str, float], file_path: str, method: str) -> None:
+def append_run_to_csv(params: Dict[str, Any], metrics: Dict[str, float], file_path: str, method: str, dataset: str) -> None:
     """Append one experiment run (date + method + metrics + params) to CSV."""
     row = {
         "time": datetime.now().strftime("%H:%M"),
         "method": method,
+        "dataset": dataset,
         **metrics,
         **params,}
 
