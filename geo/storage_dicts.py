@@ -105,6 +105,12 @@ dataset_attributes = {
                                             "sliding_window_frac": 0.1,
                                             "periodic_threshold":  0.52},
 
+                      "nasa_moon":         {"cols_to_drop":        ["date"],
+                                            "mapping":             "periodic",
+                                            "angular_features":    ['R.A._(ICRF)_sin', 'R.A._(ICRF)_cos', 'ObsEcLon_sin', 'ObsEcLon_cos', 'GlxLon_sin', 'GlxLon_cos','DEC__(ICRF)', 'S-T-O', 'ObsEcLat', 'GlxLat'],
+                                            "sliding_window_frac": 1/10,
+                                            "periodic_threshold":  0.52},  # ????
+
                       "panama":            {"cols_to_drop":        ["datetime"],
                                             "mapping":             "periodic",
                                             "angular_features":    [], # 

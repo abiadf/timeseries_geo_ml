@@ -211,6 +211,7 @@ class Oldtor:
         plt.title(f"Latent Torus Projection (Cyc Features {feat_a} & {feat_b})")
         plt.show()
 
+
 class Sphlin:
     @staticmethod
     def sample_gaussian(mu, logvar):
@@ -227,6 +228,11 @@ class Sphlin:
         # z = mu + torch.randn_like(mu) / (kappa.view(-1,1) + 1e-6)
         # return F.normalize(z, dim=-1)
 
+        # abither heuristic approimation to make things faster
+        # kappa   = F.softplus(kappa) + 20.0
+        # epsilon = torch.randn_like(mu) / torch.sqrt(kappa)
+        # return F.normalize(mu + epsilon, dim=-1)
+
         """EXACT vMF sampler using Wood's algorithm. “Simulation of the von Mises Fisher Distribution” (Wood 1994)
         it is also used in davidson 2018 and Gopal & Yang, 2014
         mu: [B, D] unit vectors
@@ -236,7 +242,8 @@ class Sphlin:
         # kappa = kappa.view(-1).clamp(min=0.5)
         # kappa = torch.exp(kappa).clamp(min=2.0, max=20.0).view(-1)
         # kappa = F.softplus(kappa).clamp(max=20.0).view(-1)
-        kappa = 1 + F.elu(kappa)
+        # kappa = 1 + F.elu(kappa)
+        kappa = F.softplus(kappa) + 20.0
 
         b = (-2 * kappa + torch.sqrt(4 * kappa ** 2 + (D - 1) ** 2)) / (D - 1)
         x0 = (1 - b) / (1 + b)
@@ -291,7 +298,9 @@ class Sphlin:
         # method 3, KL between vMF(q(z|mu,kappa)) and uniform p(z), where encoder outputs logkappa (why logkappa? cause its +ve)
         # kappa = torch.exp(logkappa).clamp(min=2.0, max=20.0) + 1e-6
         # kappa = F.softplus(logkappa).clamp(max=20.0) + 1e-6
-        kappa = 1 + F.elu(logkappa)
+        # kappa = 1 + F.elu(logkappa)
+        kappa = F.softplus(logkappa) + 5.0
+
 
         D = mu.shape[-1]
         kappa = kappa.view(-1)
@@ -341,8 +350,6 @@ class Sphlin:
                 zs.append(torch.cat(z_batch, dim=-1).cpu())
         return torch.cat(zs, dim=0)
 
-
-
     @staticmethod
     def train_step(x_lin, x_cyc, y_win, encoder_e, encoder_s, decoder, pred_head, lambdas, epoch):
         """One VAE + prediction step."""
@@ -359,7 +366,8 @@ class Sphlin:
         if encoder_s and x_cyc.shape[-1] > 0:
             mu_s, logkappa = encoder_s(x_cyc)
             z_s  = Sphlin.sample_vmf(mu_s, logkappa)
-            z_parts.append(z_s)
+            z_parts.append(z_s) #original, stochastic
+            # z_parts.append(mu_s) # edited, deterministic
             kl_s = Sphlin.kl_vmf(mu_s, logkappa)
 
         if len(z_parts) == 0:
@@ -459,21 +467,21 @@ class Sphlin:
     def latent_dim_handler(X_train, X_lin_tr, X_cyc_tr, p):
         n_tot, n_lin, n_cyc = X_train.shape[1], X_lin_tr.shape[1], X_cyc_tr.shape[1]
         if n_cyc == 0:
-            print("⬜️ 100% Euclidean VAE")
+            print("⬜️ 100% Euclidean VAE ⬜️")
             z_euc, z_sph = p.z_dim_total, 0
         elif n_lin == 0:
             z_euc, z_sph = 0, p.z_dim_total
-            print("🌐 100% Spherical VAE")
+            print("🌐 100% Spherical VAE 🌐")
         else:
-            print("⚽️ 🟪 Mixed Euclidean-Spherical VAE")
+            print("⚽️ 🟪 Mixed Euclidean-Spherical VAE 🟪 ⚽️")
             # z_sph = max(1, min(int(np.ceil(p.z_dim_total * n_cyc / n_tot)), p.z_dim_total - 1))
             z_sph = 4*n_cyc
             z_euc = p.z_dim_total - z_sph
         print(f"z_euc={z_euc}, z_sph={z_sph}, {n_cyc=}, %feats_cyc={100*n_cyc/n_tot:.2f}")
         return n_tot, n_lin, n_cyc, z_euc, z_sph
 
-    @staticmethod
-    def XX_run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
+    @staticmethod # uses LSTM decoder
+    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
         """Run sphlin LSTM with optional manual cyclic column names."""
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -571,8 +579,8 @@ class Sphlin:
         # return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w, y_te_w)
         return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_w), (z_euc, z_sph), logs
 
-    @staticmethod
-    def run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
+    @staticmethod #uses MLP decoder
+    def XX_run_sphlin_LSTM(X_train, X_test, y_train, y_test, p, sliding_size=10, manually_set_cols: list[str] | None = None):
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
         # 1. Feature Splitting
@@ -640,8 +648,7 @@ class Sphlin:
         return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_tr_w.detach().cpu().numpy(), y_te_true), (z_euc, z_sph), logs
 
 
-
-class Torlin:
+class OldTorlin:
     @staticmethod
     def sample_vmf_approximate(mu, kappa):
         "Approximate vMF sampler (S^1 sampling in 2D)"
@@ -1028,6 +1035,9 @@ class Torlin:
 
         TopolinPlots.plot_kappa_dist(encoder_t, loader, device)
         return rmse, r2, mae, (Z_train, Z_test), (y_hat, y_train_w, y_test_w), (z_dim_euclid, z_dim_torus)
+
+class Torlin(Sphlin):
+    pass
 
 
 class TopolinPlots:

@@ -4,6 +4,7 @@ project_root = os.path.abspath("..")  # adjust if notebook is elsewhere
 sys.path.insert(0, project_root)
 from typing import Dict, List, Literal, Tuple, Optional, Any, Union
 import logging
+from datetime import datetime
 
 import category_encoders as ce
 import matplotlib.pyplot as plt
@@ -47,8 +48,22 @@ logging.info("Starting process...")
 logging.warning("Something looks off...")
 logging.error("Something failed.")
 
+def append_run_to_csv(params: Dict[str, Any], metrics: Dict[str, float], file_path: str, method: str) -> None:
+    """Append one experiment run (date + method + metrics + params) to CSV."""
+    row = {
+        "time": datetime.now().strftime("%H:%M"),
+        "method": method,
+        **metrics,
+        **params,}
+
+    df = pd.DataFrame([row])
+    write_header = not os.path.exists(file_path) or os.path.getsize(file_path) == 0
+    df.to_csv(file_path, mode="a", index=False, header=write_header)
+    print("💾 Appended run to", file_path)
+
+
 def read_csv_and_skip_rows_then_save(file_loc: str, file_name: str, rows_to_skip: int, changed_file_name: str):
-    "rows_to_skip: 0 (no skipping), 1 (skip every other), 2 (skip 2 out of 3), etc."
+    "Skip rows = stride to make smaller. rows_to_skip: 0 (no skipping), 1 (skip every other), 2 (skip 2 out of 3), etc."
     df = pd.read_csv(file_loc+file_name, skiprows=lambda i: i % rows_to_skip == 1)
     df.to_csv(file_loc+changed_file_name, index=False)
 

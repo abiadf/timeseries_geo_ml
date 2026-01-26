@@ -13,6 +13,7 @@ sys.path.insert(0, project_root)
 from typing import Dict, List, Literal, Tuple, Optional, Any, Union
 import logging
 from dataclasses import dataclass
+import requests, re, io
 
 import numexpr as ne # makes numpy operations faster
 import numpy as np
@@ -102,6 +103,101 @@ def clean_beijing_data(X_orig: pd.DataFrame, y_orig: np.ndarray):
     return X_orig, y_orig
 
 
+class NasaData:
+    """Outputs a DataFrame with lunar ephemeris data from NASA JPL Horizons system.
+        # Target y: delta (= distance between the Earth center and the Moon center.)
+        # Units: Astronomical Units (AU)
+        # Description: Geometric distance between Earth and Moon centers.
+        # Scale: Fluctuates ~0.0024 to 0.0027 AU per lunar cycle.
+
+    LUNAR DATASET FEATURES & UNITS:
+    - date: Universal Time (UTC)
+    - R.A._(ICRF): Right Ascension [Decimal Degrees 0-360]
+    - DEC__(ICRF): Declination [Decimal Degrees -90 to +90]
+    - delta: Earth-Moon Distance (Target y) [Astronomical Units (AU)]
+    - S-T-O: Sun-Target-Observer (Phase) Angle [Decimal Degrees 0-180]
+    - ObsEcLon/Lat: Ecliptic Longitude/Latitude [Decimal Degrees]
+    - GlxLon/Lat: Galactic Longitude/Latitude [Decimal Degrees]"""
+
+    @staticmethod
+    def hms_to_deg(hms_str):
+        if pd.isna(hms_str): return np.nan
+        parts = re.split(r'\s+', str(hms_str).strip())
+        if len(parts) != 3: return np.nan
+        h, m, s = map(float, parts)
+        return (h + m/60 + s/3600) * 15
+
+    @staticmethod
+    def dms_to_deg(dms_str):
+        if pd.isna(dms_str): return np.nan
+        parts = re.split(r'\s+', str(dms_str).strip())
+        if len(parts) != 3: return np.nan
+        d, m, s = map(float, parts)
+        sign = -1 if '-' in parts[0] else 1
+        return sign * (abs(d) + m/60 + s/3600)
+
+    @staticmethod
+    def encode_angles(df, angle_cols):
+        for col in angle_cols:
+            rad = np.radians(df[col])
+            df[f'{col}_sin'] = np.sin(rad)
+            df[f'{col}_cos'] = np.cos(rad)
+        return df.drop(columns=angle_cols)
+
+    @staticmethod
+    def moon_periodic_dataset(start: str, stop: str, step: str = "1 d") -> pd.DataFrame:
+        """Freatures from nasa page (https://ssd.jpl.nasa.gov/horizons/app.html#/), "table settings":
+        ['Date__(UT)__HR:MN', 'R.A._(ICRF)', 'DEC__(ICRF)', 'R.A.__(a-app)', 'DEC_(a-app)', 'dRA*cosD', 'd(DEC)/dt', 'Azi_(a-app)',
+        'Elev_(a-app)', 'Illu%', 'hEcl-Lon', 'hEcl-Lat', 'delta', 'deldot', 'S-O-T', '/r', 'S-T-O', 'PsAng', 'PsAMV', 'ObsEcLon',
+        'ObsEcLat', 'GlxLon', 'GlxLat', 'datetime'] """
+
+        url = "https://ssd.jpl.nasa.gov/api/horizons.api"
+        # 1: RA/DEC, 20: Range, 24: S-T-O, 31: Ecliptic, 33: Galactic
+        q_list = "1,20,24,31,33"    
+        params = {
+            "format": "json", "COMMAND": "'301'", "CENTER": "'500@399'",
+            "MAKE_EPHEM": "YES", "EPHEM_TYPE": "OBSERVER", 
+            "START_TIME": f"'{start}'", "STOP_TIME": f"'{stop}'",
+            "STEP_SIZE": f"'{step}'", "QUANTITIES": f"'{q_list}'",
+            "CSV_FORMAT": "YES", "OBJ_DATA": "NO"}
+
+        r = requests.get(url, params=params)
+        txt = r.json().get("result", "")
+        data_match = re.search(r"\$\$SOE(.*)\$\$EOE", txt, flags=re.S)
+        if not data_match: return pd.DataFrame()
+        
+        header_section = txt.split("$$SOE")[0].strip()
+        header_line = [l for l in header_section.splitlines() if "," in l][-1]
+        raw_cols = [c.strip() for c in header_line.split(",")]
+
+        clean_cols = []
+        for i, name in enumerate(raw_cols):
+            n = name.strip() if name.strip() else f"empty_{i}"
+            if n in clean_cols: n = f"{n}_{i}"
+            clean_cols.append(n)
+
+        df = pd.read_csv(io.StringIO(data_match.group(1).strip()), names=clean_cols, index_col=False)
+        
+        for col in df.columns:
+            if 'R.A.' in col: df[col] = df[col].apply(NasaData.hms_to_deg)
+            elif 'DEC' in col: df[col] = df[col].apply(NasaData.dms_to_deg)
+
+        # Cleanup specific columns requested and NASA artifacts
+        exclude = ['empty', '/*', '/r', 'PsAng', 'PsAMV', 'Azi', 'Elev', 
+                   'deldot', 'a-app', 'Illu%', 'S-O-T']
+        df = df.drop(columns=[c for c in df.columns if any(x in c for x in exclude)]).dropna(axis=1, how='all')
+        df.rename(columns={df.columns[0]: 'date'}, inplace=True)
+        return df
+
+# how to run
+# df = NasaData.moon_periodic_dataset("2020-01-01", "2026-01-01", "12 h")
+# cols_to_fix = ['R.A._(ICRF)', 'ObsEcLon', 'GlxLon'] #have this 0-360 deg range
+# df = NasaData.encode_angles(df, cols_to_fix)
+# df.to_csv("../public_datasets/2D/tabular/moon_data_2020_2026.csv", index=False)
+
+
+
+
 dataset_dict = {"szeged_weather":    {"file_loc": "../public_datasets/2D/tabular/szeged_weather.csv",
                                       "y_cols": ["Temperature (C)"],
                                       "function": process_dataset_given_filename},
@@ -133,6 +229,9 @@ dataset_dict = {"szeged_weather":    {"file_loc": "../public_datasets/2D/tabular
                                       "y_cols": ["PM2.5"],
                                       "function": process_dataset_given_filename,
                                       "processing": clean_beijing_data},
+                "nasa_moon":         {"file_loc": f"../public_datasets/2D/tabular/moon_data_2020_2026.csv",
+                                      "y_cols": ["delta"],
+                                      "function": process_dataset_given_filename},
                 }
 
 

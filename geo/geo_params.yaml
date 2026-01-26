@@ -2,8 +2,8 @@
 dataset:
   general:
     epochs            : 50
-    earlystop_patience: 8
-    desired_dataset: india_ocean_waves #china_weather szeged_weather india_ocean_waves longterm_weather panama wind_power turbine_power
+    earlystop_patience: 10
+    desired_dataset: nasa_moon #china_weather szeged_weather india_ocean_waves longterm_weather panama wind_power turbine_power
 
   default:
     {lambda_recon: 0.05, lambda_kl_euc: 0.05, lambda_pred: 200, window_size: 168, z_dim_total: 40,
@@ -37,13 +37,13 @@ dataset:
 
   imu_gyro:
     override:
-      {window_size: 100, z_dim_total: 56, hidden_dim: 36, lr_optimizer: 0.0004, batch_size: 256, epochs: 50,
+      {window_size: 60, z_dim_total: 56, hidden_dim: 36, lr_optimizer: 0.0004, batch_size: 256, epochs: 50,
       cyclic_threshold: 0.70, earlystop_patience: 8, lambda_recon: 1.6108, lambda_kl_euc: 0.0020, task: forecast,
       horizon: 1}
 
   india_ocean_waves: # ✅
     override:
-      {lambda_recon: 0.1, lambda_kl_sph: 0.001, lambda_kl_euc: 0.05, lambda_pred: 250, window_size: 1680, z_dim_total: 65, 
+      {lambda_recon: 0.1, lambda_kl_sph: 0.001, lambda_kl_euc: 0.05, lambda_pred: 250, window_size: 168, z_dim_total: 65, 
       hidden_dim: 26, lr_optimizer: 0.0012, batch_size: 64, epochs: 50, cyclic_threshold: 0.2500, earlystop_patience: 8,
       task: forecast, horizon: 1}
 
@@ -51,6 +51,12 @@ dataset:
     override:
       {lambda_recon: 2.2513388, lambda_kl_sph: 0.001, window_size: 4320, z_dim_total: 89,
       hidden_dim: 90, lr_optimizer: 0.0099, batch_size: 128, epochs: 50, cyclic_threshold: 0.2000, earlystop_patience: 8, task: forecast, horizon: 1}
+
+  nasa_moon: # 🌕
+    override:
+      {window_size: 60, z_dim_total: 3, hidden_dim: 256, lr_optimizer: 0.001, batch_size: 64, epochs: 150,
+      cyclic_threshold: 0.70, earlystop_patience: 40, task: forecast,
+      horizon: 1, lambda_recon: 500, lambda_kl_sph: 0.0, lambda_kl_euc: 0.05, lambda_pred: 1500}
 
   panama: # ✅
     override:

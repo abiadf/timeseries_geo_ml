@@ -240,13 +240,20 @@ class MLPDecoder(nn.Module):
 class MLPPredHead(torch.nn.Module):
     def __init__(self, z_dim, output_dim, hidden_dim=128):
         super().__init__()
-        self.net = torch.nn.Sequential(
-            torch.nn.Linear(z_dim, hidden_dim),
-            torch.nn.ReLU(),
-            torch.nn.BatchNorm1d(hidden_dim),
-            torch.nn.Linear(hidden_dim, hidden_dim),
-            torch.nn.ReLU(),
-            torch.nn.Linear(hidden_dim, output_dim))
+        # self.net = torch.nn.Sequential(
+            # torch.nn.Linear(z_dim, hidden_dim),
+            # torch.nn.ReLU(),
+            # torch.nn.BatchNorm1d(hidden_dim),
+            # torch.nn.Linear(hidden_dim, hidden_dim),
+            # torch.nn.ReLU(),
+            # torch.nn.Linear(hidden_dim, output_dim))
+
+        self.net = nn.Sequential(
+                    nn.Linear(z_dim, hidden_dim),
+                    nn.GELU(),
+                    nn.Linear(hidden_dim, hidden_dim // 2),
+                    nn.GELU(),
+                    nn.Linear(hidden_dim // 2, output_dim))
 
     def forward(self, z):
         return self.net(z)
