@@ -1,7 +1,7 @@
 
 dataset:
   general:
-    epochs            : 150
+    epochs            : 250
     earlystop_patience: 10
     num_runs          : 3
     desired_dataset: india_ocean_waves #china_weather szeged_weather india_ocean_waves longterm_weather panama wind_power turbine_power
