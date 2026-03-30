@@ -33,8 +33,8 @@ public_datasets/*
 !public_datasets/.gitkeep
 
 #ASM stuff
-# src/*asm*
-src/**/*asm*
+src/*asm*
+# src/**/*asm*
 param_config/*asm*
 
 
