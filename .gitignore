@@ -18,8 +18,23 @@ parquet_files/
 *.parquet
 pickled/
 src/pickled/
+src/figures/
+src/model/
+src/param_config/messager.yaml
+src/param_config/tmp.yaml
+# src/results/*
+src/cuda*
+# src/timevae_torch/*
 
 # data
 interim_data/*
 ASM_data/*
 public_datasets/*
+!public_datasets/.gitkeep
+
+#ASM stuff
+src/*asm*
+# src/**/*asm*
+param_config/*asm*
+
+

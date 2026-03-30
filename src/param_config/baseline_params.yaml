@@ -1,0 +1,140 @@
+# file for the params of BASELINE METHODS
+basics:
+  label_frac:      1  # fraction of labeled training data
+  data_splitting:  "reduced_data" # missing_labels, reduced_data
+  num_runs:        3  # times to run the whole code
+  desired_dataset: "india" # ecg, india, germany, china, nasa, weather, asm, gas, beijing, panama
+  dataset_list:
+    - india
+    - germany
+    - china
+    - weather
+    - gas
+    # - nasa
+    - beijing
+    - panama
+    # - asm
+  label_frac_list:  [1, 0.5, 0.25]
+  random_seed:      42  # for reproducibility
+  freeze_rand_seed: false # true=use same random seed for all runs, false=different seed for each run
+  do_we_scale_y:    true  # whether to scale y values
+
+run_console:
+  barlow_cnn:    true
+  barlow_ae:     false
+  barlow_ae_ssl: false
+  cellsup:       false
+  cnn_lstm:      false
+  kan:           false
+  moment :       true
+  moment_fed:    false
+  timevae:       true
+  ts2vec :       true
+  fed:
+    ts2vec_fed:    true
+    timevae_fed:   true
+    moment_fed:    true
+    barlow_fed:    true
+
+  direct_preds:
+    mean_X:        true
+    flatten_X:     true
+    custom_row:    false
+    random_row:    false
+
+general_params:
+  top_features_big_dataset_pct: 10
+  top_features_pct: 20  # % of top features to select via mutual info
+  regressor:
+    epochs_regressor: 5  # foe finetuning/training head
+    layer1_dim : 64
+    layer2_dim : 32
+    layer3_dim : 16
+    lr         : 0.001
+
+barlow_cnn:
+    SSL_LAMBDA  :  0.005 # value from BT paper
+    SSL_WEIGHT  :  0.8   # Weight for recon vs. SSL
+    CHANNELS_1  :  64
+    CHANNELS_2  :  128
+    KERNEL_SIZE :  5
+    POOL_KERNEL :  2
+    latent_dim  :  32
+    augment_const: 0.1
+    recon_weight: 0
+barlow:
+  ae:
+    latent_dim :   32
+    ssl_weight :   1.0
+    augment_const: 0.1
+    head_dims_list: [128, 64, 16]
+
+cellsup:
+  num_epochs  : 25
+  AE_lr       : 0.001
+  weight_decay: 0.00001
+  dropout     : 0.1
+  # hidden_dim  : X_train.shape[2]//2
+  swav_iters  : 5
+  swav_temp   : 0.1
+  encoders_dims_list : [32, 64, 128]
+  clustering:
+    cluster_min: 4
+    cluster_max: 8
+
+moment:
+  epochs_finetune:    20
+  batch_size:         512
+  lr_encoder:         0.0001
+  hidden_layer_sizes: [128, 64, 16] # latent to y output. note that MOMENT-small's latent dim  = 512
+  unfreeze_last_n:    1
+  fine_tune:          true
+
+  lr_predictor:       0.001
+  predictor_epochs:   100
+  predictor_dropout:  0.0
+  predictor_hidden_sizes: [32, 48, 64] # latent to y output
+
+  model_task:         "regression"
+  model_type:         "repres_learning" # options: classification (= regression), repres_learning
+  model_name:         "MOMENT-1-small" # options: MOMENT-1-base, MOMENT-1-large, MOMENT-1-small
+  reload_model:       true
+
+moment_fed:
+  epochs_finetune: 5
+  dim_splitting:   2 # which dim to split X along, 0 = HFL, 1 = VFL
+  fine_tune:       true
+  num_splits:      4
+
+timevae:
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+ts2vec:
+  z_pooling_method   : "None" # options: "mean", "max", "None" (None = no pooling, return full time embeddings)
+  ts2vec_hidden_dims : 16 # units in each layer (> than latent dim)
+  ts2vec_latent_dims : 8 # latent dim
+  ts2vec_depth       : 3 # num layers
+  patience           : 40
+  ts2vec_batch_size  : 512
+  epochs      : 100
+  lr_encoder         : 0.009
+
+  predictor_epochs   : 150
+  predictor_dropout  : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+ts2vec_fed:
+  epochs_finetune: 5
+  dim_splitting:   2 # which dim to split X along, 0 = HFL, 1 = VFL
+  fine_tune:       true
+  num_splits:      4
+
+federated:
+  which_encoder: "ts2vec" # options: "ts2vec" "timevae" "barlow_cnn" "moment"
+  type_of_split: "horizontal" # options: horizontal vertical
+  num_splits:    4
+
+

@@ -1,0 +1,1298 @@
+moment/beijing: hidden_layers=[512, 256, 64, 16] latent_dim=512 unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7892 & test_RMSE=0.7599
+R² (MLP head): -0.001
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] latent_dim=512 unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7892 & test_RMSE=0.7599
+R² (MLP head): 0.246
+moment/beijing: hidden_layers=[512, 256, 64, 16] latent_dim=512 unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7892 & test_RMSE=0.7599
+R² (MLP head): 0.044
+moment/beijing: hidden_layers=[512, 256, 64, 16] latent_dim=512 unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7892 & test_RMSE=0.7599
+R² (MLP head): 0.175
+moment/beijing: hidden_layers=[512, 256, 64, 16] latent_dim=512 unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7892 & test_RMSE=0.7599
+R² (MLP head): 0.261
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] latent_dim=512 unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7892 & test_RMSE=0.7599
+R² (MLP head): 0.061
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] latent_dim=512 unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7892 & test_RMSE=0.7599
+R² (MLP head): 0.186
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.6868 & test_RMSE=0.7230
+R² (MLP head): 0.015
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.6868 & test_RMSE=0.7230
+R² (MLP head): 0.140
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.6868 & test_RMSE=0.7230
+R² (MLP head): 0.274
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.6868 & test_RMSE=0.7230
+R² (MLP head): 0.263
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.6868 & test_RMSE=0.7230
+R² (MLP head): 0.225
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=0
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.6868 & test_RMSE=0.7230
+R² (MLP head): 0.012
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7607 & test_RMSE=0.7322
+R² (MLP head): 0.074
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=0
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.7607 & test_RMSE=0.7322
+R² (MLP head): 0.275
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7296 & test_RMSE=0.7627
+R² (MLP head): 0.241
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.0000 & test_RMSE=0.7623
+R² (MLP head): 0.324
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7022 & test_RMSE=0.7374
+R² (MLP head): 0.049
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7607 & test_RMSE=0.7329
+R² (MLP head): -0.002
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.7607 & test_RMSE=0.7322
+R² (MLP head): 0.238
+
+
+window_size=1024
+================
+best {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.661727967580558, "r2": -0.01338815689086914}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.661727967580558, "r2": -0.0009423494338989258}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.014716386795043945}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.022441625595092773}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.00942695140838623}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.661727967580558, "r2": 0.00023978948593139648}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.2, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.002840399742126465}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.661727967580558, "r2": -0.0035932064056396484}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.661727967580558, "r2": -0.006129741668701172}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.661727967580558, "r2": -0.0038733482360839844}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.00034987926483154297}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.02202022075653076}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.016721367835998535}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.661727967580558, "r2": -1.1998481750488281}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 0, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.11691856384277344}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.01, "test_rmse": 0.661727967580558, "r2": -0.1582629680633545}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.661727967580558, "r2": -5.888938903808594e-05}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.05537271499633789}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.661727967580558, "r2": -0.052111148834228516}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.661727967580558, "r2": -0.059549808502197266}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.661727967580558, "r2": -0.01824164390563965}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.661727967580558, "r2": 0.000986933708190918}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": 0.0010777115821838379}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.2739529609680176}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.0115814208984375}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.661727967580558, "r2": -0.10151863098144531}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.2, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.661727967580558, "r2": -0.006123900413513184}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.661727967580558, "r2": -0.0014600753784179688}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.661727967580558, "r2": -0.0018444061279296875}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.661727967580558, "r2": -0.015426278114318848}
+
+window_size=512
+===============
+best {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.9065002170853482, "r2": 0.0038223862648010254}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.9065002170853482, "r2": -0.0022579431533813477}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.9065002170853482, "r2": 0.00024896860122680664}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.9065002170853482, "r2": 0.004523575305938721}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.01, "test_rmse": 0.9065002170853482, "r2": -0.014681100845336914}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.9065002170853482, "r2": -0.0052030086517333984}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.9065002170853482, "r2": -0.00040352344512939453}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.9065002170853482, "r2": 0.018214166164398193}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 0, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.9065002170853482, "r2": -0.008629560470581055}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.9065002170853482, "r2": -0.003165125846862793}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.01, "test_rmse": 0.9065002170853482, "r2": -0.00017440319061279297}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 0, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.9065002170853482, "r2": -0.0052530765533447266}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.9065002170853482, "r2": 0.0019655227661132812}
+
+window_size=256
+===============
+
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 1.0094077196947802, "r2": 0.24694770574569702}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 1.0094077196947802, "r2": -0.013301610946655273}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.01, "test_rmse": 1.0094077196947802, "r2": 0.24923497438430786}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 1.0094077196947802, "r2": 0.07996326684951782}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 1.0094077196947802, "r2": -0.008289933204650879}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 1.0094077196947802, "r2": -0.006383299827575684}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 1.0094077196947802, "r2": 0.04526674747467041}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 1.0094077196947802, "r2": 0.0004379153251647949}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 1.0094077196947802, "r2": 0.01491999626159668}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 1.0094077196947802, "r2": 0.026087164878845215}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 1.0094077196947802, "r2": -0.041434407234191895}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 1.0094077196947802, "r2": 0.2406829595565796}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 1.0094077196947802, "r2": 0.172477126121521}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 1.0094077196947802, "r2": -0.02172684669494629}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 1.0094077196947802, "r2": 0.2710675001144409}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 1.0094077196947802, "r2": 0.24537372589111328}
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.9769 & test_RMSE=1.0094
+R² (MLP head): -0.032
+
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": 0.37034767866134644}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": 0.014351308345794678}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": -0.009725093841552734}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": 0.028969764709472656}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": -0.021638154983520508}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": -0.024170994758605957}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": 0.12584203481674194}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": 0.13348889350891113}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": 0.2763795852661133}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": 0.2184739112854004}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": 0.010592877864837646}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": -0.07160568237304688}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": 0.13997793197631836}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": 0.0036249756813049316}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": 0.08227008581161499}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": -0.014127135276794434}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": -0.017288923263549805}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": 0.2736348509788513}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": 0.05110067129135132}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": -0.10445141792297363}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": 0.32700252532958984}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": -0.028893709182739258}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": -0.048429131507873535}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.8733198094902715, "r2": -0.02154231071472168}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": -0.014461755752563477}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": -0.015365958213806152}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.8733198094902715, "r2": -0.013768672943115234}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.8733198094902715, "r2": 0.13182926177978516}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.8733198094902715, "r2": 0.032074570655822754}
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.011
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): 0.028
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): 0.004
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.035
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.029
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.007
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): -0.003
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=256
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.003
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.011
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): -0.009
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.002
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): -0.015
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.0005 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): 0.046
+
+=====
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.000
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.009
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): 0.039
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): 0.022
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.034
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9291
+R² (MLP head): -0.005
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.8975 & test_RMSE=0.9287
+R² (MLP head): -0.011
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.8976 & test_RMSE=0.9287
+R² (MLP head): -0.006
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.8891 & test_RMSE=0.7753
+R² (MLP head): 0.001
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=512
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): -0.013
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.032
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): -0.015
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9243 & test_RMSE=0.8638
+R² (MLP head): -0.087
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.010
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.026
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.040
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.060
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): -0.010
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9243 & test_RMSE=0.8638
+R² (MLP head): 0.001
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.003
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): -0.154
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8601 & test_RMSE=0.8625
+R² (MLP head): 0.058
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8602 & test_RMSE=0.8625
+R² (MLP head): 0.052
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9296 & test_RMSE=0.9380
+R² (MLP head): 0.065
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9296 & test_RMSE=0.9380
+R² (MLP head): 0.011
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8581 & test_RMSE=0.8920
+R² (MLP head): -0.005
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8581 & test_RMSE=0.8920
+R² (MLP head): 0.005
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8581 & test_RMSE=0.8920
+R² (MLP head): 0.020
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8581 & test_RMSE=0.8920
+R² (MLP head): 0.059
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8581 & test_RMSE=0.8920
+R² (MLP head): 0.034
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8581 & test_RMSE=0.8920
+R² (MLP head): 0.021
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8581 & test_RMSE=0.8920
+R² (MLP head): 0.009
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8580 & test_RMSE=0.8920
+R² (MLP head): 0.052
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8581 & test_RMSE=0.8920
+R² (MLP head): 0.037
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.8580 & test_RMSE=0.8920
+R² (MLP head): -0.001
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9389 & test_RMSE=0.9078
+R² (MLP head): 0.013
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9389 & test_RMSE=0.9078
+R² (MLP head): 0.010
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9389 & test_RMSE=0.9078
+R² (MLP head): 0.011
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9389 & test_RMSE=0.9078
+R² (MLP head): 0.004
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9389 & test_RMSE=0.9078
+R² (MLP head): 0.019
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8572 & test_RMSE=0.8782
+R² (MLP head): 0.045
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8573 & test_RMSE=0.8782
+R² (MLP head): 0.007
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8314 & test_RMSE=0.8733
+R² (MLP head): 0.020
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8314 & test_RMSE=0.8733
+R² (MLP head): 0.018
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8314 & test_RMSE=0.8733
+R² (MLP head): -0.021
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8314 & test_RMSE=0.8733
+R² (MLP head): -0.012
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.057
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): -0.058
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.014
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.023
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.145
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.113
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9242 & test_RMSE=0.8638
+R² (MLP head): 0.166
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9231 & test_RMSE=0.8634
+R² (MLP head): 0.148
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.9253 & test_RMSE=0.8638
+R² (MLP head): 0.164
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.9267 & test_RMSE=0.8614
+R² (MLP head): 0.135
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9218 & test_RMSE=0.8614
+R² (MLP head): 0.256
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.9272 & test_RMSE=0.8634
+R² (MLP head): 0.139
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.9172 & test_RMSE=0.8631
+R² (MLP head): 0.321
+
+
+
+window_size=128
+===============
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.7499 & test_RMSE=0.7419
+R² (MLP head): 0.335
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.7499 & test_RMSE=0.7419
+R² (MLP head): 0.422
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7499 & test_RMSE=0.7419
+R² (MLP head): 0.462
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7487 & test_RMSE=0.7419
+R² (MLP head): 0.344
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.7490 & test_RMSE=0.7419
+R² (MLP head): 0.424
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.7479 & test_RMSE=0.7419
+R² (MLP head): 0.377
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7467 & test_RMSE=0.7428
+R² (MLP head): 0.465
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7509 & test_RMSE=0.7468
+R² (MLP head): 0.467
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.7469 & test_RMSE=0.7484
+R² (MLP head): 0.376
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.7434 & test_RMSE=0.7439
+R² (MLP head): 0.404
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7426 & test_RMSE=0.7498
+R² (MLP head): 0.489
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7469 & test_RMSE=0.7468
+R² (MLP head): 0.420
+
+window_size=64
+==============
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8377 & test_RMSE=0.8872
+R² (MLP head): 0.299
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8377 & test_RMSE=0.8872
+R² (MLP head): 0.329
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8380 & test_RMSE=0.8872
+R² (MLP head): 0.337
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8388 & test_RMSE=0.8872
+R² (MLP head): 0.324
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.05 batch_size=128
+& Z (moment) & train_RMSE=0.8387 & test_RMSE=0.8872
+R² (MLP head): -0.001
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.05 batch_size=128
+& Z (moment) & train_RMSE=0.8391 & test_RMSE=0.8872
+R² (MLP head): -0.002
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8408 & test_RMSE=0.8873
+R² (MLP head): 0.356
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8400 & test_RMSE=0.8851
+R² (MLP head): 0.265
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8366 & test_RMSE=0.8865
+R² (MLP head): 0.342
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8397 & test_RMSE=0.8846
+R² (MLP head): 0.337
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.05 batch_size=128
+& Z (moment) & train_RMSE=0.8382 & test_RMSE=0.8846
+R² (MLP head): 0.314
+
+moment/beijing: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.05 batch_size=128
+& Z (moment) & train_RMSE=0.8373 & test_RMSE=0.8847
+R² (MLP head): 0.192
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8431 & test_RMSE=0.8818
+R² (MLP head): 0.228
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=128
+& Z (moment) & train_RMSE=0.8420 & test_RMSE=0.8807
+R² (MLP head): 0.343
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8444 & test_RMSE=0.8845
+R² (MLP head): 0.356
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8454 & test_RMSE=0.8859
+R² (MLP head): 0.334
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.05 batch_size=128
+& Z (moment) & train_RMSE=0.8461 & test_RMSE=0.8842
+R² (MLP head): 0.083
+
+moment/beijing: hidden_layers=[1024, 512, 128] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.05 batch_size=128
+& Z (moment) & train_RMSE=0.8455 & test_RMSE=0.8844
+R² (MLP head): 0.001
+
+
+
+
+~~~~~~~~~~~~~~~~~~
+
+window_size=128
+==============
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.01, "test_rmse": 0.703273314354235, "r2": 0.22276747226715088}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.7034525265355083, "r2": 0.42156463861465454}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.7034525265355083, "r2": 0.17650753259658813}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.703275833226073, "r2": 0.47310155630111694}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.7034525265355083, "r2": 0.32067739963531494}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.7032694946667739, "r2": 0.3933257460594177}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.7032796886655174, "r2": 0.45015954971313477}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.7032694946667739, "r2": 0.02232915163040161}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.7032694946667739, "r2": 0.2418135404586792}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.7034576022763029, "r2": 0.25726741552352905}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.7034525265355083, "r2": 0.09540075063705444}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.7032694946667739, "r2": 0.3628290295600891}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.7034525265355083, "r2": 0.37424933910369873}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.703273314354235, "r2": 0.41216468811035156}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.7034525265355083, "r2": 0.4019571542739868}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.703275833226073, "r2": 0.4284573197364807}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.7034525265355083, "r2": 0.2990226745605469}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.703273314354235, "r2": 0.09104931354522705}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.7034525265355083, "r2": -0.0032857656478881836}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.7034525265355083, "r2": 0.2313758134841919}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.7032796886655174, "r2": 0.4682389497756958}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.7034576022763029, "r2": 0.3665129542350769}
+best {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.7032694946667739, "r2": 0.21627724170684814}
+
+window_size=64
+==============
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.7971862380646015, "r2": 0.3644952178001404}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.7971862380646015, "r2": 0.21351909637451172}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.7971862380646015, "r2": 0.3458173871040344}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.7971862380646015, "r2": 0.3484712243080139}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.7971862380646015, "r2": 0.3845544457435608}
+best {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.7971862380646015, "r2": 0.3561286926269531}
+
+window_size=256
+==============
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 5, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.7079148361246812, "r2": 0.04239886999130249}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.7073912691793386, "r2": 0.024741172790527344}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.14265096187591553}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.7079148361246812, "r2": 0.08171463012695312}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.7073912691793386, "r2": 0.18270742893218994}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.7073912691793386, "r2": 0.195844829082489}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.009604096412658691}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 10, "batch_size": 128, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.7079148361246812, "r2": 0.002063453197479248}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 5, "batch_size": 128, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.7073912691793386, "r2": 0.00346219539642334}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 128, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.047540128231048584}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.7073912691793386, "r2": 0.1546170711517334}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 10, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.7079148361246812, "r2": 0.15795248746871948}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 10, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.13728868961334229}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 10, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.7079148361246812, "r2": -0.004655122756958008}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 5, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.7073912691793386, "r2": 0.006927847862243652}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.7073912691793386, "r2": 0.16374069452285767}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 5, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.7073912691793386, "r2": 0.04620629549026489}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 5, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.028991997241973877}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 5, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": -0.007875680923461914}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 5, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.7079148361246812, "r2": 0.006541073322296143}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 5, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.7079148361246812, "r2": 0.00431591272354126}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 5, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.7073912691793386, "r2": 0.00036007165908813477}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.26755720376968384}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [24, 18, 12], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 5, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.7079148361246812, "r2": -0.0032324790954589844}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [24, 18, 12], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.19042956829071045}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [24, 18, 12], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 10, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.05871474742889404}
+best {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [12, 8, 6], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 20, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.005, "test_rmse": 0.7073912691793386, "r2": 0.12932240962982178}
+
+window_size=512
+==============
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 20, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.9559669589291845, "r2": 0.009255051612854004}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.9559669589291845, "r2": -0.027715086936950684}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 5, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.9559669589291845, "r2": 0.0007634758949279785}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.9559669589291845, "r2": 0.017256081104278564}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 10, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.001, "test_rmse": 0.9559669589291845, "r2": 0.004339993000030518}
+best {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.9559669589291845, "r2": -0.006245732307434082}
+
+window_size=1024
+================
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.1, "epochs": 5, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.01, "test_rmse": 0.9486960186216229, "r2": -0.00012862682342529297}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.9486960186216229, "r2": 0.0010243058204650879}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 10, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.9486960186216229, "r2": -0.03542041778564453}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.1, "epochs": 10, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.9486960186216229, "r2": -0.009918451309204102}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 20, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.01, "test_rmse": 0.9486960186216229, "r2": -0.016217589378356934}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 1, "dropout": 0.0, "epochs": 5, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.9486960186216229, "r2": 0.00010639429092407227}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [256, 64, 16], "unfreeze_last_n": 2, "dropout": 0.2, "epochs": 5, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.9486960186216229, "r2": -0.01836538314819336}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 5, "batch_size": 64, "lr_encoder": 0.0001, "lr_head": 0.01, "test_rmse": 0.9486960186216229, "r2": -0.013388276100158691}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 10, "batch_size": 64, "lr_encoder": 0.001, "lr_head": 0.005, "test_rmse": 0.9486960186216229, "r2": -0.005440950393676758}
+{"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [512, 256, 64, 16], "unfreeze_last_n": 1, "dropout": 0.2, "epochs": 10, "batch_size": 64, "lr_encoder": 0.0005, "lr_head": 0.001, "test_rmse": 0.9486960186216229, "r2": -0.009456634521484375}
+best {"model_name": "MOMENT-1-small", "task_name": "regression", "hidden_layers": [128, 64, 16], "unfreeze_last_n": 2, "dropout": 0.0, "epochs": 20, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.001, "test_rmse": 0.9486960186216229, "r2": -0.00033092498779296875}
+
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=5 lr_encoder=0.0001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.6987 & test_RMSE=0.7035
+R² (MLP head): 0.103
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=5 lr_encoder=0.0001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.6987 & test_RMSE=0.7033
+R² (MLP head): 0.215
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=5 lr_encoder=0.0001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.8159 & test_RMSE=0.8198
+R² (MLP head): 0.081
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=5 lr_encoder=0.0001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7720 & test_RMSE=0.7797
+R² (MLP head): 0.167
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=5 lr_encoder=0.0001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7274 & test_RMSE=0.7465
+R² (MLP head): 0.256
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=5 lr_encoder=0.0001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7525 & test_RMSE=0.7956
+R² (MLP head): 0.280
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=5 lr_encoder=0.0001 lr_head=0.001 batch_size=128
+& Z (moment) & train_RMSE=0.7978 & test_RMSE=0.7596
+R² (MLP head): 0.216
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.01 batch_size=128
+& Z (moment) & train_RMSE=0.7745 & test_RMSE=0.7949
+R² (MLP head): 0.333
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.01 batch_size=128
+& Z (moment) & train_RMSE=0.7775 & test_RMSE=0.7906
+R² (MLP head): 0.368
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.01 batch_size=128
+& Z (moment) & train_RMSE=0.7853 & test_RMSE=0.8161
+R² (MLP head): 0.311
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.01 batch_size=128
+& Z (moment) & train_RMSE=0.8126 & test_RMSE=0.8523
+R² (MLP head): 0.401
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.01 batch_size=128
+& Z (moment) & train_RMSE=0.7404 & test_RMSE=0.7664
+R² (MLP head): 0.378
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.7404 & test_RMSE=0.7664
+R² (MLP head): 0.354
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8469 & test_RMSE=0.8128
+R² (MLP head): 0.161
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.9317 & test_RMSE=0.9382
+R² (MLP head): 0.259
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.9130 & test_RMSE=0.8981
+R² (MLP head): 0.139
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.7872 & test_RMSE=0.7633
+R² (MLP head): 0.126
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=1.0020 & test_RMSE=0.9189
+R² (MLP head): 0.160
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.01 batch_size=64
+& Z (moment) & train_RMSE=4.1493 & test_RMSE=0.7980
+R² (MLP head): -0.042
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.01 batch_size=64
+& Z (moment) & train_RMSE=4.7800 & test_RMSE=0.9295
+R² (MLP head): -0.009
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.01 batch_size=64
+& Z (moment) & train_RMSE=3.6068 & test_RMSE=0.9264
+R² (MLP head): -0.056
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.01 batch_size=64
+& Z (moment) & train_RMSE=5.0980 & test_RMSE=1.1736
+R² (MLP head): -0.001
+
+moment/beijing: hidden_layers=[512, 256, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.01 batch_size=64
+& Z (moment) & train_RMSE=4.1063 & test_RMSE=1.0113
+R² (MLP head): -0.010
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=1.6309 & test_RMSE=1.4529
+R² (MLP head): -0.060
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=1.4241 & test_RMSE=1.0515
+R² (MLP head): -0.036
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=1.3487 & test_RMSE=1.0935
+R² (MLP head): 0.006
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=1.2949 & test_RMSE=0.9923
+R² (MLP head): -0.037
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=1.5556 & test_RMSE=1.0831
+R² (MLP head): 0.002
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.221
+
+moment/beijing: hidden_layers=[512, 128, 64, 8] unfreeze_last_n=1
+train_epochs=5 lr_encoder=0.001 lr_head=0.0005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.001
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.221
+
+moment/beijing: hidden_layers=[128, 64, 16] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0001 lr_head=0.001 batch_size=32
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.310
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.031
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.086
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.086
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.8414 & test_RMSE=0.7461
+R² (MLP head): 0.146
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.9323 & test_RMSE=0.8521
+R² (MLP head): 0.181
+
+germany windowsize=64
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.835681676864624, "r2": 0.03454434871673584}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.822480171918869, "r2": 0.05580315366387367}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.8274901509284973, "r2": 0.04783071018755436}
+best {"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.8163479268550873, "r2": 0.06598184630274773}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.810380756855011, "r2": 0.07524171099066734}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.0, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8242433071136475, "r2": 0.053024772554636}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.8175286054611206, "r2": 0.06350225768983364}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.83465376496315, "r2": 0.03551180846989155}
+
+india windowsize=64
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.9551188051700592, "r2": 0.03359520249068737}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9348626732826233, "r2": 0.07059614732861519}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9216886758804321, "r2": 0.09438484907150269}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9373563826084137, "r2": 0.06560353375971317}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.9309431910514832, "r2": 0.07750384416431189}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9758481681346893, "r2": -0.008301787078380585}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9422707557678223, "r2": 0.05692776478827}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9112837016582489, "r2": 0.11257929354906082}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.9720695912837982, "r2": 0.0017757692839950323}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.9405517876148224, "r2": 0.05970728490501642}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9561235010623932, "r2": 0.03087252425029874}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9227602779865265, "r2": 0.09179517440497875}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.926042765378952, "r2": 0.08558300696313381}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9498928487300873, "r2": 0.04323161952197552}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9509988129138947, "r2": 0.041359204798936844}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9407371878623962, "r2": 0.059346115216612816}
+best {"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9033172726631165, "r2": 0.12709245085716248}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9393501281738281, "r2": 0.062096988782286644}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9707320332527161, "r2": 0.003935202956199646}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.939589112997055, "r2": 0.061702048406004906}
+
+china windowsize=64
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8575884401798248, "r2": 0.2624065726995468}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8557106554508209, "r2": 0.2661457434296608}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8583158850669861, "r2": 0.2622547894716263}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.865216076374054, "r2": 0.2504565566778183}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.8880344331264496, "r2": 0.2090233787894249}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.835809588432312, "r2": 0.29971444606781006}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8548504412174225, "r2": 0.2657604292035103}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8280940055847168, "r2": 0.31119269132614136}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.8481461703777313, "r2": 0.27883680164813995}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8332264125347137, "r2": 0.30200377106666565}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8665213286876678, "r2": 0.2478092610836029}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8241997957229614, "r2": 0.31777115166187286}
+best {"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8144462406635284, "r2": 0.33519792556762695}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8485876023769379, "r2": 0.2797296792268753}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8150427937507629, "r2": 0.33249959349632263}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8669265508651733, "r2": 0.24667564779520035}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8224737346172333, "r2": 0.32266591489315033}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8310874998569489, "r2": 0.30831456184387207}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8327628374099731, "r2": 0.30556000769138336}
+
+panama window_size=64
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.5947092175483704, "r2": 0.5125098526477814}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.6243610084056854, "r2": 0.4558824896812439}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.5779078900814056, "r2": 0.5381622612476349}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.6096259355545044, "r2": 0.48586153984069824}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.6058260202407837, "r2": 0.49412351846694946}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.5412635505199432, "r2": 0.595720648765564}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.6120221614837646, "r2": 0.48363327980041504}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.5166905075311661, "r2": 0.6315780878067017}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.5164685845375061, "r2": 0.6323416829109192}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.5416029691696167, "r2": 0.5953606367111206}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.5128194987773895, "r2": 0.636984795331955}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.5169134736061096, "r2": 0.6315301358699799}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.5142896175384521, "r2": 0.6353423297405243}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.5533541440963745, "r2": 0.5769298076629639}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.5653360188007355, "r2": 0.5575786232948303}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.4886395335197449, "r2": 0.6708802580833435}
+best {"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.5121539980173111, "r2": 0.6359268128871918}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.47936487197875977, "r2": 0.683277428150177}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.5783830285072327, "r2": 0.5386669337749481}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.0, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 32, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.5483629405498505, "r2": 0.5848212838172913}
+
+weather
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9076796770095825, "r2": 0.11519366502761841}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.0005, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9215315580368042, "r2": 0.0883965790271759}
+best {"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.9015974998474121, "r2": 0.1266929805278778}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9251476526260376, "r2": 0.08058804273605347}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9327901005744934, "r2": 0.0638468861579895}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9135134220123291, "r2": 0.10281282663345337}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 5, "batch_size": 256, "lr_encoder": 0.0005, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9275785684585571, "r2": 0.07720610499382019}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9094996452331543, "r2": 0.11195728182792664}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0005, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9150051474571228, "r2": 0.10202896595001221}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 5, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.916990339756012, "r2": 0.09696543216705322}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.9036248326301575, "r2": 0.1231347918510437}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.9128974080085754, "r2": 0.10662344098091125}
+
+
+gas
+
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 5, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8754578828811646, "r2": 0.16601723432540894}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.884566068649292, "r2": 0.15095609426498413}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.1, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 5, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.9267148375511169, "r2": 0.084917813539505}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.0, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.92705237865448, "r2": 0.076231449842453}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.0, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9706466197967529, "r2": 0.0005571842193603516}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.0005, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.8968650102615356, "r2": 0.12256607413291931}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 5, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.972181499004364, "r2": -0.002617359161376953}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 5, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9646841883659363, "r2": 0.010867565870285034}
+{"latent_dim": 512, "hidden_layers": [512, 256, 64, 16], "dropout": 0.0, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 5, "batch_size": 256, "lr_encoder": 0.001, "lr_head": 0.001, "fine_tune": true, "test_rmse": 0.9665669798851013, "r2": 0.007441788911819458}
+best {"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8334450125694275, "r2": 0.22943785786628723}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8614702224731445, "r2": 0.1925176978111267}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.861697256565094, "r2": 0.1905747950077057}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8827025890350342, "r2": 0.1530945897102356}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.885915994644165, "r2": 0.14920860528945923}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8676915168762207, "r2": 0.1704864799976349}
+{"latent_dim": 512, "hidden_layers": [128, 64, 16], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8738623857498169, "r2": 0.17569682002067566}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.9024862051010132, "r2": 0.10488921403884888}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 1, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 20, "batch_size": 256, "lr_encoder": 0.0005, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8687489628791809, "r2": 0.17621389031410217}
+{"latent_dim": 512, "hidden_layers": [256, 128, 64], "dropout": 0.2, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.01, "fine_tune": true, "test_rmse": 0.8604234457015991, "r2": 0.19548118114471436}
+{"latent_dim": 512, "hidden_layers": [64, 32, 8], "dropout": 0.1, "unfreeze_last_n": 2, "model_name": "MOMENT-1-small", "task_name": "regression", "epochs": 10, "batch_size": 256, "lr_encoder": 0.0001, "lr_head": 0.005, "fine_tune": true, "test_rmse": 0.920549750328064, "r2": 0.09278625249862671}
+
+nasa
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.7236 & test_RMSE=0.7543
+R² (MLP head): 0.323
+
+moment/india: hidden_layers=[64, 32, 8] unfreeze_last_n=2
+train_epochs=10 lr_encoder=0.001 lr_head=0.01 batch_size=32
+& Z (moment) & train_RMSE=0.8618 & test_RMSE=0.8358
+R² (MLP head): 0.069
+
+moment/india: hidden_layers=[64, 32, 8] unfreeze_last_n=2
+train_epochs=10 lr_encoder=0.001 lr_head=0.01 batch_size=32
+& Z (moment) & train_RMSE=0.8336 & test_RMSE=0.8223
+R² (MLP head): 0.121
+
+moment/india: hidden_layers=[64, 32, 8] unfreeze_last_n=2
+train_epochs=10 lr_encoder=0.001 lr_head=0.01 batch_size=32
+& Z (moment) & train_RMSE=0.8466 & test_RMSE=0.8037
+R² (MLP head): 0.139
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.7078 & test_RMSE=0.7252
+R² (MLP head): 0.407
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.7652 & test_RMSE=0.8168
+R² (MLP head): 0.400
+
+moment/beijing: hidden_layers=[12, 8, 6] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.0005 lr_head=0.005 batch_size=64
+& Z (moment) & train_RMSE=0.7673 & test_RMSE=0.7822
+R² (MLP head): 0.378
+
+moment/germany: hidden_layers=[256, 128, 64] unfreeze_last_n=2
+train_epochs=10 lr_encoder=0.0001 lr_head=0.001 batch_size=256
+& Z (moment) & train_RMSE=0.6936 & test_RMSE=0.6661
+R² (MLP head): 0.032
+
+moment/germany: hidden_layers=[256, 128, 64] unfreeze_last_n=2
+train_epochs=10 lr_encoder=0.0001 lr_head=0.001 batch_size=256
+& Z (moment) & train_RMSE=0.7098 & test_RMSE=0.6769
+R² (MLP head): 0.049
+
+moment/germany: hidden_layers=[256, 128, 64] unfreeze_last_n=2
+train_epochs=10 lr_encoder=0.0001 lr_head=0.001 batch_size=256
+& Z (moment) & train_RMSE=0.7120 & test_RMSE=0.6778
+R² (MLP head): 0.025
+
+moment/china: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=32
+& Z (moment) & train_RMSE=0.7776 & test_RMSE=0.7939
+R² (MLP head): 0.290
+
+moment/china: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=32
+& Z (moment) & train_RMSE=0.7715 & test_RMSE=0.7858
+R² (MLP head): 0.202
+
+moment/china: hidden_layers=[256, 128, 64] unfreeze_last_n=1
+train_epochs=10 lr_encoder=0.001 lr_head=0.005 batch_size=32
+& Z (moment) & train_RMSE=0.7872 & test_RMSE=0.7699
+R² (MLP head): 0.285
+
+moment/weather: hidden_layers=[64, 32, 8] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9982 & test_RMSE=1.0054
+R² (MLP head): 0.093
+
+moment/weather: hidden_layers=[64, 32, 8] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9581 & test_RMSE=0.9608
+R² (MLP head): 0.060
+
+moment/weather: hidden_layers=[64, 32, 8] unfreeze_last_n=1
+train_epochs=20 lr_encoder=0.001 lr_head=0.005 batch_size=256
+& Z (moment) & train_RMSE=0.9282 & test_RMSE=0.9281
+R² (MLP head): 0.113
+
+moment/gas: hidden_layers=[256, 128, 64] unfreeze_last_n=2
+train_epochs=20 lr_encoder=0.0001 lr_head=0.01 batch_size=256
+& Z (moment) & train_RMSE=2.7328 & test_RMSE=0.8243
+R² (MLP head): 0.338
+
+moment/gas: hidden_layers=[256, 128, 64] unfreeze_last_n=2
+train_epochs=20 lr_encoder=0.0001 lr_head=0.01 batch_size=256
+& Z (moment) & train_RMSE=2.4293 & test_RMSE=0.7346
+R² (MLP head): 0.185
+
+moment/gas: hidden_layers=[256, 128, 64] unfreeze_last_n=2
+train_epochs=20 lr_encoder=0.0001 lr_head=0.01 batch_size=256
+& Z (moment) & train_RMSE=2.6715 & test_RMSE=0.6880
+R² (MLP head): 0.388
+
+moment/panama: hidden_layers=[128, 64, 16] unfreeze_last_n=2
+train_epochs=10 lr_encoder=0.0005 lr_head=0.01 batch_size=32
+& Z (moment) & train_RMSE=2.1742 & test_RMSE=0.5713
+R² (MLP head): 0.519
+
+moment/panama: hidden_layers=[128, 64, 16] unfreeze_last_n=2
+train_epochs=10 lr_encoder=0.0005 lr_head=0.01 batch_size=32
+& Z (moment) & train_RMSE=1.6005 & test_RMSE=0.5976
+R² (MLP head): 0.424
+
+moment/panama: hidden_layers=[128, 64, 16] unfreeze_last_n=2
+train_epochs=10 lr_encoder=0.0005 lr_head=0.01 batch_size=32
+& Z (moment) & train_RMSE=2.1289 & test_RMSE=0.6893
+R² (MLP head): 0.524
+

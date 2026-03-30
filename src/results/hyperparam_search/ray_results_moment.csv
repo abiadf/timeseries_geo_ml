@@ -1,0 +1,6 @@
+trial_id,date,timestamp,pid,hostname,node_ip,config/model_name,config/task_name,config/hidden_layers,config/unfreeze_last_n,config/dropout,config/epochs,config/batch_size,config/lr_encoder,config/lr_head,config/fine_tune
+f1da8e37,2025-11-19_16-21-11,1763565671.0,426635.0,dis-m17,145.94.32.28,moment-base,classification,"[512, 256, 64, 16]",0.0,0.1,10.0,1024.0,0.0005,0.005,True
+9fde69fb,2025-11-19_16-21-16,1763565676.0,426840.0,dis-m17,145.94.32.28,moment-base,classification,"[256, 64, 16]",2.0,0.1,10.0,1024.0,0.001,0.001,False
+fe8dd2ad,2025-11-19_16-21-21,1763565681.0,426962.0,dis-m17,145.94.32.28,moment-small,classification,"[256, 64, 16]",1.0,0.2,10.0,256.0,0.001,0.01,True
+e4e1abb6,2025-11-19_16-21-26,1763565686.0,427215.0,dis-m17,145.94.32.28,moment-small,classification,"[256, 64, 16]",2.0,0.1,20.0,256.0,0.001,0.005,False
+6c728538,,,,,,,,,,,,,,,

@@ -1,0 +1,101 @@
+# file for the params of DATASETS
+general:
+  train_epochs:      100
+  num_pages_to_use:  10
+  window_len:        64 # 256
+  window_len_list:   [64, 128, 256, 512, 1024, 2048]
+
+asm:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+
+  batch_size        : 16
+  latent_dim        : 32
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+beijing:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 512
+
+  timevae:
+    lr_training       : 0.001
+
+    latent_dim: 12
+    hidden_layer_sizes:
+      - 48 # 50 #64 #50
+      - 16 #64 #100
+      - 64 #128 #200
+    reconstruction_wt: 3.5
+    batch_size: 64
+    use_residual_conn: true
+
+panama:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 32
+
+china:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 2048 #4096
+
+  batch_size        : 16
+  latent_dim        : 6
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+gas:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 2048 #4096
+
+germany:
+  num_window_splits: 10 # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 512
+
+  batch_size        : 16
+  latent_dim        : 8
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+india:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 512
+
+  batch_size        : 16
+  latent_dim        : 8
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output
+
+nasa:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 300  # number of rows per page to use from dataset
+
+panama:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 300  # number of rows per page to use from dataset
+  window_len       : 32
+
+weather:
+  num_window_splits: 10   # splits timesteps (rows) into this many windows
+  num_rows_per_page: 500  # number of rows per page to use from dataset
+  window_len       : 2048
+
+  batch_size        : 16
+  latent_dim        : 3
+  predictor_lr      : 0.006
+  predictor_epochs  : 200
+  predictor_dropout : 0.05
+  predictor_hidden_sizes : [32, 48, 64] # latent to y output

@@ -1,0 +1,2268 @@
+---- 17:34 ----
+mean(X) & \val{0.960}{0.000} & \val{0.566}{0.000} & \val{0.578}{0.000}
+TS2Vec & \val{0.945}{0.086} & \val{0.658}{0.054} & \val{0.573}{0.046}
+TimeVAE & \val{1.077}{0.000} & \val{0.870}{0.000} & \val{0.815}{0.000}
+Moment & \val{1.198}{0.000} & \val{1.174}{0.000} & \val{1.231}{0.000}
+Cellsup & \val{0.836}{0.000} & \val{0.988}{0.000} & \val{1.043}{0.000}
+BarlowCNN & \val{1.476}{0.000} & \val{0.671}{0.000} & \val{0.540}{0.000}
+BarlowAE_SSL & \val{0.621}{0.000} & \val{0.596}{0.000} & \val{0.526}{0.000}
+BarlowAE & \val{0.684}{0.000} & \val{0.585}{0.000} & \val{0.494}{0.000}
+---- 17:56 ----
+mean(X) & \val{0.960}{0.000} & \val{0.566}{0.000} & \val{0.578}{0.000}
+TS2Vec & \val{0.985}{0.122} & \val{0.661}{0.093} & \val{0.581}{0.083}
+TimeVAE & \val{1.077}{0.000} & \val{0.870}{0.000} & \val{0.815}{0.000}
+Moment & \val{1.198}{0.000} & \val{1.174}{0.000} & \val{1.231}{0.000}
+Cellsup & \val{0.836}{0.000} & \val{0.988}{0.000} & \val{1.043}{0.000}
+BarlowCNN & \val{1.476}{0.000} & \val{0.671}{0.000} & \val{0.540}{0.000}
+BarlowAE_SSL & \val{0.621}{0.000} & \val{0.596}{0.000} & \val{0.526}{0.000}
+BarlowAE & \val{0.684}{0.000} & \val{0.585}{0.000} & \val{0.494}{0.000}
+---- 19:25 ----
+mean(X) & \val{0.960}{0.000} & \val{0.562}{0.007} & \val{0.575}{0.005}
+TS2Vec & \val{0.863}{0.070} & \val{0.743}{0.099} & \val{0.669}{0.097}
+TimeVAE & \val{1.077}{0.000} & \val{0.870}{0.000} & \val{0.815}{0.000}
+Moment & \val{1.198}{0.000} & \val{1.174}{0.000} & \val{1.231}{0.000}
+Cellsup & \val{0.814}{0.043} & \val{0.961}{0.056} & \val{0.983}{0.121}
+BarlowCNN & \val{1.447}{0.059} & \val{0.650}{0.043} & \val{0.531}{0.018}
+BarlowAE_SSL & \val{0.642}{0.042} & \val{0.597}{0.002} & \val{0.524}{0.002}
+BarlowAE & \val{0.674}{0.019} & \val{0.594}{0.017} & \val{0.496}{0.004}
+---- 19:32 ----
+mean(X) & \val{0.960}{0.000} & \val{0.560}{0.007} & \val{0.572}{0.007}
+TS2Vec & \val{0.888}{0.068} & \val{0.757}{0.085} & \val{0.662}{0.103}
+TimeVAE & \val{1.077}{0.000} & \val{0.870}{0.000} & \val{0.815}{0.000}
+Moment & \val{1.198}{0.000} & \val{1.174}{0.000} & \val{1.231}{0.000}
+Cellsup & \val{0.801}{0.045} & \val{0.937}{0.064} & \val{0.951}{0.121}
+BarlowCNN & \val{1.359}{0.170} & \val{0.634}{0.046} & \val{0.535}{0.022}
+BarlowAE_SSL & \val{0.666}{0.054} & \val{0.595}{0.006} & \val{0.530}{0.011}
+BarlowAE & \val{0.673}{0.019} & \val{0.597}{0.017} & \val{0.507}{0.022}
+---- 20:47 ----
+mean(X) & \val{8.359}{0.000} & \val{1.258}{0.006} & \val{1.200}{0.007}
+TimeVAE & \val{1.436}{0.000} & \val{1.517}{0.000} & \val{1.479}{0.000}
+TS2Vec & \val{3.257}{0.670} & \val{1.554}{0.080} & \val{1.500}{0.096}
+Moment & \val{1.417}{0.000} & \val{1.433}{0.000} & \val{1.502}{0.000}
+Cellsup & \val{1.449}{0.058} & \val{1.461}{0.024} & \val{1.463}{0.019}
+BarlowCNN & \val{10.426}{1.326} & \val{1.483}{0.031} & \val{1.494}{0.043}
+BarlowAE & \val{1.333}{0.085} & \val{1.455}{0.039} & \val{1.487}{0.022}
+BarlowAE_SSL & \val{1.424}{0.123} & \val{1.474}{0.016} & \val{1.511}{0.025}
+---- 22:59 ----
+mean(X) & \val{0.934}{0.000} & \val{0.768}{0.000} & \val{0.820}{0.000}
+TS2Vec & \val{0.986}{0.111} & \val{0.872}{0.029} & \val{0.891}{0.025}
+Cellsup & \val{0.821}{0.024} & \val{0.855}{0.011} & \val{0.900}{0.016}
+BarlowCNN & \val{1.192}{0.104} & \val{0.815}{0.020} & \val{0.868}{0.029}
+BarlowAE & \val{0.763}{0.011} & \val{0.798}{0.018} & \val{0.797}{0.017}
+BarlowAE_SSL & \val{0.764}{0.008} & \val{0.795}{0.012} & \val{0.804}{0.024}
+---- 14:16 ----
+mean(X) & \val{0.862}{0.240} & \val{0.751}{0.242} & \val{0.774}{0.229}
+TS2Vec & \val{0.867}{0.239} & \val{0.877}{0.238} & \val{0.881}{0.239}
+Cellsup & \val{0.805}{0.243} & \val{0.837}{0.222} & \val{0.872}{0.217}
+BarlowCNN & \val{0.789}{0.227} & \val{0.798}{0.237} & \val{0.810}{0.241}
+BarlowAE & \val{0.762}{0.242} & \val{0.764}{0.250} & \val{0.770}{0.241}
+BarlowAE_SSL & \val{0.762}{0.239} & \val{0.750}{0.241} & \val{0.757}{0.242}
+---- india_catchment, 14:55 ----
+mean(X) & \val{0.407}{0.098} & \val{0.384}{0.085} & \val{0.416}{0.092}
+TS2Vec & \val{0.577}{0.086} & \val{0.540}{0.096} & \val{0.586}{0.095}
+Cellsup & \val{0.696}{0.116} & \val{0.557}{0.103} & \val{0.585}{0.109}
+BarlowCNN & \val{0.412}{0.092} & \val{0.447}{0.093} & \val{0.485}{0.100}
+BarlowAE & \val{0.462}{0.062} & \val{0.449}{0.076} & \val{0.470}{0.081}
+BarlowAE_SSL & \val{0.456}{0.057} & \val{0.444}{0.080} & \val{0.467}{0.068}
+---- china_weather, 15:07 ----
+mean(X) & \val{0.697}{0.035} & \val{0.521}{0.031} & \val{0.520}{0.030}
+TS2Vec & \val{0.673}{0.033} & \val{0.554}{0.047} & \val{0.565}{0.043}
+Cellsup & \val{0.638}{0.054} & \val{0.641}{0.059} & \val{0.632}{0.073}
+BarlowCNN & \val{0.697}{0.017} & \val{0.503}{0.042} & \val{0.510}{0.038}
+BarlowAE & \val{0.590}{0.026} & \val{0.559}{0.031} & \val{0.558}{0.034}
+BarlowAE_SSL & \val{0.593}{0.015} & \val{0.548}{0.026} & \val{0.556}{0.022}
+---- weather, 15:23 ----
+mean(X) & \val{0.954}{0.169} & \val{0.860}{0.151} & \val{0.845}{0.143}
+TS2Vec & \val{0.914}{0.162} & \val{0.812}{0.156} & \val{0.812}{0.160}
+Cellsup & \val{0.993}{0.181} & \val{0.996}{0.182} & \val{0.995}{0.181}
+BarlowCNN & \val{0.807}{0.154} & \val{0.771}{0.137} & \val{0.764}{0.119}
+BarlowAE & \val{0.822}{0.129} & \val{0.782}{0.138} & \val{0.762}{0.128}
+BarlowAE_SSL & \val{0.832}{0.147} & \val{0.761}{0.115} & \val{0.767}{0.136}
+---- weather, 16:08, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.951}{0.170} & \val{0.849}{0.166} & \val{0.847}{0.161}
+TS2Vec & \val{0.909}{0.152} & \val{0.802}{0.131} & \val{0.782}{0.141}
+Cellsup & \val{0.990}{0.178} & \val{0.991}{0.176} & \val{0.990}{0.175}
+BarlowCNN & \val{0.810}{0.164} & \val{0.834}{0.153} & \val{0.823}{0.158}
+BarlowAE & \val{0.853}{0.142} & \val{0.813}{0.139} & \val{0.784}{0.148}
+BarlowAE_SSL & \val{0.832}{0.163} & \val{0.824}{0.166} & \val{0.808}{0.173}
+Moment & \val{1.152}{0.104} & \val{0.833}{0.172} & \val{0.909}{0.142}
+---- india_catchment, 16:28, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.505}{0.069} & \val{0.467}{0.027} & \val{0.496}{0.021}
+TS2Vec & \val{0.568}{0.038} & \val{0.517}{0.056} & \val{0.561}{0.044}
+Cellsup & \val{0.771}{0.068} & \val{0.564}{0.032} & \val{0.587}{0.027}
+BarlowCNN & \val{0.645}{0.180} & \val{0.514}{0.034} & \val{0.554}{0.024}
+BarlowAE & \val{0.626}{0.072} & \val{0.518}{0.041} & \val{0.559}{0.042}
+BarlowAE_SSL & \val{0.612}{0.055} & \val{0.517}{0.044} & \val{0.551}{0.046}
+Moment & \val{0.592}{0.053} & \val{0.635}{0.085} & \val{0.680}{0.086}
+---- germany_catchment, 17:24, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.983}{0.250} & \val{0.797}{0.236} & \val{0.815}{0.236}
+TS2Vec & \val{0.880}{0.234} & \val{0.872}{0.245} & \val{0.876}{0.246}
+Cellsup & \val{0.834}{0.237} & \val{0.828}{0.232} & \val{0.837}{0.234}
+BarlowCNN & \val{1.008}{0.331} & \val{0.871}{0.229} & \val{0.883}{0.222}
+BarlowAE & \val{0.812}{0.223} & \val{0.826}{0.232} & \val{0.831}{0.232}
+BarlowAE_SSL & \val{0.811}{0.228} & \val{0.809}{0.238} & \val{0.820}{0.237}
+Moment & \val{0.990}{0.237} & \val{0.811}{0.236} & \val{0.873}{0.237}
+---- china_weather, 18:03, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.701}{0.047} & \val{0.543}{0.034} & \val{0.553}{0.047}
+TS2Vec & \val{0.655}{0.056} & \val{0.550}{0.036} & \val{0.555}{0.053}
+Cellsup & \val{0.672}{0.065} & \val{0.666}{0.050} & \val{0.652}{0.046}
+BarlowCNN & \val{0.812}{0.139} & \val{0.527}{0.036} & \val{0.528}{0.038}
+BarlowAE & \val{0.653}{0.071} & \val{0.572}{0.054} & \val{0.552}{0.062}
+BarlowAE_SSL & \val{0.640}{0.083} & \val{0.584}{0.053} & \val{0.566}{0.057}
+Moment & \val{0.972}{0.067} & \val{0.825}{0.068} & \val{0.843}{0.078}
+---- germany_catchment, 18:59, data_splitting='reduced_data', label_frac=0.25 ----
+mean(X) & \val{0.923}{0.075} & \val{0.723}{0.036} & \val{0.746}{0.035}
+TS2Vec & \val{0.789}{0.045} & \val{0.778}{0.053} & \val{0.784}{0.050}
+Cellsup & \val{0.813}{0.030} & \val{0.717}{0.024} & \val{0.726}{0.021}
+BarlowCNN & \val{0.881}{0.124} & \val{0.793}{0.043} & \val{0.798}{0.042}
+BarlowAE & \val{0.789}{0.043} & \val{0.762}{0.030} & \val{0.762}{0.027}
+BarlowAE_SSL & \val{0.787}{0.040} & \val{0.755}{0.040} & \val{0.761}{0.029}
+Moment & \val{0.877}{0.024} & \val{0.708}{0.024} & \val{0.786}{0.018}
+---- india_catchment, 19:22, data_splitting='reduced_data', label_frac=0.25 ----
+mean(X) & \val{0.684}{0.171} & \val{0.508}{0.058} & \val{0.510}{0.052}
+TS2Vec & \val{0.531}{0.032} & \val{0.508}{0.029} & \val{0.550}{0.024}
+Cellsup & \val{15.437}{13.975} & \val{0.589}{0.061} & \val{0.598}{0.052}
+BarlowCNN & \val{1.481}{0.699} & \val{0.563}{0.071} & \val{0.595}{0.067}
+BarlowAE & \val{1.964}{0.653} & \val{0.543}{0.068} & \val{0.566}{0.067}
+BarlowAE_SSL & \val{1.753}{0.415} & \val{0.542}{0.068} & \val{0.563}{0.072}
+Moment & \val{0.537}{0.046} & \val{0.538}{0.037} & \val{0.579}{0.037}
+---- china_weather, 19:35, data_splitting='reduced_data', label_frac=0.25 ----
+mean(X) & \val{0.822}{0.083} & \val{0.667}{0.080} & \val{0.726}{0.099}
+TS2Vec & \val{0.694}{0.031} & \val{0.611}{0.063} & \val{0.609}{0.057}
+Cellsup & \val{0.801}{0.086} & \val{0.728}{0.071} & \val{0.738}{0.084}
+BarlowCNN & \val{1.489}{0.409} & \val{0.675}{0.076} & \val{0.672}{0.082}
+BarlowAE & \val{0.835}{0.033} & \val{0.704}{0.106} & \val{0.696}{0.099}
+BarlowAE_SSL & \val{0.852}{0.129} & \val{0.702}{0.084} & \val{0.692}{0.079}
+Moment & \val{1.061}{0.043} & \val{0.886}{0.068} & \val{0.924}{0.084}
+---- weather, 19:47, data_splitting='reduced_data', label_frac=0.25 ----
+mean(X) & \val{1.023}{0.156} & \val{0.981}{0.136} & \val{0.968}{0.128}
+TS2Vec & \val{0.978}{0.134} & \val{0.888}{0.106} & \val{0.880}{0.129}
+Cellsup & \val{1.063}{0.160} & \val{1.069}{0.159} & \val{1.065}{0.159}
+BarlowCNN & \val{0.982}{0.147} & \val{0.971}{0.150} & \val{0.943}{0.136}
+BarlowAE & \val{1.023}{0.174} & \val{0.973}{0.169} & \val{0.977}{0.161}
+BarlowAE_SSL & \val{1.066}{0.182} & \val{0.959}{0.143} & \val{0.942}{0.141}
+Moment & \val{1.269}{0.084} & \val{0.920}{0.138} & \val{0.978}{0.115}
+---- germany_catchment, 23:49, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.730}{0.000} & \val{0.634}{0.000} & \val{0.637}{0.000}
+TS2Vec & \val{0.978}{0.134} & \val{0.888}{0.106} & \val{0.880}{0.129}
+Cellsup & \val{1.063}{0.160} & \val{1.069}{0.159} & \val{1.065}{0.159}
+BarlowCNN & \val{0.982}{0.147} & \val{0.971}{0.150} & \val{0.943}{0.136}
+BarlowAE & \val{1.023}{0.174} & \val{0.973}{0.169} & \val{0.977}{0.161}
+BarlowAE_SSL & \val{1.066}{0.182} & \val{0.959}{0.143} & \val{0.942}{0.141}
+Moment & \val{1.269}{0.084} & \val{0.920}{0.138} & \val{0.978}{0.115}
+TimeVAE & \val{1.109}{0.239} & \val{1.184}{0.247} & \val{1.175}{0.242}
+---- germany_catchment, 01:25, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{1.056}{0.157} & \val{1.078}{0.095} & \val{1.064}{0.110}
+---- germany_catchment, 09:17, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{0.912}{0.096} & \val{0.937}{0.124} & \val{0.922}{0.108}
+---- germany_catchment, 09:30, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{0.931}{0.255} & \val{0.891}{0.259} & \val{0.900}{0.268}
+---- germany_catchment, 09:51, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{0.911}{0.202} & \val{0.849}{0.205} & \val{0.865}{0.204}
+---- germany_catchment, 10:01, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{0.890}{0.235} & \val{0.892}{0.247} & \val{0.894}{0.251}
+---- india_catchment, 11:04, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.732}{0.224} & \val{0.649}{0.242} & \val{0.666}{0.255}
+---- india_catchment, 11:52, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{1.021}{0.482} & \val{0.729}{0.042} & \val{0.756}{0.066}
+---- india_catchment, 12:09, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{0.786}{0.231} & \val{0.685}{0.154} & \val{0.733}{0.135}
+---- china_weather, 12:23, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.796}{0.132} & \val{0.712}{0.112} & \val{0.715}{0.094}
+---- china_weather, 12:25, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.868}{0.099} & \val{0.726}{0.081} & \val{0.717}{0.078}
+---- china_weather, 12:32, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{0.750}{0.051} & \val{0.707}{0.043} & \val{0.699}{0.048}
+---- china_weather, 12:40, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{0.906}{0.213} & \val{0.793}{0.078} & \val{0.769}{0.075}
+---- weather, 12:47, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{9.307}{16.710} & \val{0.845}{0.119} & \val{0.818}{0.133}
+---- weather, 12:59, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{0.894}{0.109} & \val{0.928}{0.151} & \val{0.919}{0.142}
+---- weather, 13:04, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{2.670}{3.326} & \val{0.995}{0.112} & \val{0.975}{0.083}
+---- weather, 13:14, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{1.011}{0.160} & \val{1.044}{0.167} & \val{1.004}{0.154}
+---- asm, 00:38, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{2.217}{0.924} & \val{1.447}{0.408} & \val{1.332}{0.378}
+Moment (cent) & \val{1.438}{0.382} & \val{1.426}{0.406} & \val{1.325}{0.373}
+Moment (fed, dim=0) & \val{1.614}{0.345} & \val{1.385}{0.447} & \val{1.301}{0.383}
+Barlow (CNN) & \val{3.257}{2.631} & \val{1.451}{0.415} & \val{1.330}{0.414}
+---- asm, 00:59, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{2.694}{1.455} & \val{1.476}{0.377} & \val{1.368}{0.348}
+Moment (cent) & \val{1.454}{0.368} & \val{1.461}{0.371} & \val{1.369}{0.336}
+Moment (fed, dim=0) & \val{1.643}{0.325} & \val{1.448}{0.385} & \val{1.349}{0.345}
+Barlow (CNN) & \val{13.318}{20.123} & \val{1.463}{0.402} & \val{1.363}{0.385}
+---- asm, 01:36, data_splitting='reduced_data', label_frac=1 ----
+Moment (fed, dim=2) & \val{1.335}{0.125} & \val{1.363}{0.096} & \val{1.235}{0.234}
+---- asm, 02:10, data_splitting='reduced_data', label_frac=0.5 ----
+Moment (fed, dim=2) & \val{1.598}{0.385} & \val{1.225}{0.175} & \val{1.062}{0.173}
+---- asm, 02:31, data_splitting='reduced_data', label_frac=0.5 ----
+Moment (fed, dim=2) & \val{1.598}{0.385} & \val{1.225}{0.175} & \val{1.062}{0.173}
+Moment (fed, dim=0) & \val{2.963}{1.275} & \val{1.381}{0.396} & \val{1.296}{0.254}
+---- asm, 02:57, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{19.673}{29.643} & \val{1.073}{0.467} & \val{0.910}{0.396}
+Moment (cent) & \val{7.972}{12.195} & \val{1.077}{0.467} & \val{0.939}{0.402}
+---- asm, 03:01mean(X) & \val{4.925}{3.304} & \val{1.001}{0.496} & \val{0.830}{0.405}
+Moment (cent) & \val{1.919}{1.647} & \val{1.016}{0.504} & \val{0.854}{0.407}
+---- india_catchment, 06:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.764}{0.023} & \val{0.646}{0.026} & \val{0.661}{0.027}
+Moment (cent) & \val{0.644}{0.031} & \val{0.443}{0.022} & \val{0.510}{0.020}
+Moment (fed, dim=0) & \val{0.643}{0.032} & \val{0.445}{0.020} & \val{0.515}{0.020}
+Barlow (CNN) & \val{0.464}{0.011} & \val{0.514}{0.024} & \val{0.542}{0.021}
+---- india_catchment, 06:47, data_splitting='reduced_data', label_frac=1 ----
+Moment (fed, dim=2) & \val{0.438}{0.027} & \val{0.402}{0.022} & \val{0.460}{0.023}
+---- germany_catchment, 07:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.004}{0.170} & \val{0.979}{0.142} & \val{0.968}{0.146}
+Moment (cent) & \val{0.968}{0.121} & \val{0.932}{0.153} & \val{0.982}{0.175}
+Moment (fed, dim=0) & \val{0.969}{0.122} & \val{0.934}{0.153} & \val{0.984}{0.175}
+Barlow (CNN) & \val{0.898}{0.109} & \val{0.944}{0.111} & \val{0.935}{0.121}
+---- germany_catchment, 07:44, data_splitting='reduced_data', label_frac=1 ----
+Moment (fed, dim=2) & \val{1.056}{0.017} & \val{0.736}{0.009} & \val{0.803}{0.012}
+---- china_weather, 07:59, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.646}{0.021} & \val{0.429}{0.013} & \val{0.460}{0.003}
+Moment (cent) & \val{0.658}{0.023} & \val{0.614}{0.021} & \val{0.642}{0.018}
+Moment (fed, dim=0) & \val{0.660}{0.023} & \val{0.613}{0.019} & \val{0.644}{0.020}
+Barlow (CNN) & \val{0.525}{0.004} & \val{0.426}{0.009} & \val{0.424}{0.005}
+---- weather, 08:22, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.922}{0.053} & \val{0.747}{0.038} & \val{0.736}{0.052}
+Moment (cent) & \val{0.744}{0.035} & \val{0.705}{0.036} & \val{0.754}{0.032}
+Barlow (CNN) & \val{0.712}{0.046} & \val{0.684}{0.055} & \val{0.669}{0.055}
+Moment (fed, dim=2) & \val{1.216}{0.044} & \val{0.572}{0.038} & \val{0.623}{0.036}
+---- weather, 08:28, data_splitting='reduced_data', label_frac=1 ----
+Moment (fed, dim=0) & \val{0.780}{0.070} & \val{0.761}{0.094} & \val{0.809}{0.088}
+---- weather, 17:00, data_splitting='reduced_data', label_frac=1 ----
+Moment (cent) & \val{0.823}{0.063} & \val{0.788}{0.068} & \val{0.841}{0.067}
+Moment (fed, dim=2) & \val{1.285}{0.059} & \val{0.656}{0.067} & \val{0.708}{0.065}
+---- weather, 18:53, data_splitting='reduced_data', label_frac=1 ----
+Moment (cent) & \val{0.777}{0.034} & \val{0.735}{0.058} & \val{0.782}{0.059}
+Moment (fed, dim=2) & \val{1.324}{0.073} & \val{0.596}{0.042} & \val{0.649}{0.047}
+---- weather, 20:14, data_splitting='reduced_data', label_frac=1 ----
+Moment (cent) & \val{0.777}{0.034} & \val{0.735}{0.058} & \val{0.782}{0.059}
+Moment (fed, dim=2) & \val{1.324}{0.073} & \val{0.596}{0.042} & \val{0.649}{0.047}
+TS2Vec & \val{0.946}{0.080} & \val{0.762}{0.074} & \val{0.746}{0.076}
+---- weather, 23:47, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.864}{0.070} & \val{0.737}{0.060} & \val{0.735}{0.066} & \val{0.990}{0.077}
+---- weather, 00:27, data_splitting='reduced_data', label_frac=1 ----
+TS2Vec & \val{0.885}{0.068} & \val{0.712}{0.054} & \val{0.689}{0.057} & \val{0.978}{0.072}
+---- india_catchment, 00:43, data_splitting='reduced_data', label_frac=1 ----
+TS2Vec & \val{0.674}{0.020} & \val{0.432}{0.033} & \val{0.484}{0.027} & \val{0.995}{0.028}
+---- india_catchment, 02:41, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.590}{0.012} & \val{0.396}{0.008} & \val{0.442}{0.014} & \val{1.038}{0.031}
+TS2Vec & \val{0.673}{0.023} & \val{0.430}{0.017} & \val{0.486}{0.019} & \val{1.037}{0.030}
+---- india_catchment, 03:51, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{0.654}{0.038} & \val{0.499}{0.010} & \val{0.540}{0.014} & \val{0.987}{0.052}
+TS2Vec & \val{0.639}{0.015} & \val{0.498}{0.018} & \val{0.548}{0.021} & \val{0.989}{0.053}
+mean(X) & \val{0.386}{0.022} & \val{0.337}{0.018} & \val{0.410}{0.018}
+Moment (cent) & \val{0.552}{0.030} & \val{0.551}{0.023} & \val{0.615}{0.031} & \val{0.990}{0.055}
+Moment (fed, dim=2) & \val{0.433}{0.019} & \val{0.470}{0.023} & \val{0.535}{0.027} & \val{0.985}{0.054}
+Barlow (CNN) & \val{0.405}{0.033} & \val{0.419}{0.033} & \val{0.454}{0.024} & \val{1.011}{0.051}
+---- india_catchment, 04:51, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{1.201}{0.608} & \val{0.627}{0.067} & \val{0.674}{0.054} & \val{0.996}{0.054}
+TS2Vec & \val{0.659}{0.038} & \val{0.564}{0.056} & \val{0.621}{0.062} & \val{0.995}{0.060}
+---- india_catchment, 04:57, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{1.201}{0.608} & \val{0.627}{0.067} & \val{0.674}{0.054} & \val{0.996}{0.054}
+TS2Vec & \val{0.659}{0.038} & \val{0.564}{0.056} & \val{0.621}{0.062} & \val{0.995}{0.060}
+mean(X) & \val{0.490}{0.087} & \val{0.412}{0.039} & \val{0.482}{0.043} & \val{0.810}{0.407}
+Moment (cent) & \val{0.597}{0.030} & \val{0.607}{0.062} & \val{0.661}{0.061} & \val{0.996}{0.058}
+Moment (fed, dim=2) & \val{0.514}{0.032} & \val{0.560}{0.072} & \val{0.599}{0.064} & \val{0.990}{0.058}
+Barlow (CNN) & \val{0.754}{0.345} & \val{0.489}{0.038} & \val{0.536}{0.042} & \val{1.024}{0.061}
+---- india_catchment, 05:24, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{1.201}{0.608} & \val{0.627}{0.067} & \val{0.674}{0.054} & \val{0.996}{0.054}
+TS2Vec & \val{0.659}{0.038} & \val{0.564}{0.056} & \val{0.621}{0.062} & \val{0.995}{0.060}
+mean(X) & \val{0.349}{0.012} & \val{0.272}{0.010} & \val{0.329}{0.012} & \val{1.008}{0.022}
+Moment (cent) & \val{0.567}{0.027} & \val{0.423}{0.019} & \val{0.500}{0.025} & \val{1.008}{0.024}
+Moment (fed, dim=2) & \val{0.336}{0.015} & \val{0.365}{0.019} & \val{0.426}{0.015} & \val{1.004}{0.023}
+Barlow (CNN) & \val{0.349}{0.022} & \val{0.351}{0.020} & \val{0.383}{0.024} & \val{1.030}{0.036}
+---- india_catchment, 05:48, data_splitting='reduced_data', label_frac=0.25 ----
+mean(X) & \val{0.402}{0.019} & \val{0.405}{0.024} & \val{0.470}{0.023} & \val{1.026}{0.044}
+Moment (cent) & \val{0.576}{0.031} & \val{0.607}{0.030} & \val{0.677}{0.024} & \val{1.030}{0.047}
+Moment (fed, dim=2) & \val{0.515}{0.024} & \val{0.552}{0.029} & \val{0.612}{0.034} & \val{1.023}{0.045}
+Barlow (CNN) & \val{0.439}{0.029} & \val{0.455}{0.021} & \val{0.497}{0.025} & \val{1.062}{0.079}
+---- germany_catchment, 07:07, data_splitting='reduced_data', label_frac=0.25 ----
+mean(X) & \val{0.706}{0.152} & \val{0.622}{0.101} & \val{0.640}{0.082} & \val{1.120}{0.192}
+Moment (cent) & \val{0.975}{0.191} & \val{0.723}{0.057} & \val{0.777}{0.050} & \val{1.119}{0.192}
+Moment (fed, dim=2) & \val{0.714}{0.099} & \val{0.642}{0.042} & \val{0.693}{0.042} & \val{1.113}{0.192}
+Barlow (CNN) & \val{0.650}{0.103} & \val{0.648}{0.098} & \val{0.664}{0.083} & \val{1.129}{0.190}
+---- germany_catchment, 08:43, data_splitting='reduced_data', label_frac=0.25 ----
+TimeVAE & \val{0.877}{0.180} & \val{0.806}{0.185} & \val{0.808}{0.180} & \val{1.859}{1.195}
+TS2Vec & \val{0.982}{0.178} & \val{0.993}{0.184} & \val{0.961}{0.183} & \val{1.860}{1.194}
+---- germany_catchment, 09:23, data_splitting='reduced_data', label_frac=0.5 ----
+TimeVAE & \val{0.767}{0.066} & \val{0.663}{0.051} & \val{0.665}{0.052} & \val{1.237}{0.262}
+TS2Vec & \val{0.880}{0.059} & \val{0.881}{0.065} & \val{0.855}{0.060} & \val{1.239}{0.261}
+---- germany_catchment, 10:29, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.961}{0.288} & \val{0.822}{0.288} & \val{0.817}{0.299} & \val{2.552}{1.933}
+TS2Vec & \val{1.077}{0.291} & \val{1.056}{0.290} & \val{1.036}{0.292} & \val{2.553}{1.932}
+---- germany_catchment, 12:57, data_splitting='reduced_data', label_frac=1 ----
+TimeVAE & \val{0.961}{0.288} & \val{0.822}{0.288} & \val{0.817}{0.299} & \val{2.552}{1.933}
+TS2Vec & \val{1.077}{0.291} & \val{1.056}{0.290} & \val{1.036}{0.292} & \val{2.553}{1.932}
+mean(X) & \val{0.813}{0.060} & \val{0.655}{0.059} & \val{0.660}{0.058} & \val{1.368}{0.262}
+Moment (cent) & \val{0.737}{0.045} & \val{0.707}{0.046} & \val{0.771}{0.052} & \val{1.361}{0.264}
+Moment (fed, dim=2) & \val{0.899}{0.044} & \val{0.613}{0.050} & \val{0.661}{0.053} & \val{1.358}{0.265}
+Barlow (CNN) & \val{0.709}{0.050} & \val{0.710}{0.050} & \val{0.718}{0.051} & \val{1.372}{0.258}
+---- germany_catchment, 08:41, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.830}{0.050} & \val{0.688}{0.064} & \val{0.700}{0.064} & \val{1.375}{0.283}
+Moment (cent) & \val{1.246}{0.066} & \val{0.752}{0.063} & \val{0.817}{0.071} & \val{1.372}{0.285}
+Moment (fed, dim=2) & \val{0.771}{0.063} & \val{0.662}{0.053} & \val{0.716}{0.056} & \val{1.368}{0.285}
+Barlow (CNN) & \val{0.729}{0.046} & \val{0.732}{0.050} & \val{0.741}{0.048} & \val{1.376}{0.282}
+---- china_weather, 14:11, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.658}{0.016} & \val{0.447}{0.015} & \val{0.480}{0.015} & \val{1.002}{0.017}
+TS2Vec & \val{0.725}{0.033} & \val{0.484}{0.018} & \val{0.485}{0.018} & \val{1.006}{0.016}
+Moment (cent) & \val{0.673}{0.025} & \val{0.629}{0.010} & \val{0.661}{0.009} & \val{0.994}{0.017}
+Barlow (CNN) & \val{0.552}{0.005} & \val{0.444}{0.008} & \val{0.444}{0.007} & \val{0.909}{0.028}
+---- china_weather, 14:18, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.656}{0.017} & \val{0.467}{0.011} & \val{0.498}{0.020} & \val{0.993}{0.021}
+TS2Vec & \val{0.737}{0.019} & \val{0.497}{0.019} & \val{0.512}{0.022} & \val{0.995}{0.025}
+Moment (cent) & \val{0.946}{0.022} & \val{0.637}{0.016} & \val{0.668}{0.016} & \val{0.992}{0.022}
+Barlow (CNN) & \val{0.545}{0.025} & \val{0.452}{0.007} & \val{0.458}{0.014} & \val{0.919}{0.024}
+---- china_weather, 14:24, data_splitting='reduced_data', label_frac=0.25 ----
+mean(X) & \val{0.705}{0.056} & \val{0.517}{0.010} & \val{0.561}{0.009} & \val{1.016}{0.017}
+TS2Vec & \val{0.770}{0.014} & \val{0.528}{0.011} & \val{0.559}{0.015} & \val{1.018}{0.018}
+Moment (cent) & \val{1.203}{0.066} & \val{0.697}{0.011} & \val{0.733}{0.010} & \val{1.016}{0.017}
+Barlow (CNN) & \val{0.646}{0.085} & \val{0.514}{0.021} & \val{0.519}{0.018} & \val{0.940}{0.044}
+---- china_weather, 15:41, data_splitting='reduced_data', label_frac=0.05 ----
+mean(X) & \val{0.791}{0.111} & \val{0.644}{0.037} & \val{0.677}{0.041} & \val{1.007}{0.030}
+TS2Vec & \val{0.692}{0.033} & \val{0.655}{0.043} & \val{0.663}{0.045} & \val{1.015}{0.028}
+Moment (cent) & \val{0.893}{0.039} & \val{0.772}{0.032} & \val{0.796}{0.037} & \val{1.012}{0.027}
+Barlow (CNN) & \val{0.891}{0.224} & \val{0.615}{0.035} & \val{0.628}{0.037} & \val{0.941}{0.045}
+---- china_weather, 15:44, data_splitting='reduced_data', label_frac=0.05 ----
+mean(X) & \val{0.755}{0.027} & \val{0.651}{0.035} & \val{0.686}{0.021} & \val{1.021}{0.017}
+TS2Vec & \val{0.727}{0.047} & \val{0.660}{0.010} & \val{0.678}{0.019} & \val{1.023}{0.025}
+Moment (cent) & \val{0.938}{0.049} & \val{0.810}{0.023} & \val{0.826}{0.015} & \val{1.030}{0.016}
+Barlow (CNN) & \val{1.063}{0.502} & \val{0.611}{0.016} & \val{0.632}{0.021} & \val{0.955}{0.029}
+---- china_weather, 15:47, data_splitting='reduced_data', label_frac=0.05 ----
+mean(X) & \val{0.739}{0.040} & \val{0.635}{0.028} & \val{0.672}{0.023} & \val{1.026}{0.026}
+TS2Vec & \val{0.688}{0.027} & \val{0.616}{0.014} & \val{0.641}{0.013} & \val{1.033}{0.023}
+Moment (cent) & \val{0.951}{0.034} & \val{0.790}{0.025} & \val{0.816}{0.026} & \val{1.035}{0.029}
+Barlow (CNN) & \val{0.826}{0.088} & \val{0.596}{0.017} & \val{0.616}{0.017} & \val{0.977}{0.026}
+---- china_weather, 15:50, data_splitting='reduced_data', label_frac=0.05 ----
+mean(X) & \val{0.746}{0.037} & \val{0.632}{0.014} & \val{0.676}{0.008} & \val{1.005}{0.031}
+TS2Vec & \val{0.703}{0.062} & \val{0.644}{0.033} & \val{0.684}{0.029} & \val{1.008}{0.028}
+Moment (cent) & \val{0.892}{0.061} & \val{0.783}{0.040} & \val{0.802}{0.032} & \val{1.014}{0.029}
+Barlow (CNN) & \val{0.775}{0.082} & \val{0.608}{0.015} & \val{0.622}{0.012} & \val{0.955}{0.058}
+---- china_weather, 15:53, data_splitting='reduced_data', label_frac=0.05 ----
+mean(X) & \val{0.747}{0.037} & \val{0.636}{0.031} & \val{0.670}{0.030} & \val{1.001}{0.019}
+TS2Vec & \val{0.713}{0.045} & \val{0.641}{0.055} & \val{0.669}{0.049} & \val{1.007}{0.017}
+Moment (cent) & \val{0.955}{0.078} & \val{0.788}{0.023} & \val{0.799}{0.017} & \val{1.008}{0.016}
+Barlow (CNN) & \val{0.890}{0.258} & \val{0.615}{0.036} & \val{0.630}{0.037} & \val{0.950}{0.019}
+---- china_weather, 16:20, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.799}{0.335} & \val{0.870}{0.044} & \val{0.899}{0.045} & \val{0.988}{0.018}
+---- china_weather, 16:21, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.377}{0.405} & \val{0.778}{0.031} & \val{0.796}{0.034} & \val{0.988}{0.027}
+---- china_weather, 16:22, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.454}{0.455} & \val{0.839}{0.008} & \val{0.862}{0.031} & \val{0.993}{0.009}
+---- china_weather, 16:24, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.132}{0.176} & \val{0.831}{0.064} & \val{0.838}{0.070} & \val{0.999}{0.021}
+---- india_catchment, 16:26, data_splitting='reduced_data', label_frac=0.01 ----
+mean(X) & \val{1.005}{0.108} & \val{0.872}{0.091} & \val{0.920}{0.108} & \val{0.986}{0.023}
+---- weather, 18:14, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.989}{0.170} & \val{0.921}{0.230} & \val{0.982}{0.232} & \val{1.040}{0.133}
+---- germany_catchment, 18:52, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.863}{0.241} & \val{0.698}{0.272} & \val{0.719}{0.264} & \val{1.189}{0.347}
+---- china_weather, 10:34, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.543}{0.475} & \val{0.969}{0.443} & \val{1.459}{0.643} & \val{1.128}{0.073}
+Moment (cent) & \val{1.579}{0.403} & \val{1.096}{0.190} & \val{1.584}{0.393} & \val{1.241}{0.114}
+Barlow (CNN) & \val{1.596}{0.368} & \val{1.011}{0.359} & \val{1.486}{0.589} & \val{1.270}{0.128}
+LSTM (X) & \val{1.832}{0.105} & \val{1.215}{0.051} & \val{1.694}{0.174}
+CNN (X) & \val{1.819}{0.079} & \val{1.205}{0.033} & \val{1.660}{0.240}
+---- india_catchment, 12:02, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.179}{1.192} & \val{0.553}{0.209} & \val{0.508}{0.294} & \val{0.933}{0.144}
+Moment (cent) & \val{0.774}{0.396} & \val{0.746}{0.147} & \val{0.640}{0.326} & \val{0.934}{0.134}
+Barlow (CNN) & \val{0.624}{0.457} & \val{0.598}{0.154} & \val{0.490}{0.282} & \val{0.936}{0.136}
+LSTM (X) & \val{3.804}{3.319} & \val{0.823}{0.163} & \val{0.698}{0.352}
+CNN (X) & \val{6.068}{5.390} & \val{0.802}{0.198} & \val{0.720}{0.377}
+---- india_catchment, 12:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.188}{0.000} & \val{0.723}{0.000} & \val{0.724}{0.000} & \val{1.060}{0.000}
+Moment (cent) & \val{0.898}{0.000} & \val{0.755}{0.000} & \val{0.734}{0.000} & \val{1.043}{0.009}
+Barlow (CNN) & \val{0.910}{0.000} & \val{0.711}{0.000} & \val{0.695}{0.000} & \val{1.028}{0.000}
+LSTM (X) & \val{3.583}{0.000} & \val{0.896}{0.000} & \val{0.885}{0.000}
+CNN (X) & \val{11.785}{0.000} & \val{1.041}{0.000} & \val{1.061}{0.000}
+---- germany_catchment, 12:33, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.375}{0.000} & \val{0.164}{0.000} & \val{0.348}{0.000} & \val{0.851}{0.000}
+Moment (cent) & \val{1.046}{0.001} & \val{0.960}{0.000} & \val{0.916}{0.000} & \val{0.851}{0.002}
+Barlow (CNN) & \val{0.191}{0.000} & \val{0.343}{0.000} & \val{0.346}{0.000} & \val{0.891}{0.000}
+LSTM (X) & \val{1.939}{0.000} & \val{0.728}{0.000} & \val{0.747}{0.000}
+CNN (X) & \val{1.574}{0.000} & \val{0.752}{0.000} & \val{0.729}{0.000}
+---- china_weather, 12:36, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.595}{0.000} & \val{0.084}{0.000} & \val{0.173}{0.000} & \val{1.126}{0.000}
+Moment (cent) & \val{0.773}{0.001} & \val{0.718}{0.000} & \val{0.799}{0.000} & \val{1.132}{0.003}
+Barlow (CNN) & \val{0.862}{0.000} & \val{0.295}{0.000} & \val{0.309}{0.000} & \val{1.067}{0.000}
+LSTM (X) & \val{2.075}{0.000} & \val{1.069}{0.000} & \val{1.048}{0.000}
+CNN (X) & \val{1.951}{0.000} & \val{1.211}{0.000} & \val{1.141}{0.000}
+---- gas, 12:38, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.237}{0.000} & \val{1.213}{0.000} & \val{1.169}{0.000} & \val{1.308}{0.000}
+Moment (cent) & \val{1.260}{0.001} & \val{1.387}{0.000} & \val{1.309}{0.000} & \val{1.333}{0.021}
+Barlow (CNN) & \val{1.615}{0.000} & \val{1.206}{0.000} & \val{1.193}{0.000} & \val{1.342}{0.000}
+LSTM (X) & \val{6.153}{0.000} & \val{1.294}{0.000} & \val{1.338}{0.000}
+CNN (X) & \val{1.729}{0.000} & \val{1.355}{0.000} & \val{1.292}{0.000}
+---- india_catchment, 12:57, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.256}{0.000} & \val{0.901}{0.000} & \val{0.956}{0.000} & \val{1.458}{0.000}
+Moment (cent) & \val{0.877}{0.000} & \val{0.977}{0.000} & \val{1.010}{0.000} & \val{1.464}{0.009}
+Barlow (CNN) & \val{2.140}{0.000} & \val{0.926}{0.000} & \val{0.966}{0.000} & \val{1.448}{0.000}
+LSTM (X) & \val{2.697}{0.000} & \val{1.342}{0.000} & \val{1.325}{0.000}
+CNN (X) & \val{2.713}{0.000} & \val{1.445}{0.000} & \val{1.405}{0.000}
+---- germany_catchment, 13:10, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.107}{0.000} & \val{0.212}{0.000} & \val{0.258}{0.000} & \val{1.055}{0.000}
+Moment (cent) & \val{0.406}{0.000} & \val{0.589}{0.000} & \val{0.576}{0.000} & \val{1.078}{0.012}
+Barlow (CNN) & \val{0.552}{0.000} & \val{0.221}{0.000} & \val{0.309}{0.000} & \val{1.171}{0.000}
+LSTM (X) & \val{2.775}{0.000} & \val{1.100}{0.000} & \val{1.001}{0.000}
+CNN (X) & \val{2.652}{0.000} & \val{1.038}{0.000} & \val{0.985}{0.000}
+---- china_weather, 13:14, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.585}{0.000} & \val{0.084}{0.000} & \val{0.233}{0.000} & \val{0.872}{0.000}
+Moment (cent) & \val{1.482}{0.002} & \val{0.638}{0.001} & \val{0.655}{0.000} & \val{0.876}{0.001}
+Barlow (CNN) & \val{0.486}{0.000} & \val{0.175}{0.000} & \val{0.202}{0.000} & \val{0.825}{0.000}
+LSTM (X) & \val{1.714}{0.000} & \val{1.031}{0.000} & \val{0.941}{0.000}
+CNN (X) & \val{1.613}{0.000} & \val{1.108}{0.000} & \val{1.032}{0.000}
+---- gas, 13:16, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.873}{0.000} & \val{0.821}{0.000} & \val{0.808}{0.000} & \val{0.982}{0.000}
+Moment (cent) & \val{1.114}{0.001} & \val{0.990}{0.000} & \val{0.941}{0.000} & \val{0.971}{0.003}
+Barlow (CNN) & \val{0.893}{0.000} & \val{0.845}{0.000} & \val{0.779}{0.000} & \val{0.966}{0.000}
+LSTM (X) & \val{3.353}{0.000} & \val{1.370}{0.000} & \val{1.230}{0.000}
+CNN (X) & \val{1.229}{0.000} & \val{1.080}{0.000} & \val{1.040}{0.000}
+---- china_weather, 16:22, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.980}{0.000} & \val{0.938}{0.000} & \val{0.954}{0.000} & \val{1.040}{0.000}
+Moment (cent) & \val{0.750}{0.000} & \val{0.491}{0.000} & \val{0.578}{0.000} & \val{1.034}{0.000}
+Barlow (CNN) & \val{0.736}{0.000} & \val{1.061}{0.000} & \val{1.058}{0.000} & \val{1.035}{0.000}
+LSTM (X) & \val{2.511}{0.000} & \val{1.313}{0.000} & \val{1.131}{0.000}
+CNN (X) & \val{1.606}{0.000} & \val{1.240}{0.000} & \val{1.109}{0.000}
+---- germany_catchment, 16:37, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.677}{0.000} & \val{0.407}{0.000} & \val{0.497}{0.000} & \val{0.969}{0.000}
+Moment (cent) & \val{1.126}{0.000} & \val{0.696}{0.000} & \val{0.738}{0.000} & \val{0.966}{0.000}
+Barlow (CNN) & \val{0.695}{0.000} & \val{0.710}{0.000} & \val{0.720}{0.000} & \val{1.038}{0.000}
+LSTM (X) & \val{1.081}{0.000} & \val{0.989}{0.000} & \val{0.904}{0.000}
+CNN (X) & \val{1.456}{0.000} & \val{1.213}{0.000} & \val{1.097}{0.000}
+---- gas, 19:34, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.152}{0.000} & \val{1.061}{0.000} & \val{1.228}{0.000} & \val{1.475}{0.000}
+Moment (cent) & \val{1.765}{0.000} & \val{1.385}{0.000} & \val{1.347}{0.000} & \val{1.463}{0.000}
+Barlow (CNN) & \val{1.682}{0.000} & \val{1.302}{0.000} & \val{1.299}{0.000} & \val{1.452}{0.000}
+LSTM (X) & \val{4.512}{0.000} & \val{1.370}{0.000} & \val{1.345}{0.000}
+CNN (X) & \val{1.775}{0.000} & \val{1.437}{0.000} & \val{1.431}{0.000}
+---- gas, 19:37, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.119}{0.000} & \val{1.056}{0.000} & \val{1.073}{0.000} & \val{1.452}{0.000}
+Moment (cent) & \val{1.717}{0.000} & \val{1.392}{0.000} & \val{1.386}{0.000} & \val{1.453}{0.000}
+Barlow (CNN) & \val{1.322}{0.000} & \val{1.229}{0.000} & \val{1.205}{0.000} & \val{1.441}{0.000}
+LSTM (X) & \val{4.116}{0.000} & \val{1.363}{0.000} & \val{1.412}{0.000}
+CNN (X) & \val{2.233}{0.000} & \val{1.485}{0.000} & \val{1.512}{0.000}
+---- gas, 19:37, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.221}{0.000} & \val{1.336}{0.000} & \val{1.341}{0.000} & \val{1.483}{0.000}
+Moment (cent) & \val{1.664}{0.000} & \val{1.458}{0.000} & \val{1.394}{0.000} & \val{1.485}{0.000}
+Barlow (CNN) & \val{1.895}{0.000} & \val{1.379}{0.000} & \val{1.429}{0.000} & \val{1.450}{0.000}
+LSTM (X) & \val{7.751}{0.000} & \val{1.444}{0.000} & \val{1.469}{0.000}
+CNN (X) & \val{1.975}{0.000} & \val{1.387}{0.000} & \val{1.438}{0.000}
+---- gas, 19:46, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.279}{0.000} & \val{1.391}{0.000} & \val{1.448}{0.000} & \val{1.448}{0.000}
+Moment (cent) & \val{1.565}{0.000} & \val{1.453}{0.000} & \val{1.416}{0.000} & \val{1.483}{0.000}
+Barlow (CNN) & \val{1.810}{0.000} & \val{1.453}{0.000} & \val{1.428}{0.000} & \val{1.455}{0.000}
+LSTM (X) & \val{3.477}{0.000} & \val{1.553}{0.000} & \val{1.473}{0.000}
+CNN (X) & \val{2.813}{0.000} & \val{1.517}{0.000} & \val{1.520}{0.000}
+---- gas, 19:49, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.119}{0.000} & \val{1.056}{0.000} & \val{1.073}{0.000} & \val{1.452}{0.000}
+Moment (cent) & \val{1.717}{0.000} & \val{1.392}{0.000} & \val{1.386}{0.000} & \val{1.459}{0.000}
+Barlow (CNN) & \val{1.322}{0.000} & \val{1.229}{0.000} & \val{1.205}{0.000} & \val{1.441}{0.000}
+LSTM (X) & \val{4.116}{0.000} & \val{1.363}{0.000} & \val{1.412}{0.000}
+CNN (X) & \val{2.233}{0.000} & \val{1.485}{0.000} & \val{1.512}{0.000}
+---- gas, 19:53, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.119}{0.000} & \val{1.056}{0.000} & \val{1.073}{0.000} & \val{1.452}{0.000}
+Moment (cent) & \val{1.716}{0.000} & \val{1.392}{0.000} & \val{1.386}{0.000} & \val{1.488}{0.000}
+Barlow (CNN) & \val{1.322}{0.000} & \val{1.229}{0.000} & \val{1.205}{0.000} & \val{1.441}{0.000}
+LSTM (X) & \val{4.116}{0.000} & \val{1.363}{0.000} & \val{1.412}{0.000}
+CNN (X) & \val{2.233}{0.000} & \val{1.485}{0.000} & \val{1.512}{0.000}
+---- gas, 20:09, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.856}{0.000} & \val{0.817}{0.000} & \val{0.798}{0.000} & \val{0.709}{0.000}
+Moment (cent) & \val{1.051}{0.000} & \val{0.729}{0.000} & \val{0.730}{0.000} & \val{0.730}{0.000}
+Barlow (CNN) & \val{1.199}{0.000} & \val{0.846}{0.000} & \val{0.778}{0.000} & \val{0.699}{0.000}
+LSTM (X) & \val{3.043}{0.000} & \val{0.857}{0.000} & \val{0.864}{0.000}
+CNN (X) & \val{1.223}{0.000} & \val{0.985}{0.000} & \val{0.921}{0.000}
+---- gas, 20:10, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.408}{0.000} & \val{1.546}{0.000} & \val{1.498}{0.000} & \val{1.654}{0.000}
+Moment (cent) & \val{1.588}{0.000} & \val{1.557}{0.000} & \val{1.573}{0.000} & \val{1.639}{0.000}
+Barlow (CNN) & \val{1.662}{0.000} & \val{1.536}{0.000} & \val{1.532}{0.000} & \val{1.580}{0.000}
+LSTM (X) & \val{2.829}{0.000} & \val{1.612}{0.000} & \val{1.481}{0.000}
+CNN (X) & \val{1.740}{0.000} & \val{1.536}{0.000} & \val{1.545}{0.000}
+---- gas, 20:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.856}{0.000} & \val{0.817}{0.000} & \val{0.798}{0.000} & \val{0.709}{0.000}
+Moment (cent) & \val{1.051}{0.000} & \val{0.729}{0.000} & \val{0.730}{0.000} & \val{0.752}{0.000}
+Barlow (CNN) & \val{1.199}{0.000} & \val{0.846}{0.000} & \val{0.778}{0.000} & \val{0.699}{0.000}
+LSTM (X) & \val{3.043}{0.000} & \val{0.857}{0.000} & \val{0.864}{0.000}
+CNN (X) & \val{1.223}{0.000} & \val{0.985}{0.000} & \val{0.921}{0.000}
+---- nasa, 21:24, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.082}{0.000} & \val{1.041}{0.000} & \val{1.034}{0.000} & \val{1.161}{0.000}
+Moment (cent) & \val{5.353}{0.000} & \val{1.050}{0.000} & \val{1.056}{0.000} & \val{1.135}{0.000}
+Barlow (CNN) & \val{1.037}{0.000} & \val{0.999}{0.000} & \val{1.001}{0.000} & \val{1.054}{0.000}
+LSTM (X) & \val{1.723}{0.000} & \val{1.068}{0.000} & \val{1.267}{0.000}
+CNN (X) & \val{1.160}{0.000} & \val{1.192}{0.000} & \val{1.175}{0.000}
+---- nasa, 21:25, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.240}{0.000} & \val{1.064}{0.000} & \val{1.116}{0.000} & \val{1.301}{0.000}
+Moment (cent) & \val{7.946}{0.000} & \val{1.094}{0.000} & \val{1.109}{0.000} & \val{1.299}{0.000}
+Barlow (CNN) & \val{1.130}{0.000} & \val{1.078}{0.000} & \val{1.141}{0.000} & \val{1.302}{0.000}
+LSTM (X) & \val{5.189}{0.000} & \val{1.374}{0.000} & \val{1.592}{0.000}
+CNN (X) & \val{1.407}{0.000} & \val{1.308}{0.000} & \val{1.311}{0.000}
+---- beijing, 22:31, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.641}{0.000} & \val{0.648}{0.000} & \val{1.239}{0.000}
+Moment (cent) & \val{0.911}{0.000} & \val{0.651}{0.000} & \val{0.877}{0.000} & \val{1.244}{0.000}
+Barlow (CNN) & \val{0.896}{0.000} & \val{0.578}{0.000} & \val{0.612}{0.000} & \val{1.238}{0.000}
+LSTM (X) & \val{2.330}{0.000} & \val{1.352}{0.000} & \val{1.343}{0.000}
+CNN (X) & \val{1.110}{0.000} & \val{1.334}{0.000} & \val{1.461}{0.000}
+TS2Vec & \val{1.081}{0.000} & \val{0.712}{0.000} & \val{0.748}{0.000} & \val{1.240}{0.000}
+---- beijing, 23:07, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.631}{0.000} & \val{0.658}{0.000} & \val{1.265}{0.000}
+TimeVAE & \val{0.943}{0.000} & \val{0.614}{0.000} & \val{0.678}{0.000} & \val{1.287}{0.000}
+TS2Vec & \val{0.517}{0.000} & \val{0.397}{0.000} & \val{0.461}{0.000} & \val{0.743}{0.000}
+Moment (cent) & \val{0.912}{0.000} & \val{0.620}{0.000} & \val{0.885}{0.000} & \val{1.246}{0.000}
+Barlow (CNN) & \val{0.935}{0.000} & \val{0.669}{0.000} & \val{0.722}{0.000} & \val{1.226}{0.000}
+LSTM (X) & \val{2.402}{0.000} & \val{1.483}{0.000} & \val{1.313}{0.000}
+CNN (X) & \val{1.279}{0.000} & \val{1.306}{0.000} & \val{1.227}{0.000}
+---- beijing, 01:16, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.641}{0.000} & \val{0.648}{0.000} & \val{1.239}{0.000}
+TimeVAE & \val{0.872}{0.004} & \val{0.582}{0.000} & \val{0.667}{0.000} & \val{1.243}{0.037}
+TS2Vec & \val{0.477}{0.034} & \val{0.334}{0.028} & \val{0.418}{0.020} & \val{0.734}{0.115}
+Moment (cent) & \val{0.911}{0.000} & \val{0.651}{0.000} & \val{0.877}{0.000} & \val{1.245}{0.002}
+Barlow (CNN) & \val{0.896}{0.000} & \val{0.578}{0.000} & \val{0.612}{0.000} & \val{1.238}{0.000}
+LSTM (X) & \val{1.712}{0.155} & \val{1.047}{0.119} & \val{1.030}{0.067}
+CNN (X) & \val{1.767}{0.169} & \val{1.472}{0.020} & \val{1.599}{0.148}
+---- india_catchment, 07:08, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.602}{0.012} & \val{0.405}{0.006} & \val{0.476}{0.006} & \val{0.968}{0.026}
+TimeVAE & \val{0.914}{0.025} & \val{0.835}{0.031} & \val{0.848}{0.029} & \val{0.971}{0.025}
+TS2Vec & \val{0.615}{0.040} & \val{0.452}{0.005} & \val{0.493}{0.007} & \val{0.960}{0.026}
+Moment (cent) & \val{0.697}{0.012} & \val{0.487}{0.029} & \val{0.562}{0.027} & \val{0.964}{0.026}
+Barlow (CNN) & \val{0.614}{0.007} & \val{0.462}{0.008} & \val{0.511}{0.008} & \val{0.971}{0.024}
+LSTM (X) & \val{1.849}{0.026} & \val{1.036}{0.024} & \val{0.980}{0.018}
+CNN (X) & \val{1.880}{0.104} & \val{1.065}{0.016} & \val{1.010}{0.016}
+---- germany_catchment, 07:29, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.716}{0.029} & \val{0.606}{0.030} & \val{0.640}{0.031} & \val{0.944}{0.038}
+TimeVAE & \val{0.844}{0.032} & \val{0.854}{0.031} & \val{0.840}{0.034} & \val{0.946}{0.035}
+TS2Vec & \val{0.923}{0.032} & \val{0.751}{0.038} & \val{0.763}{0.037} & \val{0.942}{0.036}
+Moment (cent) & \val{0.872}{0.030} & \val{0.629}{0.028} & \val{0.671}{0.031} & \val{0.936}{0.037}
+Barlow (CNN) & \val{0.766}{0.038} & \val{0.748}{0.026} & \val{0.759}{0.028} & \val{0.943}{0.035}
+LSTM (X) & \val{1.631}{0.080} & \val{1.003}{0.024} & \val{0.904}{0.026}
+CNN (X) & \val{1.434}{0.043} & \val{1.248}{0.037} & \val{1.042}{0.020}
+---- china_weather, 08:09, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.913}{0.009} & \val{0.875}{0.019} & \val{0.881}{0.007} & \val{0.993}{0.022}
+TimeVAE & \val{0.803}{0.028} & \val{0.690}{0.024} & \val{0.701}{0.038} & \val{0.987}{0.026}
+TS2Vec & \val{0.422}{0.019} & \val{0.359}{0.022} & \val{0.386}{0.026} & \val{0.664}{0.041}
+Moment (cent) & \val{0.725}{0.020} & \val{0.598}{0.031} & \val{0.623}{0.030} & \val{0.980}{0.022}
+Barlow (CNN) & \val{0.744}{0.030} & \val{0.921}{0.034} & \val{0.929}{0.027} & \val{1.004}{0.021}
+LSTM (X) & \val{2.741}{0.150} & \val{1.128}{0.051} & \val{1.018}{0.029}
+CNN (X) & \val{1.600}{0.060} & \val{1.309}{0.026} & \val{1.154}{0.014}
+---- weather, 10:03, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.955}{0.095} & \val{0.826}{0.099} & \val{0.819}{0.099} & \val{1.014}{0.109}
+TimeVAE & \val{0.968}{0.107} & \val{0.985}{0.096} & \val{0.959}{0.099} & \val{1.023}{0.101}
+TS2Vec & \val{0.925}{0.061} & \val{0.643}{0.088} & \val{0.699}{0.100} & \val{0.851}{0.122}
+Moment (cent) & \val{1.172}{0.102} & \val{0.754}{0.088} & \val{0.799}{0.095} & \val{1.008}{0.109}
+Barlow (CNN) & \val{0.864}{0.095} & \val{0.781}{0.118} & \val{0.780}{0.112} & \val{1.003}{0.107}
+LSTM (X) & \val{28.238}{3.055} & \val{1.123}{0.113} & \val{1.045}{0.080}
+CNN (X) & \val{1.710}{0.123} & \val{1.207}{0.084} & \val{1.152}{0.054}
+---- gas, 10:07, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.739}{0.202} & \val{0.792}{0.195} & \val{0.723}{0.141} & \val{0.858}{0.113}
+TimeVAE & \val{0.858}{0.158} & \val{0.926}{0.184} & \val{0.832}{0.174} & \val{0.838}{0.119}
+TS2Vec & \val{0.904}{0.121} & \val{0.726}{0.117} & \val{0.719}{0.136} & \val{0.772}{0.139}
+Moment (cent) & \val{1.198}{0.138} & \val{0.883}{0.119} & \val{0.839}{0.111} & \val{0.832}{0.126}
+Barlow (CNN) & \val{0.880}{0.180} & \val{0.732}{0.171} & \val{0.744}{0.165} & \val{0.806}{0.136}
+LSTM (X) & \val{5.892}{0.627} & \val{0.918}{0.146} & \val{0.877}{0.107}
+CNN (X) & \val{2.834}{0.403} & \val{0.813}{0.141} & \val{0.829}{0.089}
+---- nasa, 10:16, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.240}{0.000} & \val{1.081}{0.013} & \val{1.109}{0.006} & \val{1.301}{0.000}
+TimeVAE & \val{1.258}{0.017} & \val{1.278}{0.013} & \val{1.268}{0.003} & \val{1.302}{0.006}
+TS2Vec & \val{0.815}{0.078} & \val{0.631}{0.048} & \val{0.687}{0.056} & \val{1.147}{0.042}
+Moment (cent) & \val{7.889}{0.053} & \val{1.106}{0.015} & \val{1.094}{0.006} & \val{1.290}{0.006}
+Barlow (CNN) & \val{1.082}{0.031} & \val{1.124}{0.122} & \val{1.149}{0.073} & \val{1.297}{0.004}
+LSTM (X) & \val{21.970}{0.000} & \val{1.793}{0.044} & \val{1.699}{0.082}
+CNN (X) & \val{1.542}{0.000} & \val{1.270}{0.015} & \val{1.269}{0.013}
+---- beijing, 10:27, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.633}{0.014} & \val{0.661}{0.007} & \val{1.239}{0.000}
+TimeVAE & \val{0.963}{0.058} & \val{0.600}{0.014} & \val{0.658}{0.028} & \val{1.213}{0.019}
+TS2Vec & \val{0.492}{0.011} & \val{0.337}{0.022} & \val{0.424}{0.012} & \val{0.768}{0.087}
+Moment (cent) & \val{0.911}{0.000} & \val{0.643}{0.006} & \val{0.875}{0.012} & \val{1.245}{0.002}
+Barlow (CNN) & \val{0.883}{0.016} & \val{0.566}{0.008} & \val{0.611}{0.004} & \val{1.236}{0.001}
+LSTM (X) & \val{1.790}{0.000} & \val{1.000}{0.032} & \val{0.966}{0.025}
+CNN (X) & \val{1.852}{0.000} & \val{1.553}{0.053} & \val{1.584}{0.060}
+
+---- india_catchment, 10:57, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.606}{0.012} & \val{0.460}{0.012} & \val{0.541}{0.009} & \val{0.947}{0.012}
+TimeVAE & \val{0.901}{0.011} & \val{0.862}{0.010} & \val{0.857}{0.012} & \val{0.951}{0.011}
+TS2Vec & \val{1.819}{0.146} & \val{0.532}{0.020} & \val{0.591}{0.023} & \val{0.944}{0.012}
+Moment (cent) & \val{0.900}{0.020} & \val{0.531}{0.016} & \val{0.618}{0.014} & \val{0.946}{0.011}
+Barlow (CNN) & \val{0.632}{0.024} & \val{0.508}{0.012} & \val{0.576}{0.016} & \val{0.951}{0.010}
+LSTM (X) & \val{2.012}{0.137} & \val{1.005}{0.017} & \val{0.961}{0.013}
+CNN (X) & \val{1.989}{0.132} & \val{1.034}{0.015} & \val{1.007}{0.009}
+---- germany_catchment, 11:17, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.708}{0.015} & \val{0.660}{0.009} & \val{0.681}{0.012} & \val{0.930}{0.014}
+TimeVAE & \val{0.841}{0.012} & \val{0.868}{0.009} & \val{0.840}{0.010} & \val{0.931}{0.013}
+TS2Vec & \val{5.296}{0.298} & \val{0.761}{0.008} & \val{0.769}{0.006} & \val{0.927}{0.012}
+Moment (cent) & \val{1.212}{0.021} & \val{0.671}{0.024} & \val{0.707}{0.018} & \val{0.927}{0.014}
+Barlow (CNN) & \val{0.785}{0.012} & \val{0.777}{0.013} & \val{0.780}{0.011} & \val{0.931}{0.013}
+LSTM (X) & \val{1.856}{0.151} & \val{0.978}{0.025} & \val{0.888}{0.018}
+CNN (X) & \val{1.488}{0.172} & \val{1.147}{0.022} & \val{1.005}{0.022}
+---- china_weather, 11:43, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.944}{0.032} & \val{0.930}{0.021} & \val{0.913}{0.023} & \val{1.019}{0.033}
+TimeVAE & \val{0.874}{0.050} & \val{0.834}{0.064} & \val{0.845}{0.068} & \val{1.016}{0.038}
+TS2Vec & \val{0.491}{0.078} & \val{0.431}{0.040} & \val{0.470}{0.039} & \val{0.686}{0.058}
+Moment (cent) & \val{1.008}{0.039} & \val{0.601}{0.031} & \val{0.635}{0.025} & \val{1.013}{0.033}
+Barlow (CNN) & \val{0.769}{0.041} & \val{0.975}{0.059} & \val{0.966}{0.054} & \val{1.038}{0.035}
+LSTM (X) & \val{3.733}{0.341} & \val{1.136}{0.079} & \val{1.021}{0.044}
+CNN (X) & \val{1.636}{0.107} & \val{1.199}{0.038} & \val{1.124}{0.023}
+---- weather, 11:47, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{0.896}{0.031} & \val{0.808}{0.039} & \val{0.783}{0.042} & \val{0.949}{0.036}
+TimeVAE & \val{0.893}{0.025} & \val{0.925}{0.026} & \val{0.891}{0.025} & \val{0.948}{0.038}
+TS2Vec & \val{1.001}{0.070} & \val{0.673}{0.027} & \val{0.726}{0.031} & \val{0.792}{0.036}
+Moment (cent) & \val{1.712}{0.161} & \val{0.769}{0.023} & \val{0.799}{0.029} & \val{0.948}{0.036}
+Barlow (CNN) & \val{0.816}{0.041} & \val{0.750}{0.034} & \val{0.744}{0.032} & \val{0.931}{0.031}
+LSTM (X) & \val{26.015}{5.545} & \val{1.072}{0.047} & \val{1.028}{0.051}
+CNN (X) & \val{1.821}{0.101} & \val{1.266}{0.175} & \val{1.137}{0.096}
+---- gas, 11:50, data_splitting='reduced_data', label_frac=0.5 ----
+mean(X) & \val{1.020}{0.205} & \val{0.941}{0.218} & \val{0.862}{0.232} & \val{0.956}{0.288}
+TimeVAE & \val{1.165}{0.144} & \val{1.057}{0.293} & \val{0.993}{0.293} & \val{0.969}{0.262}
+TS2Vec & \val{0.921}{0.205} & \val{0.891}{0.278} & \val{0.918}{0.252} & \val{0.914}{0.260}
+Moment (cent) & \val{1.288}{0.256} & \val{1.040}{0.275} & \val{1.021}{0.285} & \val{0.995}{0.254}
+Barlow (CNN) & \val{2.390}{0.593} & \val{0.914}{0.244} & \val{0.851}{0.272} & \val{0.959}{0.274}
+LSTM (X) & \val{14.551}{3.566} & \val{0.974}{0.313} & \val{0.984}{0.294}
+CNN (X) & \val{4.843}{1.280} & \val{0.986}{0.243} & \val{0.970}{0.196}
+---- beijing, 13:46, data_splitting='reduced_data', label_frac=1 ----
+flattened(X) & \val{0.380}{0.000} & \val{0.251}{0.006} & \val{0.411}{0.004}
+---- beijing, 13:47, data_splitting='reduced_data', label_frac=1 ----
+flattened(X) & \val{0.380}{0.000} & \val{0.245}{0.004} & \val{0.410}{0.004}
+---- beijing, 13:49, data_splitting='reduced_data', label_frac=1 ----
+flattened(X) & \val{0.380}{0.000} & \val{0.244}{0.009} & \val{0.410}{0.007}
+---- beijing, 13:50, data_splitting='reduced_data', label_frac=1 ----
+flattened(X) & \val{0.380}{0.000} & \val{0.247}{0.006} & \val{0.406}{0.008}
+---- beijing, 13:51, data_splitting='reduced_data', label_frac=1 ----
+flattened(X) & \val{0.380}{0.000} & \val{0.242}{0.005} & \val{0.410}{0.004}
+---- beijing, 13:52, data_splitting='reduced_data', label_frac=1 ----
+flattened(X) & \val{0.380}{0.000} & \val{0.246}{0.004} & \val{0.409}{0.006}
+---- beijing, 13:54, data_splitting='reduced_data', label_frac=1 ----
+flattened(X) & \val{0.380}{0.000} & \val{0.252}{0.005} & \val{0.406}{0.006}
+---- india_catchment, 23:07, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.486}{0.000} & \val{0.325}{0.000} & \val{0.328}{0.000} & \val{0.980}{0.000}
+---- beijing, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- beijing, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- beijing, 23:20, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- beijing, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- beijing, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- germany_catchment, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.871}{0.019} & \val{0.779}{0.011} & \val{0.774}{0.016} & \val{0.988}{0.019}
+---- beijing, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.006} & \val{0.652}{0.005} & \val{1.243}{0.000}
+---- panama, 23:21, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{1.823}{1.787} & \val{0.999}{1.609} & \val{1.292}{1.758} & \val{1.671}{1.673}
+---- india_catchment, 11:42, data_splitting='reduced_data', label_frac=1 ----
+mean(X) & \val{0.482}{0.000} & \val{0.331}{0.000} & \val{0.326}{0.000} & \val{0.957}{0.000}
+
+
+-- india_catchment 15:31 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.483}{0.008} & \val{0.335}{0.005} & \val{0.330}{0.007} & \val{0.982}{0.020}
+flattened(X) & \val{0.378}{0.008} & \val{0.292}{0.007} & \val{0.317}{0.007}
+Moment (cent) & \val{0.418}{0.009} & \val{0.422}{0.010} & \val{0.438}{0.010} & \val{0.849}{0.019}
+Barlow (CNN) & \val{0.516}{0.010} & \val{0.435}{0.008} & \val{0.412}{0.009} & \val{0.977}{0.019}
+-- india_catchment 16:43 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.478}{0.014} & \val{0.374}{0.017} & \val{0.452}{0.023} & \val{0.983}{0.018}
+flattened(X) & \val{0.860}{0.057} & \val{0.497}{0.014} & \val{0.627}{0.018}
+Moment (cent) & \val{0.665}{0.016} & \val{0.640}{0.017} & \val{0.716}{0.018} & \val{0.987}{0.017}
+Barlow (CNN) & \val{0.588}{0.022} & \val{0.608}{0.045} & \val{0.651}{0.038} & \val{0.977}{0.017}
+-- germany_catchment 17:01 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.407}{0.009} & \val{0.194}{0.023} & \val{0.238}{0.011} & \val{0.867}{0.021}
+flattened(X) & \val{0.380}{0.014} & \val{0.419}{0.018} & \val{0.442}{0.023}
+Moment (cent) & \val{0.767}{0.021} & \val{0.511}{0.010} & \val{0.556}{0.015} & \val{0.865}{0.020}
+Barlow (CNN) & \val{0.510}{0.016} & \val{0.343}{0.033} & \val{0.354}{0.034} & \val{0.858}{0.020}
+-- panama 17:32 data_splitting='reduced_data' label_frac=1 window_size=32 --
+mean(X) & \val{0.737}{0.022} & \val{0.718}{0.017} & \val{0.735}{0.024} & \val{1.021}{0.024}
+flattened(X) & \val{0.351}{0.018} & \val{0.301}{0.015} & \val{0.311}{0.018}
+Moment (cent) & \val{0.580}{0.013} & \val{0.513}{0.015} & \val{0.539}{0.016} & \val{0.882}{0.080}
+Barlow (CNN) & \val{0.572}{0.033} & \val{0.564}{0.022} & \val{0.590}{0.028} & \val{1.005}{0.014}
+-- nasa 17:41 data_splitting='reduced_data' label_frac=1 window_size='N/A' --
+mean(X) & \val{1.240}{0.000} & \val{1.077}{0.016} & \val{1.105}{0.009} & \val{1.301}{0.000}
+flattened(X) & \val{1.465}{0.000} & \val{0.866}{0.021} & \val{0.913}{0.010}
+Moment (cent) & \val{7.888}{0.062} & \val{1.104}{0.020} & \val{1.090}{0.004} & \val{1.293}{0.003}
+Barlow (CNN) & \val{1.099}{0.031} & \val{1.119}{0.053} & \val{1.135}{0.032} & \val{1.296}{0.004}
+
+
+<<<<<< CORRECT RUN >>>>>>
+
+-- india_catchment 22:10 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.486}{0.019} & \val{0.397}{0.016} & \val{0.460}{0.018} & \val{0.973}{0.013}
+flattened(X) & \val{0.875}{0.081} & \val{0.438}{0.013} & \val{0.562}{0.016}
+Moment (cent) & \val{1.269}{0.075} & \val{0.559}{0.019} & \val{0.661}{0.016} & \val{0.970}{0.012}
+Barlow (CNN) & \val{0.561}{0.022} & \val{0.574}{0.013} & \val{0.605}{0.018} & \val{0.965}{0.011}
+TimeVAE & \val{0.809}{0.044} & \val{0.782}{0.063} & \val{0.788}{0.044} & \val{1.008}{0.030}
+TS2Vec & \val{0.851}{0.092} & \val{0.713}{0.035} & \val{0.755}{0.028} & \val{0.977}{0.028}
+-- germany_catchment 22:18 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.500}{0.026} & \val{0.303}{0.009} & \val{0.360}{0.011} & \val{0.892}{0.016}
+flattened(X) & \val{0.402}{0.019} & \val{0.470}{0.020} & \val{0.508}{0.024}
+Moment (cent) & \val{0.690}{0.022} & \val{0.549}{0.016} & \val{0.591}{0.014} & \val{0.886}{0.016}
+Barlow (CNN) & \val{0.612}{0.022} & \val{0.445}{0.024} & \val{0.461}{0.023} & \val{0.888}{0.017}
+TimeVAE & \val{0.693}{0.013} & \val{0.681}{0.026} & \val{0.669}{0.024} & \val{0.864}{0.015}
+TS2Vec & \val{0.698}{0.042} & \val{0.498}{0.052} & \val{0.498}{0.051} & \val{0.828}{0.020}
+-- china_weather 22:55 data_splitting='reduced_data' label_frac=1 window_size=4096 --
+mean(X) & \val{3.354}{0.207} & \val{1.141}{0.141} & \val{1.033}{0.137} & \val{0.984}{0.129}
+flattened(X) & \val{0.470}{0.051} & \val{0.501}{0.095} & \val{0.544}{0.106}
+Moment (cent) & \val{1.330}{0.080} & \val{0.956}{0.113} & \val{0.918}{0.140} & \val{0.983}{0.121}
+Barlow (CNN) & \val{1.866}{0.298} & \val{0.808}{0.211} & \val{0.855}{0.175} & \val{1.133}{0.109}
+-- weather 23:37 data_splitting='reduced_data' label_frac=1 window_size=2048 --
+mean(X) & \val{0.978}{0.082} & \val{0.825}{0.062} & \val{0.810}{0.077} & \val{1.075}{0.093}
+flattened(X) & \val{0.979}{0.033} & \val{0.681}{0.084} & \val{0.717}{0.096}
+Moment (cent) & \val{1.159}{0.057} & \val{0.767}{0.093} & \val{0.780}{0.097} & \val{1.051}{0.092}
+Barlow (CNN) & \val{0.795}{0.080} & \val{0.824}{0.051} & \val{0.796}{0.066} & \val{1.063}{0.114}
+TimeVAE & \val{0.923}{0.111} & \val{0.927}{0.098} & \val{0.910}{0.093} & \val{1.102}{0.111}
+TS2Vec & \val{0.809}{0.076} & \val{0.821}{0.072} & \val{0.863}{0.104} & \val{0.886}{0.121}
+-- gas 00:15 data_splitting='reduced_data' label_frac=1 window_size=2048 --
+mean(X) & \val{4.200}{1.440} & \val{1.181}{0.535} & \val{1.175}{0.657} & \val{1.399}{0.724}
+flattened(X) & \val{1.214}{0.776} & \val{1.216}{0.710} & \val{1.165}{0.693}
+Moment (cent) & \val{3.306}{0.773} & \val{1.165}{0.756} & \val{1.196}{0.704} & \val{1.415}{0.836}
+Barlow (CNN) & \val{4.543}{2.031} & \val{1.307}{0.551} & \val{1.201}{0.696} & \val{2.591}{1.360}
+TimeVAE & \val{2.633}{1.080} & \val{1.466}{0.584} & \val{1.402}{0.569} & \val{1.482}{0.472}
+TS2Vec & \val{1.382}{0.534} & \val{1.404}{0.543} & \val{1.427}{0.438} & \val{1.452}{0.540}
+-- nasa 00:26 data_splitting='reduced_data' label_frac=1 window_size='N/A' --
+mean(X) & \val{1.240}{0.000} & \val{1.091}{0.019} & \val{1.111}{0.006} & \val{1.301}{0.000}
+flattened(X) & \val{1.465}{0.000} & \val{0.861}{0.021} & \val{0.912}{0.003}
+Moment (cent) & \val{7.877}{0.032} & \val{1.113}{0.020} & \val{1.097}{0.006} & \val{1.296}{0.006}
+Barlow (CNN) & \val{1.112}{0.025} & \val{1.099}{0.007} & \val{1.135}{0.039} & \val{1.295}{0.004}
+TimeVAE & \val{1.262}{0.018} & \val{1.283}{0.016} & \val{1.266}{0.011} & \val{1.298}{0.004}
+TS2Vec & \val{0.785}{0.090} & \val{0.721}{0.107} & \val{0.764}{0.055} & \val{1.069}{0.082}
+-- beijing 00:42 data_splitting='reduced_data' label_frac=1 window_size='N/A' --
+mean(X) & \val{1.116}{0.000} & \val{0.624}{0.010} & \val{0.661}{0.004} & \val{1.239}{0.000}
+flattened(X) & \val{0.380}{0.000} & \val{0.248}{0.005} & \val{0.412}{0.002}
+Moment (cent) & \val{0.911}{0.000} & \val{0.640}{0.008} & \val{0.870}{0.010} & \val{1.244}{0.002}
+Barlow (CNN) & \val{0.881}{0.015} & \val{0.553}{0.016} & \val{0.604}{0.010} & \val{1.235}{0.001}
+TimeVAE & \val{0.910}{0.054} & \val{0.597}{0.013} & \val{0.655}{0.022} & \val{1.207}{0.021}
+TS2Vec & \val{0.454}{0.015} & \val{0.318}{0.023} & \val{0.419}{0.021} & \val{0.753}{0.097}
+-- panama 00:50 data_splitting='reduced_data' label_frac=1 window_size=32 --
+mean(X) & \val{0.738}{0.023} & \val{0.708}{0.022} & \val{0.731}{0.032} & \val{1.008}{0.021}
+flattened(X) & \val{0.345}{0.026} & \val{0.297}{0.022} & \val{0.316}{0.020}
+Moment (cent) & \val{0.587}{0.019} & \val{0.529}{0.034} & \val{0.550}{0.032} & \val{0.840}{0.037}
+Barlow (CNN) & \val{0.574}{0.025} & \val{0.567}{0.024} & \val{0.593}{0.024} & \val{1.005}{0.017}
+TimeVAE & \val{0.928}{0.041} & \val{0.873}{0.062} & \val{0.876}{0.065} & \val{0.990}{0.047}
+TS2Vec & \val{0.408}{0.020} & \val{0.379}{0.024} & \val{0.373}{0.031} & \val{0.879}{0.058}
+
+
+-- germany_catchment 01:43 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.411}{0.013} & \val{0.188}{0.026} & \val{0.252}{0.017} & \val{0.867}{0.020}
+flattened(X) & \val{0.378}{0.023} & \val{0.433}{0.022} & \val{0.454}{0.027}
+Moment (cent) & \val{0.757}{0.016} & \val{0.527}{0.017} & \val{0.573}{0.011} & \val{0.861}{0.017}
+Barlow (CNN) & \val{0.528}{0.020} & \val{0.317}{0.050} & \val{0.347}{0.043} & \val{0.858}{0.020}
+TimeVAE & \val{0.693}{0.013} & \val{0.681}{0.026} & \val{0.669}{0.024} & \val{0.864}{0.015}
+TS2Vec & \val{0.698}{0.042} & \val{0.498}{0.052} & \val{0.498}{0.051} & \val{0.828}{0.020}
+-- china_weather 01:46 data_splitting='reduced_data' label_frac=1 window_size=4096 --
+mean(X) & \val{7.080}{0.832} & \val{1.058}{0.115} & \val{1.043}{0.100} & \val{1.099}{0.136}
+flattened(X) & \val{0.547}{0.145} & \val{0.643}{0.133} & \val{0.629}{0.105}
+Moment (cent) & \val{1.587}{0.244} & \val{1.098}{0.186} & \val{1.120}{0.177} & \val{1.086}{0.149}
+Barlow (CNN) & \val{1.759}{0.530} & \val{1.020}{0.095} & \val{1.004}{0.108} & \val{1.528}{0.282}
+-- weather 01:49 data_splitting='reduced_data' label_frac=1 window_size=2048 --
+mean(X) & \val{0.840}{0.081} & \val{0.867}{0.048} & \val{0.830}{0.064} & \val{1.020}{0.056}
+flattened(X) & \val{0.699}{0.046} & \val{0.673}{0.051} & \val{0.750}{0.075}
+Moment (cent) & \val{1.402}{0.040} & \val{0.834}{0.089} & \val{0.825}{0.074} & \val{1.015}{0.061}
+Barlow (CNN) & \val{0.802}{0.062} & \val{0.859}{0.068} & \val{0.848}{0.069} & \val{0.959}{0.064}
+TimeVAE & \val{0.923}{0.111} & \val{0.927}{0.098} & \val{0.910}{0.093} & \val{1.102}{0.111}
+TS2Vec & \val{0.809}{0.076} & \val{0.821}{0.072} & \val{0.863}{0.104} & \val{0.886}{0.121}
+-- gas 01:50 data_splitting='reduced_data' label_frac=1 window_size=2048 --
+mean(X) & \val{5.361}{3.915} & \val{1.324}{0.328} & \val{1.307}{0.363} & \val{1.371}{0.415}
+flattened(X) & \val{1.354}{0.307} & \val{1.308}{0.378} & \val{1.291}{0.382}
+Moment (cent) & \val{1.563}{0.169} & \val{1.325}{0.308} & \val{1.270}{0.291} & \val{1.304}{0.358}
+Barlow (CNN) & \val{2.364}{1.084} & \val{1.409}{0.437} & \val{1.319}{0.401} & \val{1.408}{0.321}
+TimeVAE & \val{2.633}{1.080} & \val{1.466}{0.584} & \val{1.402}{0.569} & \val{1.482}{0.472}
+TS2Vec & \val{1.382}{0.534} & \val{1.404}{0.543} & \val{1.427}{0.438} & \val{1.452}{0.540}
+-- nasa 01:52 data_splitting='reduced_data' label_frac=1 window_size='N/A' --
+mean(X) & \val{1.240}{0.000} & \val{1.079}{0.013} & \val{1.109}{0.004} & \val{1.301}{0.000}
+flattened(X) & \val{1.465}{0.000} & \val{0.860}{0.016} & \val{0.922}{0.008}
+Moment (cent) & \val{7.859}{0.013} & \val{1.099}{0.020} & \val{1.088}{0.002} & \val{1.289}{0.003}
+Barlow (CNN) & \val{1.087}{0.036} & \val{1.112}{0.033} & \val{1.140}{0.031} & \val{1.297}{0.004}
+TimeVAE & \val{1.262}{0.018} & \val{1.283}{0.016} & \val{1.266}{0.011} & \val{1.298}{0.004}
+TS2Vec & \val{0.785}{0.090} & \val{0.721}{0.107} & \val{0.764}{0.055} & \val{1.069}{0.082}
+-- beijing 01:54 data_splitting='reduced_data' label_frac=1 window_size='N/A' --
+mean(X) & \val{1.116}{0.000} & \val{0.623}{0.013} & \val{0.660}{0.010} & \val{1.239}{0.000}
+flattened(X) & \val{0.380}{0.000} & \val{0.247}{0.006} & \val{0.406}{0.008}
+Moment (cent) & \val{0.911}{0.000} & \val{0.646}{0.017} & \val{0.869}{0.009} & \val{1.244}{0.003}
+Barlow (CNN) & \val{0.894}{0.013} & \val{0.546}{0.017} & \val{0.603}{0.015} & \val{1.236}{0.002}
+TimeVAE & \val{0.910}{0.054} & \val{0.597}{0.013} & \val{0.655}{0.022} & \val{1.207}{0.021}
+TS2Vec & \val{0.454}{0.015} & \val{0.318}{0.023} & \val{0.419}{0.021} & \val{0.753}{0.097}
+-- panama 01:55 data_splitting='reduced_data' label_frac=1 window_size=32 --
+mean(X) & \val{0.726}{0.031} & \val{0.703}{0.031} & \val{0.723}{0.035} & \val{1.015}{0.036}
+flattened(X) & \val{0.343}{0.019} & \val{0.291}{0.017} & \val{0.306}{0.020}
+Moment (cent) & \val{0.585}{0.019} & \val{0.514}{0.024} & \val{0.548}{0.028} & \val{0.906}{0.041}
+Barlow (CNN) & \val{0.559}{0.029} & \val{0.565}{0.020} & \val{0.589}{0.022} & \val{1.008}{0.035}
+TimeVAE & \val{0.928}{0.041} & \val{0.873}{0.062} & \val{0.876}{0.065} & \val{0.990}{0.047}
+TS2Vec & \val{0.408}{0.020} & \val{0.379}{0.024} & \val{0.373}{0.031} & \val{0.879}{0.058}
+
+
+-- india_catchment 02:58 data_splitting='reduced_data' label_frac=0.5 window_size=512 --
+mean(X) & \val{0.498}{0.015} & \val{0.451}{0.015} & \val{0.540}{0.016} & \val{0.930}{0.025}
+flattened(X) & \val{0.876}{0.059} & \val{0.663}{0.031} & \val{0.730}{0.030}
+Moment (cent) & \val{0.676}{0.025} & \val{0.712}{0.014} & \val{0.757}{0.017} & \val{0.989}{0.027}
+Barlow (CNN) & \val{0.666}{0.017} & \val{0.651}{0.020} & \val{0.673}{0.022} & \val{0.824}{0.022}
+TimeVAE & \val{0.832}{0.039} & \val{0.853}{0.026} & \val{0.845}{0.021} & \val{0.991}{0.031}
+TS2Vec & \val{0.991}{0.089} & \val{0.787}{0.036} & \val{0.809}{0.034} & \val{0.970}{0.024}
+TS2Vec (fed) & \val{0.627}{0.056} & \val{0.704}{0.036} & \val{0.750}{0.036} & \val{0.831}{0.036}
+-- germany_catchment 03:46 data_splitting='reduced_data' label_frac=0.5 window_size=512 --
+mean(X) & \val{0.409}{0.018} & \val{0.244}{0.039} & \val{0.306}{0.025} & \val{0.801}{0.013}
+flattened(X) & \val{0.536}{0.019} & \val{0.492}{0.024} & \val{0.514}{0.020}
+Moment (cent) & \val{0.651}{0.042} & \val{0.582}{0.033} & \val{0.606}{0.020} & \val{0.865}{0.017}
+Barlow (CNN) & \val{0.552}{0.030} & \val{0.371}{0.029} & \val{0.404}{0.024} & \val{0.672}{0.040}
+TimeVAE & \val{0.701}{0.019} & \val{0.685}{0.015} & \val{0.673}{0.013} & \val{0.863}{0.018}
+TS2Vec & \val{0.778}{0.038} & \val{0.547}{0.029} & \val{0.549}{0.027} & \val{0.825}{0.015}
+TS2Vec (fed) & \val{0.507}{0.032} & \val{0.460}{0.021} & \val{0.474}{0.018} & \val{0.702}{0.011}
+-- china_weather 03:58 data_splitting='reduced_data' label_frac=0.5 window_size=4096 --
+TimeVAE & \val{2.559}{0.582} & \val{1.137}{0.057} & \val{1.123}{0.106} & \val{1.212}{0.102}
+TS2Vec & \val{0.707}{0.207} & \val{0.789}{0.222} & \val{0.830}{0.239} & \val{1.049}{0.253}
+-- weather 04:35 data_splitting='reduced_data' label_frac=0.5 window_size=2048 --
+mean(X) & \val{0.900}{0.096} & \val{0.930}{0.064} & \val{0.890}{0.077} & \val{0.976}{0.083}
+flattened(X) & \val{0.820}{0.101} & \val{0.765}{0.121} & \val{0.808}{0.101}
+Moment (cent) & \val{1.111}{0.110} & \val{0.872}{0.082} & \val{0.881}{0.077} & \val{1.069}{0.090}
+Barlow (CNN) & \val{0.856}{0.075} & \val{0.906}{0.077} & \val{0.882}{0.073} & \val{0.898}{0.112}
+TimeVAE & \val{0.880}{0.109} & \val{0.907}{0.103} & \val{0.886}{0.101} & \val{1.069}{0.091}
+TS2Vec & \val{0.817}{0.088} & \val{0.817}{0.089} & \val{0.853}{0.098} & \val{0.866}{0.112}
+TS2Vec (fed) & \val{0.793}{0.078} & \val{0.821}{0.103} & \val{0.847}{0.095} & \val{0.908}{0.078}
+-- gas 04:45 data_splitting='reduced_data' label_frac=0.5 window_size=2048 --
+mean(X) & \val{2.304}{1.781} & \val{1.198}{0.513} & \val{1.140}{0.464} & \val{1.332}{0.461}
+flattened(X) & \val{1.167}{0.425} & \val{1.136}{0.490} & \val{1.100}{0.488}
+Moment (cent) & \val{1.170}{0.468} & \val{1.155}{0.523} & \val{1.107}{0.498} & \val{1.173}{0.533}
+Barlow (CNN) & \val{1.679}{0.585} & \val{1.243}{0.463} & \val{1.164}{0.450} & \val{1.333}{0.456}
+TimeVAE & \val{3.954}{1.529} & \val{1.104}{0.437} & \val{1.108}{0.485} & \val{1.162}{0.520}
+TS2Vec & \val{1.251}{0.368} & \val{1.147}{0.465} & \val{1.141}{0.496} & \val{1.153}{0.402}
+TS2Vec (fed) & \val{1.216}{0.404} & \val{1.186}{0.460} & \val{1.123}{0.460} & \val{1.326}{0.506}
+-- india_catchment 09:37 data_splitting='reduced_data' label_frac=0.5 window_size=512 --
+mean(X) & \val{0.518}{0.024} & \val{0.455}{0.033} & \val{0.536}{0.029} & \val{0.930}{0.031}
+flattened(X) & \val{0.875}{0.070} & \val{0.662}{0.035} & \val{0.732}{0.032}
+Moment (cent) & \val{0.673}{0.021} & \val{0.716}{0.024} & \val{0.771}{0.028} & \val{0.989}{0.027}
+Barlow (CNN) & \val{0.608}{0.026} & \val{0.658}{0.022} & \val{0.686}{0.021} & \val{0.844}{0.019}
+TimeVAE & \val{0.851}{0.038} & \val{0.852}{0.046} & \val{0.843}{0.033} & \val{0.990}{0.030}
+TS2Vec & \val{0.894}{0.059} & \val{0.774}{0.027} & \val{0.804}{0.026} & \val{0.964}{0.024}
+TS2Vec (fed) & \val{0.618}{0.046} & \val{0.699}{0.038} & \val{0.755}{0.033} & \val{0.819}{0.027}
+-- germany_catchment 10:24 data_splitting='reduced_data' label_frac=0.5 window_size=512 --
+mean(X) & \val{0.417}{0.016} & \val{0.259}{0.026} & \val{0.308}{0.015} & \val{0.805}{0.019}
+flattened(X) & \val{0.556}{0.020} & \val{0.499}{0.026} & \val{0.519}{0.026}
+Moment (cent) & \val{0.668}{0.027} & \val{0.588}{0.028} & \val{0.610}{0.026} & \val{0.870}{0.019}
+Barlow (CNN) & \val{0.553}{0.017} & \val{0.355}{0.058} & \val{0.389}{0.051} & \val{0.648}{0.031}
+TimeVAE & \val{0.689}{0.018} & \val{0.674}{0.021} & \val{0.664}{0.019} & \val{0.868}{0.018}
+TS2Vec & \val{0.780}{0.043} & \val{0.557}{0.012} & \val{0.559}{0.013} & \val{0.826}{0.022}
+TS2Vec (fed) & \val{0.493}{0.030} & \val{0.455}{0.031} & \val{0.466}{0.030} & \val{0.701}{0.012}
+-- china_weather 10:41 data_splitting='reduced_data' label_frac=0.5 window_size=4096 --
+mean(X) & \val{6.337}{1.828} & \val{1.197}{0.090} & \val{1.125}{0.151} & \val{1.193}{0.165}
+flattened(X) & \val{0.812}{0.153} & \val{0.884}{0.203} & \val{0.894}{0.183}
+Moment (cent) & \val{1.271}{0.256} & \val{1.155}{0.111} & \val{1.160}{0.108} & \val{1.123}{0.171}
+Barlow (CNN) & \val{1.365}{0.456} & \val{1.157}{0.163} & \val{1.078}{0.164} & \val{1.136}{0.160}
+TS2Vec (fed) & \val{0.750}{0.176} & \val{0.863}{0.208} & \val{0.858}{0.182} & \val{1.073}{0.216}
+-- weather 11:07 data_splitting='reduced_data' label_frac=0.5 window_size=2048 --
+mean(X) & \val{0.843}{0.081} & \val{0.903}{0.100} & \val{0.861}{0.100} & \val{0.938}{0.094}
+flattened(X) & \val{0.839}{0.073} & \val{0.760}{0.059} & \val{0.788}{0.086}
+Moment (cent) & \val{1.110}{0.056} & \val{0.872}{0.074} & \val{0.854}{0.072} & \val{1.020}{0.100}
+Barlow (CNN) & \val{0.851}{0.110} & \val{0.894}{0.100} & \val{0.862}{0.084} & \val{0.850}{0.086}
+TimeVAE & \val{0.844}{0.091} & \val{0.925}{0.085} & \val{0.863}{0.085} & \val{1.014}{0.101}
+TS2Vec & \val{0.788}{0.043} & \val{0.802}{0.094} & \val{0.819}{0.084} & \val{0.832}{0.110}
+TS2Vec (fed) & \val{0.787}{0.061} & \val{0.805}{0.066} & \val{0.820}{0.071} & \val{0.881}{0.092}
+-- gas 11:16 data_splitting='reduced_data' label_frac=0.5 window_size=2048 --
+mean(X) & \val{2.720}{0.601} & \val{1.334}{0.387} & \val{1.253}{0.348} & \val{1.315}{0.496}
+flattened(X) & \val{1.141}{0.397} & \val{1.234}{0.374} & \val{1.196}{0.379}
+Moment (cent) & \val{1.330}{0.475} & \val{1.292}{0.436} & \val{1.260}{0.386} & \val{1.341}{0.369}
+Barlow (CNN) & \val{1.409}{0.600} & \val{1.316}{0.415} & \val{1.266}{0.389} & \val{1.425}{0.417}
+TimeVAE & \val{2.967}{1.204} & \val{1.328}{0.355} & \val{1.291}{0.374} & \val{1.378}{0.383}
+TS2Vec & \val{1.126}{0.324} & \val{1.222}{0.382} & \val{1.205}{0.367} & \val{1.217}{0.326}
+TS2Vec (fed) & \val{1.212}{0.415} & \val{1.242}{0.378} & \val{1.229}{0.399} & \val{1.339}{0.375}
+-- nasa 11:21 data_splitting='reduced_data' label_frac=0.5 window_size='N/A' --
+mean(X) & \val{1.241}{0.043} & \val{1.108}{0.038} & \val{1.129}{0.017} & \val{1.289}{0.005}
+flattened(X) & \val{1.405}{0.119} & \val{0.972}{0.032} & \val{0.981}{0.028}
+Moment (cent) & \val{6.041}{2.684} & \val{1.135}{0.029} & \val{1.107}{0.023} & \val{1.296}{0.005}
+Barlow (CNN) & \val{1.258}{0.052} & \val{1.168}{0.063} & \val{1.201}{0.046} & \val{1.146}{0.029}
+TimeVAE & \val{1.271}{0.024} & \val{1.295}{0.028} & \val{1.272}{0.028} & \val{1.293}{0.006}
+TS2Vec & \val{1.115}{0.285} & \val{0.944}{0.098} & \val{0.946}{0.105} & \val{1.220}{0.074}
+TS2Vec (fed) & \val{0.888}{0.067} & \val{0.866}{0.068} & \val{0.848}{0.079} & \val{1.078}{0.069}
+-- beijing 11:34 data_splitting='reduced_data' label_frac=0.5 window_size='N/A' --
+mean(X) & \val{1.111}{0.006} & \val{0.738}{0.009} & \val{0.802}{0.014} & \val{1.129}{0.004}
+flattened(X) & \val{0.412}{0.019} & \val{0.294}{0.017} & \val{0.507}{0.013}
+Moment (cent) & \val{1.001}{0.079} & \val{0.787}{0.019} & \val{0.963}{0.024} & \val{1.243}{0.009}
+Barlow (CNN) & \val{0.872}{0.030} & \val{0.650}{0.036} & \val{0.715}{0.052} & \val{0.844}{0.062}
+TimeVAE & \val{0.982}{0.023} & \val{0.684}{0.042} & \val{0.765}{0.018} & \val{1.222}{0.031}
+TS2Vec & \val{0.512}{0.039} & \val{0.400}{0.027} & \val{0.536}{0.023} & \val{0.825}{0.078}
+TS2Vec (fed) & \val{0.492}{0.035} & \val{0.388}{0.016} & \val{0.537}{0.014} & \val{0.499}{0.007}
+-- panama 11:39 data_splitting='reduced_data' label_frac=0.5 window_size=32 --
+mean(X) & \val{0.732}{0.024} & \val{0.716}{0.046} & \val{0.743}{0.042} & \val{0.839}{0.045}
+flattened(X) & \val{0.524}{0.029} & \val{0.306}{0.013} & \val{0.317}{0.023}
+Moment (cent) & \val{1.751}{0.076} & \val{0.555}{0.038} & \val{0.593}{0.050} & \val{0.990}{0.072}
+Barlow (CNN) & \val{0.585}{0.033} & \val{0.620}{0.042} & \val{0.659}{0.067} & \val{0.886}{0.069}
+TimeVAE & \val{0.979}{0.068} & \val{0.957}{0.043} & \val{0.959}{0.056} & \val{1.003}{0.075}
+TS2Vec & \val{0.520}{0.031} & \val{0.407}{0.030} & \val{0.411}{0.041} & \val{0.910}{0.071}
+TS2Vec (fed) & \val{0.670}{0.055} & \val{0.329}{0.019} & \val{0.351}{0.032} & \val{0.549}{0.038}
+
+-- india_catchment 12:21 data_splitting='reduced_data' label_frac=0.25 window_size=512 --
+mean(X) & \val{0.553}{0.013} & \val{0.547}{0.035} & \val{0.617}{0.022} & \val{0.935}{0.009}
+flattened(X) & \val{0.828}{0.056} & \val{0.804}{0.023} & \val{0.812}{0.026}
+Moment (cent) & \val{0.716}{0.010} & \val{0.768}{0.028} & \val{0.805}{0.029} & \val{0.989}{0.015}
+Barlow (CNN) & \val{0.766}{0.105} & \val{0.700}{0.022} & \val{0.727}{0.017} & \val{0.848}{0.022}
+TimeVAE & \val{0.891}{0.047} & \val{0.876}{0.024} & \val{0.872}{0.020} & \val{0.993}{0.016}
+TS2Vec & \val{0.981}{0.061} & \val{0.866}{0.028} & \val{0.863}{0.028} & \val{0.978}{0.021}
+TS2Vec (fed) & \val{0.728}{0.022} & \val{0.794}{0.011} & \val{0.811}{0.007} & \val{0.905}{0.024}
+-- germany_catchment 13:00 data_splitting='reduced_data' label_frac=0.25 window_size=512 --
+mean(X) & \val{0.428}{0.024} & \val{0.297}{0.023} & \val{0.367}{0.022} & \val{0.805}{0.017}
+flattened(X) & \val{0.635}{0.023} & \val{0.575}{0.018} & \val{0.574}{0.020}
+Moment (cent) & \val{0.724}{0.049} & \val{0.621}{0.019} & \val{0.632}{0.014} & \val{0.871}{0.013}
+Barlow (CNN) & \val{0.613}{0.016} & \val{0.432}{0.057} & \val{0.463}{0.063} & \val{0.677}{0.037}
+TimeVAE & \val{0.718}{0.021} & \val{0.699}{0.023} & \val{0.693}{0.027} & \val{0.871}{0.014}
+TS2Vec & \val{0.804}{0.065} & \val{0.624}{0.049} & \val{0.615}{0.051} & \val{0.844}{0.021}
+TS2Vec (fed) & \val{0.552}{0.035} & \val{0.532}{0.022} & \val{0.533}{0.024} & \val{0.765}{0.012}
+-- china_weather 13:22 data_splitting='reduced_data' label_frac=0.25 window_size=4096 --
+TimeVAE & \val{8.892}{4.251} & \val{1.174}{0.246} & \val{1.125}{0.227} & \val{1.047}{0.113}
+TS2Vec & \val{0.809}{0.202} & \val{0.884}{0.218} & \val{0.909}{0.218} & \val{1.090}{0.285}
+-- weather 13:36 data_splitting='reduced_data' label_frac=0.25 window_size=2048 --
+mean(X) & \val{0.852}{0.055} & \val{0.936}{0.036} & \val{0.852}{0.048} & \val{0.938}{0.054}
+flattened(X) & \val{0.824}{0.096} & \val{0.798}{0.066} & \val{0.792}{0.064}
+Moment (cent) & \val{1.099}{0.064} & \val{0.876}{0.068} & \val{0.874}{0.060} & \val{1.003}{0.056}
+Barlow (CNN) & \val{0.902}{0.044} & \val{0.888}{0.058} & \val{0.839}{0.064} & \val{0.840}{0.068}
+TimeVAE & \val{0.832}{0.059} & \val{0.900}{0.049} & \val{0.872}{0.050} & \val{0.997}{0.065}
+TS2Vec & \val{0.803}{0.078} & \val{0.861}{0.074} & \val{0.847}{0.068} & \val{0.836}{0.061}
+TS2Vec (fed) & \val{0.789}{0.067} & \val{0.837}{0.080} & \val{0.843}{0.079} & \val{0.917}{0.074}
+-- gas 13:46 data_splitting='reduced_data' label_frac=0.25 window_size=2048 --
+mean(X) & \val{1.611}{0.450} & \val{1.144}{0.245} & \val{1.080}{0.219} & \val{1.091}{0.245}
+flattened(X) & \val{1.106}{0.155} & \val{1.087}{0.202} & \val{1.080}{0.219}
+Moment (cent) & \val{1.309}{0.082} & \val{1.091}{0.206} & \val{1.080}{0.219} & \val{1.098}{0.191}
+Barlow (CNN) & \val{1.011}{0.201} & \val{1.025}{0.185} & \val{1.080}{0.219} & \val{0.974}{0.149}
+TimeVAE & \val{1.228}{0.364} & \val{1.084}{0.288} & \val{1.080}{0.219} & \val{1.075}{0.210}
+TS2Vec & \val{1.087}{0.171} & \val{1.064}{0.200} & \val{1.080}{0.219} & \val{1.055}{0.115}
+TS2Vec (fed) & \val{1.096}{0.173} & \val{1.083}{0.210} & \val{1.080}{0.219} & \val{1.135}{0.191}
+-- nasa 13:49 data_splitting='reduced_data' label_frac=0.25 window_size='N/A' --
+mean(X) & \val{1.250}{0.037} & \val{1.140}{0.050} & \val{1.160}{0.038} & \val{1.293}{0.009}
+flattened(X) & \val{1.350}{0.010} & \val{1.100}{0.043} & \val{1.053}{0.042}
+Moment (cent) & \val{1.313}{0.041} & \val{1.169}{0.033} & \val{1.139}{0.040} & \val{1.301}{0.006}
+Barlow (CNN) & \val{1.248}{0.053} & \val{1.171}{0.058} & \val{1.185}{0.028} & \val{1.146}{0.015}
+TimeVAE & \val{1.249}{0.004} & \val{1.264}{0.028} & \val{1.256}{0.018} & \val{1.294}{0.007}
+TS2Vec & \val{1.151}{0.158} & \val{1.082}{0.071} & \val{1.061}{0.075} & \val{1.260}{0.045}
+TS2Vec (fed) & \val{1.063}{0.102} & \val{1.068}{0.051} & \val{1.048}{0.036} & \val{1.209}{0.054}
+-- beijing 13:59 data_splitting='reduced_data' label_frac=0.25 window_size='N/A' --
+mean(X) & \val{1.131}{0.016} & \val{0.862}{0.038} & \val{0.925}{0.025} & \val{1.124}{0.004}
+flattened(X) & \val{0.527}{0.032} & \val{0.350}{0.028} & \val{0.632}{0.035}
+Moment (cent) & \val{0.863}{0.044} & \val{0.930}{0.048} & \val{1.049}{0.034} & \val{1.253}{0.023}
+Barlow (CNN) & \val{0.926}{0.077} & \val{0.758}{0.071} & \val{0.864}{0.052} & \val{0.981}{0.049}
+TimeVAE & \val{0.913}{0.027} & \val{0.774}{0.031} & \val{0.844}{0.029} & \val{1.208}{0.034}
+TS2Vec & \val{0.596}{0.046} & \val{0.494}{0.058} & \val{0.640}{0.056} & \val{0.845}{0.106}
+TS2Vec (fed) & \val{0.586}{0.034} & \val{0.461}{0.034} & \val{0.641}{0.041} & \val{0.639}{0.058}
+-- panama 14:37 data_splitting='reduced_data' label_frac=0.25 window_size=32 --
+mean(X) & \val{0.774}{0.033} & \val{0.809}{0.026} & \val{0.811}{0.021} & \val{0.894}{0.016}
+flattened(X) & \val{0.742}{0.091} & \val{0.357}{0.032} & \val{0.363}{0.035}
+Moment (cent) & \val{0.862}{0.066} & \val{0.632}{0.042} & \val{0.659}{0.039} & \val{1.059}{0.048}
+Barlow (CNN) & \val{0.633}{0.048} & \val{0.709}{0.064} & \val{0.771}{0.048} & \val{0.955}{0.054}
+TimeVAE & \val{0.994}{0.037} & \val{1.004}{0.030} & \val{0.992}{0.048} & \val{1.056}{0.048}
+TS2Vec & \val{1.729}{0.118} & \val{0.458}{0.046} & \val{0.463}{0.038} & \val{0.958}{0.058}
+TS2Vec (fed) & \val{0.597}{0.027} & \val{0.393}{0.038} & \val{0.430}{0.050} & \val{0.599}{0.029}
+
+-- china_weather 15:47 data_splitting='reduced_data' label_frac=0.25 window_size=2048 --
+mean(X) & \val{3.853}{3.086} & \val{1.252}{0.047} & \val{1.170}{0.047} & \val{1.185}{0.117}
+flattened(X) & \val{0.924}{0.134} & \val{0.941}{0.130} & \val{0.980}{0.138}
+Moment (cent) & \val{1.262}{0.318} & \val{1.054}{0.123} & \val{1.024}{0.107} & \val{1.055}{0.062}
+Barlow (CNN) & \val{1.217}{0.194} & \val{1.255}{0.129} & \val{1.151}{0.101} & \val{1.234}{0.125}
+TS2Vec (fed) & \val{0.859}{0.154} & \val{0.966}{0.141} & \val{0.964}{0.139} & \val{1.125}{0.301}
+-- china_weather 16:15 data_splitting='reduced_data' label_frac=1 window_size=2048 --
+mean(X) & \val{3.390}{0.615} & \val{1.064}{0.195} & \val{0.983}{0.143} & \val{1.034}{0.127}
+flattened(X) & \val{0.441}{0.091} & \val{0.492}{0.075} & \val{0.584}{0.085}
+TimeVAE & \val{2.032}{1.015} & \val{1.198}{0.166} & \val{1.067}{0.134} & \val{1.015}{0.127}
+TS2Vec & \val{0.465}{0.077} & \val{0.457}{0.072} & \val{0.504}{0.088} & \val{0.642}{0.061}
+TS2Vec (fed) & \val{0.431}{0.038} & \val{0.490}{0.077} & \val{0.501}{0.071} & \val{0.698}{0.110}
+Moment (cent) & \val{0.708}{0.127} & \val{0.727}{0.107} & \val{0.803}{0.125} & \val{1.026}{0.136}
+Barlow (CNN) & \val{2.357}{0.629} & \val{0.975}{0.189} & \val{1.008}{0.147} & \val{1.036}{0.146}
+-- china_weather 16:44 data_splitting='reduced_data' label_frac=0.5 window_size=2048 --
+mean(X) & \val{3.888}{1.437} & \val{1.080}{0.242} & \val{1.045}{0.193} & \val{1.110}{0.157}
+flattened(X) & \val{0.616}{0.171} & \val{0.693}{0.124} & \val{0.741}{0.128}
+TimeVAE & \val{2.402}{0.279} & \val{1.199}{0.175} & \val{1.131}{0.161} & \val{1.060}{0.121}
+TS2Vec & \val{0.600}{0.141} & \val{0.778}{0.144} & \val{0.824}{0.145} & \val{0.835}{0.146}
+TS2Vec (fed) & \val{0.565}{0.108} & \val{0.726}{0.180} & \val{0.675}{0.144} & \val{0.850}{0.156}
+Moment (cent) & \val{0.945}{0.224} & \val{0.953}{0.214} & \val{0.966}{0.201} & \val{1.057}{0.122}
+Barlow (CNN) & \val{2.325}{0.731} & \val{1.125}{0.202} & \val{1.099}{0.199} & \val{1.153}{0.170}
+
+
+-- india_catchment 14:53 data_splitting='missing_labels' label_frac=0.5 window_size=512 --
+mean(X) & \val{0.541}{0.029} & \val{0.475}{0.032} & \val{0.555}{0.031} & \val{0.936}{0.028}
+flattened(X) & \val{0.881}{0.073} & \val{0.659}{0.032} & \val{0.733}{0.030}
+TimeVAE & \val{0.831}{0.016} & \val{0.846}{0.041} & \val{0.839}{0.027} & \val{0.988}{0.022}
+TS2Vec & \val{0.951}{0.082} & \val{0.790}{0.040} & \val{0.815}{0.030} & \val{0.964}{0.021}
+TS2Vec (fed) & \val{0.630}{0.036} & \val{0.718}{0.021} & \val{0.775}{0.018} & \val{0.851}{0.019}
+Moment (cent) & \val{0.665}{0.035} & \val{0.676}{0.021} & \val{0.727}{0.016} & \val{0.988}{0.021}
+Barlow (CNN) & \val{0.626}{0.041} & \val{0.642}{0.019} & \val{0.680}{0.018} & \val{0.843}{0.022}
+-- germany_catchment 15:41 data_splitting='missing_labels' label_frac=0.5 window_size=512 --
+mean(X) & \val{0.433}{0.016} & \val{0.242}{0.022} & \val{0.300}{0.008} & \val{0.789}{0.021}
+flattened(X) & \val{0.542}{0.028} & \val{0.497}{0.010} & \val{0.509}{0.013}
+TimeVAE & \val{0.690}{0.014} & \val{0.677}{0.017} & \val{0.665}{0.018} & \val{0.856}{0.021}
+TS2Vec & \val{0.710}{0.056} & \val{0.549}{0.031} & \val{0.547}{0.031} & \val{0.820}{0.028}
+TS2Vec (fed) & \val{0.507}{0.033} & \val{0.462}{0.018} & \val{0.478}{0.020} & \val{0.722}{0.033}
+Moment (cent) & \val{0.681}{0.066} & \val{0.576}{0.010} & \val{0.609}{0.012} & \val{0.858}{0.020}
+Barlow (CNN) & \val{0.551}{0.011} & \val{0.388}{0.038} & \val{0.420}{0.044} & \val{0.671}{0.027}
+-- china_weather 15:48 data_splitting='missing_labels' label_frac=0.5 window_size=2048 --
+mean(X) & \val{4.058}{0.467} & \val{1.094}{0.108} & \val{1.080}{0.043} & \val{1.079}{0.048}
+flattened(X) & \val{0.554}{0.063} & \val{0.728}{0.064} & \val{0.786}{0.049}
+TimeVAE & \val{2.841}{1.035} & \val{1.130}{0.167} & \val{1.094}{0.089} & \val{1.048}{0.035}
+TS2Vec & \val{0.500}{0.121} & \val{0.635}{0.114} & \val{0.665}{0.134} & \val{0.880}{0.154}
+TS2Vec (fed) & \val{0.524}{0.100} & \val{0.707}{0.049} & \val{0.704}{0.038} & \val{0.785}{0.058}
+Moment (cent) & \val{0.811}{0.147} & \val{0.871}{0.109} & \val{0.898}{0.083} & \val{1.035}{0.026}
+Barlow (CNN) & \val{2.874}{0.743} & \val{0.990}{0.026} & \val{0.995}{0.058} & \val{1.242}{0.208}
+-- weather 16:09 data_splitting='missing_labels' label_frac=0.5 window_size=2048 --
+mean(X) & \val{0.893}{0.140} & \val{0.940}{0.140} & \val{0.881}{0.136} & \val{0.987}{0.151}
+flattened(X) & \val{0.840}{0.167} & \val{0.795}{0.139} & \val{0.818}{0.146}
+TimeVAE & \val{0.895}{0.138} & \val{0.936}{0.130} & \val{0.889}{0.143} & \val{1.065}{0.169}
+TS2Vec & \val{0.823}{0.159} & \val{0.843}{0.159} & \val{0.862}{0.161} & \val{0.869}{0.168}
+TS2Vec (fed) & \val{0.764}{0.150} & \val{0.829}{0.172} & \val{0.863}{0.152} & \val{0.901}{0.169}
+Moment (cent) & \val{1.182}{0.126} & \val{0.894}{0.142} & \val{0.901}{0.140} & \val{1.057}{0.164}
+Barlow (CNN) & \val{0.884}{0.155} & \val{0.884}{0.157} & \val{0.873}{0.149} & \val{0.892}{0.167}
+-- gas 16:18 data_splitting='missing_labels' label_frac=0.5 window_size=2048 --
+mean(X) & \val{2.755}{1.611} & \val{1.407}{0.399} & \val{1.395}{0.369} & \val{1.429}{0.349}
+flattened(X) & \val{1.390}{0.293} & \val{1.350}{0.443} & \val{1.393}{0.349}
+TimeVAE & \val{3.309}{1.882} & \val{1.464}{0.369} & \val{1.400}{0.357} & \val{1.376}{0.340}
+TS2Vec & \val{1.437}{0.329} & \val{1.370}{0.438} & \val{1.375}{0.399} & \val{1.305}{0.453}
+TS2Vec (fed) & \val{1.441}{0.270} & \val{1.408}{0.373} & \val{1.428}{0.347} & \val{1.416}{0.277}
+Moment (cent) & \val{1.820}{0.401} & \val{1.432}{0.341} & \val{1.428}{0.306} & \val{1.386}{0.317}
+Barlow (CNN) & \val{1.510}{0.280} & \val{1.452}{0.440} & \val{1.381}{0.354} & \val{1.589}{0.373}
+-- nasa 16:26 data_splitting='missing_labels' label_frac=0.5 window_size='N/A' --
+mean(X) & \val{1.254}{0.023} & \val{1.196}{0.049} & \val{1.173}{0.022} & \val{1.291}{0.002}
+flattened(X) & \val{1.427}{0.081} & \val{0.974}{0.034} & \val{0.951}{0.023}
+TimeVAE & \val{1.227}{0.017} & \val{1.280}{0.021} & \val{1.240}{0.013} & \val{1.292}{0.004}
+TS2Vec & \val{0.992}{0.197} & \val{0.827}{0.181} & \val{0.834}{0.153} & \val{1.217}{0.064}
+TS2Vec (fed) & \val{0.930}{0.081} & \val{0.901}{0.067} & \val{0.848}{0.079} & \val{1.166}{0.085}
+Moment (cent) & \val{3.587}{2.514} & \val{1.112}{0.018} & \val{1.084}{0.014} & \val{1.299}{0.002}
+Barlow (CNN) & \val{1.154}{0.026} & \val{1.114}{0.053} & \val{1.134}{0.041} & \val{1.103}{0.038}
+-- beijing 16:36 data_splitting='missing_labels' label_frac=0.5 window_size='N/A' --
+mean(X) & \val{1.121}{0.013} & \val{0.785}{0.049} & \val{0.840}{0.072} & \val{1.132}{0.006}
+flattened(X) & \val{0.471}{0.040} & \val{0.300}{0.014} & \val{0.536}{0.046}
+TimeVAE & \val{0.945}{0.027} & \val{0.644}{0.038} & \val{0.749}{0.049} & \val{1.237}{0.025}
+TS2Vec & \val{0.527}{0.027} & \val{0.425}{0.036} & \val{0.548}{0.055} & \val{0.773}{0.024}
+TS2Vec (fed) & \val{0.549}{0.013} & \val{0.415}{0.031} & \val{0.554}{0.053} & \val{0.539}{0.032}
+Moment (cent) & \val{0.985}{0.070} & \val{0.847}{0.063} & \val{0.995}{0.053} & \val{1.243}{0.009}
+Barlow (CNN) & \val{0.853}{0.042} & \val{0.652}{0.065} & \val{0.724}{0.086} & \val{0.885}{0.100}
+-- panama 16:41 data_splitting='missing_labels' label_frac=0.5 window_size=32 --
+mean(X) & \val{0.744}{0.042} & \val{0.741}{0.032} & \val{0.760}{0.023} & \val{0.837}{0.029}
+flattened(X) & \val{0.554}{0.016} & \val{0.318}{0.007} & \val{0.335}{0.009}
+TimeVAE & \val{0.972}{0.031} & \val{0.948}{0.047} & \val{0.943}{0.042} & \val{1.016}{0.027}
+TS2Vec & \val{0.518}{0.039} & \val{0.392}{0.023} & \val{0.404}{0.022} & \val{0.904}{0.020}
+TS2Vec (fed) & \val{0.654}{0.047} & \val{0.343}{0.012} & \val{0.367}{0.017} & \val{0.552}{0.023}
+Moment (cent) & \val{1.878}{0.228} & \val{0.543}{0.034} & \val{0.588}{0.024} & \val{0.993}{0.025}
+Barlow (CNN) & \val{0.584}{0.016} & \val{0.604}{0.016} & \val{0.660}{0.016} & \val{0.892}{0.027}
+
+-- india_catchment 17:25 data_splitting='missing_labels' label_frac=0.25 window_size=512 --
+mean(X) & \val{0.569}{0.024} & \val{0.558}{0.033} & \val{0.638}{0.027} & \val{0.931}{0.029}
+flattened(X) & \val{0.815}{0.038} & \val{0.792}{0.015} & \val{0.807}{0.018}
+TimeVAE & \val{0.921}{0.034} & \val{0.891}{0.024} & \val{0.876}{0.024} & \val{0.987}{0.018}
+TS2Vec & \val{0.935}{0.053} & \val{0.858}{0.012} & \val{0.863}{0.008} & \val{0.974}{0.012}
+TS2Vec (fed) & \val{0.706}{0.046} & \val{0.789}{0.035} & \val{0.809}{0.031} & \val{0.911}{0.029}
+Moment (cent) & \val{0.742}{0.026} & \val{0.766}{0.026} & \val{0.783}{0.019} & \val{0.988}{0.018}
+Barlow (CNN) & \val{0.781}{0.082} & \val{0.706}{0.038} & \val{0.729}{0.032} & \val{0.854}{0.035}
+-- germany_catchment 18:04 data_splitting='missing_labels' label_frac=0.25 window_size=512 --
+mean(X) & \val{0.426}{0.025} & \val{0.302}{0.026} & \val{0.365}{0.020} & \val{0.803}{0.032}
+flattened(X) & \val{0.639}{0.045} & \val{0.585}{0.037} & \val{0.587}{0.034}
+TimeVAE & \val{0.695}{0.044} & \val{0.692}{0.033} & \val{0.677}{0.029} & \val{0.867}{0.033}
+TS2Vec & \val{0.795}{0.051} & \val{0.604}{0.052} & \val{0.601}{0.051} & \val{0.837}{0.030}
+TS2Vec (fed) & \val{0.585}{0.033} & \val{0.529}{0.023} & \val{0.537}{0.020} & \val{0.764}{0.038}
+Moment (cent) & \val{0.686}{0.016} & \val{0.620}{0.022} & \val{0.637}{0.022} & \val{0.869}{0.031}
+Barlow (CNN) & \val{0.589}{0.032} & \val{0.416}{0.037} & \val{0.458}{0.033} & \val{0.693}{0.038}
+-- china_weather 18:11 data_splitting='missing_labels' label_frac=0.25 window_size=2048 --
+mean(X) & \val{7.445}{5.892} & \val{0.935}{0.148} & \val{0.941}{0.139} & \val{1.001}{0.114}
+flattened(X) & \val{0.619}{0.200} & \val{0.724}{0.158} & \val{0.766}{0.158}
+TimeVAE & \val{7.485}{8.519} & \val{1.084}{0.089} & \val{1.020}{0.086} & \val{0.980}{0.102}
+TS2Vec & \val{0.586}{0.174} & \val{0.753}{0.200} & \val{0.772}{0.184} & \val{0.774}{0.097}
+TS2Vec (fed) & \val{0.545}{0.130} & \val{0.716}{0.196} & \val{0.703}{0.182} & \val{0.750}{0.138}
+Moment (cent) & \val{0.905}{0.251} & \val{0.847}{0.145} & \val{0.875}{0.148} & \val{0.978}{0.082}
+Barlow (CNN) & \val{1.578}{0.324} & \val{0.964}{0.144} & \val{0.962}{0.114} & \val{1.124}{0.191}
+-- weather 18:25 data_splitting='missing_labels' label_frac=0.25 window_size=2048 --
+mean(X) & \val{0.810}{0.038} & \val{0.922}{0.041} & \val{0.833}{0.064} & \val{0.914}{0.044}
+flattened(X) & \val{0.782}{0.058} & \val{0.770}{0.040} & \val{0.766}{0.049}
+TimeVAE & \val{0.794}{0.039} & \val{0.861}{0.048} & \val{0.838}{0.066} & \val{0.982}{0.044}
+TS2Vec & \val{0.764}{0.045} & \val{0.808}{0.041} & \val{0.816}{0.042} & \val{0.797}{0.045}
+TS2Vec (fed) & \val{0.758}{0.047} & \val{0.815}{0.044} & \val{0.806}{0.067} & \val{0.872}{0.046}
+Moment (cent) & \val{1.048}{0.061} & \val{0.841}{0.054} & \val{0.833}{0.047} & \val{0.982}{0.040}
+Barlow (CNN) & \val{0.875}{0.064} & \val{0.864}{0.051} & \val{0.828}{0.070} & \val{0.810}{0.062}
+-- gas 18:35 data_splitting='missing_labels' label_frac=0.25 window_size=2048 --
+mean(X) & \val{1.589}{0.468} & \val{1.143}{0.453} & \val{1.228}{0.428} & \val{1.070}{0.377}
+flattened(X) & \val{1.225}{0.436} & \val{1.211}{0.438} & \val{1.228}{0.428}
+TimeVAE & \val{1.275}{0.345} & \val{1.277}{0.409} & \val{1.228}{0.428} & \val{1.077}{0.334}
+TS2Vec & \val{1.168}{0.453} & \val{1.185}{0.449} & \val{1.228}{0.428} & \val{1.137}{0.335}
+TS2Vec (fed) & \val{1.217}{0.433} & \val{1.220}{0.436} & \val{1.228}{0.428} & \val{1.192}{0.321}
+Moment (cent) & \val{1.464}{0.481} & \val{1.219}{0.423} & \val{1.228}{0.428} & \val{1.101}{0.371}
+Barlow (CNN) & \val{1.220}{0.456} & \val{1.228}{0.479} & \val{1.228}{0.428} & \val{1.243}{0.364}
+-- nasa 18:40 data_splitting='missing_labels' label_frac=0.25 window_size='N/A' --
+mean(X) & \val{1.327}{0.063} & \val{1.209}{0.049} & \val{1.222}{0.044} & \val{1.298}{0.008}
+flattened(X) & \val{1.386}{0.098} & \val{1.116}{0.046} & \val{1.077}{0.053}
+TimeVAE & \val{1.286}{0.053} & \val{1.307}{0.032} & \val{1.280}{0.018} & \val{1.307}{0.004}
+TS2Vec & \val{1.332}{0.150} & \val{1.172}{0.037} & \val{1.120}{0.035} & \val{1.295}{0.011}
+TS2Vec (fed) & \val{1.169}{0.131} & \val{1.142}{0.046} & \val{1.090}{0.052} & \val{1.245}{0.044}
+Moment (cent) & \val{1.980}{1.088} & \val{1.162}{0.043} & \val{1.142}{0.033} & \val{1.305}{0.011}
+Barlow (CNN) & \val{1.313}{0.053} & \val{1.255}{0.045} & \val{1.228}{0.048} & \val{1.183}{0.022}
+-- beijing 18:48 data_splitting='missing_labels' label_frac=0.25 window_size='N/A' --
+mean(X) & \val{1.127}{0.028} & \val{0.845}{0.045} & \val{0.913}{0.040} & \val{1.131}{0.017}
+flattened(X) & \val{0.544}{0.025} & \val{0.381}{0.047} & \val{0.639}{0.052}
+TimeVAE & \val{0.935}{0.040} & \val{0.783}{0.026} & \val{0.853}{0.031} & \val{1.230}{0.029}
+TS2Vec & \val{0.637}{0.052} & \val{0.526}{0.089} & \val{0.674}{0.078} & \val{0.803}{0.060}
+TS2Vec (fed) & \val{0.576}{0.036} & \val{0.512}{0.052} & \val{0.663}{0.068} & \val{0.629}{0.009}
+Moment (cent) & \val{0.834}{0.030} & \val{0.910}{0.046} & \val{1.038}{0.035} & \val{1.247}{0.012}
+Barlow (CNN) & \val{0.934}{0.070} & \val{0.740}{0.088} & \val{0.834}{0.077} & \val{0.911}{0.060}
+-- panama 18:51 data_splitting='missing_labels' label_frac=0.25 window_size=32 --
+mean(X) & \val{0.742}{0.053} & \val{0.785}{0.049} & \val{0.783}{0.053} & \val{0.846}{0.046}
+flattened(X) & \val{0.665}{0.091} & \val{0.355}{0.034} & \val{0.360}{0.036}
+TimeVAE & \val{0.941}{0.058} & \val{0.935}{0.049} & \val{0.923}{0.062} & \val{0.994}{0.065}
+TS2Vec & \val{1.526}{0.222} & \val{0.447}{0.040} & \val{0.442}{0.041} & \val{0.899}{0.087}
+TS2Vec (fed) & \val{0.581}{0.026} & \val{0.368}{0.030} & \val{0.402}{0.042} & \val{0.574}{0.045}
+Moment (cent) & \val{0.770}{0.026} & \val{0.570}{0.044} & \val{0.604}{0.051} & \val{0.986}{0.072}
+Barlow (CNN) & \val{0.614}{0.067} & \val{0.651}{0.059} & \val{0.710}{0.052} & \val{0.877}{0.077}
+
+-- india_catchment 19:02 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.569}{0.024} & \val{0.558}{0.033} & \val{0.638}{0.027} & \val{0.931}{0.029}
+flattened(X) & \val{0.815}{0.038} & \val{0.792}{0.015} & \val{0.807}{0.018}
+TimeVAE & \val{0.921}{0.034} & \val{0.891}{0.024} & \val{0.876}{0.024} & \val{0.987}{0.018}
+TS2Vec & \val{0.935}{0.053} & \val{0.858}{0.012} & \val{0.863}{0.008} & \val{0.974}{0.012}
+Moment (cent) & \val{0.742}{0.026} & \val{0.766}{0.026} & \val{0.783}{0.019} & \val{0.988}{0.018}
+Barlow (CNN) & \val{0.781}{0.082} & \val{0.706}{0.038} & \val{0.729}{0.032} & \val{0.854}{0.035}
+-- india_catchment 19:07 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.569}{0.024} & \val{0.558}{0.033} & \val{0.638}{0.027} & \val{0.931}{0.029}
+flattened(X) & \val{0.815}{0.038} & \val{0.792}{0.015} & \val{0.807}{0.018}
+TimeVAE & \val{0.921}{0.034} & \val{0.891}{0.024} & \val{0.876}{0.024} & \val{0.987}{0.018}
+TS2Vec & \val{0.935}{0.053} & \val{0.858}{0.012} & \val{0.863}{0.008} & \val{0.974}{0.012}
+Moment (cent) & \val{0.742}{0.026} & \val{0.766}{0.026} & \val{0.783}{0.019} & \val{0.988}{0.018}
+Barlow (CNN) & \val{0.781}{0.082} & \val{0.706}{0.038} & \val{0.729}{0.032} & \val{0.854}{0.035}
+-- india_catchment 19:11 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.569}{0.024} & \val{0.558}{0.033} & \val{0.638}{0.027} & \val{0.931}{0.029}
+flattened(X) & \val{0.815}{0.038} & \val{0.792}{0.015} & \val{0.807}{0.018}
+TimeVAE & \val{0.921}{0.034} & \val{0.891}{0.024} & \val{0.876}{0.024} & \val{0.987}{0.018}
+TS2Vec & \val{0.935}{0.053} & \val{0.858}{0.012} & \val{0.863}{0.008} & \val{0.974}{0.012}
+Moment (cent) & \val{0.742}{0.026} & \val{0.766}{0.026} & \val{0.783}{0.019} & \val{0.988}{0.018}
+Barlow (CNN) & \val{0.781}{0.082} & \val{0.706}{0.038} & \val{0.729}{0.032} & \val{0.854}{0.035}
+-- india_catchment 19:16 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.569}{0.024} & \val{0.558}{0.033} & \val{0.638}{0.027} & \val{0.931}{0.029}
+flattened(X) & \val{0.815}{0.038} & \val{0.792}{0.015} & \val{0.807}{0.018}
+TimeVAE & \val{0.921}{0.034} & \val{0.891}{0.024} & \val{0.876}{0.024} & \val{0.987}{0.018}
+TS2Vec & \val{0.935}{0.053} & \val{0.858}{0.012} & \val{0.863}{0.008} & \val{0.974}{0.012}
+Moment (cent) & \val{0.742}{0.026} & \val{0.766}{0.026} & \val{0.783}{0.019} & \val{0.988}{0.018}
+Barlow (CNN) & \val{0.781}{0.082} & \val{0.706}{0.038} & \val{0.729}{0.032} & \val{0.854}{0.035}
+-- india_catchment 19:21 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.569}{0.024} & \val{0.558}{0.033} & \val{0.638}{0.027} & \val{0.931}{0.029}
+flattened(X) & \val{0.815}{0.038} & \val{0.792}{0.015} & \val{0.807}{0.018}
+TimeVAE & \val{0.921}{0.034} & \val{0.891}{0.024} & \val{0.876}{0.024} & \val{0.987}{0.018}
+TS2Vec & \val{0.935}{0.053} & \val{0.858}{0.012} & \val{0.863}{0.008} & \val{0.974}{0.012}
+TS2Vec (fed) & \val{0.448}{0.035} & \val{0.579}{0.030} & \val{0.669}{0.028} & \val{0.766}{0.016}
+Moment (cent) & \val{0.742}{0.026} & \val{0.766}{0.026} & \val{0.783}{0.019} & \val{0.988}{0.018}
+Barlow (CNN) & \val{0.781}{0.082} & \val{0.706}{0.038} & \val{0.729}{0.032} & \val{0.854}{0.035}
+-- germany_catchment 19:24 data_splitting='reduced_data' label_frac=1 window_size=512 --
+mean(X) & \val{0.426}{0.025} & \val{0.302}{0.026} & \val{0.365}{0.020} & \val{0.803}{0.032}
+flattened(X) & \val{0.639}{0.045} & \val{0.585}{0.037} & \val{0.587}{0.034}
+TimeVAE & \val{0.695}{0.044} & \val{0.692}{0.033} & \val{0.677}{0.029} & \val{0.867}{0.033}
+TS2Vec & \val{0.795}{0.051} & \val{0.604}{0.052} & \val{0.601}{0.051} & \val{0.837}{0.030}
+Moment (cent) & \val{0.686}{0.016} & \val{0.620}{0.022} & \val{0.637}{0.022} & \val{0.869}{0.031}
+Barlow (CNN) & \val{0.589}{0.032} & \val{0.416}{0.037} & \val{0.458}{0.033} & \val{0.693}{0.038}
+
+-- germany_catchment 19:54 data_splitting='reduced_data' label_frac=1 window_size=512 --
+TS2Vec (fed) & \val{0.367}{0.020} & \val{0.383}{0.019} & \val{0.407}{0.013} & \val{0.625}{0.006}
+-- weather 20:25 data_splitting='reduced_data' label_frac=1 window_size=2048 --
+TS2Vec (fed) & \val{0.697}{0.045} & \val{0.687}{0.063} & \val{0.723}{0.072} & \val{0.774}{0.067}
+-- gas 14:02 data_splitting='reduced_data' label_frac=1 window_size=2048 --
+TS2Vec (fed) & \val{1.291}{0.300} & \val{1.230}{0.352} & \val{1.221}{0.354} & \val{1.334}{0.335}
+-- nasa 14:17 data_splitting='reduced_data' label_frac=1 window_size='N/A' --
+TS2Vec (fed) & \val{0.714}{0.029} & \val{0.680}{0.021} & \val{0.694}{0.020} & \val{0.844}{0.055}
+-- beijing 14:29 data_splitting='reduced_data' label_frac=1 window_size='N/A' --
+TS2Vec (fed) & \val{0.500}{0.016} & \val{0.346}{0.021} & \val{0.427}{0.010} & \val{0.468}{0.004}
+-- panama 14:39 data_splitting='reduced_data' label_frac=1 window_size=32 --
+TS2Vec (fed) & \val{0.574}{0.025} & \val{0.317}{0.013} & \val{0.332}{0.026} & \val{0.540}{0.024}
+-- beijing 21:29 data_splitting='reduced_data' label_frac=1 window_size=1024 --
+mean(X) & \val{0.951}{0.082} & \val{0.990}{0.084} & \val{0.935}{0.094} & \val{0.907}{0.109}
+flattened(X) & \val{0.749}{0.089} & \val{0.401}{0.085} & \val{0.692}{0.089}
+TimeVAE & \val{1.024}{0.103} & \val{1.063}{0.124} & \val{1.005}{0.101} & \val{0.945}{0.097}
+TS2Vec & \val{0.891}{0.081} & \val{0.510}{0.112} & \val{0.664}{0.094} & \val{0.837}{0.100}
+TS2Vec (fed) & \val{0.811}{0.065} & \val{0.487}{0.063} & \val{0.679}{0.086} & \val{0.890}{0.096}
+Moment (cent) & \val{1.281}{0.086} & \val{0.928}{0.116} & \val{0.930}{0.112} & \val{0.930}{0.110}
+Barlow (CNN) & \val{1.343}{0.331} & \val{1.002}{0.104} & \val{0.956}{0.098} & \val{0.928}{0.099}
+-- beijing 21:40 data_splitting='reduced_data' label_frac=0.5 window_size=1024 --
+Cellsup & \val{0.987}{0.064} & \val{0.941}{0.101} & \val{0.958}{0.101}
+-- beijing 21:51 data_splitting='reduced_data' label_frac=0.5 window_size=1024 --
+mean(X) & \val{1.006}{0.201} & \val{0.974}{0.197} & \val{0.898}{0.181} & \val{0.878}{0.180}
+flattened(X) & \val{0.748}{0.127} & \val{0.462}{0.089} & \val{0.684}{0.135}
+TimeVAE & \val{0.995}{0.022} & \val{0.942}{0.028} & \val{0.908}{0.075} & \val{0.949}{0.138}
+TS2Vec & \val{0.801}{0.108} & \val{0.593}{0.080} & \val{0.725}{0.119} & \val{0.810}{0.163}
+TS2Vec (fed) & \val{0.796}{0.123} & \val{0.557}{0.094} & \val{0.722}{0.151} & \val{0.856}{0.131}
+Moment (cent) & \val{1.226}{0.041} & \val{0.956}{0.149} & \val{0.930}{0.151} & \val{0.924}{0.160}
+Barlow (CNN) & \val{1.453}{0.185} & \val{0.984}{0.051} & \val{0.983}{0.088} & \val{0.940}{0.161}
+-- beijing 21:56 data_splitting='missing_labels' label_frac=0.5 window_size=1024 --
+Cellsup & \val{0.945}{0.082} & \val{0.927}{0.072} & \val{0.976}{0.074}
+-- beijing 22:08 data_splitting='missing_labels' label_frac=0.5 window_size=1024 --
+mean(X) & \val{1.034}{0.073} & \val{1.041}{0.092} & \val{0.975}{0.081} & \val{0.942}{0.080}
+flattened(X) & \val{0.820}{0.088} & \val{0.423}{0.038} & \val{0.739}{0.091}
+TimeVAE & \val{1.059}{0.085} & \val{1.040}{0.143} & \val{0.978}{0.114} & \val{0.985}{0.092}
+TS2Vec & \val{0.856}{0.163} & \val{0.558}{0.037} & \val{0.737}{0.085} & \val{0.898}{0.139}
+TS2Vec (fed) & \val{0.888}{0.106} & \val{0.556}{0.026} & \val{0.803}{0.094} & \val{0.956}{0.103}
+Moment (cent) & \val{1.347}{0.112} & \val{0.998}{0.115} & \val{0.997}{0.129} & \val{0.977}{0.100}
+Barlow (CNN) & \val{1.718}{0.559} & \val{0.995}{0.117} & \val{0.949}{0.086} & \val{0.980}{0.072}
+-- beijing 22:13 data_splitting='reduced_data' label_frac=0.25 window_size=1024 --
+Cellsup & \val{1.014}{0.215} & \val{0.939}{0.130} & \val{0.964}{0.133}
+-- beijing 22:22 data_splitting='reduced_data' label_frac=0.25 window_size=1024 --
+mean(X) & \val{1.306}{0.170} & \val{1.087}{0.089} & \val{1.011}{0.061} & \val{0.986}{0.052}
+flattened(X) & \val{0.908}{0.035} & \val{0.599}{0.090} & \val{0.818}{0.055}
+TimeVAE & \val{1.467}{0.360} & \val{1.065}{0.055} & \val{1.008}{0.054} & \val{1.012}{0.056}
+TS2Vec & \val{0.937}{0.025} & \val{0.738}{0.130} & \val{0.859}{0.096} & \val{0.990}{0.103}
+TS2Vec (fed) & \val{0.940}{0.059} & \val{0.724}{0.116} & \val{0.892}{0.075} & \val{1.008}{0.059}
+Moment (cent) & \val{1.341}{0.050} & \val{1.061}{0.068} & \val{1.022}{0.064} & \val{1.012}{0.050}
+Barlow (CNN) & \val{2.352}{0.724} & \val{1.139}{0.156} & \val{1.148}{0.177} & \val{1.149}{0.169}
+-- beijing 22:25 data_splitting='missing_labels' label_frac=0.25 window_size=1024 --
+Cellsup & \val{1.038}{0.242} & \val{0.937}{0.142} & \val{0.957}{0.151}
+-- beijing 22:34 data_splitting='missing_labels' label_frac=0.25 window_size=1024 --
+mean(X) & \val{1.299}{0.341} & \val{1.044}{0.207} & \val{0.997}{0.206} & \val{0.989}{0.197}
+flattened(X) & \val{0.920}{0.152} & \val{0.638}{0.110} & \val{0.881}{0.164}
+TimeVAE & \val{1.235}{0.158} & \val{1.117}{0.192} & \val{1.066}{0.203} & \val{1.019}{0.193}
+TS2Vec & \val{0.945}{0.161} & \val{0.773}{0.163} & \val{0.886}{0.183} & \val{0.974}{0.210}
+TS2Vec (fed) & \val{0.947}{0.191} & \val{0.762}{0.136} & \val{0.910}{0.185} & \val{0.997}{0.185}
+Moment (cent) & \val{1.365}{0.217} & \val{1.074}{0.229} & \val{1.047}{0.215} & \val{1.028}{0.181}
+Barlow (CNN) & \val{1.806}{0.170} & \val{1.050}{0.194} & \val{1.017}{0.202} & \val{1.075}{0.176}
+-- india_catchment 05:39 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.789}{0.000} & \val{0.721}{0.000} & \val{0.800}{0.000} & \val{1.047}{0.000}
+-- india_catchment 05:39 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{26.664}{0.000}
+-- india_catchment 05:40 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.787}{0.000} & \val{0.705}{0.000} & \val{0.772}{0.000} & \val{0.991}{0.000}
+-- india_catchment 05:40 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{21.729}{0.000}
+-- india_catchment 05:45 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.769}{0.000} & \val{0.680}{0.000} & \val{0.764}{0.000} & \val{0.986}{0.000}
+-- india_catchment 05:45 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{27.681}{0.000}
+-- india_catchment 05:46 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.724}{0.000} & \val{0.650}{0.000} & \val{0.706}{0.000} & \val{0.986}{0.000}
+-- india_catchment 05:46 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{22.584}{0.000}
+-- india_catchment 05:47 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.725}{0.000} & \val{0.664}{0.000} & \val{0.717}{0.000} & \val{0.978}{0.000}
+-- india_catchment 05:47 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{33.378}{0.000}
+-- india_catchment 05:48 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.725}{0.000} & \val{0.691}{0.000} & \val{0.761}{0.000} & \val{1.047}{0.000}
+-- india_catchment 05:48 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{22.604}{0.000}
+-- india_catchment 05:49 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.759}{0.000} & \val{0.671}{0.000} & \val{0.722}{0.000} & \val{0.984}{0.000}
+-- india_catchment 05:49 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{26.728}{0.000}
+-- india_catchment 05:50 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.777}{0.000} & \val{0.747}{0.000} & \val{0.783}{0.000} & \val{1.002}{0.000}
+-- india_catchment 05:50 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{21.331}{0.000}
+-- india_catchment 05:51 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.733}{0.000} & \val{0.733}{0.000} & \val{0.782}{0.000} & \val{0.974}{0.000}
+-- india_catchment 05:51 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{25.216}{0.000}
+-- germany_catchment 05:53 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.624}{0.000} & \val{0.592}{0.000} & \val{0.621}{0.000} & \val{0.880}{0.000}
+-- germany_catchment 05:53 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{15.500}{0.000}
+-- germany_catchment 05:54 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.611}{0.000} & \val{0.593}{0.000} & \val{0.611}{0.000} & \val{0.881}{0.000}
+-- germany_catchment 05:54 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{16.824}{0.000}
+-- germany_catchment 05:56 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.591}{0.000} & \val{0.604}{0.000} & \val{0.625}{0.000} & \val{0.894}{0.000}
+-- germany_catchment 05:56 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{18.354}{0.000}
+-- india_catchment 05:56 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.826}{0.000} & \val{0.735}{0.000} & \val{0.813}{0.000} & \val{1.001}{0.000}
+-- india_catchment 05:56 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{23.866}{0.000}
+-- germany_catchment 05:59 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='rmse' --
+TimeVAE & \val{0.578}{0.000} & \val{0.568}{0.000} & \val{0.572}{0.000} & \val{0.853}{0.000}
+-- germany_catchment 05:59 data_splitting='reduced_data' label_frac=1 window_size=512 result_type='l_recons' --
+TimeVAE & \val{14.899}{0.000}
+-- china_weather 06:01 data_splitting='reduced_data' label_frac=1 window_size=8 result_type='rmse' --
+TimeVAE & \val{0.956}{0.000} & \val{0.939}{0.000} & \val{0.940}{0.000} & \val{1.002}{0.000}
+-- china_weather 06:01 data_splitting='reduced_data' label_frac=1 window_size=8 result_type='l_recons' --
+TimeVAE & \val{1.205}{0.000}
+-- weather 06:02 data_splitting='reduced_data' label_frac=1 window_size=2048 result_type='rmse' --
+TimeVAE & \val{0.777}{0.000} & \val{0.842}{0.000} & \val{0.823}{0.000} & \val{1.301}{0.000}
+-- weather 06:02 data_splitting='reduced_data' label_frac=1 window_size=2048 result_type='l_recons' --
+TimeVAE & \val{197.609}{0.000}
+-- nasa 06:10 data_splitting='reduced_data' label_frac=1 window_size='N/A' result_type='rmse' --
+TimeVAE & \val{0.817}{0.000} & \val{0.776}{0.000} & \val{1.005}{0.000} & \val{1.179}{0.000}
+-- nasa 06:10 data_splitting='reduced_data' label_frac=1 window_size='N/A' result_type='l_recons' --
+TimeVAE & \val{572.712}{0.000}
+-- panama 06:10 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{0.562}{0.000} & \val{0.411}{0.000} & \val{0.438}{0.000} & \val{1.009}{0.000}
+-- panama 06:10 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{3.928}{0.000}
+-- gas 06:18 data_splitting='reduced_data' label_frac=1 window_size=2048 result_type='rmse' --
+TimeVAE & \val{5.158}{0.000} & \val{0.495}{0.000} & \val{0.549}{0.000} & \val{0.890}{0.000}
+-- gas 06:18 data_splitting='reduced_data' label_frac=1 window_size=2048 result_type='l_recons' --
+TimeVAE & \val{1374.605}{0.000}
+-- beijing 04:50 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{0.998}{0.000} & \val{0.999}{0.000} & \val{1.002}{0.000} & \val{1.004}{0.000}
+-- beijing 04:50 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{13.820}{0.000}
+-- beijing 04:54 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{0.981}{0.000} & \val{0.914}{0.000} & \val{0.925}{0.000} & \val{1.049}{0.000}
+-- beijing 04:54 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{12.287}{0.000}
+-- beijing 05:53 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{0.932}{0.000} & \val{0.892}{0.000} & \val{0.894}{0.000} & \val{1.019}{0.000}
+-- beijing 05:53 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{12.390}{0.000}
+-- beijing 05:55 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{1.043}{0.000} & \val{0.983}{0.000} & \val{0.983}{0.000} & \val{1.051}{0.000}
+-- beijing 05:55 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{12.443}{0.000}
+-- beijing 05:57 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{0.959}{0.000} & \val{0.921}{0.000} & \val{0.931}{0.000} & \val{1.004}{0.000}
+-- beijing 05:57 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{12.571}{0.000}
+-- beijing 05:59 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='rmse' --
+TimeVAE & \val{1.044}{0.000} & \val{1.054}{0.000} & \val{1.055}{0.000} & \val{1.061}{0.000}
+-- beijing 05:59 data_splitting='reduced_data' label_frac=1 window_size=32 result_type='l_recons' --
+TimeVAE & \val{14.069}{0.000}
+-- beijing 06:42 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='rmse' --
+TimeVAE & \val{0.912}{0.000} & \val{0.893}{0.000} & \val{0.883}{0.000} & \val{0.909}{0.000}
+-- beijing 06:42 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='l_recons' --
+TimeVAE & \val{72.263}{0.000}
+-- beijing 06:55 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='rmse' --
+TimeVAE & \val{0.864}{0.000} & \val{0.860}{0.000} & \val{0.834}{0.000} & \val{0.914}{0.000}
+-- beijing 06:55 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='l_recons' --
+TimeVAE & \val{13.458}{0.000}
+-- beijing 06:58 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='rmse' --
+TimeVAE & \val{0.877}{0.000} & \val{0.849}{0.000} & \val{0.837}{0.000} & \val{0.961}{0.000}
+-- beijing 06:58 data_splitting='reduced_data' label_frac=1 window_size=256 result_type='l_recons' --
+TimeVAE & \val{62.377}{0.000}
+-- beijing 22:40 data_splitting='reduced_data' label_frac=1 window_size=64 result_type='rmse' --
+TimeVAE & \val{0.802}{0.000} & \val{0.726}{0.000} & \val{0.742}{0.000} & \val{0.952}{0.000}
+mean(X) & \val{0.849}{0.000} & \val{0.785}{0.000} & \val{0.760}{0.000} & \val{0.978}{0.000}
+flattened(X) & \val{0.410}{0.000} & \val{0.338}{0.000} & \val{0.422}{0.000}
+-- beijing 22:40 data_splitting='reduced_data' label_frac=1 window_size=64 result_type='l_recons' --
+TimeVAE & \val{14.560}{0.000}
+-- beijing 22:40 data_splitting='reduced_data' label_frac=1 window_size=64 result_type='profiling' --
+-- beijing 14:35 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 14:35 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+TimeVAE & \val{1.811}{0.000}
+-- beijing 15:23 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+Barlow (CNN) & \val{0.901}{0.000} & \val{0.876}{0.000} & \val{0.871}{0.000} & \val{0.894}{0.000}
+-- beijing 15:23 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+TimeVAE & \val{1.811}{0.000}
+-- beijing 15:26 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:37 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:39 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:40 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+Barlow (CNN) & \val{0.894}{0.005} & \val{0.863}{0.010} & \val{0.873}{0.002} & \val{0.890}{0.004}
+-- beijing 15:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:43 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 15:43 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 16:26 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}
+-- beijing 19:01 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.876}{0.000}
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.839}{0.000}
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+TS2Vec & \val{1.156}{0.000} & \val{0.413}{0.000} & \val{0.584}{0.000}
+Moment (cent) & \val{0.841}{0.000} & \val{0.746}{0.000} & \val{0.798}{0.000} & \val{0.813}{0.000}
+-- beijing 20:16 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006}
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008}
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000}
+-- beijing 20:16 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+TimeVAE & \val{1.811}{0.000}
+-- beijing 20:16 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+
+\begin{tabular}{lrl}
+\toprule
+method & metric_idx & value \\
+\midrule
+mean(X) & 0 & \val{0.866}{0.000} \\
+mean(X) & 1 & \val{0.882}{0.000} \\
+mean(X) & 2 & \val{0.865}{0.000} \\
+mean(X) & 3 & \val{0.888}{0.006} \\
+flattened(X) & 0 & \val{0.717}{0.000} \\
+flattened(X) & 1 & \val{0.330}{0.000} \\
+flattened(X) & 2 & \val{0.492}{0.000} \\
+flattened(X) & 3 & \val{0.823}{0.008} \\
+TimeVAE & 0 & \val{1.009}{0.000} \\
+TimeVAE & 1 & \val{0.901}{0.000} \\
+TimeVAE & 2 & \val{0.890}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:16 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{lrl}
+\toprule
+method & metric_idx & value \\
+\midrule
+TimeVAE & 0 & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:29 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006} \\
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008} \\
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000} & NaN \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:29 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{ll}
+\toprule
+method & metric_0 \\
+\midrule
+TimeVAE & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:30 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006} \\
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008} \\
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000} & NaN \\
+\bottomrule
+\end{tabular}
+
+-- beijing 20:30 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{ll}
+\toprule
+method & metric_0 \\
+\midrule
+TimeVAE & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 21:09 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006} \\
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008} \\
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000} & NaN \\
+\bottomrule
+\end{tabular}
+
+-- beijing 21:09 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{ll}
+\toprule
+method & metric_0 \\
+\midrule
+TimeVAE & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 21:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+mean(X) & \val{0.866}{0.000} & \val{0.882}{0.000} & \val{0.865}{0.000} & \val{0.888}{0.006} \\
+flattened(X) & \val{0.717}{0.000} & \val{0.330}{0.000} & \val{0.492}{0.000} & \val{0.823}{0.008} \\
+TimeVAE & \val{1.009}{0.000} & \val{0.901}{0.000} & \val{0.890}{0.000} & NaN \\
+\bottomrule
+\end{tabular}
+
+-- beijing 21:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=256 result_type='l_recons' --
+\begin{tabular}{ll}
+\toprule
+method & metric_0 \\
+\midrule
+TimeVAE & \val{1.811}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:15 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+TS2Vec (2-HFL) & \val{0.697}{0.062} & \val{0.531}{0.039} & \val{0.580}{0.036}
+-- beijing 13:18 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:39 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:59 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 14:18 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 14:27 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 14:32 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 14:38 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 14:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 14:47 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 14:56 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:05 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:10 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:17 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:25 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:31 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:36 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:41 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:43 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 15:47 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+TS2Vec (8-VFL) & \val{0.545}{0.081} & \val{0.424}{0.058} & \val{0.492}{0.044} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 18:05 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+TS2Vec (8-VFL) & \val{0.545}{0.081} & \val{0.424}{0.058} & \val{0.492}{0.044} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 18:06 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (2-HFL) & \val{0.672}{0.057} & \val{0.510}{0.042} & \val{0.560}{0.038} \\
+TS2Vec (3-HFL) & \val{0.776}{0.089} & \val{0.585}{0.042} & \val{0.646}{0.051} \\
+TS2Vec (5-HFL) & \val{0.858}{0.050} & \val{0.690}{0.040} & \val{0.731}{0.049} \\
+TS2Vec (20-HFL) & \val{1.066}{0.028} & \val{0.960}{0.037} & \val{0.968}{0.035} \\
+TS2Vec (2-VFL) & \val{0.590}{0.061} & \val{0.443}{0.042} & \val{0.486}{0.042} \\
+TS2Vec (3-VFL) & \val{0.603}{0.050} & \val{0.474}{0.050} & \val{0.492}{0.047} \\
+TS2Vec (8-VFL) & \val{0.545}{0.081} & \val{0.424}{0.058} & \val{0.492}{0.044} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:34 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:36 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:37 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:37 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:38 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:38 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:39 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:40 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:40 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:40 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:42 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:43 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:43 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:43 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:44 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:44 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:45 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+TS2Vec (8-VFL) & \val{0.469}{0.012} & \val{0.308}{0.019} & \val{0.325}{0.022} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:45 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:46 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:46 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+\bottomrule
+\end{tabular}
+
+-- panama 20:48 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+TS2Vec (8-VFL) & \val{0.476}{0.013} & \val{0.310}{0.022} & \val{0.338}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:35 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+TS2Vec (8-VFL) & \val{0.476}{0.013} & \val{0.310}{0.022} & \val{0.338}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:36 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+TS2Vec (8-VFL) & \val{0.476}{0.013} & \val{0.310}{0.022} & \val{0.338}{0.035} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:36 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TS2Vec (4-HFL) & \val{0.736}{0.048} & \val{0.517}{0.030} & \val{0.627}{0.034} \\
+TS2Vec (3-HFL) & \val{0.692}{0.040} & \val{0.490}{0.022} & \val{0.579}{0.034} \\
+TS2Vec (5-HFL) & \val{0.763}{0.040} & \val{0.547}{0.057} & \val{0.667}{0.074} \\
+TS2Vec (20-HFL) & \val{1.201}{0.051} & \val{0.797}{0.064} & \val{0.881}{0.062} \\
+TS2Vec (2-VFL) & \val{0.502}{0.054} & \val{0.349}{0.037} & \val{0.387}{0.052} \\
+TS2Vec (3-VFL) & \val{0.486}{0.030} & \val{0.321}{0.019} & \val{0.347}{0.006} \\
+TS2Vec (8-VFL) & \val{0.476}{0.013} & \val{0.310}{0.022} & \val{0.338}{0.035} \\
+TimeVAE (3-HFL) & \val{0.908}{0.074} & \val{0.903}{0.049} & \val{0.889}{0.033} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:48 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TimeVAE (3-HFL) & \val{0.865}{0.000} & \val{0.924}{0.000} & \val{0.899}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:48 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llll}
+\toprule
+method & metric_0 & metric_1 & metric_2 \\
+\midrule
+TimeVAE (3-HFL) & \val{0.865}{0.000} & \val{0.924}{0.000} & \val{0.899}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:57 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & TimeVAE (3-HFL) & \val{0.901}{0.000} & \val{0.941}{0.000} & \val{0.924}{0.000} \\
+\bottomrule
+\end{tabular}
+
+-- panama 00:59 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & TimeVAE (3-HFL) & \val{0.655}{0.000} & \val{0.659}{0.000} & \val{0.667}{0.000} \\
+\bottomrule
+\end{tabular}
+
+
+-- india 10:36 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{llllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 & metric_3 \\
+\midrule
+india & mean(X) & \val{0.669}{0.008} & \val{0.519}{0.009} & \val{0.561}{0.006} & \val{0.975}{0.006} \\
+india & flattened(X) & \val{1.058}{0.027} & \val{0.494}{0.008} & \val{0.583}{0.002} & \val{0.965}{0.004} \\
+india & TimeVAE & \val{0.989}{0.004} & \val{0.961}{0.005} & \val{0.954}{0.005} \\
+india & TimeVAE & \val{0.959}{0.064} \\
+india & TS2Vec & \val{0.979}{0.028} & \val{0.656}{0.019} & \val{0.725}{0.022} \\
+india & Moment (cent) & \val{0.847}{0.012} & \val{0.821}{0.013} & \val{0.849}{0.010} & \val{0.907}{0.021} \\
+india & Barlow (CNN) & \val{0.787}{0.026} & \val{0.739}{0.022} & \val{0.749}{0.020} & \val{0.974}{0.006} \\
+beijing & mean(X) & \val{0.863}{0.055} & \val{0.831}{0.077} & \val{0.817}{0.079} & \val{0.966}{0.040} \\
+beijing & flattened(X) & \val{0.560}{0.138} & \val{0.323}{0.043} & \val{0.462}{0.108} & \val{0.890}{0.022} \\
+beijing & TimeVAE & \val{1.030}{0.052} & \val{0.991}{0.041} & \val{0.990}{0.042} \\
+beijing & TimeVAE & \val{1.436}{0.408} \\
+beijing & TS2Vec & \val{0.551}{0.173} & \val{0.381}{0.051} & \val{0.521}{0.082} \\
+beijing & Moment (cent) & \val{0.802}{0.095} & \val{0.798}{0.053} & \val{0.831}{0.055} & \val{0.792}{0.064} \\
+beijing & Barlow (CNN) & \val{0.908}{0.048} & \val{0.889}{0.058} & \val{0.892}{0.052} & \val{0.973}{0.042} \\
+germany & mean(X) & \val{0.506}{0.007} & \val{0.247}{0.004} & \val{0.306}{0.001} & \val{0.870}{0.007} \\
+germany & flattened(X) & \val{0.596}{0.003} & \val{0.352}{0.012} & \val{0.376}{0.010} & \val{0.856}{0.008} \\
+germany & TimeVAE & \val{0.761}{0.002} & \val{0.752}{0.006} & \val{0.750}{0.006} \\
+germany & TimeVAE & \val{1.761}{0.355} \\
+germany & TS2Vec & \val{0.608}{0.032} & \val{0.541}{0.034} & \val{0.569}{0.035} \\
+germany & Moment (cent) & \val{0.705}{0.008} & \val{0.674}{0.005} & \val{0.669}{0.006} & \val{0.838}{0.008} \\
+germany & Barlow (CNN) & \val{0.582}{0.025} & \val{0.430}{0.004} & \val{0.421}{0.008} & \val{0.967}{0.022} \\
+china & mean(X) & \val{0.742}{0.016} & \val{0.698}{0.016} & \val{0.704}{0.018} & \val{0.988}{0.014} \\
+china & flattened(X) & \val{0.509}{0.005} & \val{0.510}{0.005} & \val{0.645}{0.007} & \val{0.969}{0.012} \\
+china & TimeVAE & \val{0.983}{0.009} & \val{0.997}{0.015} & \val{0.996}{0.016} \\
+china & TimeVAE & \val{1.022}{0.068} \\
+china & TS2Vec & \val{0.541}{0.029} & \val{0.566}{0.011} & \val{0.646}{0.020} \\
+china & Moment (cent) & \val{0.779}{0.006} & \val{0.783}{0.010} & \val{0.829}{0.009} & \val{0.843}{0.027} \\
+china & Barlow (CNN) & \val{0.839}{0.034} & \val{0.775}{0.019} & \val{0.769}{0.018} & \val{0.986}{0.009} \\
+weather & mean(X) & \val{0.953}{0.033} & \val{0.825}{0.028} & \val{0.829}{0.028} & \val{1.020}{0.032} \\
+weather & flattened(X) & \val{0.865}{0.022} & \val{0.712}{0.016} & \val{0.744}{0.021} & \val{1.007}{0.027} \\
+weather & TimeVAE & \val{1.013}{0.031} & \val{1.016}{0.031} & \val{1.022}{0.030} \\
+weather & TimeVAE & \val{1685558288967076096.000}{2383739392400420352.000} \\
+weather & TS2Vec & \val{0.779}{0.030} & \val{0.732}{0.026} & \val{0.767}{0.035} \\
+weather & Moment (cent) & \val{0.962}{0.029} & \val{0.965}{0.032} & \val{0.977}{0.031} & \val{0.966}{0.035} \\
+weather & Barlow (CNN) & \val{0.864}{0.028} & \val{0.850}{0.027} & \val{0.847}{0.026} & \val{1.015}{0.030} \\
+gas & mean(X) & \val{0.678}{0.059} & \val{0.711}{0.042} & \val{0.703}{0.042} & \val{0.964}{0.039} \\
+gas & flattened(X) & \val{4.992}{4.243} & \val{0.463}{0.034} & \val{0.517}{0.046} & \val{0.838}{0.056} \\
+gas & TimeVAE & \val{1.008}{0.041} & \val{1.070}{0.045} & \val{1.042}{0.040} \\
+gas & TimeVAE & \val{0.753}{0.031} \\
+gas & TS2Vec & \val{1.890}{0.749} & \val{0.517}{0.032} & \val{0.575}{0.043} \\
+gas & Moment (cent) & \val{2.611}{0.131} & \val{0.749}{0.057} & \val{0.753}{0.056} & \val{0.810}{0.067} \\
+gas & Barlow (CNN) & \val{0.767}{0.065} & \val{0.757}{0.045} & \val{0.735}{0.047} & \val{0.985}{0.043} \\
+panama & mean(X) & \val{0.977}{0.028} & \val{1.001}{0.025} & \val{0.990}{0.033} & \val{1.048}{0.042} \\
+panama & flattened(X) & \val{0.707}{0.011} & \val{0.320}{0.032} & \val{0.345}{0.027} & \val{0.850}{0.040} \\
+panama & TimeVAE & \val{1.211}{0.191} & \val{1.102}{0.049} & \val{1.077}{0.049} \\
+panama & TimeVAE & \val{1.098}{0.028} \\
+panama & TS2Vec & \val{0.742}{0.045} & \val{0.410}{0.037} & \val{0.459}{0.043} \\
+panama & Moment (cent) & \val{1.968}{0.260} & \val{0.619}{0.051} & \val{0.687}{0.043} & \val{0.727}{0.021} \\
+panama & Barlow (CNN) & \val{0.940}{0.037} & \val{0.974}{0.039} & \val{0.977}{0.051} & \val{1.022}{0.057} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:10 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+beijing & TimeVAE (3-HFL) & \val{0.630}{0.010} & \val{0.596}{0.010} & \val{0.601}{0.009} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:10 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+beijing & Moment (3-HFL) & \val{0.699}{0.021} & \val{0.711}{0.023} & \val{0.740}{0.025} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:10 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+beijing & Moment (3-HFL) & \val{0.699}{0.021} & \val{0.711}{0.023} & \val{0.740}{0.025} \\
+\bottomrule
+\end{tabular}
+
+-- beijing 13:15 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+beijing & Barlow (3-VFL) & \val{0.658}{0.041} & \val{0.679}{0.035} & \val{0.710}{0.025} \\
+\bottomrule
+\end{tabular}
+
+-- panama 13:17 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & TimeVAE (3-VFL) & \val{0.883}{0.076} & \val{0.948}{0.083} & \val{0.950}{0.084} \\
+\bottomrule
+\end{tabular}
+
+-- panama 13:17 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & Moment (3-VFL) & \val{1.811}{0.051} & \val{0.603}{0.011} & \val{0.671}{0.024} \\
+\bottomrule
+\end{tabular}
+
+-- panama 13:17 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+panama & Barlow (3-VFL) & \val{0.493}{0.012} & \val{0.597}{0.031} & \val{0.766}{0.016} \\
+\bottomrule
+\end{tabular}
+
+-- india 13:28 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+india & TS2Vec (3-VFL) & \val{0.970}{0.016} & \val{0.567}{0.000} & \val{0.631}{0.003} \\
+\bottomrule
+\end{tabular}
+
+-- india 13:32 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+india & TimeVAE (3-VFL) & \val{0.901}{0.001} & \val{0.896}{0.007} & \val{0.900}{0.005} \\
+\bottomrule
+\end{tabular}
+
+-- india 13:32 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+india & Moment (3-VFL) & \val{1.400}{0.054} & \val{0.745}{0.009} & \val{0.800}{0.008} \\
+\bottomrule
+\end{tabular}
+
+-- india 13:32 cfg.data_splitting='reduced_data' cfg.label_frac=1 cfg.dataset_window=64 result_type='rmse' --
+\begin{tabular}{lllll}
+\toprule
+dataset & method & metric_0 & metric_1 & metric_2 \\
+\midrule
+india & Barlow (3-VFL) & \val{0.672}{0.011} & \val{0.622}{0.008} & \val{0.666}{0.009} \\
+\bottomrule
+\end{tabular}
+
