@@ -102,7 +102,7 @@ dataset_attributes = {
                       "longterm_weather":  {"cols_to_drop":        ["date"],
                                             "mapping":             "periodic",
                                             "angular_features":    [], # 
-                                            "sliding_window_frac": 0.1,
+                                            "sliding_window_frac": 0.05,
                                             "periodic_threshold":  0.52},
 
                       "nasa_moon":         {"cols_to_drop":        ["date"],

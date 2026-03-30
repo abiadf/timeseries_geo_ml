@@ -35,6 +35,7 @@ scikit-dimension
 seaborn
 shap
 statsmodels
+stochman
 # ==
 # tensorflow==2.15.0; sys_platform == "linux"
 # tensorflow-macos==2.15.0; sys_platform == "darwin"
