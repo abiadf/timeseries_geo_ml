@@ -34,7 +34,6 @@ public_datasets/*
 
 #ASM stuff
 src/*asm*
-# src/**/*asm*
 param_config/*asm*
-
+*ASM*
 
