@@ -3,7 +3,7 @@ import __main__
 import sys, os
 project_root = os.path.abspath("..")  # adjust if notebook is elsewhere
 sys.path.insert(0, project_root)
-from typing import Dict, List, Literal, Tuple, Optional, Any, Union
+from typing import Tuple
 import logging
 
 import category_encoders as ce
@@ -18,18 +18,7 @@ from tqdm import tqdm
 
 from scipy.signal import periodogram
 
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
-from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
-from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.manifold import TSNE
 from sklearn.metrics import mean_squared_error, accuracy_score, f1_score, mean_absolute_error, root_mean_squared_error, r2_score, silhouette_score
-from sklearn.multioutput import MultiOutputRegressor
-from sklearn.neighbors import NearestNeighbors, KernelDensity
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder
-from sklearn.random_projection import GaussianRandomProjection
-
-from catboost import CatBoostRegressor, CatBoostClassifier
 from pyriemann.tangentspace import TangentSpace
 
 from geo.geo_utils import compute_cyclicity_score, split_dataset_to_linear_and_cyclic, scale_train_and_test_sets, drop_low_variance_cols, Windowing
@@ -49,168 +38,6 @@ if torch.cuda.is_available():
     # print(torch.cuda.memory_allocated(0) / 1e6, "MB allocated")
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# very old verson, to remove
-class Oldtor:
-    @staticmethod
-    def run_oldtor_LSTM(X_train, X_test, y_train, y_test, p):
-        # 1. Split & Identify dimensions
-        X_lin_train, X_cyc_train = split_dataset_to_linear_and_cyclic(X_train, threshold=p.cyclic_threshold, verbose=False)
-        X_lin_test, X_cyc_test   = X_test[X_lin_train.columns], X_test[X_cyc_train.columns]
-        
-        # 2. Torus latent
-        num_cyc_features = X_cyc_train.shape[1]
-        z_dim_torus      = 2 * num_cyc_features #this is fixed for torus VAE
-        z_dim_euclid     = p.z_dim_total - z_dim_torus
-        
-        if (z_dim_euclid < 2) or (p.z_dim_total < z_dim_torus):
-            print(f"Warning: z_dim_total ({p.z_dim_total}) too small for {num_cyc_features} cyclic features")
-            z_dim_euclid  = max(8, p.z_dim_total - z_dim_torus)
-            p.z_dim_total = z_dim_euclid + z_dim_torus
-
-        # print(f">>>>> {X_lin_train.shape=} {z_dim_torus=}")
-
-        # 3. Scaling & Windowing (Standard)
-        X_lin_train, X_lin_test = scale_train_and_test_sets(X_lin_train, X_lin_test)
-        X_cyc_train, X_cyc_test = scale_train_and_test_sets(X_cyc_train, X_cyc_test)
-        y_train_s, y_test_s     = scale_train_and_test_sets(y_train, y_test)
-
-        X_lin_tr_w = Windowing.make_windows_from_X(X_lin_train, p.window_size, p.sliding_size).to(device)
-        X_cyc_tr_w = Windowing.make_windows_from_X(X_cyc_train, p.window_size, p.sliding_size).to(device)
-        X_lin_te_w = Windowing.make_windows_from_X(X_lin_test, p.window_size, p.sliding_size).to(device)
-        X_cyc_te_w = Windowing.make_windows_from_X(X_cyc_test, p.window_size, p.sliding_size).to(device)
-        y_train_win= Windowing.make_windows_from_y(y_train_s, p.window_size, p.sliding_size, task=p.task)
-        y_test_win = Windowing.make_windows_from_y(y_test_s, p.window_size, p.sliding_size, task=p.task)
-
-        # 4. Initialize Models with dynamic dims
-        hidden_dim_split = int(p.hidden_dim / np.sqrt(2))
-        encoder_e = LSTMEncoderEuclid(X_lin_train.shape[1], hidden_dim_split, z_dim_euclid).to(device)
-        encoder_t = LSTMToroidalEncoder(num_cyc_features, hidden_dim_split, num_cyc_features).to(device)
-        decoder   = MLPDecoder(z_dim_total=p.z_dim_total, window_size=p.window_size, output_dim=X_train.shape[1],
-                            hidden_dim=p.hidden_dim,).to(device) #decoder should use full hidden_dim
-        optimizer = torch.optim.AdamW(list(encoder_e.parameters()) + list(encoder_t.parameters()) + list(decoder.parameters()), lr=p.lr_optimizer)
-        loader    = DataLoader(TensorDataset(X_lin_tr_w, X_cyc_tr_w), batch_size=p.batch_size, shuffle=False)
-
-        # 5. Training
-        lambdas = {'reconstr': p.lambda_recon,
-                   'euc': p.lambda_kl_euc/np.sqrt(z_dim_euclid),
-                   'sph': p.lambda_kl_sph/np.sqrt(z_dim_torus)}
-
-        for _ in range(p.epochs):
-            train_linear_and_toroidal_vaes_1_epoch(loader, encoder_e, encoder_t, decoder, optimizer, lambdas, num_cyc_features)
-
-        # 6. Inference (Correcting concatenation)
-        with torch.no_grad():
-            encoder_e.eval()
-            encoder_t.eval()
-            
-            def get_z_joint(l_win, c_win):
-                mu_e, _ = encoder_e(l_win)     # [Batch, z_dim_euc]
-                mu_t, _ = encoder_t(c_win)     # [Batch, num_cyc, 2]
-                zt_flat = mu_t.reshape(mu_t.size(0), -1) # [Batch, z_dim_torus]
-                return torch.cat([mu_e, zt_flat], dim=-1).cpu().numpy()
-
-            Z_train = get_z_joint(X_lin_tr_w, X_cyc_tr_w)
-            Z_test  = get_z_joint(X_lin_te_w, X_cyc_te_w)
-
-        # 7. Prediction
-        y_hat = fit_catboost_multi(Z_train, y_train_win, Z_test)
-        rmse  = np.sqrt(mean_squared_error(y_test_win, y_hat))
-        r2    = r2_score(y_test_win, y_hat)
-        mae   = mean_absolute_error(y_test_win, y_hat)
-        return rmse, r2, mae, (Z_train, Z_test)
-
-    @staticmethod
-    def train_linear_and_toroidal_vaes_1_epoch(train_loader, encoder_euc, encoder_torus, decoder, optimizer, lambdas, n_cyc):
-        encoder_euc.train()
-        encoder_torus.train()
-        decoder.train()
-        
-        total_loss = 0
-        for b_lin, b_cyc in train_loader:
-            optimizer.zero_grad()
-            
-            # 1. Encode Euclidean
-            mu_euc, logvar_euc = encoder_euc(b_lin)
-            z_euclid           = Reparam.reparam_gaussian(mu_euc, logvar_euc)
-            
-            # 2. Encode Toroidal (Product of N circles)
-            # mu_t: [B, N, 2], kappa_t: [B, N, 1]
-            mu_t, kappa_t = encoder_torus(b_cyc) 
-            
-            # Sample each circle on the torus independently
-            z_torus_list = []
-            for i in range(n_cyc):
-                # mu_t[:, i, :] is the [B, 2] direction for the i-th circle
-                z_torus_i = Reparam.sample_vmf(mu_t[:, i, :], kappa_t[:, i])
-                z_torus_list.append(z_torus_i)
-            
-            # Concat all circles into the Torus latent [B, 2*N]
-            z_torus      = torch.cat(z_torus_list, dim=-1)
-            z_joint      = torch.cat([z_euclid, z_torus], dim=-1)
-            x_recon_flat = decoder(z_joint) # Decode
-            
-            # 4. Compute Losses
-            # A. Reconstruction (Compare against combined original X)
-            x_orig     = torch.cat([b_lin, b_cyc], dim=-1).view(b_lin.size(0), -1)
-            recon_loss = F.mse_loss(x_recon_flat, x_orig)
-            kl_euc     = -0.5 * torch.sum(1 + logvar_euc - mu_euc.pow(2) - logvar_euc.exp(), dim=1).mean()
-            
-            # C. Toroidal KL (Sum of vMF KLs for each circle)
-            # Analytical KL for vMF in 2D (S^1) involves Bessel functions, 
-            # but a common ICML-acceptable approximation for S^1 is:
-            kl_torus = 0
-            for i in range(n_cyc):
-                # For S^1, KL is roughly proportional to kappa
-                # This is a standard prior-to-uniform KL for vMF
-                k = kappa_t[:, i]
-                kl_torus += (k - torch.log(k + 1e-6)).mean() 
-
-            # 5. Backprop
-            loss = (lambdas['reconstr'] * recon_loss + lambdas['euc'] * kl_euc + lambdas['sph'] * kl_torus)
-            loss.backward()
-            optimizer.step()
-            total_loss += loss.item()
-        return total_loss / len(train_loader)
-
-    @staticmethod
-    def plot_publication_torus(Z_numpy, z_dim_euc, feat_a=0, feat_b=1):
-        """
-        Z_numpy: [Batch, Total_Dim] 
-        z_dim_euc: The index where the cyclic features start
-        feat_a: Index of first cyclic feature (0 to N-1)
-        feat_b: Index of second cyclic feature (0 to N-1)
-        """
-        # 1. Slice out the toroidal part ONLY
-        z_torus = Z_numpy[:, z_dim_euc:] 
-        
-        # 2. Extract (u, v) pairs. Each feature has 2 dims.
-        # Feature 0 is at [0,1], Feature 1 at [2,3], etc.
-        u1, v1 = z_torus[:, 2*feat_a], z_torus[:, 2*feat_a + 1]
-        u2, v2 = z_torus[:, 2*feat_b], z_torus[:, 2*feat_b + 1]
-        
-        # 3. Convert to angles
-        theta = np.arctan2(v1, u1) # Angle around the tube
-        phi = np.arctan2(v2, u2)   # Angle around the donut center
-        
-        # 4. Geometry
-        R, r = 3, 1
-        x = (R + r * np.cos(theta)) * np.cos(phi)
-        y = (R + r * np.cos(theta)) * np.sin(phi)
-        z = r * np.sin(theta)
-        
-        # 5. Plotting
-        fig = plt.figure(figsize=(10, 7))
-        ax = fig.add_subplot(111, projection='3d')
-        
-        # Plot the points
-        sc = ax.scatter(x, y, z, c=theta, cmap='twilight', s=2, alpha=0.5)
-        
-        # Aesthetics for ICML
-        ax.set_axis_off()
-        ax.set_xlim(-4, 4); ax.set_ylim(-4, 4); ax.set_zlim(-4, 4)
-        plt.title(f"Latent Torus Projection (Cyc Features {feat_a} & {feat_b})")
-        plt.show()
 
 
 class Sphlin:

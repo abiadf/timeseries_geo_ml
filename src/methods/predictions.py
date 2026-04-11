@@ -22,11 +22,6 @@ from sklearn.multioutput import MultiOutputRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
-
 
 class PrePredictionProcessor:
     """Processing before the predictions"""
@@ -51,19 +46,6 @@ class PrePredictionProcessor:
             return df.drop(columns=existing_cols)
         else:
             raise TypeError("Unsupported DataFrame type")
-
-    # to remove (replaced with the function below it + built-in train-test split)
-    def scale_and_split_data(self, X_full_pd: pd.DataFrame, y_full_pd: pd.DataFrame) -> Tuple[pd.DataFrame, np.ndarray, pd.DataFrame, np.ndarray, StandardScaler]:
-        test_size = 0.2
-        y_full_scaled_np                     = self.y_scaler.fit_transform(y_full_pd)
-        X_train, X_val, y_train_np, y_val_np = train_test_split(X_full_pd, y_full_scaled_np, test_size=test_size, random_state=42)
-
-        cols_to_scale = [c for c in X_train.select_dtypes(include=np.number).columns]
-
-        X_train.loc[:, cols_to_scale] = self.x_scaler.fit_transform(X_train[cols_to_scale])
-        X_val.loc[:, cols_to_scale]   = self.x_scaler.transform(X_val[cols_to_scale])
-
-        return X_train, y_train_np, X_val, y_val_np, self.y_scaler
 
     def scale_X_after_split(self, X_train: pd.DataFrame, X_val: pd.DataFrame = None, exclude_cols: list = None):
         """Important: must always split THEN scale (avoids data leakage). Scale X_train, take the scaling, and apply it to X_val
@@ -207,56 +189,6 @@ class MultiOutputModelPredictor:
         
         rmse = root_mean_squared_error(y_val, y_pred)
         return rmse, y_pred
-
-    # [to remove] seems i duplicated this one below
-    def tune_lightgbm_hyperparams_manual(self, X_train, y_train):
-        n_targets = y_train.shape[1]
-        param_grid = {
-            'n_estimators':     [100, 200],
-            'learning_rate':    [0.01, 0.05],
-            'num_leaves':       [31, 50],
-            'max_depth':        [-1, 10],
-            'min_data_in_leaf': [20, 50]}
-        
-        kf = KFold(n_splits=3, shuffle=True, random_state=42)
-        combos = list(product(*param_grid.values()))
-        results = []
-
-        print(f"Total combos: {len(combos)}")
-        for idx, combo in enumerate(combos, 1):
-            params = dict(zip(param_grid.keys(), combo))
-            print(f"Trying combo {idx}/{len(combos)}: {params}")
-            
-            val_scores = []
-            for train_idx, val_idx in kf.split(X_train):
-                # Use .iloc only if X_train is a DataFrame
-                if hasattr(X_train, 'iloc'):
-                    X_tr, X_val = X_train.iloc[train_idx], X_train.iloc[val_idx]
-                else:
-                    X_tr, X_val = X_train[train_idx], X_train[val_idx]
-
-                y_tr, y_val = y_train[train_idx], y_train[val_idx]
-
-                y_pred = np.zeros(y_val.shape)
-                for i in range(n_targets):
-                    model = LGBMRegressor(objective='regression',
-                                        verbosity=-1,
-                                        device=self.device_str,
-                                        **params)
-                    model.fit(X_tr, y_tr[:, i], eval_set=[(X_val, y_val[:, i])],
-                            callbacks=[early_stopping(stopping_rounds=50, verbose=False)])
-                    y_pred[:, i] = model.predict(X_val)
-
-                rmse = root_mean_squared_error(y_val, y_pred)
-                val_scores.append(rmse)
-
-            avg_rmse = np.mean(val_scores)
-            print(f"Avg RMSE: {avg_rmse}")
-            results.append((params, avg_rmse))
-
-        best_params = min(results, key=lambda x: x[1])[0]
-        print(f"Best params: {best_params}")
-        return best_params
 
     def predict_catboost(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray, cat_features=None):
         """CatBoost only accepts uppercase 'task_type', beware of that"""
@@ -620,116 +552,4 @@ class SingleOutputModelPredictor:
         y_pred_cat  = single_model.predict(X_val)
         rmse_cat    = root_mean_squared_error(y_val, y_pred_cat)
         return rmse_cat, y_pred_cat, importances
-
-
-
-# class MLPHead:
-#     """Supervised MLP predictor for embeddings with variable hidden layers. Predicts y from z"""
-
-#     def __init__(self, input_dim, output_dim, hidden_sizes=[64], lr=0.01, epochs=20, dropout=0.0, device="cpu"):
-#         self.device  = device
-#         self.epochs  = epochs
-
-#         layers   = []
-#         prev_dim = input_dim
-#         for h in hidden_sizes:
-#             layers.append(nn.Linear(prev_dim, h))
-#             layers.append(nn.ReLU())
-#             if dropout > 0:
-#                 layers.append(nn.Dropout(dropout))
-#             prev_dim = h
-#         layers.append(nn.Linear(prev_dim, output_dim))  # output layer
-
-#         self.model     = nn.Sequential(*layers).to(device)
-#         self.optimizer = optim.AdamW(self.model.parameters(), lr=lr)
-#         self.loss_fn   = nn.MSELoss()
-
-#     def train(self, z_train, y_train, z_test=None, y_test=None):
-#         z_train_t = torch.tensor(z_train, dtype=torch.float32, device=self.device)
-#         y_train_t = torch.tensor(y_train, dtype=torch.float32, device=self.device)
-
-#         if z_test is not None and y_test is not None:
-#             z_test_t = torch.tensor(z_test, dtype=torch.float32, device=self.device)
-#             y_test_t = torch.tensor(y_test, dtype=torch.float32, device=self.device)
-#         else:
-#             z_test_t = y_test_t = None
-
-#         for epoch in range(self.epochs):
-#             self.optimizer.zero_grad()
-#             y_pred = self.model(z_train_t)
-#             loss   = self.loss_fn(y_pred, y_train_t)
-#             loss.backward()
-#             self.optimizer.step()
-
-#             if epoch % 10 == 0 or epoch == self.epochs - 1:
-#                 if z_test_t is not None:
-#                     with torch.no_grad():
-#                         test_pred = self.model(z_test_t)
-#                         test_loss = self.loss_fn(test_pred, y_test_t)
-#                     print(f"Epoch {epoch}: Train {loss.item():.4f}, Test {test_loss.item():.4f}")
-#                 else:
-#                     print(f"Epoch {epoch}: Train {loss.item():.4f}")
-
-#     def predict(self, z):
-#         z_t = torch.tensor(z, dtype=torch.float32, device=self.device)
-#         with torch.no_grad():
-#             return self.model(z_t).cpu().numpy()
-
-#     def evaluate(self, z_test, y_test):
-#         y_pred = self.predict(z_test)
-#         return root_mean_squared_error(y_test, y_pred)
-
-
-# class ProjectionHead(nn.Module):
-#     """MLP projection head: maps latent z to projected space H"""
-#     def __init__(self, input_dim: int, proj_dim: int, hidden_sizes: list[int] = [256], dropout: float = 0.0):
-#         super().__init__()
-#         layers   = []
-#         prev_dim = input_dim
-#         for h in hidden_sizes:
-#             layers.append(nn.Linear(prev_dim, h))
-#             layers.append(nn.ReLU())
-#             if dropout > 0:
-#                 layers.append(nn.Dropout(dropout))
-#             prev_dim = h
-#         layers.append(nn.Linear(prev_dim, proj_dim))  # final projection
-#         self.net = nn.Sequential(*layers)
-
-#     def forward(self, z: torch.Tensor) -> torch.Tensor:
-#         """Project latent z into normalized space H"""
-#         h = self.net(z)
-#         h = F.normalize(h, dim=1)  # optional: normalize for contrastive loss
-#         return h
-
-
-# class Decoder(nn.Module):
-#     """Optional decoder to reconstruct the original input from latent embeddings z"""
-#     def __init__(self, latent_dim: int, output_shape: tuple[int, int], hidden_sizes=[128, 128], dropout: float = 0.0):
-#         """Args:
-#             latent_dim: Dimensionality of input latent z
-#             output_shape: Tuple (time_steps, channels) for reconstruction
-#             hidden_sizes: List of hidden layer sizes
-#             dropout: Dropout probability in hidden layers"""
-#         super().__init__()
-#         layers = []
-#         prev_dim = latent_dim
-#         for h in hidden_sizes:
-#             layers.append(nn.Linear(prev_dim, h))
-#             layers.append(nn.ReLU())
-#             if dropout > 0:
-#                 layers.append(nn.Dropout(dropout))
-#             prev_dim = h
-#         layers.append(nn.Linear(prev_dim, output_shape[0] * output_shape[1]))  # flatten output
-#         self.net = nn.Sequential(*layers)
-#         self.output_shape = output_shape
-
-#     def forward(self, z: torch.Tensor) -> torch.Tensor:
-#         """Forward pass: map latent z → reconstructed X
-#         Args:
-#             z: (batch, latent_dim)
-#         Returns:
-#             X_hat: (batch, time_steps, channels)"""
-#         x_hat = self.net(z)
-#         return x_hat.view(-1, *self.output_shape)  # reshape to (batch, time, channels)
-
 
