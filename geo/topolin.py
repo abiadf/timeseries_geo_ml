@@ -13,19 +13,15 @@ from mpl_toolkits.mplot3d import Axes3D
 import numexpr as ne # makes numpy operations faster
 import numpy as np
 import pandas as pd
-import polars as pl
-from tqdm import tqdm
 
 from scipy.signal import periodogram
 
-from sklearn.metrics import mean_squared_error, accuracy_score, f1_score, mean_absolute_error, root_mean_squared_error, r2_score, silhouette_score
+from sklearn.metrics import mean_absolute_error, root_mean_squared_error, r2_score
 from pyriemann.tangentspace import TangentSpace
 
 from geo.geo_utils import compute_cyclicity_score, split_dataset_to_linear_and_cyclic, scale_train_and_test_sets, drop_low_variance_cols, Windowing
-
-from geo_encoders import EuclidEncoder, SphericalEncoder, Decoder, LSTMEncoderEuclid, LSTMSphericalEncoder, \
-LSTMToroidalEncoder, LSTMDecoder, MLPDecoder, Reparam, MLPPredHead, WithSplit, NoSplit, kl_gaussian, kl_vmf_uniform, \
-regularization_vmf, early_stop, fit_catboost_multi, evaluate_model_full, estimate_entropy, pool_latents
+from geo_encoders import LSTMEncoderEuclid, LSTMSphericalEncoder, \
+LSTMToroidalEncoder, MLPDecoder, Reparam, MLPPredHead, early_stop, fit_catboost_multi
 
 import torch
 import torch.nn as nn

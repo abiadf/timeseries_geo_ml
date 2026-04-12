@@ -2,7 +2,7 @@ import __main__
 import sys, os
 project_root = os.path.abspath("..")  # adjust if notebook is elsewhere
 sys.path.insert(0, project_root)
-from typing import Dict, List, Literal, Tuple, Optional, Any, Union
+from typing import Dict, Tuple, Any, Union
 import logging
 from datetime import datetime
 
@@ -13,9 +13,8 @@ import numpy as np
 import pandas as pd
 
 from sklearn.decomposition import PCA
-from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, accuracy_score, f1_score, mean_absolute_error, root_mean_squared_error, r2_score, silhouette_score
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 import torch

@@ -10,7 +10,7 @@ import __main__
 import sys, os
 project_root = os.path.abspath("..")  # adjust if notebook is elsewhere
 sys.path.insert(0, project_root)
-from typing import Dict, List, Literal, Tuple, Optional, Any, Union
+from typing import List
 import logging
 from dataclasses import dataclass
 import requests, re, io
@@ -23,9 +23,6 @@ import polars as pl
 from ucimlrepo import fetch_ucirepo
 
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import Dataset, TensorDataset, DataLoader
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats()
