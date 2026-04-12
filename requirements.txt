@@ -14,7 +14,7 @@ lightgbm
 lttb
 matplotlib
 metasynth
-momentfm
+# momentfm
 nixtla
 numpy<2.0.0,>=1.23.5 # numpy
 opt-einsum
@@ -56,9 +56,8 @@ xgboost
 zarr
 
 # datasets
-ucimlrepo
-momentfm
-ucimlrepo
+# ucimlrepo
+# momentfm
 
 # anyio==4.9.0
 # argon2-cffi==23.1.0
