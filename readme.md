@@ -13,4 +13,4 @@ More recently, I pivoted to a topological-geometric approach (see `geo` folder),
 ![Torus Persistence](images/torus_persistence.png)
 ![Torus Betti Curves](images/torus_betti.png)
 
-Images showing a noisy torus structure, persistence diagram, and Betti curves for this structure
+Images showing a noisy torus structure, along with its persistence diagram, and Betti curves.
