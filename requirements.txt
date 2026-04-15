@@ -55,6 +55,8 @@ xarray
 xgboost
 zarr
 
+ripser
+
 # datasets
 # ucimlrepo
 # momentfm
