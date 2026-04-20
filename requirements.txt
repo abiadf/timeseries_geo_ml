@@ -17,6 +17,7 @@ metasynth
 # momentfm
 nixtla
 numpy<2.0.0,>=1.23.5 # numpy
+numexpr
 opt-einsum
 pandas
 polars
@@ -29,8 +30,8 @@ hpbandster #for ray
 ConfigSpace #for ray
 optuna
 # =============
-rdp # Ramer-Douglas-Peucker Algorithm
-scikit-learn
+# rdp # Ramer-Douglas-Peucker Algorithm
+scikit-learn ==1.4.2 #Giotto is problematic
 scikit-dimension
 seaborn
 shap
@@ -45,7 +46,7 @@ torch
 tqdm
 tslearn
 pykeops
-pykan
+# pykan
 PyYAML
 ts2vec
 umap-learn # not umap
@@ -55,7 +56,9 @@ xarray
 xgboost
 zarr
 
+#TDA
 ripser
+
 
 # datasets
 # ucimlrepo
