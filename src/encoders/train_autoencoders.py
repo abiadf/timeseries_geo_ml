@@ -1,7 +1,5 @@
 """Module training the AE/VAE"""
 
-from typing import Union, Tuple
-
 import torch
 import torch.nn as nn
 import torch.optim as optim

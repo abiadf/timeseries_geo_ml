@@ -335,6 +335,7 @@ class MixedEncoder(nn.Module):
 
 
 class WithSplit:
+    """With feature split (ie, linear + cyclic features)"""
     @staticmethod
     @torch.no_grad()
     def encode_tabular_dataset(lin_windows, cyc_windows, lin_encoder, cyc_encoder, pooling="mean"):
@@ -554,6 +555,8 @@ class WithSplit:
 
 
 class NoSplit:
+    """Without feature split (ie, all features are cyclic)"""
+
     @staticmethod
     @torch.no_grad()
     def encode_dataset_no_split(X_win: torch.Tensor, encoder: nn.Module, pooling: str | None = "mean") -> torch.Tensor:
@@ -627,7 +630,7 @@ def fit_catboost_multi(X_train: Union[np.ndarray, torch.Tensor], y_train: Union[
     model.fit(X_train, y_train)
     return model.predict(X_test)
 
-def evaluate_model_full(Z_train: np.ndarray, Z_test: np.ndarray, y_train_win: np.ndarray, y_test_win: np.ndarray, z_dim_e: int,
+def evaluate_model_full(_train: np.ndarray, Z_test: np.ndarray, y_train_win: np.ndarray, y_test_win: np.ndarray, z_dim_e: int,
                         X_cyc_test_w: torch.Tensor | None = None, recon_cyc_test: torch.Tensor | None = None) -> dict:
     """Regression + geometry-aware metrics. Lower is better unless stated."""
     metrics = {}

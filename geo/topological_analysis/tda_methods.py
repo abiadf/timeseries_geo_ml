@@ -141,4 +141,44 @@ class PersistenceAnalysis:
             cleaned.append(dgm[mask])
         return cleaned
 
+def make_timedelay_embeddings(y: np.ndarray, tau: int, dim: int) -> np.ndarray:
+    """Time-delay embedding: returns shape (n_points, dim). Related to Takens' embedding theorem
+    y: 1D array of time series values
+    tau: time delay (number of steps), >=1
+    dim: embedding dimension (usually 2D)"""
+    n = len(y) - (dim - 1) * tau
+    return np.stack([y[i:i+n] for i in range(0, dim * tau, tau)], axis=1)
 
+
+def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
+    """Plot one or multiple 3D point clouds with equal axis scaling.
+    clouds: tuples of (x, y, z)
+    colors: list of colors (optional)"""
+    fig = plt.figure(figsize=figsize)
+    ax  = fig.add_subplot(projection='3d')
+
+    if colors is None:
+        colors = ['red'] * len(clouds)
+
+    all_x = np.concatenate([c[0] for c in clouds])
+    all_y = np.concatenate([c[1] for c in clouds])
+    all_z = np.concatenate([c[2] for c in clouds])
+
+    max_range = np.array([
+        all_x.max() - all_x.min(),
+        all_y.max() - all_y.min(),
+        all_z.max() - all_z.min()]).max() / 2.0
+
+    mid_x = (all_x.max() + all_x.min()) * 0.5
+    mid_y = (all_y.max() + all_y.min()) * 0.5
+    mid_z = (all_z.max() + all_z.min()) * 0.5
+
+    for (x, y, z), c in zip(clouds, colors):
+        ax.scatter(x, y, z, color=c, alpha=alpha, s=size)
+
+    ax.set_xlim(mid_x - max_range, mid_x + max_range)
+    ax.set_ylim(mid_y - max_range, mid_y + max_range)
+    ax.set_zlim(mid_z - max_range, mid_z + max_range)
+
+    plt.margins(0)
+    plt.show()
