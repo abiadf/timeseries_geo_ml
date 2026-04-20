@@ -456,51 +456,6 @@ class WithSplit:
                 lambdas["sph"] * kl_s)
 
     @staticmethod
-    def old_vae_train_step_for_timeseries(x_lin: torch.Tensor, x_cyc: torch.Tensor,
-                    lin_encoder: nn.Module, cyc_encoder: nn.Module,
-                    decoder: nn.Module, lambdas: dict) -> torch.Tensor:
-        """Single VAE training step for split latent VAE.
-        - x_lin, x_cyc : (batch, window_size, features)
-        - decoder expects concatenated z_e + z_s of shape (batch, z_total)
-        and outputs flattened reconstruction of shape (batch, window_size*D_total)"""
-        B, win, D_lin = x_lin.shape
-        D_cyc         = x_cyc.shape[-1]
-
-        # flatten per-window inputs for LSTM
-        x_lin_flat = x_lin
-        x_cyc_flat = x_cyc
-
-        # ---- Euclidean branch ----
-        if lin_encoder is not None:
-            mu_e, logvar_e = lin_encoder(x_lin_flat)
-        else:
-            mu_e = logvar_e = None
-
-        # ---- Spherical branch ----
-        if cyc_encoder is not None:
-            mu_s, kappa = cyc_encoder(x_cyc_flat)
-        else:
-            mu_s = kappa = None
-
-        # ---- reparameterize ----
-        z_e = Reparam.reparam_gaussian(mu_e, logvar_e)  # [B, z_e]
-        z_s = Reparam.reparam_vmf(mu_s, kappa)         # [B, z_s]
-        z   = torch.cat([z_e, z_s], dim=-1)  # [B, z_total]
-
-        # ---- decode ----
-        x_hat = decoder(z)                  # [B, window_size * D_total]
-
-        # ---- flatten original inputs for reconstruction loss ----
-        x_full_flat = torch.cat([x_lin_flat.reshape(B, -1), x_cyc_flat.reshape(B, -1)], dim=-1)
-
-        # ---- losses ----
-        L_recon = F.mse_loss(x_hat, x_full_flat)
-        L_kl_e  = kl_gaussian(mu_e, logvar_e)
-        L_kl_s  = kl_vmf_uniform(mu_s, kappa)
-        loss    = lambdas["reconstr"] * L_recon + lambdas["euc"] * L_kl_e + lambdas["sph"] * L_kl_s
-        return loss
-
-    @staticmethod
     def train_linear_and_cyclic_vaes_for_1_epoch_timeseries(data_loader: DataLoader, lin_encoder: nn.Module, cyc_encoder: nn.Module,
                     decoder: nn.Module, optimizer: torch.optim.Optimizer, lambdas: dict):
         """Full training loop over one epoch for the VAE.

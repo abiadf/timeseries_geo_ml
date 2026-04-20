@@ -212,42 +212,6 @@ class Windowing:
             raise ValueError(X.shape)
 
     @staticmethod
-    def old_make_windows_from_y(y: np.ndarray, window_size: int, sliding_size: int, task: str,) -> np.ndarray:
-        """Window labels to match X windows.
-        Args:
-            - y: np.ndarray, single sequence of shape (T,) or batch of sequences (N, T)
-            - window_size: int
-            - sliding_size: int
-            - task: str, one of ["forecast", "nowcast", "tabular"]
-                - "forecast": take last value of each window
-                - "nowcast": take mean value of each window
-                - "tabular": take first value of each window"""
-        y = np.asarray(y)
-
-        # ---- multi y-sequence ----
-        if y.ndim == 3:
-            return np.concatenate([Windowing.make_windows_from_y(y[i], window_size, sliding_size, task)
-                                   for i in range(y.shape[0])], axis=0,)
-        # ---- single y sequence ----
-        windows = []
-        T       = len(y)
-        last_start_idx = (T - window_size) // sliding_size * sliding_size
-        if last_start_idx < 0:
-            return np.empty((0,) + y.shape[1:])
-
-        for i in range(0, last_start_idx + 1, sliding_size):
-            w = y[i : i + window_size]
-            if task == "forecast": # take last value
-                windows.append(w[-1])
-            elif task == "nowcast": # take last value
-                windows.append(w[-1])   # causal nowcasting
-            elif task == "tabular": # take first value, doesnt matter since for tabular window_size = 1
-                windows.append(w[0])
-            else:
-                raise ValueError(task)
-        return np.asarray(windows)
-
-    @staticmethod
     def make_windows_from_y(y: np.ndarray, window_size: int, sliding_size: int, task: str, horizon: int = 1) -> np.ndarray:
         """Create y windows aligned with X windows.
         forecast: predict next `horizon` steps

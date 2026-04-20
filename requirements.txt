@@ -58,6 +58,7 @@ zarr
 
 #TDA
 ripser
+persim
 
 
 # datasets
