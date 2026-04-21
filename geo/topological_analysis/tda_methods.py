@@ -58,11 +58,12 @@ class GeometryConverter:
 class PersistenceAnalysis:
     """Class for computing + plotting persistence tools: persistence diagrams, entropy, images, and Betti curves"""
 
-    def __init__(self, dataset: np.ndarray = None, max_dim: int = 2):
-        """max_dim = max homology dim to compute (0 = connected components, 1 = loops...)"""
+    def __init__(self, dataset: np.ndarray = None, max_dim: int = 2, pixel_size: float = 0.1):
+        """max_dim = max homology dim to compute (0 = connected components, 1 = loops...)
+        pixel_size is for persistence images: smaller = higher res, larger = more smoothing"""
         self.dataset = dataset
         self.max_dim = max_dim
-        self._pimgr  = PersistenceImager()
+        self._pimgr  = PersistenceImager(pixel_size=pixel_size)
         self._bc     = BettiCurve()
 
     def compute_persistence_diagrams(self, X: np.ndarray | torch.Tensor) -> list[np.ndarray]:
@@ -91,6 +92,11 @@ class PersistenceAnalysis:
 
     def compute_persistence_image(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
         """Convert diagrams to persistence images."""
+        diagrams_list = [d for d in diagrams_list if len(d) > 0]
+
+        if len(diagrams_list) == 0 or all(len(d) == 0 for d in diagrams_list):
+            return [np.zeros((10, 10))]
+
         self._pimgr.fit(diagrams_list)
         return self._pimgr.transform(diagrams_list)
 
@@ -141,7 +147,7 @@ class PersistenceAnalysis:
 
     def remove_inf(self, dgms: list[np.ndarray]) -> list[np.ndarray]:
         """Remove points with infinite death times from each diagram."""
-        return [dgm[np.isfinite(dgm[:, 1])] for dgm in dgms]
+        return [dgm[np.isfinite(dgm).all(axis=1)] for dgm in dgms]
 
 
 def make_timedelay_embeddings(y: np.ndarray, tau: int, dim: int) -> np.ndarray:
