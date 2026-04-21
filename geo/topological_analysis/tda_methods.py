@@ -58,25 +58,34 @@ class PersistenceAnalysis:
     """Class for computing + plotting persistence tools: persistence diagrams, entropy, images, and Betti curves"""
 
     def __init__(self, dataset: np.ndarray = None, max_dim: int = 2):
+        """max_dim = max homology dim to compute (0 = connected components, 1 = loops...)"""
         self.dataset       = dataset
         self.max_dim       = max_dim
-        self.diagrams_list = None
-        self.entropy_array = None
-        self.persistence_images_list = None
-        self.betti_curves_array      = None
+        # self.diagrams_list = None
+        # self.entropy_array = None
+        # self.persistence_images_list = None
+        # self.betti_curves_array      = None
+        self._pimgr = PersistenceImager()
+        self._bc    = BettiCurve()
 
-    def plot_persistence_diagrams(self, dataset: np.ndarray, to_plot: bool = True):
-        """Make persistent homology plot for a dataset using the Vietoris-Rips filtration
-        If no dataset is provided, it will use random data
-        max_dim = max homology dimension to compute (0 = connected components, 1 = loops...)"""
-        if dataset is None:
-            print("No dataset provided, using random data")
-            num_points, dim_points = 800, 3
-            dataset = np.random.randn(num_points, dim_points)
-        diagrams_list = ripser(dataset, maxdim=self.max_dim)['dgms']
-        if to_plot:
-            plot_diagrams(diagrams_list, show=True)
-        return diagrams_list
+    # def plot_persistence_diagrams(self, dataset: np.ndarray, to_plot: bool = True):
+    #     """Make persistent homology plot for a dataset using the Vietoris-Rips filtration
+    #     If no dataset is provided, it will use random data
+    #     max_dim = max homology dimension to compute (0 = connected components, 1 = loops...)"""
+    #     if dataset is None:
+    #         print("No dataset provided, using random data")
+    #         num_points, dim_points = 800, 3
+    #         dataset = np.random.randn(num_points, dim_points)
+    #     diagrams_list = ripser(dataset, maxdim=self.max_dim)['dgms']
+    #     if to_plot:
+    #         plot_diagrams(diagrams_list, show=True)
+    #     return diagrams_list
+
+    def compute_persistence_diagrams(self, X: np.ndarray) -> list[np.ndarray]:
+        return ripser(X, maxdim=self.max_dim)['dgms']
+
+    def plot_diagrams(self, dgms):
+        plot_diagrams(dgms, show=True)
 
     def compute_entropy(self, dgms, feature_dim=None):
         """Return entropy per homology dimension or specific one."""
@@ -94,8 +103,8 @@ class PersistenceAnalysis:
 
     def compute_persistence_image(self, dgms):
         """Convert diagrams to persistence images."""
-        pimgr = PersistenceImager()
-        return pimgr.fit_transform(dgms)
+        self._pimgr.fit(dgms)
+        return self._pimgr.transform(dgms)
 
     def plot_persistence_image(self, pimg):
         """Visualize persistence image."""
@@ -106,9 +115,8 @@ class PersistenceAnalysis:
 
     def compute_betti_curves(self, dgms):
         """Return Betti curves."""
-        bc = BettiCurve()
-        X  = self.ripser_to_gtda(dgms)
-        return bc.fit_transform([X])
+        X = self.ripser_to_gtda(dgms)
+        return self._bc.fit_transform([X])
 
     def plot_betti_curves(self, betti_curves):
         """Plot Betti curves from giotto output."""
@@ -133,13 +141,26 @@ class PersistenceAnalysis:
             out.append(np.hstack([dgm, labels]))
         return np.vstack(out)
 
-    def remove_inf(self, dgms):
-        """Remove points with infinite death times."""
-        cleaned = []
-        for dgm in dgms:
-            mask = np.isfinite(dgm[:, 1])
-            cleaned.append(dgm[mask])
-        return cleaned
+    def dgms_to_tensor(self, dgms: list[np.ndarray]) -> np.ndarray:
+        """Convert list of diagrams -> padded tensor (N, P, 2)."""
+        max_len = max(len(dgm) for dgm in dgms)
+        out     = np.zeros((len(dgms), max_len, 2), dtype=np.float32)
+
+        for i, dgm in enumerate(dgms):
+            n = len(dgm)
+            out[i, :n] = dgm
+        return out
+
+    # def remove_inf(self, dgms):
+    #     """Remove points with infinite death times."""
+    #     cleaned = []
+    #     for dgm in dgms:
+    #         mask = np.isfinite(dgm[:, 1])
+    #         cleaned.append(dgm[mask])
+    #     return cleaned
+    def remove_inf(self, dgms: list[np.ndarray]) -> list[np.ndarray]:
+        """Remove points with infinite death times from each diagram."""
+        return [dgm[np.isfinite(dgm[:, 1])] for dgm in dgms]
 
 def make_timedelay_embeddings(y: np.ndarray, tau: int, dim: int) -> np.ndarray:
     """Time-delay embedding: returns shape (n_points, dim). Related to Takens' embedding theorem
