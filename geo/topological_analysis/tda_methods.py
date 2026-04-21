@@ -1,6 +1,7 @@
 """Module for topological data analysis (TDA) methods."""
 
 import numpy as np
+import torch
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -64,8 +65,10 @@ class PersistenceAnalysis:
         self._pimgr  = PersistenceImager()
         self._bc     = BettiCurve()
 
-    def compute_persistence_diagrams(self, X: np.ndarray) -> list[np.ndarray]:
-        """Returns list of persistence diagrams (one per homology dimension)"""
+    def compute_persistence_diagrams(self, X: np.ndarray | torch.Tensor) -> list[np.ndarray]:
+        """Returns list of persistence diagrams (one per homology dimension). Ripser expects np array, not tensor"""
+        if isinstance(X, torch.Tensor):
+            X = X.detach().cpu().numpy()
         return ripser(X, maxdim=self.max_dim)['dgms']
 
     def plot_persistence_diagrams(self, diagrams_list: list[np.ndarray], title="Persistence Diagrams"):
