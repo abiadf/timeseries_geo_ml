@@ -1,5 +1,6 @@
 """Module for topological data analysis (TDA) methods."""
 
+import math
 import numpy as np
 import torch
 import pandas as pd
@@ -72,23 +73,11 @@ class PersistenceAnalysis:
             X = X.detach().cpu().numpy()
         return ripser(X, maxdim=self.max_dim)['dgms']
 
-    def plot_persistence_diagrams(self, diagrams_list: list[np.ndarray], title="Persistence Diagrams"):
-        """Plot persistence diagrams using the persim command"""
-        plot_diagrams(diagrams_list, show=True, title=title)
-
     def compute_entropy(self, diagrams_list: list[np.ndarray], feature_dim=None) -> np.ndarray:
         """Return entropy per homology dimension or specific one."""
         if feature_dim is None:
             return persistent_entropy(diagrams_list)
         return persistent_entropy([diagrams_list[feature_dim]])
-
-    def plot_entropy(self, entropy):
-        """Bar plot of entropy per dimension."""
-        plt.bar(range(len(entropy)), entropy)
-        plt.xlabel("Homology dimension")
-        plt.ylabel("Entropy")
-        plt.title("Persistent Entropy")
-        plt.show()
 
     def compute_persistence_image(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
         """Convert diagrams to persistence images."""
@@ -100,30 +89,10 @@ class PersistenceAnalysis:
         self._pimgr.fit(diagrams_list)
         return self._pimgr.transform(diagrams_list)
 
-    def plot_persistence_image(self, pimg):
-        """Visualize persistence image."""
-        plt.imshow(pimg, origin='lower')
-        plt.colorbar()
-        plt.title("Persistence Image")
-        plt.show()
-
     def compute_betti_curves(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
         """Return Betti curves."""
         X = self.ripser_to_gtda(diagrams_list)
         return self._bc.fit_transform([X])
-
-    def plot_betti_curves(self, betti_curves: np.ndarray):
-        """Plot Betti curves from giotto output."""
-        curves = betti_curves[0]  # remove batch dim
-
-        for dim in range(curves.shape[0]):
-            plt.plot(curves[dim], label=f"H{dim}")
-
-        plt.legend()
-        plt.xlabel("Filtration step")
-        plt.ylabel("Betti number")
-        plt.title("Betti Curves")
-        plt.show()
 
     def ripser_to_gtda(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
         """Convert ripser diagrams to giotto format."""
@@ -148,6 +117,134 @@ class PersistenceAnalysis:
     def remove_inf(self, dgms: list[np.ndarray]) -> list[np.ndarray]:
         """Remove points with infinite death times from each diagram."""
         return [dgm[np.isfinite(dgm).all(axis=1)] for dgm in dgms]
+
+
+class PersistencePlotter(PersistenceAnalysis):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def _cache_diagrams(self, z_windows):
+        if isinstance(z_windows, torch.Tensor):
+            z_windows = z_windows.detach().cpu().numpy()
+
+        return [
+            self.remove_inf(self.compute_persistence_diagrams(z_windows[i]))
+            for i in range(z_windows.shape[0])]
+
+    def _window_grid(self, z_windows, transform_fn, plot_fn, max_windows=8, n_cols=4):
+        if isinstance(z_windows, torch.Tensor):
+            z_windows = z_windows.detach().cpu().numpy()
+
+        n_pages = min(z_windows.shape[0], max_windows)
+        n_cols  = min(n_cols, n_pages)
+        n_rows  = math.ceil(n_pages / n_cols)
+
+        fig, axes = plt.subplots(n_rows, n_cols, figsize=(4 * n_cols, 3.5 * n_rows))
+        axes      = axes.flatten()
+
+        for i in range(n_pages):
+            data = transform_fn(i)
+            plot_fn(axes[i], data, i)
+
+        for j in range(n_pages, len(axes)):
+            axes[j].axis("off")
+        return fig, axes
+
+    def plot_persistence_diagrams(self, diagrams_list: list[np.ndarray], title="Persistence Diagrams"):
+        """Plot persistence diagrams using the persim command"""
+        plot_diagrams(diagrams_list, show=True, title=title)
+
+    def plot_persistence_image(self, pimg):
+        """Visualize persistence image."""
+        plt.imshow(pimg, origin='lower')
+        plt.colorbar()
+        plt.title("Persistence Image")
+        plt.show()
+
+    def plot_betti_curves(self, betti_curves: np.ndarray):
+        """Plot Betti curves from giotto output."""
+        curves = betti_curves[0]  # remove batch dim
+
+        for dim in range(curves.shape[0]):
+            plt.plot(curves[dim], label=f"H{dim}")
+
+        plt.legend()
+        plt.xlabel("Filtration step")
+        plt.ylabel("Betti number")
+        plt.title("Betti Curves")
+        plt.show()
+
+    def plot_entropy(self, entropy):
+        """Bar plot of entropy per dimension."""
+        plt.bar(range(len(entropy)), entropy)
+        plt.xlabel("Homology dimension")
+        plt.ylabel("Entropy")
+        plt.title("Persistent Entropy")
+        plt.show()
+
+    def plot_persistence_grid(self, z_windows, max_windows=8, n_cols=4):
+        dgms_all = self._cache_diagrams(z_windows)
+
+        def _transform(i):
+            return dgms_all[i]
+
+        def plot(ax, diagrams, i):
+            for d, dgms in enumerate(diagrams):
+                ax.scatter(dgms[:, 0], dgms[:, 1], s=10, label=f"H{d}")
+
+            ax.plot([0, 1], [0, 1], 'k--', linewidth=1)
+            ax.set_title(f"window {i}")
+            ax.set_xlabel("")
+            ax.set_ylabel("")
+
+        fig, axes       = self._window_grid(z_windows, _transform, plot, max_windows, n_cols)
+        handles, labels = axes[0].get_legend_handles_labels()
+        fig.legend(handles, labels, loc='upper right', frameon=False)
+        fig.suptitle("Persistence diagrams across windows", fontsize=16)
+        plt.show()
+
+    def plot_persistence_image_grid(self, z_windows, max_windows=8, n_cols=4):
+        dgms_all = self._cache_diagrams(z_windows)
+
+        # self._pimgr.fit(dgms_all[0]) # IMPORTANT: fit ONCE globally
+        self._pimgr.fit([d for dgms in dgms_all for d in dgms if len(d) > 0])
+
+        def _transform(i):
+            dgms = dgms_all[i]
+            if all(len(d) == 0 for d in dgms):
+                return np.zeros((10, 10))
+            return self._pimgr.transform(dgms)[0]
+
+        def plot(ax, img, i):
+            ax.imshow(img, origin='lower', cmap='viridis')
+            ax.set_title(f"window {i}")
+            ax.set_xticks([])
+            ax.set_yticks([])
+
+        fig, axes = self._window_grid(z_windows, _transform, plot, max_windows, n_cols)
+        fig.colorbar(axes[0].images[0], ax=axes[:max_windows], shrink=0.7)
+        fig.suptitle("Persistence images across windows", fontsize=16)
+        plt.show()
+
+    def plot_betti_grid(self, z_windows, max_windows=8, n_cols=4):
+        dgms_all = self._cache_diagrams(z_windows)
+
+        def _transform(i):
+            return self.compute_betti_curves(dgms_all[i])[0]
+
+        def plot(ax, curves, i):
+            for d in range(curves.shape[0]):
+                ax.plot(curves[d], label=f"H{d}")
+
+            ax.set_title(f"window {i}")
+            ax.set_xticks([])
+            ax.set_yticks([])
+
+        fig, axes = self._window_grid(z_windows, _transform, plot, max_windows, n_cols)
+        handles, labels = axes[0].get_legend_handles_labels()
+        fig.legend(handles, labels, loc='upper right', frameon=False)
+        fig.suptitle("Betti curves across windows", fontsize=16)
+        plt.show()
 
 
 def make_timedelay_embeddings(y: np.ndarray, tau: int, dim: int) -> np.ndarray:
