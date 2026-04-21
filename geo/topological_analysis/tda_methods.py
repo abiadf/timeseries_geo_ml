@@ -89,6 +89,28 @@ class PersistenceAnalysis:
         self._pimgr.fit(diagrams_list)
         return self._pimgr.transform(diagrams_list)
 
+    def compute_persistence_images_global(self, dgms_all: list[list[np.ndarray]]) -> np.ndarray:
+        """Compute persistence images for many diagrams with ONE global fit
+        output shape: (n_diagrams, H, W)"""
+
+        # flatten all diagrams
+        all_dgms = [d for dgms in dgms_all for d in dgms if len(d) > 0]
+
+        if len(all_dgms) == 0:
+            return np.zeros((len(dgms_all), 10, 10))
+
+        self._pimgr.fit(all_dgms)
+
+        imgs = []
+        for dgms in dgms_all:
+            dgms = [d for d in dgms if len(d) > 0]
+
+            if len(dgms) == 0:
+                imgs.append(np.zeros((10, 10)))
+            else:
+                imgs.append(self._pimgr.transform(dgms)[0])
+        return np.stack(imgs)
+
     def compute_betti_curves(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
         """Return Betti curves."""
         X = self.ripser_to_gtda(diagrams_list)
@@ -120,6 +142,7 @@ class PersistenceAnalysis:
 
 
 class PersistencePlotter(PersistenceAnalysis):
+    """Class for plotting persistence diagrams, images, Betti curves, and entropy, for single diagrams or grids across windows."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -127,9 +150,8 @@ class PersistencePlotter(PersistenceAnalysis):
         if isinstance(z_windows, torch.Tensor):
             z_windows = z_windows.detach().cpu().numpy()
 
-        return [
-            self.remove_inf(self.compute_persistence_diagrams(z_windows[i]))
-            for i in range(z_windows.shape[0])]
+        return [self.remove_inf(self.compute_persistence_diagrams(z_windows[i]))
+                for i in range(z_windows.shape[0])]
 
     def _window_grid(self, z_windows, transform_fn, plot_fn, max_windows=8, n_cols=4):
         if isinstance(z_windows, torch.Tensor):
@@ -206,13 +228,22 @@ class PersistencePlotter(PersistenceAnalysis):
     def plot_persistence_image_grid(self, z_windows, max_windows=8, n_cols=4):
         dgms_all = self._cache_diagrams(z_windows)
 
-        # self._pimgr.fit(dgms_all[0]) # IMPORTANT: fit ONCE globally
-        self._pimgr.fit([d for dgms in dgms_all for d in dgms if len(d) > 0])
+        # flatten all diagrams for fitting (skip empty safely)
+        all_dgms = [d for dgms in dgms_all for d in dgms if len(d) > 0]
+
+        if len(all_dgms) == 0:
+            print("No valid diagrams")
+            return
+
+        self._pimgr.fit(all_dgms)
 
         def _transform(i):
             dgms = dgms_all[i]
-            if all(len(d) == 0 for d in dgms):
+            dgms = [d for d in dgms if len(d) > 0]
+
+            if len(dgms) == 0:
                 return np.zeros((10, 10))
+
             return self._pimgr.transform(dgms)[0]
 
         def plot(ax, img, i):
@@ -245,6 +276,25 @@ class PersistencePlotter(PersistenceAnalysis):
         fig.legend(handles, labels, loc='upper right', frameon=False)
         fig.suptitle("Betti curves across windows", fontsize=16)
         plt.show()
+
+    def compute_features(self, z_windows, mode: str = "image") -> np.ndarray:
+        """Return ML-ready features (N, D)"""
+
+        dgms_all = self._cache_diagrams(z_windows)
+
+        if mode == "image":
+            imgs = self.compute_persistence_images_global(dgms_all)
+            return imgs.reshape(imgs.shape[0], -1)
+
+        if mode == "betti":
+            curves = np.stack([self.compute_betti_curves(d)[0] for d in dgms_all])
+            return curves.reshape(curves.shape[0], -1)
+
+        if mode == "diagram":
+            tensors = [self.diagrams_to_tensor(d) for d in dgms_all]
+            X = np.stack(tensors)
+            return X.reshape(X.shape[0], -1)
+        raise ValueError(mode)
 
 
 def make_timedelay_embeddings(y: np.ndarray, tau: int, dim: int) -> np.ndarray:
