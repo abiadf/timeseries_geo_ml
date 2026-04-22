@@ -277,7 +277,7 @@ class PersistencePlotter(PersistenceAnalysis):
         fig.suptitle("Betti curves across windows", fontsize=16)
         plt.show()
 
-    def compute_features(self, z_windows, mode: str = "image") -> np.ndarray:
+    def compute_persistence_features(self, z_windows, mode: str = "image") -> np.ndarray:
         """Return ML-ready features (N, D)"""
 
         dgms_all = self._cache_diagrams(z_windows)
@@ -287,23 +287,67 @@ class PersistencePlotter(PersistenceAnalysis):
             return imgs.reshape(imgs.shape[0], -1)
 
         if mode == "betti":
-            curves = np.stack([self.compute_betti_curves(d)[0] for d in dgms_all])
+            curves_list = [self.compute_betti_curves(d)[0] for d in dgms_all]
+
+            max_dims = max(c.shape[0] for c in curves_list)
+            max_len  = max(c.shape[1] for c in curves_list)
+
+            curves = np.zeros((len(curves_list), max_dims, max_len), dtype=np.float32)
+
+            for i, c in enumerate(curves_list):
+                d, t = c.shape
+                curves[i, :d, :t] = c
+
             return curves.reshape(curves.shape[0], -1)
 
         if mode == "diagram":
             tensors = [self.diagrams_to_tensor(d) for d in dgms_all]
-            X = np.stack(tensors)
+            X       = np.stack(tensors)
             return X.reshape(X.shape[0], -1)
         raise ValueError(mode)
 
 
-def make_timedelay_embeddings(y: np.ndarray, tau: int, dim: int) -> np.ndarray:
-    """Time-delay embedding: returns shape (n_points, dim). Related to Takens' embedding theorem
-    y: 1D array of time series values
-    tau: time delay (number of steps), >=1
-    dim: embedding dimension (usually 2D)"""
-    n = len(y) - (dim - 1) * tau
-    return np.stack([y[i:i+n] for i in range(0, dim * tau, tau)], axis=1)
+class TakensEmbedding:
+    """Class for time-delay embedding of time series data, related to Takens' embedding theorem."""
+    def __init__(self, delay: int = 1, embedding_dim: int = 3):
+        """delay τ: time delay (number of steps), >=1. Rule of thumb; delay =~ period/10
+        embedding_dim: embedding dimension (usually 2D or 3D), the higher the richer topology structure"""
+        self.delay         = delay
+        self.embedding_dim = embedding_dim
+
+    def _embed_1d(self, x_1d: np.ndarray) -> np.ndarray:
+        """Embed 1D time series → (n_points, embedding_dim)."""
+        n = len(x_1d) - (self.embedding_dim - 1) * self.delay
+        if n <= 0:
+            raise ValueError(f"Time series too short: len={len(x_1d)}, delay={self.delay}, dim={self.embedding_dim}")
+        return np.stack([x_1d[i:i+n] for i in range(0, self.embedding_dim * self.delay, self.delay)], axis=1)
+
+    def make_timedelay_embeddings(self, x: np.ndarray) -> np.ndarray:
+        """Time-delay embedding: returns shape (n_points, dim).
+        x: 1D/2D array of time series values
+        1D -> (n_points, embedding_dim)
+        2D -> (n_points, embedding_dim * n_features) via per-channel embedding + concat"""
+
+        if isinstance(x, torch.Tensor):
+            x = x.detach().cpu().numpy()
+        if x.ndim == 1:
+            return self._embed_1d(x)
+        elif x.ndim == 2:
+            pcs = [self._embed_1d(x[:, i]) for i in range(x.shape[1])]
+            return np.concatenate(pcs, axis=1)  # (n, dim * D)
+        else:
+            raise ValueError("x must be 1D or 2D")
+
+    def make_timedelay_embeddings_grid(self, z_windows: np.ndarray | torch.Tensor) -> list[np.ndarray]:
+        """Apply time-delay embedding to each window in a grid
+        z_windows: 3D array of shape (n_windows, n_timesteps, n_features)"""
+
+        if isinstance(z_windows, torch.Tensor):
+            z_windows = z_windows.detach().cpu().numpy()
+
+        point_cloud_2d = [self.make_timedelay_embeddings(z_windows[i])
+               for i in range(z_windows.shape[0])]
+        return np.stack(point_cloud_2d, axis=0)
 
 def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
     """Plot one or multiple 3D point clouds with equal axis scaling.
