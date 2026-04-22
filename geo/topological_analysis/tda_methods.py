@@ -11,6 +11,110 @@ from persim import PersistenceImager, plot_diagrams
 from persim.persistent_entropy import persistent_entropy
 from gtda.diagrams import BettiCurve
 
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, TensorDataset
+
+
+class LSTMAutoencoder(nn.Module):
+    """LSTM autoencoder for time-series reconstruction + latent embedding. Good accuracy comes from
+    teacher forcing in "decode": feeding the true previous value at each step instead of the predicted one"""
+
+    def __init__(self, input_dim, latent_dim, encoder_hidden_dim=64, decoder_hidden_dim=64, epochs=100, learning_rate=0.001):
+        """input_dim = #features"""
+        super().__init__()
+
+        self.device     = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.input_dim  = input_dim
+        self.latent_dim = latent_dim
+        self.epochs     = epochs
+        self.learning_rate      = learning_rate
+        self.encoder_hidden_dim = encoder_hidden_dim
+        self.decoder_hidden_dim = decoder_hidden_dim
+
+        # encoder: sequence -> hidden
+        self.encoder   = nn.LSTM(input_size=input_dim, hidden_size=encoder_hidden_dim, batch_first=True)
+        # self.decoder   = nn.LSTM(input_size=latent_dim, hidden_size=decoder_hidden_dim, batch_first=True)
+        self.decoder   = nn.LSTM(input_size=input_dim + latent_dim, hidden_size=decoder_hidden_dim, batch_first=True)
+        self.to_latent = nn.Linear(encoder_hidden_dim, latent_dim)
+
+        # latent -> decoder initial state
+        self.to_h0 = nn.Linear(latent_dim, decoder_hidden_dim)
+        self.to_c0 = nn.Linear(latent_dim, decoder_hidden_dim)
+
+        # output projection
+        self.output_layer = nn.Linear(decoder_hidden_dim, input_dim)
+
+    def encode(self, x):
+        _, (h_n, _) = self.encoder(x)
+        h = h_n[-1]
+        z = self.to_latent(h)
+        return z
+
+    def decode(self, z, x):
+        """LSTM decoder with teacher forcing: predicts x_t from (x_{t-1}, z) by feeding a right-shifted x concatenated with z at each step."""
+        n_samples, n_rows, n_cols = x.size() # B = batch size, T = sequence length, D = input_dim
+        h0 = self.to_h0(z).unsqueeze(0)
+        c0 = self.to_c0(z).unsqueeze(0)
+
+        # decoder_input = z.unsqueeze(1).repeat(1, seq_len, 1)
+
+        # shift input right
+        x_shift = torch.zeros_like(x)
+        x_shift[:, 1:, :] = x[:, :-1, :]
+
+        # concat latent at each step
+        z_rep         = z.unsqueeze(1).expand(-1, n_rows, -1)
+        decoder_input = torch.cat([x_shift, z_rep], dim=-1)
+
+        y, _ = self.decoder(decoder_input, (h0, c0))
+        out  = self.output_layer(y)
+        return out
+
+    def forward(self, x):
+        """inference = encode + decode"""
+        x     = x.to(self.device)
+        z     = self.encode(x)
+        x_hat = self.decode(z, x)
+        return x_hat, z
+
+    def train_model(self, X, num_epochs=None, lr=None, patience=5, batch_size=32, device=None):
+        device = device or self.device
+        self.to(device)
+        X = X.to(device)
+
+        loader    = DataLoader(TensorDataset(X), batch_size=batch_size, shuffle=True)
+        optimizer = torch.optim.AdamW(self.parameters(), lr=lr or self.learning_rate)
+        loss_fn   = nn.MSELoss()
+        losses    = []
+        epochs    = num_epochs or self.epochs
+
+        for epoch in range(epochs):
+            epoch_loss = 0
+
+            for (x_batch,) in loader:
+                x_b = x_batch.to(device)
+                optimizer.zero_grad()
+
+                x_hat, _ = self.forward(x_b)
+                loss     = loss_fn(x_hat, x_b)
+
+                loss.backward()
+                optimizer.step()
+                epoch_loss += loss.item()
+
+            epoch_loss /= len(loader)
+            losses.append(epoch_loss)
+
+            if (epoch + 1) % 20 == 0:
+                print(f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss:.4f}")
+
+            if len(losses) > patience and losses[-1] > losses[-patience]:
+                print(f"Early stopping at epoch {epoch+1}")
+                break
+        return losses
+
+
 class GeometryConverter:
     """Class for angle conversions, ie angles-3D coords, for torus and sphere."""
     def __init__(self, R_major, r_tube):
@@ -339,18 +443,19 @@ class TakensEmbedding:
             raise ValueError("x must be 1D or 2D")
 
     def make_timedelay_embeddings_grid(self, z_windows: np.ndarray | torch.Tensor) -> list[np.ndarray]:
-        """Apply time-delay embedding to each window in a grid
+        """Apply time-delay embedding to each window in a grid.
+        Output is converted to np because persistence libraries dont like torch
         z_windows: 3D array of shape (n_windows, n_timesteps, n_features)"""
 
         if isinstance(z_windows, torch.Tensor):
             z_windows = z_windows.detach().cpu().numpy()
 
         point_cloud_2d = [self.make_timedelay_embeddings(z_windows[i])
-               for i in range(z_windows.shape[0])]
+                          for i in range(z_windows.shape[0])]
         return np.stack(point_cloud_2d, axis=0)
 
 def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
-    """Plot one or multiple 3D point clouds with equal axis scaling.
+    """Plot one or multiple 3D point clouds with equal axis scaling. If input is torch, converts to np
     clouds: tuples of (x, y, z)
     colors: list of colors (optional)"""
     fig = plt.figure(figsize=figsize)
@@ -359,9 +464,10 @@ def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
     if colors is None:
         colors = ['red'] * len(clouds)
 
-    all_x = np.concatenate([c[0] for c in clouds])
-    all_y = np.concatenate([c[1] for c in clouds])
-    all_z = np.concatenate([c[2] for c in clouds])
+    clouds_np = [tuple(torch_to_numpy(c_i) for c_i in c) for c in clouds]
+    all_x = np.concatenate([c[0] for c in clouds_np])
+    all_y = np.concatenate([c[1] for c in clouds_np])
+    all_z = np.concatenate([c[2] for c in clouds_np])
 
     max_range = np.array([
         all_x.max() - all_x.min(),
@@ -372,7 +478,7 @@ def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
     mid_y = (all_y.max() + all_y.min()) * 0.5
     mid_z = (all_z.max() + all_z.min()) * 0.5
 
-    for (x, y, z), c in zip(clouds, colors):
+    for (x, y, z), c in zip(clouds_np, colors):
         ax.scatter(x, y, z, color=c, alpha=alpha, s=size)
 
     ax.set_xlim(mid_x - max_range, mid_x + max_range)
@@ -381,3 +487,24 @@ def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
 
     plt.margins(0)
     plt.show()
+
+
+def numpy_to_torch(x: np.ndarray) -> torch.Tensor:
+    """converts np array to torch tensor (works for both CPU and GPU tensors)"""
+    if isinstance(x, np.ndarray):
+        x = torch.from_numpy(x).float()
+    return x
+
+def torch_to_numpy(x: torch.Tensor) -> np.ndarray:
+    """converts torch tensor to np array (works for both CPU and GPU tensors)"""
+    if isinstance(x, torch.Tensor):
+        return x.detach().cpu().numpy()
+    return x
+
+def window_2d_sequence(sequence, window_size: int, stride: int = 1):
+    """windows a 2d sequence to a 3d array of shape (num_windows, window_size, num_features).
+    stride = window_size means no overlap, stride = 1 means maximum overlap"""
+    if type(sequence) == np.ndarray:
+        return np.array([sequence[i:i+window_size] for i in range(0, len(sequence) - window_size + 1, stride)])
+    elif type(sequence) == torch.Tensor:
+        return torch.stack([sequence[i:i+window_size] for i in range(0, len(sequence) - window_size + 1, stride)])
