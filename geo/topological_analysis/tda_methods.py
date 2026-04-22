@@ -3,11 +3,10 @@
 import math
 import numpy as np
 import torch
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from ripser import ripser
-from persim import PersistenceImager, plot_diagrams
+from persim import PersistenceImager, plot_diagrams, PersLandscapeApprox, PersLandscapeExact
 from persim.persistent_entropy import persistent_entropy
 from gtda.diagrams import BettiCurve
 
@@ -215,6 +214,36 @@ class PersistenceAnalysis:
                 imgs.append(self._pimgr.transform(dgms)[0])
         return np.stack(imgs)
 
+    def compute_persistence_landscape(self, diagrams_list: list[np.ndarray], approx: bool = True, K_layers: int = 3, num_steps: int = 100, flatten: bool = True) -> np.ndarray:
+        """Compute persistence landscape. See https://persim.scikit-tda.org/en/latest/notebooks/Persistence%20landscapes.html 
+        K = #layers in the landscape (the k-th layer is the k-th largest "tent function" at each point in the grid)
+        approx=True -> PersLandscapeApprox (ML-ready grid)
+        approx=False -> PersLandscapeExact (list of critical points)
+        returns array if approx else object"""
+        diagrams_list = [d for d in diagrams_list if len(d) > 0]
+        if len(diagrams_list) == 0:
+            return np.zeros((1, num_steps)) if approx else None
+
+        if approx:
+            persist_landscape = PersLandscapeApprox(dgms=diagrams_list, num_steps=num_steps, k=K_layers)
+            vals              = persist_landscape.values  # shape: (k_layers, num_steps)
+            return vals.reshape(-1) if flatten else vals
+        return PersLandscapeExact(dgms=diagrams_list)
+
+    def compute_persistence_landscapes_global(self, dgms_all: list[list[np.ndarray]], num_steps: int = 100, K_layers: int = 3) -> np.ndarray:
+        """Compute landscapes for many diagrams → (N, D). This functino is called by compute_persistence_features"""
+        landscapes = []
+        for dgms in dgms_all:
+            vals = self.compute_persistence_landscape(dgms, approx=True, K_layers=K_layers, num_steps=num_steps, flatten=False)
+
+            k = vals.shape[0]
+            if k < K_layers:
+                vals = np.vstack([vals, np.zeros((K_layers-k, num_steps))])
+            else:
+                vals = vals[:K_layers]
+            landscapes.append(vals.reshape(-1))
+        return np.stack(landscapes)
+
     def compute_betti_curves(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
         """Return Betti curves."""
         X = self.ripser_to_gtda(diagrams_list)
@@ -381,8 +410,37 @@ class PersistencePlotter(PersistenceAnalysis):
         fig.suptitle("Betti curves across windows", fontsize=16)
         plt.show()
 
+    def plot_landscape(self, landscape: np.ndarray):
+        """Plot persistence landscape (approx only)"""
+        for i in range(landscape.shape[0]):
+            plt.plot(landscape[i], label=f"λ_{i}")
+        plt.legend()
+        plt.title("Persistence Landscape")
+        plt.show()
+
+    def plot_landscape_grid(self, z_windows, max_windows=8, n_cols=4, num_steps=100):
+        """Plot landscapes across windows. Uses the approximate entry for ML stuff
+        num_steps = #steps in the landscape grid (x-axis resolution), larger = smoother and slower"""
+        dgms_all = self._cache_diagrams(z_windows)
+
+        def _transform(i):
+            return self.compute_persistence_landscape(dgms_all[i], approx=True, num_steps=num_steps, flatten=False)
+
+        def plot(ax, land, i):
+            """plot mean landscape per plot, not individual lines"""
+            mean_land = land.mean(axis=0)
+            ax.plot(mean_land)
+            ax.set_title(f"window {i}")
+            ax.set_xticks([])
+            ax.set_yticks([])
+
+        fig, axes = self._window_grid(z_windows, _transform, plot, max_windows, n_cols)
+        fig.suptitle("Persistence Landscapes across windows", fontsize=16)
+        plt.show()
+
     def compute_persistence_features(self, z_windows, mode: str = "image") -> np.ndarray:
-        """Return ML-ready features (N, D)"""
+        """Return ML-ready features (N, D)
+        mode options: image, betti, diagram, landscape"""
 
         dgms_all = self._cache_diagrams(z_windows)
 
@@ -401,13 +459,16 @@ class PersistencePlotter(PersistenceAnalysis):
             for i, c in enumerate(curves_list):
                 d, t = c.shape
                 curves[i, :d, :t] = c
-
             return curves.reshape(curves.shape[0], -1)
 
         if mode == "diagram":
             tensors = [self.diagrams_to_tensor(d) for d in dgms_all]
             X       = np.stack(tensors)
             return X.reshape(X.shape[0], -1)
+
+        if mode == "landscape":
+            return self.compute_persistence_landscapes_global(dgms_all)
+
         raise ValueError(mode)
 
 
@@ -453,6 +514,7 @@ class TakensEmbedding:
         point_cloud_2d = [self.make_timedelay_embeddings(z_windows[i])
                           for i in range(z_windows.shape[0])]
         return np.stack(point_cloud_2d, axis=0)
+
 
 def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
     """Plot one or multiple 3D point clouds with equal axis scaling. If input is torch, converts to np
