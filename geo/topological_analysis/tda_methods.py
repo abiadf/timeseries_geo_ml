@@ -108,7 +108,7 @@ class LSTMAutoencoder(nn.Module):
                 print(f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss:.4f}")
 
             if len(losses) > patience and losses[-1] > losses[-patience]:
-                print(f"Early stopping at epoch {epoch+1}")
+                print(f"Early stopping at epoch {epoch+1}, loss = {epoch_loss:.4f}")
                 break
         return losses
 
@@ -191,7 +191,7 @@ class PersistenceAnalysis:
         self._pimgr.fit(diagrams_list)
         return self._pimgr.transform(diagrams_list)
 
-    def compute_persistence_images_global(self, dgms_all: list[list[np.ndarray]]) -> np.ndarray:
+    def _compute_persistence_images_global(self, dgms_all: list[list[np.ndarray]]) -> np.ndarray:
         """Compute persistence images for many diagrams with ONE global fit
         output shape: (n_diagrams, H, W)"""
 
@@ -213,8 +213,7 @@ class PersistenceAnalysis:
                 imgs.append(self._pimgr.transform(dgms)[0])
         return np.stack(imgs)
 
-    def compute_persistence_landscape(self, diagrams_list: list[np.ndarray], approx: bool = True, num_steps: int = 100, flatten: bool = True) -> np.ndarray:
-    # def compute_persistence_landscape(self, diagrams_list: list[np.ndarray], approx: bool = True, K_layers: int = 3, num_steps: int = 100, flatten: bool = True) -> np.ndarray:
+    def compute_persistence_landscape(self, diagrams_list: list[np.ndarray], approx: bool = True, num_steps: int = 100, K_layers: int = 3, flatten: bool = True) -> np.ndarray:
         """Compute persistence landscape. See https://persim.scikit-tda.org/en/latest/notebooks/Persistence%20landscapes.html 
         K = #layers in the landscape (the k-th layer is the k-th largest "tent function" at each point in the grid)
         approx=True -> PersLandscapeApprox (ML-ready grid)
@@ -225,17 +224,18 @@ class PersistenceAnalysis:
             return np.zeros((0, num_steps)) if approx else None
 
         if approx:
-            persist_landscape = PersLandscapeApprox(dgms=diagrams_list, num_steps=num_steps, k=K_layers)
+            persist_landscape = PersLandscapeApprox(dgms=diagrams_list, num_steps=num_steps)#, k=K_layers)
             vals              = persist_landscape.values  # shape: (k_layers, num_steps)
             return vals.reshape(-1) if flatten else vals
         return PersLandscapeExact(dgms=diagrams_list)
 
-    def compute_persistence_landscapes_global(self, dgms_all: list[list[np.ndarray]], num_steps: int = 100, K_layers: int = 3) -> np.ndarray:
+    def _compute_persistence_landscapes_global(self, dgms_all: list[list[np.ndarray]], num_steps: int = 100, K_layers: int = 3) -> np.ndarray:
         """Compute landscapes for many diagrams → (N, D). This functino is called by compute_persistence_features"""
         landscapes = []
         for dgms in dgms_all:
             # vals = self.compute_persistence_landscape(dgms, approx=True, K_layers=K_layers, num_steps=num_steps, flatten=False)
-            vals = self.compute_persistence_landscape(dgms, approx=True, num_steps=num_steps, flatten=False)
+            # vals = self.compute_persistence_landscape(dgms, approx=True, num_steps=num_steps, flatten=False)
+            vals = self.compute_persistence_landscape(dgms, approx=True, num_steps=num_steps, K_layers=K_layers, flatten=False)
             k    = vals.shape[0]
 
             if k == 0:
@@ -463,7 +463,7 @@ class PersistencePlotter(PersistenceAnalysis):
         dgms_all = self._cache_diagrams(z_windows)
 
         if mode == "image":
-            imgs = self.compute_persistence_images_global(dgms_all)
+            imgs = self._compute_persistence_images_global(dgms_all)
             return imgs.reshape(imgs.shape[0], -1)
 
         if mode == "betti":
@@ -485,7 +485,7 @@ class PersistencePlotter(PersistenceAnalysis):
             return X.reshape(X.shape[0], -1)
 
         if mode == "landscape":
-            return self.compute_persistence_landscapes_global(dgms_all)
+            return self._compute_persistence_landscapes_global(dgms_all)
 
         raise ValueError(mode)
 
