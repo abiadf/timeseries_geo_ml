@@ -42,6 +42,7 @@ statsmodels
 # protobuf==4.25.3 #this is with tensorflow
 # ==
 torch
+torchmetrics
 tqdm
 tslearn
 pykeops

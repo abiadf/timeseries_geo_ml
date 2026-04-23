@@ -20,4 +20,5 @@ USE_EXOGENOUS=True ['landscape', 'image', 'diagram'] → mean MSE: 0.018852±0.0
 
 USE_EXOGENOUS=True ['landscape', 'image', 'diagram'] → MSE: 0.019788±0.006127
 USE_EXOGENOUS=True ['betti'] → MSE: 0.014277±0.003118
-USE_EXOGENOUS=False ['betti'] → MSE: 0.020111±0.008951
+USE_EXOGENOUS=False ['betti'] → MSE: 0.0201±0.0090, R²: 0.6711±0.1421
+USE_EXOGENOUS=True ['betti'] → MSE: 0.0143±0.0031, R²: 0.7612±0.0483
