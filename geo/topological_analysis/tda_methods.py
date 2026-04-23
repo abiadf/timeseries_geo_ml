@@ -1,9 +1,13 @@
 """Module for topological data analysis (TDA) methods."""
 
 import math
+from datetime import datetime
+
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+
 from ripser import ripser
 from persim import PersistenceImager, plot_diagrams, PersLandscapeApprox, PersLandscapeExact
 from persim.persistent_entropy import persistent_entropy
@@ -12,6 +16,7 @@ from gtda.diagrams import BettiCurve
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
+from scipy.stats import wasserstein_distance
 
 
 class LSTMAutoencoder(nn.Module):
@@ -534,6 +539,52 @@ class TakensEmbedding:
         return np.stack(point_cloud_2d, axis=0)
 
 
+class WassersteinDistance:
+    """Class that computes wasserstein distance between 2 consecutive windows"""
+
+    @staticmethod
+    def compute_wasserstein_distances(z_betti, z_image, z_diagram, z_landscape, delay: int) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        """computes Wasserstein distance between consecutive windows for each persistence feature type
+        output: 4x arrays of Wasser. distances, each array is 1D vector of size (num_windows - delay)"""
+        betti_dist_array     = np.array([wasserstein_distance(z_betti[i-delay], z_betti[i]) for i in range(delay, z_betti.shape[0])])
+        image_dist_array     = np.array([wasserstein_distance(z_image[i-delay], z_image[i]) for i in range(delay, z_image.shape[0])])
+        diagram_dist_array   = np.array([wasserstein_distance(z_diagram[i-delay], z_diagram[i]) for i in range(delay, z_diagram.shape[0])])
+        landscape_dist_array = np.array([wasserstein_distance(z_landscape[i-delay], z_landscape[i]) for i in range(delay, z_landscape.shape[0])])
+        return betti_dist_array, image_dist_array, diagram_dist_array, landscape_dist_array
+
+    @staticmethod
+    def plot_all_wasserstein_distances(betti_dist_array, image_dist_array, diagram_dist_array, landscape_dist_array):
+        """plots all wasserstein distances for each of the input arrays. Each plot is a single line, since the
+        wasserstein distance function outputs a 1D vector for each representation type."""
+        fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+
+        axes[0, 0].plot(betti_dist_array, color='blue')
+        axes[0, 0].set_title("Betti")
+
+        axes[0, 1].plot(image_dist_array, color='green')
+        axes[0, 1].set_title("Image")
+
+        axes[1, 0].plot(diagram_dist_array, color='red')
+        axes[1, 0].set_title("Diagram")
+
+        axes[1, 1].plot(landscape_dist_array, color='orange')
+        axes[1, 1].set_title("Landscape")
+
+        fig.suptitle("Wasserstein Distances Across Representations", fontsize=16)
+        fig.supxlabel("Window")
+        fig.supylabel("d_wasser")
+
+        plt.subplots_adjust(
+            left=0.07,
+            right=0.98,
+            bottom=0.08,
+            top=0.88,
+            wspace=0.15,
+            hspace=0.25)
+        plt.show()
+
+
+
 def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
     """Plot one or multiple 3D point clouds with equal axis scaling. If input is torch, converts to np
     clouds: tuples of (x, y, z)
@@ -568,6 +619,95 @@ def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
     plt.margins(0)
     plt.show()
 
+def plot_all_features_in_2d_array(dataset, window_number=0):
+    """plots everything in 2d array. If array is 3d, plots features of a given input window"""
+    plt.figure(figsize=(12, 7))
+
+    # 3d array
+    if dataset.ndim == 3 and dataset.shape[0] > 1:
+        print(f"Plotting features for window {window_number} (dataset shape: {dataset.shape})")
+        title = f"Features for window {window_number}"
+
+        shape_idx_of_interest = 2 # 0 = windows, 1 = timesteps, 2 (or -1) = features
+        for i in range(dataset.shape[shape_idx_of_interest]):
+            plt.plot(dataset[window_number, :, i].cpu(), label=f'z{i}')
+
+    # 2d array
+    elif dataset.ndim == 2 or (dataset.ndim == 3 and dataset.shape[0] == 1):
+        title = f"Features for entire array"
+
+        shape_idx_of_interest = 1
+        for i in range(dataset.shape[shape_idx_of_interest]):
+            plt.plot(dataset[:, i].cpu(), label=f'z{i}')
+
+    plt.title(title)
+    plt.legend(fontsize=6)
+    plt.show()
+
+def plot_latent_evolution_grid(z: np.ndarray | torch.Tensor, max_latent_dims: int = 8, n_plots_per_row: int = 4):
+    """Given 3D array, plot Heatmaps for latent tensors (W, C, L) as per-dimension heatmaps in a grid.
+    Args:
+        z: (W, C, L) array or tensor.
+        max_latent_dims: max L to plot.
+        n_plots_per_row: grid width.
+    Note: Each subplot is independently scaled."""
+
+    if isinstance(z, torch.Tensor):
+        z = z.detach().cpu().numpy()
+
+    L     = min(z.shape[2], max_latent_dims)
+    nrows = int(np.ceil(L / n_plots_per_row))
+    
+    fig, axes = plt.subplots(
+        nrows,
+        n_plots_per_row,
+        figsize=(4 * n_plots_per_row + 1, 3.6 * nrows),
+        constrained_layout=True)
+    axes = axes.flatten()
+
+    im = None
+    for i in range(L):
+        im = axes[i].imshow(z[:, :, i], aspect='auto', cmap='hot')
+        axes[i].set_title(f"z[{i}]")
+        axes[i].yaxis.set_major_locator(MaxNLocator(integer=True))
+
+        # remove per-plot axis labels
+        axes[i].set_xlabel("")
+        axes[i].set_ylabel("")
+
+    for j in range(L, len(axes)):
+        axes[j].axis('off')
+
+    fig.subplots_adjust(right=0.88) # right-side colorbar
+
+    cbar = fig.colorbar(
+        im,
+        ax=axes[:L],
+        orientation='vertical',
+        fraction=0.03,
+        pad=0.02,
+        shrink=0.9)
+    cbar.set_label("activation")
+
+    # global axis labels
+    fig.text(0.5, -0.02, "chunk t", ha='center', va='bottom')
+    fig.text(0.0, 0.5, "window #", va='center', rotation='vertical')
+
+    # note
+    fig.text(
+        0.99,
+        -0.02,
+        "Colors are normalized per latent feature plot; not comparable across subplots.",
+        ha='right',
+        va='bottom',
+        fontsize=8,
+        alpha=0.7)
+
+    fig.suptitle("z across windows + chunks", fontsize=16)
+    plt.show()
+
+
+
 
 def numpy_to_torch(x: np.ndarray) -> torch.Tensor:
     """converts np array to torch tensor (works for both CPU and GPU tensors)"""
@@ -588,3 +728,11 @@ def window_2d_sequence(sequence, window_size: int, stride: int = 1):
         return np.array([sequence[i:i+window_size] for i in range(0, len(sequence) - window_size + 1, stride)])
     elif type(sequence) == torch.Tensor:
         return torch.stack([sequence[i:i+window_size] for i in range(0, len(sequence) - window_size + 1, stride)])
+
+
+def write_results_to_file(file: str, line: str):
+    """appends line to file + adds time"""
+    with open(file, "a") as f:
+        current_time = datetime.now().strftime("%H:%M")
+        f.write(current_time + " " + line)
+
