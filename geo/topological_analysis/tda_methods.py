@@ -4,7 +4,6 @@ import math
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
-import seaborn as sns
 from ripser import ripser
 from persim import PersistenceImager, plot_diagrams, PersLandscapeApprox, PersLandscapeExact
 from persim.persistent_entropy import persistent_entropy
@@ -214,7 +213,8 @@ class PersistenceAnalysis:
                 imgs.append(self._pimgr.transform(dgms)[0])
         return np.stack(imgs)
 
-    def compute_persistence_landscape(self, diagrams_list: list[np.ndarray], approx: bool = True, K_layers: int = 3, num_steps: int = 100, flatten: bool = True) -> np.ndarray:
+    def compute_persistence_landscape(self, diagrams_list: list[np.ndarray], approx: bool = True, num_steps: int = 100, flatten: bool = True) -> np.ndarray:
+    # def compute_persistence_landscape(self, diagrams_list: list[np.ndarray], approx: bool = True, K_layers: int = 3, num_steps: int = 100, flatten: bool = True) -> np.ndarray:
         """Compute persistence landscape. See https://persim.scikit-tda.org/en/latest/notebooks/Persistence%20landscapes.html 
         K = #layers in the landscape (the k-th layer is the k-th largest "tent function" at each point in the grid)
         approx=True -> PersLandscapeApprox (ML-ready grid)
@@ -222,7 +222,7 @@ class PersistenceAnalysis:
         returns array if approx else object"""
         diagrams_list = [d for d in diagrams_list if len(d) > 0]
         if len(diagrams_list) == 0:
-            return np.zeros((1, num_steps)) if approx else None
+            return np.zeros((0, num_steps)) if approx else None
 
         if approx:
             persist_landscape = PersLandscapeApprox(dgms=diagrams_list, num_steps=num_steps, k=K_layers)
@@ -234,14 +234,18 @@ class PersistenceAnalysis:
         """Compute landscapes for many diagrams → (N, D). This functino is called by compute_persistence_features"""
         landscapes = []
         for dgms in dgms_all:
-            vals = self.compute_persistence_landscape(dgms, approx=True, K_layers=K_layers, num_steps=num_steps, flatten=False)
+            # vals = self.compute_persistence_landscape(dgms, approx=True, K_layers=K_layers, num_steps=num_steps, flatten=False)
+            vals = self.compute_persistence_landscape(dgms, approx=True, num_steps=num_steps, flatten=False)
+            k    = vals.shape[0]
 
-            k = vals.shape[0]
-            if k < K_layers:
-                vals = np.vstack([vals, np.zeros((K_layers-k, num_steps))])
+            if k == 0:
+                vals = np.zeros((K_layers, num_steps))  # <-- FIX (important)
+            elif k < K_layers:
+                vals = np.vstack([vals, np.zeros((K_layers - k, num_steps))])
             else:
                 vals = vals[:K_layers]
             landscapes.append(vals.reshape(-1))
+
         return np.stack(landscapes)
 
     def compute_betti_curves(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
@@ -259,7 +263,7 @@ class PersistenceAnalysis:
             out.append(np.hstack([dgm, labels]))
         return np.vstack(out)
 
-    def diagrams_to_tensor(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
+    def convert_persistence_diagrams_to_tensor(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
         """Convert list of diagrams -> padded tensor (N, P, 2)."""
         max_len = max(len(dgm) for dgm in diagrams_list)
         out     = np.zeros((len(diagrams_list), max_len, 2), dtype=np.float32)
@@ -418,13 +422,27 @@ class PersistencePlotter(PersistenceAnalysis):
         plt.title("Persistence Landscape")
         plt.show()
 
-    def plot_landscape_grid(self, z_windows, max_windows=8, n_cols=4, num_steps=100):
+    def plot_landscape_grid(self, z_windows, max_windows=8, n_cols=4, num_steps=100, K_layers=3):
         """Plot landscapes across windows. Uses the approximate entry for ML stuff
-        num_steps = #steps in the landscape grid (x-axis resolution), larger = smoother and slower"""
+        num_steps = #steps in the landscape grid (x-axis resolution), larger = smoother and slower
+        K_layers = #layers in landscape (user-set), larger = richer representation but higher dim, smaller = more compressed but faster. We pad
+        with zeros if there are less than K layers, and we cut if there are more than K layers, to get a fixed-size output for ML.
+        n_layers = computed #layers in the landscape"""
         dgms_all = self._cache_diagrams(z_windows)
 
         def _transform(i):
-            return self.compute_persistence_landscape(dgms_all[i], approx=True, num_steps=num_steps, flatten=False)
+            """n_layers = computed #layers in the landscape. We pad with zeros if there are less than k layers, and we cut if there are more than k layers.
+            This way we get a fixed-size output for ML"""
+            vals     = self.compute_persistence_landscape(dgms_all[i], approx=True, num_steps=num_steps, flatten=False)
+            n_layers = vals.shape[0]
+
+            if n_layers == 0:
+                vals = np.zeros((K_layers, num_steps))
+            elif n_layers < K_layers:
+                vals = np.vstack([vals, np.zeros((K_layers-n_layers, num_steps))])
+            else:
+                vals = vals[:K_layers]
+            return vals
 
         def plot(ax, land, i):
             """plot mean landscape per plot, not individual lines"""
@@ -439,7 +457,7 @@ class PersistencePlotter(PersistenceAnalysis):
         plt.show()
 
     def compute_persistence_features(self, z_windows, mode: str = "image") -> np.ndarray:
-        """Return ML-ready features (N, D)
+        """Return ML-ready features (N, D). This function runs the whole pipeline: diagrams + feature extraction, for many windows.
         mode options: image, betti, diagram, landscape"""
 
         dgms_all = self._cache_diagrams(z_windows)
@@ -462,7 +480,7 @@ class PersistencePlotter(PersistenceAnalysis):
             return curves.reshape(curves.shape[0], -1)
 
         if mode == "diagram":
-            tensors = [self.diagrams_to_tensor(d) for d in dgms_all]
+            tensors = [self.convert_persistence_diagrams_to_tensor(d) for d in dgms_all]
             X       = np.stack(tensors)
             return X.reshape(X.shape[0], -1)
 
