@@ -1,0 +1,23 @@
+USE_EXOGENOUS=False ['landscape'] → mean MSE: 0.020111±0.008951
+USE_EXOGENOUS=True ['betti'] → mean MSE: 0.013340±0.003318
+
+USE_EXOGENOUS=True ['diagram'] → mean MSE: 0.015657±0.004557
+USE_EXOGENOUS=True ['image'] → mean MSE: 0.015718±0.004556
+USE_EXOGENOUS=True ['diagram'] → mean MSE: 0.015657±0.004557
+USE_EXOGENOUS=True ['landscape'] → mean MSE: 0.015507±0.004492
+USE_EXOGENOUS=True ['betti', 'image', 'diagram', 'landscape'] → mean MSE: 0.014433±0.005661
+USE_EXOGENOUS=True ['betti', 'image'] → mean MSE: 0.016769±0.006421
+USE_EXOGENOUS=True ['betti', 'diagram'] → mean MSE: 0.016757±0.006418
+USE_EXOGENOUS=True ['betti', 'landscape'] → mean MSE: 0.016730±0.006392
+USE_EXOGENOUS=True ['landscape', 'diagram'] → mean MSE: 0.023582±0.007015
+USE_EXOGENOUS=True ['landscape', 'image'] → mean MSE: 0.023747±0.007085
+USE_EXOGENOUS=True ['diagram', 'image'] → mean MSE: 0.023834±0.007089
+USE_EXOGENOUS=True ['betti', 'image', 'diagram'] → mean MSE: 0.017309±0.005148
+USE_EXOGENOUS=True ['betti', 'image', 'landscape'] → mean MSE: 0.017254±0.005108
+USE_EXOGENOUS=True ['betti', 'landscape', 'diagram'] → mean MSE: 0.017147±0.004998
+USE_EXOGENOUS=True ['landscape', 'image', 'diagram'] → mean MSE: 0.018852±0.006601
+
+
+USE_EXOGENOUS=True ['landscape', 'image', 'diagram'] → MSE: 0.019788±0.006127
+USE_EXOGENOUS=True ['betti'] → MSE: 0.014277±0.003118
+USE_EXOGENOUS=False ['betti'] → MSE: 0.020111±0.008951
