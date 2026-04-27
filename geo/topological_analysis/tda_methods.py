@@ -617,19 +617,28 @@ class WassersteinDistance:
     """Class that computes wasserstein distance between 2 consecutive windows"""
 
     @staticmethod
-    def compute_wasserstein_distance(persistence_array, delay: int) -> np.ndarray:
+    def compute_wasserstein_distance(array1, array2, delay: int) -> np.ndarray:
         """computes Wasserstein distance between consecutive windows for desired persistence feature type
-        output: 1D Wasser. distance vector of size (num_windows - delay)"""
+        output: 1D Wasser. distance vector of size (num_windows - delay)
 
-        def safe_wass(a, b):
-            if len(a) == 0 or len(b) == 0:
+        Case 1: only 1 array input (array1) → temporal Wasserstein across windows
+        Case 2: 2 arrays input (array1, array2) → Wasserstein between two sequences (aligned)"""
+
+        def safe_wass(x, y):
+            if len(x) == 0 or len(y) == 0:
                 return 0.0
-            return wasserstein_distance(a, b)
+            return wasserstein_distance(x, y)
 
-        wasser_dist_array = np.array([
-            safe_wass(persistence_array[i-delay], persistence_array[i])
-            for i in range(delay, persistence_array.shape[0])])
-        return wasser_dist_array
+        # CASE 1: single input
+        if array2 is None:
+            return np.array([safe_wass(array1[i - delay], array1[i])
+                             for i in range(delay, array1.shape[0])])
+
+        # CASE 2: compare two sequences
+        assert array1.shape[0] == array2.shape[0], "Sequences must be aligned"
+
+        return np.array([safe_wass(array1[i], array2[i])
+                         for i in range(array1.shape[0])])
 
     @staticmethod
     def plot_all_wasserstein_distances(betti_dist_train, image_dist_train, diagram_dist_train, landscape_dist_train):
