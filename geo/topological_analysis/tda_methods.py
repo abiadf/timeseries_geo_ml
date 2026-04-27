@@ -16,6 +16,8 @@ from gtda.diagrams import BettiCurve
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
+from torchmetrics.regression import R2Score
+
 from scipy.stats import wasserstein_distance
 
 
@@ -37,7 +39,6 @@ class LSTMAutoencoder(nn.Module):
 
         # encoder: sequence -> hidden
         self.encoder   = nn.LSTM(input_size=input_dim, hidden_size=encoder_hidden_dim, batch_first=True)
-        # self.decoder   = nn.LSTM(input_size=latent_dim, hidden_size=decoder_hidden_dim, batch_first=True)
         self.decoder   = nn.LSTM(input_size=input_dim + latent_dim, hidden_size=decoder_hidden_dim, batch_first=True)
         self.to_latent = nn.Linear(encoder_hidden_dim, latent_dim)
 
@@ -100,11 +101,11 @@ class LSTMAutoencoder(nn.Module):
                 optimizer.zero_grad()
 
                 x_hat, _ = self.forward(x_b)
-                loss     = loss_fn(x_hat, x_b)
+                loss_rec = loss_fn(x_hat, x_b)
 
-                loss.backward()
+                loss_rec.backward()
                 optimizer.step()
-                epoch_loss += loss.item()
+                epoch_loss += loss_rec.item()
 
             epoch_loss /= len(loader)
             losses.append(epoch_loss)
@@ -117,6 +118,73 @@ class LSTMAutoencoder(nn.Module):
                 break
         return losses
 
+
+class ZForecaster(nn.Module):
+    """Super simple LSTM forecaster for z_T > z_t+1"""
+    def __init__(self, input_dim: int, hidden_dim: int, output_dim: int, horizon: int):
+        super().__init__()
+        self.horizon    = horizon
+        self.output_dim = output_dim
+        self.lstm       = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.fc         = nn.Linear(hidden_dim, output_dim * horizon)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        _, (h, _) = self.lstm(x)
+        out       = self.fc(h[-1])
+        return out.reshape(x.size(0), self.horizon, self.output_dim)
+
+    def train_eval_forecaster(self, x_train: torch.Tensor, y_train: torch.Tensor, x_test: torch.Tensor, y_test: torch.Tensor, input_dim: int, n_cols: int, H: int, device: torch.device, n_runs: int = 8, epochs: int = 50, batch_size: int = 32, lr: float = 1e-3, hidden_dim: int = 64) -> tuple[float, float, float, float]:
+        """Train multiple runs of ZForecaster and return mean/std of MSE and R2.
+        x_train (3D tensor) predicts y_train (3D tensor) for H steps ahead
+        x_test (3D tensor) predicts y_test (3D tensor) for H steps ahead
+        y_* could be targets y or future X_* values, depends on task (both work fine)"""
+
+        loss_fn = nn.MSELoss()
+        mse_list, r2_list = [], []
+
+        for run in range(n_runs):
+            torch.manual_seed(run)
+            model     = ZForecaster(input_dim, hidden_dim, n_cols, H).to(device)
+            optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
+            loader    = DataLoader(TensorDataset(x_train, y_train), batch_size=batch_size, shuffle=True)
+
+            for _ in range(epochs):
+                model.train()
+                for xb, yb in loader:
+                    xb, yb = xb.to(device), yb.to(device)
+                    optimizer.zero_grad()
+                    loss = loss_fn(model(xb), yb)
+                    loss.backward()
+                    optimizer.step()
+
+            model.eval()
+            with torch.no_grad():
+                preds = []
+                trues = []
+
+                for xb, yb in DataLoader(TensorDataset(x_test, y_test), batch_size=batch_size, shuffle=False):
+                    xb = xb.to(device)
+                    yb = yb.to(device)
+
+                    preds.append(model(xb))
+                    trues.append(yb)
+
+                y_pred = torch.cat(preds, dim=0)
+                y_true = torch.cat(trues, dim=0)
+
+                mse = loss_fn(y_pred, y_true).item()
+
+                r2_metric = R2Score(multioutput='uniform_average').to(device)
+                r2 = r2_metric(
+                    y_pred.reshape(-1, n_cols),
+                    y_true.reshape(-1, n_cols)
+                ).item()
+
+            mse_list.append(mse)
+            r2_list.append(r2)
+
+            print(f"Run {run+1}/{n_runs} → MSE: {mse:.4f}, R²: {r2:.4f}")
+        return np.mean(mse_list), np.std(mse_list), np.mean(r2_list), np.std(r2_list)
 
 class GeometryConverter:
     """Class for angle conversions, ie angles-3D coords, for torus and sphere."""
