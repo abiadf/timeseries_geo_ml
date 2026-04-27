@@ -549,16 +549,8 @@ class WassersteinDistance:
     """Class that computes wasserstein distance between 2 consecutive windows"""
 
     @staticmethod
-    # def compute_wasserstein_distances(z_betti_train, z_image_train, z_diagram_train, z_landscape_train, delay: int) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    #     """computes Wasserstein distance between consecutive windows for each persistence feature type
-    #     output: 4x arrays of Wasser. distances, each array is 1D vector of size (num_windows - delay)"""
-    #     betti_dist_train     = np.array([wasserstein_distance(z_betti_train[i-delay], z_betti_train[i]) for i in range(delay, z_betti_train.shape[0])])
-    #     image_dist_train     = np.array([wasserstein_distance(z_image_train[i-delay], z_image_train[i]) for i in range(delay, z_image_train.shape[0])])
-    #     diagram_dist_train   = np.array([wasserstein_distance(z_diagram_train[i-delay], z_diagram_train[i]) for i in range(delay, z_diagram_train.shape[0])])
-    #     landscape_dist_train = np.array([wasserstein_distance(z_landscape_train[i-delay], z_landscape_train[i]) for i in range(delay, z_landscape_train.shape[0])])
-    #     return betti_dist_train, image_dist_train, diagram_dist_train, landscape_dist_train
     def compute_wasserstein_distance(persistence_array, delay: int) -> np.ndarray:
-        """computes Wasserstein distance between consecutive windows for each persistence feature type
+        """computes Wasserstein distance between consecutive windows for desired persistence feature type
         output: 1D Wasser. distance vector of size (num_windows - delay)"""
 
         def safe_wass(a, b):
@@ -569,8 +561,6 @@ class WassersteinDistance:
         wasser_dist_array = np.array([
             safe_wass(persistence_array[i-delay], persistence_array[i])
             for i in range(delay, persistence_array.shape[0])])
-
-        # wasser_dist_array = np.array([wasserstein_distance(persistence_array[i-delay], persistence_array[i]) for i in range(delay, persistence_array.shape[0])])
         return wasser_dist_array
 
     @staticmethod
@@ -603,7 +593,6 @@ class WassersteinDistance:
             wspace=0.15,
             hspace=0.25)
         plt.show()
-
 
 
 def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
@@ -726,7 +715,6 @@ def plot_latent_evolution_grid(z: np.ndarray | torch.Tensor, max_latent_dims: in
 
     fig.suptitle("z across windows + chunks", fontsize=16)
     plt.show()
-
 
 
 
