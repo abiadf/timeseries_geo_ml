@@ -123,15 +123,16 @@ class ZForecaster(nn.Module):
     """Super simple LSTM forecaster for z_T > z_t+1"""
     def __init__(self, input_dim: int, hidden_dim: int, output_dim: int, horizon: int):
         super().__init__()
-        self.horizon    = horizon
+        self.horizon = horizon
         self.output_dim = output_dim
-        self.lstm       = nn.LSTM(input_dim, hidden_dim, batch_first=True)
-        self.fc         = nn.Linear(hidden_dim, output_dim * horizon)
+
+        self.lstm = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.fc = nn.Linear(hidden_dim, output_dim * horizon)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         _, (h, _) = self.lstm(x)
-        out       = self.fc(h[-1])
-        return out.reshape(x.size(0), self.horizon, self.output_dim)
+        out = self.fc(h[-1])
+        return out.view(x.size(0), self.horizon, self.output_dim)
 
     def train_eval_forecaster(self, x_train: torch.Tensor, y_train: torch.Tensor, x_test: torch.Tensor, y_test: torch.Tensor, input_dim: int, n_cols: int, H: int, device: torch.device, n_runs: int = 8, epochs: int = 50, batch_size: int = 32, lr: float = 1e-3, hidden_dim: int = 64) -> tuple[float, float, float, float]:
         """Train multiple runs of ZForecaster and return mean/std of MSE and R2.
@@ -144,7 +145,8 @@ class ZForecaster(nn.Module):
 
         for run in range(n_runs):
             torch.manual_seed(run)
-            model     = ZForecaster(input_dim, hidden_dim, n_cols, H).to(device)
+            # model     = ZForecaster(input_dim, hidden_dim, n_cols, H).to(device)
+            model     = ZForecaster(input_dim=input_dim, hidden_dim=hidden_dim, output_dim=n_cols, horizon=H).to(device)
             optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
             loader    = DataLoader(TensorDataset(x_train, y_train), batch_size=batch_size, shuffle=True)
 
