@@ -256,16 +256,19 @@ class PersistenceAnalysis:
     def compute_betti_curves(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
         """Return Betti curves."""
         X = self.ripser_to_gtda(diagrams_list)
-        return self._bc.fit_transform([X])
+        X = X[None, :, :]  # add batch dimension -> (1, n_points, 3)
+        return self._bc.fit_transform(X)
 
     def ripser_to_gtda(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
         """Convert ripser diagrams to giotto format."""
         out = []
         for dim, dgm in enumerate(diagrams_list):
-            if len(dgm) == 0:
+            if dgm is None or len(dgm) == 0:
                 continue
             labels = np.full((dgm.shape[0], 1), dim)
             out.append(np.hstack([dgm, labels]))
+        if len(out) == 0:
+            return np.zeros((0, 3))
         return np.vstack(out)
 
     def convert_persistence_diagrams_to_tensor(self, diagrams_list: list[np.ndarray]) -> np.ndarray:
@@ -466,6 +469,9 @@ class PersistencePlotter(PersistenceAnalysis):
         mode options: image, betti, diagram, landscape"""
 
         dgms_all = self._cache_diagrams(z_windows)
+        dgms_all = [
+            d if len(d) > 0 else [np.zeros((1, 2), dtype=np.float32)]
+            for d in dgms_all]
 
         if mode == "image":
             imgs = self._compute_persistence_images_global(dgms_all)
@@ -546,33 +552,43 @@ class WassersteinDistance:
     # def compute_wasserstein_distances(z_betti_train, z_image_train, z_diagram_train, z_landscape_train, delay: int) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     #     """computes Wasserstein distance between consecutive windows for each persistence feature type
     #     output: 4x arrays of Wasser. distances, each array is 1D vector of size (num_windows - delay)"""
-    #     betti_dist_array     = np.array([wasserstein_distance(z_betti_train[i-delay], z_betti_train[i]) for i in range(delay, z_betti_train.shape[0])])
-    #     image_dist_array     = np.array([wasserstein_distance(z_image_train[i-delay], z_image_train[i]) for i in range(delay, z_image_train.shape[0])])
-    #     diagram_dist_array   = np.array([wasserstein_distance(z_diagram_train[i-delay], z_diagram_train[i]) for i in range(delay, z_diagram_train.shape[0])])
-    #     landscape_dist_array = np.array([wasserstein_distance(z_landscape_train[i-delay], z_landscape_train[i]) for i in range(delay, z_landscape_train.shape[0])])
-    #     return betti_dist_array, image_dist_array, diagram_dist_array, landscape_dist_array
+    #     betti_dist_train     = np.array([wasserstein_distance(z_betti_train[i-delay], z_betti_train[i]) for i in range(delay, z_betti_train.shape[0])])
+    #     image_dist_train     = np.array([wasserstein_distance(z_image_train[i-delay], z_image_train[i]) for i in range(delay, z_image_train.shape[0])])
+    #     diagram_dist_train   = np.array([wasserstein_distance(z_diagram_train[i-delay], z_diagram_train[i]) for i in range(delay, z_diagram_train.shape[0])])
+    #     landscape_dist_train = np.array([wasserstein_distance(z_landscape_train[i-delay], z_landscape_train[i]) for i in range(delay, z_landscape_train.shape[0])])
+    #     return betti_dist_train, image_dist_train, diagram_dist_train, landscape_dist_train
     def compute_wasserstein_distance(persistence_array, delay: int) -> np.ndarray:
         """computes Wasserstein distance between consecutive windows for each persistence feature type
         output: 1D Wasser. distance vector of size (num_windows - delay)"""
-        wasser_dist_array = np.array([wasserstein_distance(persistence_array[i-delay], persistence_array[i]) for i in range(delay, persistence_array.shape[0])])
+
+        def safe_wass(a, b):
+            if len(a) == 0 or len(b) == 0:
+                return 0.0
+            return wasserstein_distance(a, b)
+
+        wasser_dist_array = np.array([
+            safe_wass(persistence_array[i-delay], persistence_array[i])
+            for i in range(delay, persistence_array.shape[0])])
+
+        # wasser_dist_array = np.array([wasserstein_distance(persistence_array[i-delay], persistence_array[i]) for i in range(delay, persistence_array.shape[0])])
         return wasser_dist_array
 
     @staticmethod
-    def plot_all_wasserstein_distances(betti_dist_array, image_dist_array, diagram_dist_array, landscape_dist_array):
+    def plot_all_wasserstein_distances(betti_dist_train, image_dist_train, diagram_dist_train, landscape_dist_train):
         """plots all wasserstein distances for each of the input arrays. Each plot is a single line, since the
         wasserstein distance function outputs a 1D vector for each representation type."""
         fig, axes = plt.subplots(2, 2, figsize=(12, 8))
 
-        axes[0, 0].plot(betti_dist_array, color='blue')
+        axes[0, 0].plot(betti_dist_train, color='blue')
         axes[0, 0].set_title("Betti")
 
-        axes[0, 1].plot(image_dist_array, color='green')
+        axes[0, 1].plot(image_dist_train, color='green')
         axes[0, 1].set_title("Image")
 
-        axes[1, 0].plot(diagram_dist_array, color='red')
+        axes[1, 0].plot(diagram_dist_train, color='red')
         axes[1, 0].set_title("Diagram")
 
-        axes[1, 1].plot(landscape_dist_array, color='orange')
+        axes[1, 1].plot(landscape_dist_train, color='orange')
         axes[1, 1].set_title("Landscape")
 
         fig.suptitle("Wasserstein Distances Across Representations", fontsize=16)
