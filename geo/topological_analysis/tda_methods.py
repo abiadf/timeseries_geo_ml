@@ -543,14 +543,19 @@ class WassersteinDistance:
     """Class that computes wasserstein distance between 2 consecutive windows"""
 
     @staticmethod
-    def compute_wasserstein_distances(z_betti, z_image, z_diagram, z_landscape, delay: int) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    # def compute_wasserstein_distances(z_betti_train, z_image_train, z_diagram_train, z_landscape_train, delay: int) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    #     """computes Wasserstein distance between consecutive windows for each persistence feature type
+    #     output: 4x arrays of Wasser. distances, each array is 1D vector of size (num_windows - delay)"""
+    #     betti_dist_array     = np.array([wasserstein_distance(z_betti_train[i-delay], z_betti_train[i]) for i in range(delay, z_betti_train.shape[0])])
+    #     image_dist_array     = np.array([wasserstein_distance(z_image_train[i-delay], z_image_train[i]) for i in range(delay, z_image_train.shape[0])])
+    #     diagram_dist_array   = np.array([wasserstein_distance(z_diagram_train[i-delay], z_diagram_train[i]) for i in range(delay, z_diagram_train.shape[0])])
+    #     landscape_dist_array = np.array([wasserstein_distance(z_landscape_train[i-delay], z_landscape_train[i]) for i in range(delay, z_landscape_train.shape[0])])
+    #     return betti_dist_array, image_dist_array, diagram_dist_array, landscape_dist_array
+    def compute_wasserstein_distance(persistence_array, delay: int) -> np.ndarray:
         """computes Wasserstein distance between consecutive windows for each persistence feature type
-        output: 4x arrays of Wasser. distances, each array is 1D vector of size (num_windows - delay)"""
-        betti_dist_array     = np.array([wasserstein_distance(z_betti[i-delay], z_betti[i]) for i in range(delay, z_betti.shape[0])])
-        image_dist_array     = np.array([wasserstein_distance(z_image[i-delay], z_image[i]) for i in range(delay, z_image.shape[0])])
-        diagram_dist_array   = np.array([wasserstein_distance(z_diagram[i-delay], z_diagram[i]) for i in range(delay, z_diagram.shape[0])])
-        landscape_dist_array = np.array([wasserstein_distance(z_landscape[i-delay], z_landscape[i]) for i in range(delay, z_landscape.shape[0])])
-        return betti_dist_array, image_dist_array, diagram_dist_array, landscape_dist_array
+        output: 1D Wasser. distance vector of size (num_windows - delay)"""
+        wasser_dist_array = np.array([wasserstein_distance(persistence_array[i-delay], persistence_array[i]) for i in range(delay, persistence_array.shape[0])])
+        return wasser_dist_array
 
     @staticmethod
     def plot_all_wasserstein_distances(betti_dist_array, image_dist_array, diagram_dist_array, landscape_dist_array):
@@ -721,7 +726,7 @@ def torch_to_numpy(x: torch.Tensor) -> np.ndarray:
         return x.detach().cpu().numpy()
     return x
 
-def window_2d_sequence(sequence, window_size: int, stride: int = 1):
+def window_2d_sequence_to_3d(sequence, window_size: int, stride: int = 1):
     """windows a 2d sequence to a 3d array of shape (num_windows, window_size, num_features).
     stride = window_size means no overlap, stride = 1 means maximum overlap"""
     if type(sequence) == np.ndarray:
