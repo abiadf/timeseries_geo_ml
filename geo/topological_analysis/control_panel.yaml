@@ -14,8 +14,8 @@ general:
     learning_rate      : 0.001
 
   z_windowing:
-    z_window_size   : 100
-    z_window_stride : 8
+    z_window_frac : 0.06
+    z_stride_frac : 0.06
 
   z_forecaster:
     H                 : 1 # ⚠️ forecasting horizon (in windows, not rows)
@@ -35,7 +35,7 @@ general:
     batch_size  : 32
     lr          : 0.001
     lambda_topo : 0.05
-    N_runs      : 3 # num times the model is run to get the avg performance
+    N_runs      : 2 # num times the model is run to get the avg performance
 
 
   # default:

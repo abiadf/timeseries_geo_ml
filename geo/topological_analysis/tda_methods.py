@@ -130,7 +130,7 @@ class ZForecaster(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         out, _ = self.lstm(x)            # (B, T, hidden)
         out    = self.fc(out)            # (B, T, D)
-        return out + x                   # residual
+        return out
 
 def train_z_forecaster(model, x_train, y_train, x_test, y_test, epochs=50, lr=1e-3, batch_size=32):
     device = next(model.parameters()).device
@@ -772,7 +772,6 @@ def plot_latent_evolution_grid(z: np.ndarray | torch.Tensor, max_latent_dims: in
     plt.show()
 
 
-
 def numpy_to_torch(x: np.ndarray) -> torch.Tensor:
     """converts np array to torch tensor (works for both CPU and GPU tensors)"""
     if isinstance(x, np.ndarray):
@@ -785,13 +784,47 @@ def torch_to_numpy(x: torch.Tensor) -> np.ndarray:
         return x.detach().cpu().numpy()
     return x
 
+# to remove
+# def window_2d_sequence_to_3d(sequence, window_size, stride, use_fractions=False):
+#     """windows a 2d sequence to a 3d array of shape (num_windows, window_size, num_features).
+#     If use_fractions=True: window_size and stride are treated as % of total length (0.0-1.0).
+#     If use_fractions=False: window_size and stride are treated as absolute integer counts."""
+#     n_samples = len(sequence)
+
+#     if use_fractions:
+#         # Calculate absolute numbers from fractions
+#         actual_window_size = int(n_samples * window_size)
+#         actual_stride = int(n_samples * stride)
+#     else:
+#         actual_window_size = int(window_size)
+#         actual_stride = int(stride)
+
+#     # Safety: ensure window isn't 0 and doesn't exceed data length
+#     actual_window_size = max(1, min(actual_window_size, n_samples))
+#     actual_stride = max(1, actual_stride)
+
+#     # Core windowing logic
+#     indices = range(0, n_samples - actual_window_size + 1, actual_stride)
+    
+#     if isinstance(sequence, np.ndarray):
+#         windows = [sequence[i : i + actual_window_size] for i in indices]
+#         return np.array(windows) if windows else np.array([])
+    
+#     elif isinstance(sequence, torch.Tensor):
+#         windows = [sequence[i : i + actual_window_size] for i in indices]
+#         if not windows:
+#             # Create an empty tensor with matching feature dimension to avoid crashes
+#             return torch.empty((0, actual_window_size, sequence.shape[-1]))
+#         return torch.stack(windows)
+
 def window_2d_sequence_to_3d(sequence, window_size: int, stride: int = 1):
     """windows a 2d sequence to a 3d array of shape (num_windows, window_size, num_features).
     stride = window_size means no overlap, stride = 1 means maximum overlap"""
     if type(sequence) == np.ndarray:
         return np.array([sequence[i:i+window_size] for i in range(0, len(sequence) - window_size + 1, stride)])
     elif type(sequence) == torch.Tensor:
-        return torch.stack([sequence[i:i+window_size] for i in range(0, len(sequence) - window_size + 1, stride)])
+        return torch.stack([sequence[i:i+window_size] for i in range(0, len(sequence) - window_size + 1, stride)]) 
+
 
 def write_results_to_file(file: str, line: str):
     """appends line to file + adds time"""

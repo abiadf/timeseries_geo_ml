@@ -126,3 +126,18 @@ EXOG_FEATURES=['betti'], MSE: 0.0276±0.0048, R²: 0.6659±0.0453
 21:34 H=2, Model MSE=0.924±0.009, Naive MSE=1.921 (changed 51.87%), R²=0.116±0.009, Naive R²=-0.8457 
 21:53 H=1, Model MSE=1.022±0.062, Naive MSE=1.166 (changed 12.30%), R²=-0.163±0.064, Naive R²=-0.3176  #no topo loss
 21:59 H=1, Model MSE=1.058±0.034, Naive MSE=1.166 (changed 9.28%), R²=-0.196±0.032, Naive R²=-0.3176 
+22:03 H=1, Model MSE=2.283±0.025, Naive MSE=2.852 (changed 19.94%), R²=-1.227±0.015, Naive R²=-1.7766  #with residual
+22:14 H=1, Model MSE=0.819±0.005, Naive MSE=2.195 (changed 62.68%), R²=0.060±0.006, Naive R²=-1.5193  # no residual
+22:41 H=1, MSE: (Model=0.77±0.00 LinReg=24.85 Naive=1.90) (Δ=59.2%), R²: (0.157±0.003, Naive=-1.052) 
+22:45 H=1, MSE: (Model=0.77±0.01 LinReg=24.85 Naive=1.90) (Δ=59.5%), R²: (0.162±0.013, Naive=-1.052) 
+23:00 H=1, MSE: (Model=0.83±0.00 LinReg=0.60 Naive=2.02) (Δ=58.8%), R²: (0.192±0.003, Naive=-0.956) 
+23:04 H=1, MSE: (Model=0.62±0.01 LinReg=0.49 Naive=1.33) (Δ=52.9%), R²: (0.136±0.011, Naive=-0.836) 
+23:06 H=1, MSE: (Model=0.81±0.00 LinReg=0.63 Naive=1.88) (Δ=56.9%), R²: (0.097±0.000, Naive=-1.093) 
+23:08 H=1, MSE: (Model=0.89±0.01 LinReg=0.67 Naive=1.86) (Δ=52.0%), R²: (0.144±0.006, Naive=-0.783) 
+23:09 H=1, MSE: (Model=1.08±0.00 LinReg=0.93 Naive=1.76) (Δ=38.9%), R²: (0.058±0.001, Naive=-0.593) # set L_topo to 0
+23:28 H=3, MSE: (Model=0.90±0.02 LinReg=1.15 Naive=2.25) (Δ=60.0%), R²: (0.069±0.015, Naive=-1.278) # lambda_topo=0
+23:29 H=3, MSE: (Model=1.21±0.01 LinReg=1.27 Naive=2.55) (Δ=52.4%), R²: (0.021±0.003, Naive=-1.180) 
+23:32 H=3, MSE: (Model=0.61±0.01 LinReg=0.83 Naive=2.16) (Δ=71.5%), R²: (-0.001±0.003, Naive=-3.003) 0
+23:33 H=3, MSE: (Model=1.22±0.00 LinReg=1.50 Naive=1.71) (Δ=28.7%), R²: (0.003±0.008, Naive=-0.635) 0.1
+23:34 H=1, MSE: (Model=0.78±0.00 LinReg=0.77 Naive=1.76) (Δ=55.7%), R²: (0.124±0.007, Naive=-0.996) 0.1
+23:34 H=1, MSE: (Model=0.72±0.00 LinReg=0.79 Naive=2.06) (Δ=65.0%), R²: (0.150±0.006, Naive=-1.489) 0
