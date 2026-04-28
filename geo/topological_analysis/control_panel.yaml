@@ -3,7 +3,7 @@
 general:
   X_windowing:
     window_size   : 200
-    stride_frac   : 15
+    stride_frac   : 15 # how much we divide the window size (ie window_size=200, stride_frac=10 => stride=20)
 
   LSTM_AE:
     latent_dim         : 8
@@ -18,7 +18,7 @@ general:
     z_window_stride : 8
 
   z_forecaster:
-    H                 : 1 # forecasting horizon (in windows, not rows)
+    H                 : 1 # ⚠️ forecasting horizon (in windows, not rows)
     hidden_dim        : 64
     epochs            : 50
     earlystop_patience: 10
@@ -35,6 +35,7 @@ general:
     batch_size  : 32
     lr          : 0.001
     lambda_topo : 0.05
+    N_runs      : 3 # num times the model is run to get the avg performance
 
 
   # default:

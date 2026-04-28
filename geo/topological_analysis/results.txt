@@ -116,3 +116,13 @@ EXOG_FEATURES=['betti'], MSE: 0.0276±0.0048, R²: 0.6659±0.0453
 19:40 EXOG_FEATURES=['betti'], H=1, MSE: 0.0163±0.0007, R²: 0.0746±0.0396
 19:40 NO EXOGENOUS FEATURES, H=1, MSE: 0.0170±0.0010, R²: 0.0423±0.0555
 19:52 H=1, Model MSE: 0.8211±0.0109, Naive MSE: 1.1050, R²: 0.1032±0.0135
+20:13 H=1, Model MSE: 0.727±0.008, Naive MSE: 0.974 (changed 25.42%), R²: 0.177±0.009 
+20:23 H=1, Model MSE=0.724±0.008, Naive MSE=0.974 (changed 25.70%), R²=0.180±0.010, Naive R²=-0.1107 
+20:58 H=1, Model MSE=0.890±0.007, Naive MSE=1.095 (changed 18.72%), R²=0.105±0.008, Naive R²=-0.1047 
+21:09 H=1, Model MSE=0.876±0.014, Naive MSE=1.095 (changed 19.96%), R²=0.120±0.014, Naive R²=-0.1047 
+21:13 H=1, Model MSE=0.872±0.010, Naive MSE=1.095 (changed 20.38%), R²=0.123±0.010, Naive R²=-0.1047 # with topo loss
+21:23 H=5, Model MSE=0.863±0.033, Naive MSE=2.351 (changed 63.30%), R²=0.046±0.037, Naive R²=-1.6001 
+21:26 H=3, Model MSE=0.914±0.029, Naive MSE=1.950 (changed 53.14%), R²=-0.025±0.032, Naive R²=-1.1890 
+21:34 H=2, Model MSE=0.924±0.009, Naive MSE=1.921 (changed 51.87%), R²=0.116±0.009, Naive R²=-0.8457 
+21:53 H=1, Model MSE=1.022±0.062, Naive MSE=1.166 (changed 12.30%), R²=-0.163±0.064, Naive R²=-0.3176  #no topo loss
+21:59 H=1, Model MSE=1.058±0.034, Naive MSE=1.166 (changed 9.28%), R²=-0.196±0.032, Naive R²=-0.3176 
