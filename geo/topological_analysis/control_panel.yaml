@@ -1,12 +1,43 @@
+# "Params to us ein main code, split per model/component"
 
 general:
-  forecaster:
-    H : 1
+  X_windowing:
+    window_size   : 200
+    stride_frac   : 15
+
+  LSTM_AE:
+    latent_dim         : 8
+    encoder_hidden_dim : 56
+    decoder_hidden_dim : 56
+    patience           : 12
+    epochs             : 100
+    learning_rate      : 0.001
+
+  z_windowing:
+    z_window_size   : 100
+    z_window_stride : 8
+
+  z_forecaster:
+    H                 : 1 # forecasting horizon (in windows, not rows)
+    hidden_dim        : 64
     epochs            : 50
     earlystop_patience: 10
-    dataset_list: ["nasa_moon", "china_weather", "szeged_weather", "india_ocean_waves", "longterm_weather", "panama", "wind_power", "turbine_power"]
+    # dataset_list: ["nasa_moon", "china_weather", "szeged_weather", "india_ocean_waves", "longterm_weather", "panama", "wind_power", "turbine_power"]
 
-  default:
-    {lambda_recon: 0.05, lambda_kl_euc: 0.05, lambda_pred: 200, window_size: 168, z_dim_total: 40,
-    hidden_dim: 70, lr_optimizer: 0.0010, batch_size: 128, epochs: 150, cyclic_threshold: 0.3000, earlystop_patience: 8,
-    task: forecast, horizon: 1}
+  persistence:
+    max_dim   : 2
+    pixel_size: 0.2
+
+  topo_model:
+    topo_every  : 5
+    hidden_dim  : 64
+    epochs      : 20
+    batch_size  : 32
+    lr          : 0.001
+    lambda_topo : 0.05
+
+
+  # default:
+  #   {lambda_recon: 0.05, lambda_kl_euc: 0.05, lambda_pred: 200, window_size: 168, z_dim_total: 40,
+  #   hidden_dim: 70, lr_optimizer: 0.0010, batch_size: 128, epochs: 150, cyclic_threshold: 0.3000, earlystop_patience: 8,
+  #   task: forecast, horizon: 1}
