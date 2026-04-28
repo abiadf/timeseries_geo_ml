@@ -118,7 +118,7 @@ class LSTMAutoencoder(nn.Module):
                 break
         return losses
 
-
+# to remove? i haev a similar one in notebook
 class ZForecaster(nn.Module):
     """Super simple LSTM forecaster for z_T > z_t+1"""
     def __init__(self, input_dim: int, hidden_dim: int, output_dim: int, horizon: int):
