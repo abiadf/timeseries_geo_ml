@@ -1,0 +1,12 @@
+
+general:
+  forecaster:
+    H : 1
+    epochs            : 50
+    earlystop_patience: 10
+    dataset_list: ["nasa_moon", "china_weather", "szeged_weather", "india_ocean_waves", "longterm_weather", "panama", "wind_power", "turbine_power"]
+
+  default:
+    {lambda_recon: 0.05, lambda_kl_euc: 0.05, lambda_pred: 200, window_size: 168, z_dim_total: 40,
+    hidden_dim: 70, lr_optimizer: 0.0010, batch_size: 128, epochs: 150, cyclic_threshold: 0.3000, earlystop_patience: 8,
+    task: forecast, horizon: 1}
