@@ -51,30 +51,26 @@ class LSTMAutoencoder(nn.Module):
         self.output_layer = nn.Linear(decoder_hidden_dim, input_dim)
 
     def encode(self, x):
-        _, (h_n, _) = self.encoder(x)
-        h = h_n[-1]
-        z = self.to_latent(h)
+        """Return 3D sequence latent: (B,T,d)"""
+        out, _ = self.encoder(x)          # (B,T,H)
+        z      = self.to_latent(out)      # (B,T,d)
         return z
 
-    def decode(self, z, x):
+    def decode(self, z: torch.Tensor, x: torch.Tensor) -> torch.Tensor:
         """LSTM decoder with teacher forcing: predicts x_t from (x_{t-1}, z) by feeding a right-shifted x concatenated with z at each step."""
-        n_samples, n_rows, n_cols = x.size() # B = batch size, T = sequence length, D = input_dim
-        h0 = self.to_h0(z).unsqueeze(0)
-        c0 = self.to_c0(z).unsqueeze(0)
+        # B, T, _ = x.size()
 
-        # decoder_input = z.unsqueeze(1).repeat(1, seq_len, 1)
-
-        # shift input right
+        # teacher forcing shift
         x_shift = torch.zeros_like(x)
         x_shift[:, 1:, :] = x[:, :-1, :]
 
-        # concat latent at each step
-        z_rep         = z.unsqueeze(1).expand(-1, n_rows, -1)
-        decoder_input = torch.cat([x_shift, z_rep], dim=-1)
+        decoder_input = torch.cat([x_shift, z], dim=-1)  # (B,T,D+d)
+
+        h0 = self.to_h0(z[:, -1]).unsqueeze(0)
+        c0 = self.to_c0(z[:, -1]).unsqueeze(0)
 
         y, _ = self.decoder(decoder_input, (h0, c0))
-        out  = self.output_layer(y)
-        return out
+        return self.output_layer(y)
 
     def forward(self, x):
         """inference = encode + decode"""
@@ -130,26 +126,34 @@ class ZForecaster(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         out, _ = self.lstm(x)            # (B, T, hidden)
         out    = self.fc(out)            # (B, T, D)
-        return out
+        return out # +x # to optionally add residuals
 
-def train_z_forecaster(model, x_train, y_train, x_test, y_test, epochs=50, lr=1e-3, batch_size=32):
-    device = next(model.parameters()).device
-    opt = torch.optim.AdamW(model.parameters(), lr=lr)
+def _make_intra_window_dataset(z, H):
+    """Build (input, target) inside each window
+    z (3D): (B, T, d) latent sequence
+    H: forecast horizon (number of steps to predict into the future)"""
+    x = z[:, :-H, :]   # (B, T-H, d)
+    y = z[:, H:, :]    # (B, T-H, d)
+    return x, y
+
+def train_z_forecaster(model, z_train, z_test, H: int = 1, epochs=50, lr=1e-3, batch_size=32):
+    device  = next(model.parameters()).device
+    opt     = torch.optim.AdamW(model.parameters(), lr=lr)
     loss_fn = nn.MSELoss()
 
-    loader = torch.utils.data.DataLoader(torch.utils.data.TensorDataset(x_train, y_train),
-                                         batch_size=batch_size, shuffle=True)
+    x_train, y_train = _make_intra_window_dataset(z_train, H)
+    x_test,  y_test  = _make_intra_window_dataset(z_test,  H)
 
+    loader  = torch.utils.data.DataLoader(torch.utils.data.TensorDataset(x_train, y_train),
+                                          batch_size=batch_size, shuffle=True)
     for e in range(epochs):
         model.train()
-
         for xb, yb in loader:
             xb, yb = xb.to(device), yb.to(device)
 
             opt.zero_grad()
             y_hat = model(xb)
             loss  = loss_fn(y_hat, yb)   # FULL SEQ2SEQ LOSS
-
             loss.backward()
             opt.step()
 
@@ -160,7 +164,6 @@ def train_z_forecaster(model, x_train, y_train, x_test, y_test, epochs=50, lr=1e
     with torch.no_grad():
         y_hat    = model(x_test.to(device))
         loss_dyn = loss_fn(y_hat, y_test.to(device)).item()
-
     return loss_dyn
 
 

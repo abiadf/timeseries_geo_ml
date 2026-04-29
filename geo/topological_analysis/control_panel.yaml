@@ -3,7 +3,7 @@
 general:
   X_windowing:
     window_size   : 200
-    stride_frac   : 15 # how much we divide the window size (ie window_size=200, stride_frac=10 => stride=20)
+    stride_frac   : 8 # how much we divide the window size (ie window_size=200, stride_frac=10 => stride=20)
 
   LSTM_AE:
     latent_dim         : 8
@@ -14,14 +14,16 @@ general:
     learning_rate      : 0.001
 
   z_windowing:
-    z_window_frac : 0.06
-    z_stride_frac : 0.06
+    z_window_frac : 0.08
+    z_stride_frac : 0.08 # set equal to window frac for non-overlapping windows
 
   z_forecaster:
     H                 : 1 # ⚠️ forecasting horizon (in windows, not rows)
     hidden_dim        : 64
     epochs            : 50
     earlystop_patience: 10
+    batch_size        : 32
+    lr                : 0.001
     # dataset_list: ["nasa_moon", "china_weather", "szeged_weather", "india_ocean_waves", "longterm_weather", "panama", "wind_power", "turbine_power"]
 
   persistence:
@@ -29,13 +31,13 @@ general:
     pixel_size: 0.2
 
   topo_model:
-    topo_every  : 5
+    topo_every  : 30 # computes topology every X training steps (batches) in an epoch
     hidden_dim  : 64
     epochs      : 20
-    batch_size  : 32
+    batch_size  : 8
     lr          : 0.001
-    lambda_topo : 0.05
-    N_runs      : 2 # num times the model is run to get the avg performance
+    lambda_topo : 0.3
+    N_runs      : 1 # num times the model is run to get the avg performance
 
 
   # default:
