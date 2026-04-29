@@ -37,6 +37,7 @@ general:
     batch_size  : 8
     lr          : 0.001
     lambda_topo : 0.3
+    lambda_forecast: 1.0
     N_runs      : 1 # num times the model is run to get the avg performance
 
 

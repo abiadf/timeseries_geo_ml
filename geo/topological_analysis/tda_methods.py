@@ -97,7 +97,7 @@ class LSTMAutoencoder(nn.Module):
                 x_b = x_batch.to(device)
                 optimizer.zero_grad()
 
-                x_hat, _ = self.forward(x_b)
+                x_hat, z = self.forward(x_b)
                 loss_rec = loss_fn(x_hat, x_b)
 
                 loss_rec.backward()
@@ -115,56 +115,74 @@ class LSTMAutoencoder(nn.Module):
                 break
         return losses
 
+    def add_forecaster(self, hidden_dim: int):
+        """Attach forecasting head on latent z."""
+        self.forecaster    = nn.LSTM(self.latent_dim, hidden_dim, batch_first=True)
+        self.forecaster_fc = nn.Linear(hidden_dim, self.latent_dim)
 
-class ZForecaster(nn.Module):
-    """Very simple seq2seq LSTM that forecasts future latent windows from past latent windows (shifted by H in the dataset)."""
-    def __init__(self, input_dim: int, hidden_dim: int):
-        super().__init__()
-        self.lstm = nn.LSTM(input_dim, hidden_dim, batch_first=True)
-        self.fc   = nn.Linear(hidden_dim, input_dim)
+    # def forecast(self, z: torch.Tensor, H: int):
+    #     """Predict future latent steps inside window."""
+    #     z_in   = z[:, :-H, :]
+    #     out, _ = self.forecaster(z_in)
+    #     return self.forecaster_fc(out)   # (B, T-H, d)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        out, _ = self.lstm(x)            # (B, T, hidden)
-        out    = self.fc(out)            # (B, T, D)
-        return out # +x # to optionally add residuals
+    def forecast(self, z: torch.Tensor, H: int):
+        """Predict z[t+H] from z[t] (returns aligned sequence)."""
+        out, _ = self.lstm(z)
+        out = self.fc(out)
+        return out[:, :-H, :]
 
-def _make_intra_window_dataset(z, H):
-    """Build (input, target) inside each window
-    z (3D): (B, T, d) latent sequence
-    H: forecast horizon (number of steps to predict into the future)"""
-    x = z[:, :-H, :]   # (B, T-H, d)
-    y = z[:, H:, :]    # (B, T-H, d)
-    return x, y
 
-def train_z_forecaster(model, z_train, z_test, H: int = 1, epochs=50, lr=1e-3, batch_size=32):
-    device  = next(model.parameters()).device
-    opt     = torch.optim.AdamW(model.parameters(), lr=lr)
-    loss_fn = nn.MSELoss()
+# ⚠️to remove below
+# class ZForecaster(nn.Module):
+#     """Very simple seq2seq LSTM that forecasts future latent windows from past latent windows (shifted by H in the dataset)."""
+#     def __init__(self, input_dim: int, hidden_dim: int):
+#         super().__init__()
+#         self.lstm = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+#         self.fc   = nn.Linear(hidden_dim, input_dim)
 
-    x_train, y_train = _make_intra_window_dataset(z_train, H)
-    x_test,  y_test  = _make_intra_window_dataset(z_test,  H)
+#     def forward(self, x: torch.Tensor) -> torch.Tensor:
+#         out, _ = self.lstm(x)            # (B, T, hidden)
+#         out    = self.fc(out)            # (B, T, D)
+#         return out # +x # to optionally add residuals
 
-    loader  = torch.utils.data.DataLoader(torch.utils.data.TensorDataset(x_train, y_train),
-                                          batch_size=batch_size, shuffle=True)
-    for e in range(epochs):
-        model.train()
-        for xb, yb in loader:
-            xb, yb = xb.to(device), yb.to(device)
+# def _make_intra_window_dataset(z, H):
+#     """Build (input, target) inside each window
+#     z (3D): (B, T, d) latent sequence
+#     H: forecast horizon (number of steps to predict into the future)"""
+#     x = z[:, :-H, :]   # (B, T-H, d)
+#     y = z[:, H:, :]    # (B, T-H, d)
+#     return x, y
 
-            opt.zero_grad()
-            y_hat = model(xb)
-            loss  = loss_fn(y_hat, yb)   # FULL SEQ2SEQ LOSS
-            loss.backward()
-            opt.step()
+# def train_z_forecaster(model, z_train, z_test, H: int = 1, epochs=50, lr=1e-3, batch_size=32):
+#     device  = next(model.parameters()).device
+#     opt     = torch.optim.AdamW(model.parameters(), lr=lr)
+#     loss_fn = nn.MSELoss()
 
-        if (e+1) % 10 == 0:
-            print(f"epoch {e+1} loss {loss.item():.4f}")
+#     x_train, y_train = _make_intra_window_dataset(z_train, H)
+#     x_test,  y_test  = _make_intra_window_dataset(z_test,  H)
 
-    model.eval()
-    with torch.no_grad():
-        y_hat    = model(x_test.to(device))
-        loss_dyn = loss_fn(y_hat, y_test.to(device)).item()
-    return loss_dyn
+#     loader  = torch.utils.data.DataLoader(torch.utils.data.TensorDataset(x_train, y_train),
+#                                           batch_size=batch_size, shuffle=True)
+#     for e in range(epochs):
+#         model.train()
+#         for xb, yb in loader:
+#             xb, yb = xb.to(device), yb.to(device)
+
+#             opt.zero_grad()
+#             y_hat = model(xb)
+#             loss  = loss_fn(y_hat, yb)   # FULL SEQ2SEQ LOSS
+#             loss.backward()
+#             opt.step()
+
+#         if (e+1) % 10 == 0:
+#             print(f"epoch {e+1} loss {loss.item():.4f}")
+
+#     model.eval()
+#     with torch.no_grad():
+#         y_hat    = model(x_test.to(device))
+#         loss_dyn = loss_fn(y_hat, y_test.to(device)).item()
+#     return loss_dyn
 
 
 class GeometryConverter:
