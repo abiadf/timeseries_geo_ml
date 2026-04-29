@@ -24,210 +24,48 @@ from scipy.stats import wasserstein_distance
 
 class LSTMAutoencoder(nn.Module):
     """LSTM autoencoder for time-series reconstruction + latent embedding. Good accuracy comes from
-    teacher forcing in "decode": feeding the true previous value at each step instead of the predicted one"""
+    teacher forcing in "decode": feeding the true previous value at each step instead of the predicted one
+    Encodes X -> Z (sequence) and reconstructs X."""
 
-    def __init__(self, input_dim, latent_dim, encoder_hidden_dim=64, decoder_hidden_dim=64, epochs=100, learning_rate=0.001):
-        """input_dim = #features"""
+    def __init__(self, input_dim: int, latent_dim: int,
+                 encoder_hidden_dim: int = 64,
+                 decoder_hidden_dim: int = 64):
         super().__init__()
 
-        self.device     = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.input_dim  = input_dim
-        self.latent_dim = latent_dim
-        self.epochs     = epochs
-        self.learning_rate      = learning_rate
-        self.encoder_hidden_dim = encoder_hidden_dim
-        self.decoder_hidden_dim = decoder_hidden_dim
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        # encoder: sequence -> hidden
-        self.encoder   = nn.LSTM(input_size=input_dim, hidden_size=encoder_hidden_dim, batch_first=True)
-        self.decoder   = nn.LSTM(input_size=input_dim + latent_dim, hidden_size=decoder_hidden_dim, batch_first=True)
+        # encoder
+        self.encoder = nn.LSTM(input_dim, encoder_hidden_dim, batch_first=True)
         self.to_latent = nn.Linear(encoder_hidden_dim, latent_dim)
 
-        # latent -> decoder initial state
+        # decoder
+        self.decoder = nn.LSTM(input_dim + latent_dim, decoder_hidden_dim, batch_first=True)
         self.to_h0 = nn.Linear(latent_dim, decoder_hidden_dim)
         self.to_c0 = nn.Linear(latent_dim, decoder_hidden_dim)
-
-        # output projection
         self.output_layer = nn.Linear(decoder_hidden_dim, input_dim)
 
-    def encode(self, x):
-        """Return 3D sequence latent: (B,T,d)"""
-        out, _ = self.encoder(x)          # (B,T,H)
-        z      = self.to_latent(out)      # (B,T,d)
-        return z
+        self.latent_dim = latent_dim
+
+    def encode(self, x: torch.Tensor) -> torch.Tensor:
+        out, _ = self.encoder(x)
+        return self.to_latent(out)
 
     def decode(self, z: torch.Tensor, x: torch.Tensor) -> torch.Tensor:
-        """LSTM decoder with teacher forcing: predicts x_t from (x_{t-1}, z) by feeding a right-shifted x concatenated with z at each step."""
-        # B, T, _ = x.size()
-
-        # teacher forcing shift
         x_shift = torch.zeros_like(x)
         x_shift[:, 1:, :] = x[:, :-1, :]
 
-        decoder_input = torch.cat([x_shift, z], dim=-1)  # (B,T,D+d)
+        dec_in = torch.cat([x_shift, z], dim=-1)
 
         h0 = self.to_h0(z[:, -1]).unsqueeze(0)
         c0 = self.to_c0(z[:, -1]).unsqueeze(0)
 
-        y, _ = self.decoder(decoder_input, (h0, c0))
-        return self.output_layer(y)
+        out, _ = self.decoder(dec_in, (h0, c0))
+        return self.output_layer(out)
 
-    def forward(self, x):
-        """inference = encode + decode"""
-        x     = x.to(self.device)
-        z     = self.encode(x)
+    def forward(self, x: torch.Tensor):
+        z = self.encode(x)
         x_hat = self.decode(z, x)
         return x_hat, z
-
-    def train_model(self, X, num_epochs=None, lr=None, patience=5, batch_size=32, device=None):
-        device = device or self.device
-        self.to(device)
-        X = X.to(device)
-
-        loader    = DataLoader(TensorDataset(X), batch_size=batch_size, shuffle=True)
-        optimizer = torch.optim.AdamW(self.parameters(), lr=lr or self.learning_rate)
-        loss_fn   = nn.MSELoss()
-        losses    = []
-        epochs    = num_epochs or self.epochs
-
-        for epoch in range(epochs):
-            epoch_loss = 0
-
-            for (x_batch,) in loader:
-                x_b = x_batch.to(device)
-                optimizer.zero_grad()
-
-                x_hat, z = self.forward(x_b)
-                loss_rec = loss_fn(x_hat, x_b)
-
-                loss_rec.backward()
-                optimizer.step()
-                epoch_loss += loss_rec.item()
-
-            epoch_loss /= len(loader)
-            losses.append(epoch_loss)
-
-            if (epoch + 1) % 20 == 0:
-                print(f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss:.4f}")
-
-            if len(losses) > patience and losses[-1] > losses[-patience]:
-                print(f"Early stopping at epoch {epoch+1}, loss = {epoch_loss:.4f}")
-                break
-        return losses
-
-    def add_forecaster(self, hidden_dim: int):
-        """Attach forecasting head on latent z."""
-        self.forecaster    = nn.LSTM(self.latent_dim, hidden_dim, batch_first=True)
-        self.forecaster_fc = nn.Linear(hidden_dim, self.latent_dim)
-
-    # def forecast(self, z: torch.Tensor, H: int):
-    #     """Predict future latent steps inside window."""
-    #     z_in   = z[:, :-H, :]
-    #     out, _ = self.forecaster(z_in)
-    #     return self.forecaster_fc(out)   # (B, T-H, d)
-
-    def forecast(self, z: torch.Tensor, H: int):
-        """Predict z[t+H] from z[t] (returns aligned sequence)."""
-        out, _ = self.lstm(z)
-        out = self.fc(out)
-        return out[:, :-H, :]
-
-
-# ⚠️to remove below
-# class ZForecaster(nn.Module):
-#     """Very simple seq2seq LSTM that forecasts future latent windows from past latent windows (shifted by H in the dataset)."""
-#     def __init__(self, input_dim: int, hidden_dim: int):
-#         super().__init__()
-#         self.lstm = nn.LSTM(input_dim, hidden_dim, batch_first=True)
-#         self.fc   = nn.Linear(hidden_dim, input_dim)
-
-#     def forward(self, x: torch.Tensor) -> torch.Tensor:
-#         out, _ = self.lstm(x)            # (B, T, hidden)
-#         out    = self.fc(out)            # (B, T, D)
-#         return out # +x # to optionally add residuals
-
-# def _make_intra_window_dataset(z, H):
-#     """Build (input, target) inside each window
-#     z (3D): (B, T, d) latent sequence
-#     H: forecast horizon (number of steps to predict into the future)"""
-#     x = z[:, :-H, :]   # (B, T-H, d)
-#     y = z[:, H:, :]    # (B, T-H, d)
-#     return x, y
-
-# def train_z_forecaster(model, z_train, z_test, H: int = 1, epochs=50, lr=1e-3, batch_size=32):
-#     device  = next(model.parameters()).device
-#     opt     = torch.optim.AdamW(model.parameters(), lr=lr)
-#     loss_fn = nn.MSELoss()
-
-#     x_train, y_train = _make_intra_window_dataset(z_train, H)
-#     x_test,  y_test  = _make_intra_window_dataset(z_test,  H)
-
-#     loader  = torch.utils.data.DataLoader(torch.utils.data.TensorDataset(x_train, y_train),
-#                                           batch_size=batch_size, shuffle=True)
-#     for e in range(epochs):
-#         model.train()
-#         for xb, yb in loader:
-#             xb, yb = xb.to(device), yb.to(device)
-
-#             opt.zero_grad()
-#             y_hat = model(xb)
-#             loss  = loss_fn(y_hat, yb)   # FULL SEQ2SEQ LOSS
-#             loss.backward()
-#             opt.step()
-
-#         if (e+1) % 10 == 0:
-#             print(f"epoch {e+1} loss {loss.item():.4f}")
-
-#     model.eval()
-#     with torch.no_grad():
-#         y_hat    = model(x_test.to(device))
-#         loss_dyn = loss_fn(y_hat, y_test.to(device)).item()
-#     return loss_dyn
-
-
-class GeometryConverter:
-    """Class for angle conversions, ie angles-3D coords, for torus and sphere."""
-    def __init__(self, R_major, r_tube):
-        self.R_major = R_major
-        self.r_tube  = r_tube
-
-    def convert_angles_to_torus_xyz(self, u, v):
-        """Convert rad angles to torus coords"""
-        x = np.cos(u) * (self.R_major + self.r_tube * np.cos(v))
-        y = np.sin(u) * (self.R_major + self.r_tube * np.cos(v))
-        z = self.r_tube * np.sin(v)
-        return x, y, z
-
-    def convert_angles_to_2torus_xyz(self, u, v, d_shift=0.8):
-        """Approx genus-2 surface (connected double torus)
-        Toruses both start at 0, and 
-        d_shift =  distance between 2 toruses (both start from 0); smaller = more connected, larger = more separate"""
-
-        # torus 1
-        x1 = (self.R_major + self.r_tube*np.cos(v)) * np.cos(u)
-        y1 = (self.R_major + self.r_tube*np.cos(v)) * np.sin(u) - d_shift
-        z1 = self.r_tube * np.sin(v)
-
-        # torus 2 (shifted, slightly rotated)
-        x2 = (self.R_major + self.r_tube*np.cos(v)) * np.cos(u)
-        y2 = (self.R_major + self.r_tube*np.cos(v)) * np.sin(u) + d_shift
-        z2 = self.r_tube * np.sin(v)
-        return x1, y1, z1, x2, y2, z2
-
-    def convert_angles_to_sphere_xyz(self, u, v):
-        """Convert rad angles to sphere coords
-        u = azimuth, v = polar angle"""
-        x = self.R_major * np.cos(u) * np.sin(v)
-        y = self.R_major * np.sin(u) * np.sin(v)
-        z = self.R_major * np.cos(v)
-        return x, y, z
-
-    def convert_xyz_to_angles(self, x, y, z):
-        """Convert coords to rad angles, but doesnt project them onto torus/sphere;
-        this needs to be converted to coords again using the torus/sphere formulae"""
-        u = np.arctan2(z, np.sqrt(x**2 + y**2))
-        v = np.arctan2(y, x)
-        return u, v
 
 
 class PersistenceAnalysis:
@@ -669,6 +507,51 @@ class WassersteinDistance:
             wspace=0.15,
             hspace=0.25)
         plt.show()
+
+
+class GeometryConverter:
+    """Class for angle conversions, ie angles-3D coords, for torus and sphere."""
+    def __init__(self, R_major, r_tube):
+        self.R_major = R_major
+        self.r_tube  = r_tube
+
+    def convert_angles_to_torus_xyz(self, u, v):
+        """Convert rad angles to torus coords"""
+        x = np.cos(u) * (self.R_major + self.r_tube * np.cos(v))
+        y = np.sin(u) * (self.R_major + self.r_tube * np.cos(v))
+        z = self.r_tube * np.sin(v)
+        return x, y, z
+
+    def convert_angles_to_2torus_xyz(self, u, v, d_shift=0.8):
+        """Approx genus-2 surface (connected double torus)
+        Toruses both start at 0, and 
+        d_shift =  distance between 2 toruses (both start from 0); smaller = more connected, larger = more separate"""
+
+        # torus 1
+        x1 = (self.R_major + self.r_tube*np.cos(v)) * np.cos(u)
+        y1 = (self.R_major + self.r_tube*np.cos(v)) * np.sin(u) - d_shift
+        z1 = self.r_tube * np.sin(v)
+
+        # torus 2 (shifted, slightly rotated)
+        x2 = (self.R_major + self.r_tube*np.cos(v)) * np.cos(u)
+        y2 = (self.R_major + self.r_tube*np.cos(v)) * np.sin(u) + d_shift
+        z2 = self.r_tube * np.sin(v)
+        return x1, y1, z1, x2, y2, z2
+
+    def convert_angles_to_sphere_xyz(self, u, v):
+        """Convert rad angles to sphere coords
+        u = azimuth, v = polar angle"""
+        x = self.R_major * np.cos(u) * np.sin(v)
+        y = self.R_major * np.sin(u) * np.sin(v)
+        z = self.R_major * np.cos(v)
+        return x, y, z
+
+    def convert_xyz_to_angles(self, x, y, z):
+        """Convert coords to rad angles, but doesnt project them onto torus/sphere;
+        this needs to be converted to coords again using the torus/sphere formulae"""
+        u = np.arctan2(z, np.sqrt(x**2 + y**2))
+        v = np.arctan2(y, x)
+        return u, v
 
 
 def plot_3d_points(*clouds, colors=None, figsize=(8, 12), size=3, alpha=0.7):
