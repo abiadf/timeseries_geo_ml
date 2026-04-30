@@ -2,7 +2,7 @@
 
 general:
   X_windowing:
-    window_size   : 200
+    window_size   : 250
     stride_frac   : 4 # how much we divide the window size (ie window_size=200, stride_frac=10 => stride=20)
 
   LSTM_AE:
