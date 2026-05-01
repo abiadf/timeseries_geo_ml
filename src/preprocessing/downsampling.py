@@ -7,16 +7,6 @@ import math
 
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
-
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import StandardScaler
-
-from catboost import CatBoostRegressor
-
-from src.encoders.lstm_network import LSTMModel, LSTMTrainer
-
 
 class DataframeReducer:
     """Functions aiming to reduce the df size as it is too large to process properly.
@@ -25,7 +15,7 @@ class DataframeReducer:
 
     @staticmethod
     def _select_1_step_from_df(df: pl.DataFrame, step_number, step_id_col) -> pl.DataFrame:
-        """ASM-specific, gets out 1 step from df based on step_number"""
+        """gets out 1 step from df based on step_number"""
         return df.filter(pl.col(step_id_col) == step_number)
 
     @staticmethod

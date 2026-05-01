@@ -56,11 +56,6 @@ def run_vae_pipeline(timevae_file_path, dataset_name, vae_type, train_epochs, lr
                                       reconstruction_wt=reconstruction_wt,
                                       **hyperparameters)
 
-    if platform.system() == "Linux":
-        dataset_params = read_yaml_params("/home/fouadabiad/projects/asm_ML/src/param_config/dataset_params.yaml")
-    if platform.system() == "Darwin":
-        dataset_params = read_yaml_params("/Users/fouadabiad/Projects/asm_ML/src/param_config/dataset_params.yaml")
-
     final_recon_loss, profiling_metrics = train_vae(
         vae=vae_model,
         train_data=scaled_train_data,

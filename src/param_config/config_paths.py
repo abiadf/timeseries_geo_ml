@@ -10,7 +10,6 @@ ts2vec_params_loc= SRC_ROOT / "ts2vec_params"
 # data paths
 interim_data_loc = PROJECT_ROOT / "interim_data"
 public_data_loc  = PROJECT_ROOT / "public_datasets"
-asm_folder_loc   = PROJECT_ROOT / "public_datasets/3D/ASM"
 
 # config paths
 param_config_folder  = SRC_ROOT / "param_config"

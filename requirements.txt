@@ -61,6 +61,8 @@ ripser
 persim
 giotto-tda
 stochman
+gudhi
+POT # for Gudhi
 
 # datasets
 # ucimlrepo

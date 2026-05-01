@@ -1,6 +1,5 @@
 import __main__
 import os
-from typing import Dict, List, Literal, Tuple, Optional
 import numpy as np
 
 from src.utils.data_utils import select_top_X_features
@@ -15,19 +14,10 @@ def load_the_data(desired_dataset: str, NUM_PAGES_TO_USE: int, do_we_scale_y: bo
     if desired_dataset == "nasa": # Directly load NASA dataset
         X_train, X_test, y_train_scaled, y_test_scaled = DatasetLoading.load_nasa_data()
         window_size = "N/A"
-    elif desired_dataset != "asm":
+    else:
         X_train, X_test, y_train_scaled, y_test_scaled, window_size = load_or_preprocess_dataset(desired_dataset, NUM_PAGES_TO_USE, do_we_scale_y,
                     dataset_window=dataset_window, random_seed=rand_seed, use_cache=False, num_rows_per_window=NUM_ROWS)
 
-    elif desired_dataset == "asm":
-        from asm_stuff.main_runner import prepare_asm_train_test
-        top_idx = [479, 517, 54, 165, 121, 77, 177, 188, 55, 509, 53, 52, 76,
-                388, 125, 131, 84, 140, 81, 124, 189, 185, 206, 385, 160, 182,
-                178, 75, 145, 144, 100, 306, 102, 205, 0, 149, 117, 163, 312,
-                204, 98, 101, 157, 128, 207, 202, 159, 409, 158, 156, 415, 99,
-                203, 103, 97, 201, 96, 200, 1]
-
-        X_train, X_test, y_train_scaled, y_test_scaled = prepare_asm_train_test(P.asm_folder_loc, top_idx, keep_frac=0.08, keep='first')
         print(X_train.shape, y_train_scaled.shape)
         window_size = window_size if 'window_size' in locals() else X_train.shape[1]
         label_frac  = label_frac if 'label_frac' in locals() else 1

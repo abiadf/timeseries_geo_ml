@@ -17,7 +17,6 @@ import src.param_config.config_paths as P
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
 class DatasetLoading:
     @staticmethod
     def load_ecg_data():
@@ -34,13 +33,6 @@ class DatasetLoading:
         folder_name = "00a0ec58-1fb9-4a2b-bfd7-f4e5da7a9eff"
         file_name   = "scenario_00a0ec58-1fb9-4a2b-bfd7-f4e5da7a9eff.parquet"
         return process_argoverse_parquet(f"{argoverse_data_path}/{folder_name}/{file_name}")
-
-    @staticmethod
-    def load_asm_data():
-        "For info on processing search term 'Fouad intervening', points to a cell in the ASM notebook"
-        X_3d  = np.load(f"{P.public_data_loc}/3D/ASM/X_3d.npy")
-        y_asm = np.load(f"{P.public_data_loc}/3D/ASM/y_asm.npy")
-        return X_3d, y_asm
 
     @staticmethod
     def load_china_data() -> tuple[np.ndarray, np.ndarray]:
@@ -321,9 +313,6 @@ def load_or_preprocess_dataset(desired_dataset: str, page_num: int, do_we_scale_
     print(f"X_train: {X_full.shape} ({X_full.nbytes/1024**2:.1f} MB)")
     print(f"y_full:  {y_full.shape} ({y_full.nbytes/1024**2:.1f} MB)")
 
-    if desired_dataset == 'asm':
-        return X_train, X_test, y_train_scaled, y_test_scaled, window_size
-
     if dataset_window is not None:
         X_full, y_full, window_size, _ = WindowFolder.auto_fold_timeseries(X_full, y_full, fs=1.0, peak_strength=2.0, fallback_window=num_rows_per_window, 
                     denoise=False, window_size=dataset_window, max_pages=page_num, num_pages_to_use=page_num)
@@ -367,5 +356,4 @@ dataset_loaders_dict = {
     "china":     DatasetLoading.load_china_data,
     "gas":               DatasetLoading.load_gas_data,
     "panama":            DatasetLoading.load_panama_data,
-    "beijing":           DatasetLoading.load_beijing_data,
-    "asm":               DatasetLoading.load_asm_data}
+    "beijing":           DatasetLoading.load_beijing_data,}

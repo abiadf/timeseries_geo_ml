@@ -3,7 +3,7 @@ basics:
   label_frac:      1  # fraction of labeled training data
   data_splitting:  "reduced_data" # missing_labels, reduced_data
   num_runs:        3  # times to run the whole code
-  desired_dataset: "india" # ecg, india, germany, china, nasa, weather, asm, gas, beijing, panama
+  desired_dataset: "india" # ecg, india, germany, china, nasa, weather, gas, beijing, panama
   dataset_list:
     - india
     - germany
@@ -13,7 +13,6 @@ basics:
     # - nasa
     - beijing
     - panama
-    # - asm
   label_frac_list:  [1, 0.5, 0.25]
   random_seed:      42  # for reproducibility
   freeze_rand_seed: false # true=use same random seed for all runs, false=different seed for each run

@@ -5,17 +5,6 @@ general:
   window_len:        64 # 256
   window_len_list:   [64, 128, 256, 512, 1024, 2048]
 
-asm:
-  num_window_splits: 10   # splits timesteps (rows) into this many windows
-  num_rows_per_page: 500  # number of rows per page to use from dataset
-
-  batch_size        : 16
-  latent_dim        : 32
-  predictor_lr      : 0.006
-  predictor_epochs  : 200
-  predictor_dropout : 0.05
-  predictor_hidden_sizes : [32, 48, 64] # latent to y output
-
 beijing:
   num_window_splits: 10   # splits timesteps (rows) into this many windows
   num_rows_per_page: 500  # number of rows per page to use from dataset

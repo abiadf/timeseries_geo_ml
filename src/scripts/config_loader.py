@@ -39,7 +39,6 @@ def load_project_configuration(params_path, data_params_path, messager_path):
         # Paths
         interim_data_loc = P.interim_data_loc,
         public_data_loc  = P.public_data_loc,
-        asm_folder_loc   = P.asm_folder_loc,
         webhook_url      = messager_params.get("webhook_url"),
 
         # Data config
