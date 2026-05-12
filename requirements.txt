@@ -42,7 +42,9 @@ statsmodels
 # protobuf==4.25.3 #this is with tensorflow
 # ==
 
-torch
+torch==2.8.0
+torchvision
+torchaudio
 torchmetrics
 torch-geometric
 torch-scatter
