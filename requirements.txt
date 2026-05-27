@@ -17,6 +17,7 @@ metasynth
 # momentfm
 nixtla
 numpy<2.0.0,>=1.23.5 # numpy
+numba
 numexpr
 opt-einsum
 pandas
