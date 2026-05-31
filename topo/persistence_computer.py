@@ -1,4 +1,4 @@
-"""Persistence on GPU + numba"""
+"""Sublevel Set Persistence on GPU + numba"""
 import torch
 import numpy as np
 from numba import njit, prange
@@ -75,37 +75,7 @@ def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tens
     keypoint_idx, keypoint_types = all_idx[mask], all_types[mask]
     return keypoint_idx, keypoint_types
 
-# ========= 1) Base + streaming case ========
-
-# to remove
-# @njit(fastmath=True)
-# def _find_basin_root(basin_membership_ids: np.ndarray, rank: int):
-#     """Finds the ultimate root valley (deepest min) owning the basin at neighbor_rank.
-#     Flattens the tracking chain (path compression) for faster future lookups.
-#     Called 2x every time the sweep line hits a MAX (once for left neighbor, once for right)
-
-#     Params:
-#     - basin_membership_ids (np.ndarray): 1D array where index = keypoint rank, value = parent/root rank
-#     - neighbor_rank (int): rank of the keypoint immediately to the left or right of the current MAX
-#     * root = rank of deepest valley owning water
-
-#     Example:
-#     Keypoint indices: [5,  9, 13, 18, 23, 27, 33], and take the MAX at idx 18
-#     Ranks (positions):[0,  1,  2,  3,  4,  5,  6]
-#     basin_membership_ids = [0, 1, 0, 3, 2, 5, 6], this is after a few iterations
-#     Since max is at idx 18, we check its neighbors: idx 13 (rank 2) and idx 23 (rank 4)
-#     (Rank 4 points to 2; Rank 2 points to 0):
-
-#     when rank = 2, basin_membership_ids[2] = 0, cursor -> 0, basin_membership_ids[0] = 0, STOP
-#     when rank = 4, basin_membership_ids[4] = 2, cursor -> 2, basin_membership_ids[2] = 0,
-#     cursor -> 0, basin_membership_ids[0] = 0, STOP and update rank 4 to point directly to 0.
-#     updated basin_membership_ids = [0, 1, 0, 3, 0, 5, 6]
-#     For both neighbors, ultimate root = 0"""
-#     cursor = rank
-#     while cursor != basin_membership_ids[cursor]:
-#         basin_membership_ids[cursor] = basin_membership_ids[basin_membership_ids[cursor]]
-#         cursor = basin_membership_ids[cursor]
-#     return cursor
+# =========== 1) Base + streaming case ============
 
 @njit(fastmath=True)
 def _find_basin_root(basin_membership_ids: np.ndarray, rank: int):
@@ -122,59 +92,6 @@ def _find_basin_root(basin_membership_ids: np.ndarray, rank: int):
         basin_membership_ids[cursor] = root
         cursor = next_node
     return root
-
-# @njit(fastmath=True)
-# def _run_streaming_sweep_loop(ranks_to_process: np.ndarray, keypoint_types: np.ndarray, keypoint_idx_array: np.ndarray, 
-#                               timeseries_values: np.ndarray, basin_membership_ids: np.ndarray,
-#                               submerged_keypoints: np.ndarray, num_keypoints: int, pairs_out: np.ndarray):
-#     """sweep loop. Works for the normal case, and the incremental case"""
-#     heights           = timeseries_values[keypoint_idx_array[ranks_to_process]]
-#     sorted_ranks_idx  = np.argsort(heights)
-#     # birth_death_pairs = []
-#     p_count = 0
-
-#     for idx in sorted_ranks_idx:
-#         active_sequence_rank = ranks_to_process[idx]
-#         keypoint_type        = keypoint_types[active_sequence_rank]
-#         active_series_idx    = keypoint_idx_array[active_sequence_rank]
-
-#         if keypoint_type == MIN or keypoint_type == GMIN: # we have a valley
-#             submerged_keypoints[active_sequence_rank] = True
-
-#         elif keypoint_type == MAX or keypoint_type == GMAX: # we have a peak
-#             left_rank  = active_sequence_rank - 1
-#             right_rank = active_sequence_rank + 1
-
-#             left_root  = _find_basin_root(basin_membership_ids, left_rank) if left_rank >= 0 else -1
-#             right_root = _find_basin_root(basin_membership_ids, right_rank) if right_rank < num_keypoints else -1
-
-#             is_left_submerged   = (left_rank >= 0) and submerged_keypoints[left_root]
-#             is_right_submerged  = (right_rank < num_keypoints) and submerged_keypoints[right_root]
-
-#             if is_left_submerged and is_right_submerged: # lakes on both sides of peak => merge basins + record birth-death pair
-#                 left_birth_height  = timeseries_values[keypoint_idx_array[left_root]]
-#                 right_birth_height = timeseries_values[keypoint_idx_array[right_root]]
-
-#                 if left_birth_height > right_birth_height: # higher basin is victim (left dies)
-#                     victim_birth_series_idx         = keypoint_idx_array[left_root]
-#                     basin_membership_ids[left_root] = right_root
-#                 else: # higher basin (right here) is victim, dies
-#                     victim_birth_series_idx          = keypoint_idx_array[right_root]
-#                     basin_membership_ids[right_root] = left_root
-                
-#                 # birth_death_pairs.append((int(victim_birth_series_idx), int(active_series_idx)))
-#                 pairs_out[p_count, 0] = victim_birth_series_idx
-#                 pairs_out[p_count, 1] = active_series_idx
-#                 p_count += 1
-
-#             elif is_left_submerged: # lake only on left side => add to left basin
-#                 basin_membership_ids[active_sequence_rank] = left_root
-#                 submerged_keypoints[active_sequence_rank] = True
-#             elif is_right_submerged: # lake only on right side => add to right basin
-#                 basin_membership_ids[active_sequence_rank] = right_root
-#                 submerged_keypoints[active_sequence_rank] = True
-#     # return birth_death_pairs
-#     return p_count
 
 @njit(fastmath=True)
 def _run_streaming_sweep_loop(sorted_ranks_idx: np.ndarray, keypoint_types: np.ndarray, keypoint_idx_array: np.ndarray, 
@@ -227,7 +144,6 @@ def _run_streaming_sweep_loop(sorted_ranks_idx: np.ndarray, keypoint_types: np.n
                 submerged_keypoints[active_sequence_rank] = True
     return p_count
 
-
 def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_series_idx: torch.Tensor, keypoint_types: torch.Tensor):
     """runs the persistence loop on a single timeseries"""
     num_keypoints       = len(keypoint_series_idx)
@@ -267,89 +183,98 @@ def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_se
     final_pairs = [tuple(pair) for pair in pairs_out[:pair_count]]
     return final_pairs
 
-
 class OnlineSublevelPersistence:
     """Maintains a persistent, incrementally updated state in pre-allocated NumPy buffers """
-    def __init__(self, initial_x: torch.Tensor, initial_keypoint_idx: torch.Tensor, initial_keypoint_types: torch.Tensor, max_capacity: int = None):
-        self.device = initial_x.device
+    def __init__(self, initial_yvals: torch.Tensor, initial_keypoint_idx: torch.Tensor, initial_keypoint_types: torch.Tensor, max_capacity: int = None):
+        """initial_yvals = initial timeseries chunk"""
+        self.device = initial_yvals.device
 
-        n_vals = len(initial_x)
-        n_kps  = len(initial_keypoint_idx)
+        n_yvals = len(initial_yvals)
+        n_kps   = len(initial_keypoint_idx)
         
-        # FIX: Ensure max_capacity accommodates BOTH time values and keypoint arrays safely
-        required_minimum = max(n_vals, n_kps)
-        if max_capacity is None:
-            # Add a safety margin factor (e.g., 2x or 4x) to handle streaming chunks smoothly
+        # Ensure max_capacity accommodates BOTH time values and keypoint arrays safely
+        required_minimum = max(n_yvals, n_kps)
+        if max_capacity is None: # Add safety margin factor (ie 2x or 4x) to handle streaming chunks smoothly
             max_capacity = required_minimum * 2 
         elif max_capacity < required_minimum:
             raise ValueError(f"max_capacity ({max_capacity}) < required allocation bounds ({required_minimum})")
             
-        self.max_capacity = max_capacity
-
+        self.max_capacity         = max_capacity
         self.history_values       = np.zeros(max_capacity, dtype=np.float32)
         self.keypoint_types       = np.zeros(max_capacity, dtype=np.int64)
         self.keypoint_idx_array   = np.zeros(max_capacity, dtype=np.int64)
         self.basin_membership_ids = np.arange(max_capacity, dtype=np.int64)
         self.submerged_keypoints  = np.zeros(max_capacity, dtype=np.bool_)
         
-        self.current_values_len = n_vals
-        self.num_keypoints      = n_kps
+        self.current_yvals_len = n_yvals
+        self.num_keypoints     = n_kps
         
-        self.history_values[:self.current_values_len] = initial_x.cpu().numpy()
-        self.keypoint_types[:self.num_keypoints]      = initial_keypoint_types.cpu().numpy()
-        self.keypoint_idx_array[:self.num_keypoints]  = initial_keypoint_idx.cpu().numpy()
+        # Initialize the history values with the initial y-values
+        self.history_values[:self.current_yvals_len] = initial_yvals.cpu().numpy()
+        self.keypoint_types[:self.num_keypoints]     = initial_keypoint_types.cpu().numpy()
+        self.keypoint_idx_array[:self.num_keypoints] = initial_keypoint_idx.cpu().numpy()
 
-        # FIX: Instantiate local allocation context for the initial sweep run
-        init_max_pairs = self.num_keypoints // 2
+        # Instantiate local allocation context for the initial sweep run
+        init_max_pairs        = self.num_keypoints // 2 # no more than half keypoints can be maxima
         init_pairs_scratchpad = np.empty((init_max_pairs, 2), dtype=np.int64)
         # initial_ranks = np.arange(self.num_keypoints, dtype=np.int64)        
         # _run_streaming_sweep_loop(initial_ranks, self.keypoint_types, self.keypoint_idx_array,
         #                           self.history_values, self.basin_membership_ids, self.submerged_keypoints,
         #                           self.num_keypoints, init_pairs_scratchpad)
 
-        initial_heights = self.history_values[self.keypoint_idx_array[:self.num_keypoints]]
-        sorted_initial_ranks = np.argsort(initial_heights)
+        initial_heights       = self.history_values[self.keypoint_idx_array[:self.num_keypoints]]
+        sorted_initial_ranks  = np.argsort(initial_heights)
         _run_streaming_sweep_loop(sorted_initial_ranks, self.keypoint_types, self.keypoint_idx_array,
                                 self.history_values, self.basin_membership_ids, self.submerged_keypoints,
                                 self.num_keypoints, init_pairs_scratchpad)
 
-
-    def append_stream_data(self, new_x_chunk: torch.Tensor, stream_keypoint_idx: torch.Tensor, stream_keypoint_types: torch.Tensor):
-        v_start = self.current_values_len
-        v_end   = v_start + len(new_x_chunk)
-        self.history_values[v_start:v_end] = new_x_chunk.cpu().numpy()
+    def update_filtration(self, new_y_chunk: torch.Tensor, stream_keypoint_idx: torch.Tensor, stream_keypoint_types: torch.Tensor):
+        """Incrementally updates the topological filtration state with new streaming data.
+        Appends the incoming time-series chunk and resolves persistent features by 
+        sweeping over unresolved historical keypoints combined with the new chunk. 
+        Natively handles boundary crossings, new global extrema, and micro-oscillations 
+        without re-computing history from scratch.
+        Parameters:
+            new_y_chunk (Tensor): Real-valued sequential observations.
+            stream_keypoint_idx (Tensor): Local extrema indices relative to new_y_chunk.
+            stream_keypoint_types (Tensor): Critical point identity flags (MIN/MAX/GMIN/GMAX).
+        Returns:
+            list[tuple[int, int]]: birth-death index pairs discovered in this stream window"""
+        yvals_start_len = self.current_yvals_len
+        yvals_end_len   = yvals_start_len + len(new_y_chunk)
         
-        kp_start = self.num_keypoints
-        kp_end   = kp_start + len(stream_keypoint_idx)
+        if yvals_end_len > self.max_capacity:
+            raise MemoryError("Streaming data exceeds pre-allocated max_capacity.")
+            
+        self.history_values[yvals_start_len:yvals_end_len] = new_y_chunk.cpu().numpy()
         
-        self.keypoint_types[kp_start:kp_end]     = stream_keypoint_types.cpu().numpy()
-        self.keypoint_idx_array[kp_start:kp_end] = stream_keypoint_idx.cpu().numpy() + v_start
+        num_kp_start = self.num_keypoints
+        num_kp_end   = num_kp_start + len(stream_keypoint_idx)
         
-        self.current_values_len = v_end
-        self.num_keypoints      = kp_end
-        ranks_to_process        = np.arange(kp_start, kp_end, dtype=np.int64)
+        self.keypoint_types[num_kp_start:num_kp_end]     = stream_keypoint_types.cpu().numpy()
+        self.keypoint_idx_array[num_kp_start:num_kp_end] = stream_keypoint_idx.cpu().numpy() + yvals_start_len
         
-        # new_pairs = _run_streaming_sweep_loop(ranks_to_process, self.keypoint_types, self.keypoint_idx_array,
-        #                                       self.history_values, self.basin_membership_ids,
-        #                                       self.submerged_keypoints, self.num_keypoints)
-        # return new_pairs
+        self.current_yvals_len = yvals_end_len
+        self.num_keypoints     = num_kp_end
+        
+        # Combine unclosed (active) historical keypoints with the incoming chunk
+        historical_active = np.where(~self.submerged_keypoints[:num_kp_start])[0]
+        new_ranks         = np.arange(num_kp_start, num_kp_end, dtype=np.int64)
+        ranks_to_process  = np.concatenate((historical_active, new_ranks))
+        
+        max_possible_pairs = len(ranks_to_process)
+        pairs_out          = np.empty((max_possible_pairs, 2), dtype=np.int64)
 
-        # Inside OnlineSublevelPersistence.append_stream_data:
-        max_possible_pairs = len(stream_keypoint_idx)
-        pairs_out = np.empty((max_possible_pairs, 2), dtype=np.int64)
+        # Sort the entire active boundary domain by value height
+        active_yvals        = self.history_values[self.keypoint_idx_array[ranks_to_process]]
+        sorted_stream_ranks = ranks_to_process[np.argsort(active_yvals)]
 
-        # Sort the streaming chunk slice by height
-        stream_heights = self.history_values[self.keypoint_idx_array[ranks_to_process]]
-        sorted_stream_ranks = ranks_to_process[np.argsort(stream_heights)]
-
-        # Pass parameters in the exact structural order matching the signature
         pair_count = _run_streaming_sweep_loop(sorted_stream_ranks, self.keypoint_types, self.keypoint_idx_array,
-                                            self.history_values, self.basin_membership_ids,
-                                            self.submerged_keypoints, self.num_keypoints, pairs_out)
+                                               self.history_values, self.basin_membership_ids,
+                                               self.submerged_keypoints, self.num_keypoints, pairs_out)
         return [tuple(pair) for pair in pairs_out[:pair_count]]
 
-
-# ===== 2) BATCHING (no streaming) ======
+# ========= 2) BATCHING (no streaming) ==========
 
 @njit(fastmath=True)
 def _find_basin_root_batch(basin_membership_ids, row, rank):
