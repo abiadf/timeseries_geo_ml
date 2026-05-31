@@ -6,6 +6,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MIN, MAX, GMIN, GMAX = 1, -1, 2, -2 # types of keypoints
 
+# =========== 0) Base scenario ============
+
 def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tensor]:
     """Returns (indices, types) of minima and maxima, sorted by index.
     - Having many gmin/gmax values is correctly labeled
@@ -75,18 +77,35 @@ def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tens
     keypoint_idx, keypoint_types = all_idx[mask], all_types[mask]
     return keypoint_idx, keypoint_types
 
-# =========== 1) Base + streaming case ============
-
 @njit(fastmath=True)
-def _find_basin_root(basin_membership_ids: np.ndarray, rank: int):
-    """Iterative two-pass path compression preventing C-stack overflow."""
-    # Pass 1: Trace straight up to find the true ultimate root
-    root = rank
+def _find_basin_root_1d(basin_membership_ids: np.ndarray, rank: int):
+    """Unified two-pass iterative path compression for both 1D and 2D arrays."""
+    """Finds the ultimate root valley (deepest min) owning the basin at neighbor_rank.
+    Flattens the tracking chain (path compression) for faster future lookups.
+    Called 2x every time the sweep line hits a MAX (once for left neighbor, once for right)
+
+    Params:
+    - basin_membership_ids (np.ndarray): 1D array where index = keypoint rank, value = parent/root rank
+    - neighbor_rank (int): rank of the keypoint immediately to the left or right of the current MAX
+    * root = rank of deepest valley owning water
+
+    Example:
+    Keypoint indices: [5,  9, 13, 18, 23, 27, 33], and take the MAX at idx 18
+    Ranks (positions):[0,  1,  2,  3,  4,  5,  6]
+    basin_membership_ids = [0, 1, 0, 3, 2, 5, 6], this is after a few iterations
+    Since max is at idx 18, we check its neighbors: idx 13 (rank 2) and idx 23 (rank 4)
+    (Rank 4 points to 2; Rank 2 points to 0):
+
+    when rank = 2, basin_membership_ids[2] = 0, cursor -> 0, basin_membership_ids[0] = 0, STOP
+    when rank = 4, basin_membership_ids[4] = 2, cursor -> 2, basin_membership_ids[2] = 0,
+    cursor -> 0, basin_membership_ids[0] = 0, STOP and update rank 4 to point directly to 0.
+    updated basin_membership_ids = [0, 1, 0, 3, 0, 5, 6]
+    For both neighbors, ultimate root = 0"""
+    """Two-pass iterative path compression preventing C-stack overflow in 1D arrays."""
+    cursor = rank
+    root   = rank
     while root != basin_membership_ids[root]:
         root = basin_membership_ids[root]
-        
-    # Pass 2: Flatten the tree by pointing all nodes on the path to the root
-    cursor = rank
     while cursor != root:
         next_node = basin_membership_ids[cursor]
         basin_membership_ids[cursor] = root
@@ -94,7 +113,20 @@ def _find_basin_root(basin_membership_ids: np.ndarray, rank: int):
     return root
 
 @njit(fastmath=True)
-def _run_streaming_sweep_loop(sorted_ranks_idx: np.ndarray, keypoint_types: np.ndarray, keypoint_idx_array: np.ndarray, 
+def _find_basin_root_2d(basin_membership_ids: np.ndarray, row: int, rank: int):
+    """Two-pass iterative path compression preventing C-stack overflow in 2D arrays."""
+    cursor = rank
+    root   = rank
+    while root != basin_membership_ids[row, root]:
+        root = basin_membership_ids[row, root]
+    while cursor != root:
+        next_node = basin_membership_ids[row, cursor]
+        basin_membership_ids[row, cursor] = root
+        cursor = next_node
+    return root
+
+@njit(fastmath=True)
+def _run_1d_sweep_loop(sorted_ranks_idx: np.ndarray, keypoint_types: np.ndarray, keypoint_idx_array: np.ndarray, 
                               timeseries_values: np.ndarray, basin_membership_ids: np.ndarray,
                               submerged_keypoints: np.ndarray, num_keypoints: int, pairs_out: np.ndarray):
     """Zero-allocation inner sweep loop driven by an external pre-sorted schedule."""
@@ -115,8 +147,8 @@ def _run_streaming_sweep_loop(sorted_ranks_idx: np.ndarray, keypoint_types: np.n
             left_rank  = active_sequence_rank - 1
             right_rank = active_sequence_rank + 1
 
-            left_root  = _find_basin_root(basin_membership_ids, left_rank) if left_rank >= 0 else -1
-            right_root = _find_basin_root(basin_membership_ids, right_rank) if right_rank < num_keypoints else -1
+            left_root  = _find_basin_root_1d(basin_membership_ids, left_rank) if left_rank >= 0 else -1
+            right_root = _find_basin_root_1d(basin_membership_ids, right_rank) if right_rank < num_keypoints else -1
 
             is_left_submerged  = (left_rank >= 0) and submerged_keypoints[left_root]
             is_right_submerged = (right_rank < num_keypoints) and submerged_keypoints[right_root]
@@ -163,11 +195,11 @@ def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_se
     pairs_out = np.empty((max_possible_pairs, 2), dtype=np.int64)
 
     # # # birth_death_pairs_list = _run_fast_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, num_keypoints)
-    # # birth_death_pairs_list = _run_streaming_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, 
+    # # birth_death_pairs_list = _run_1d_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, 
     # #                                                    basin_membership_ids, submerged_keypoints, num_keypoints)
     # # return birth_death_pairs_list
 
-    # pair_count = _run_streaming_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, 
+    # pair_count = _run_1d_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, 
     #                                         basin_membership_ids, submerged_keypoints, num_keypoints, pairs_out)
     # final_pairs = [tuple(pair) for pair in pairs_out[:pair_count]]
     # return final_pairs
@@ -178,13 +210,15 @@ def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_se
     sorted_ranks_idx = torch.argsort(keypoint_heights).cpu().numpy()
 
     # Pass 'sorted_ranks_idx' directly into the updated function
-    pair_count = _run_streaming_sweep_loop(sorted_ranks_idx, types_np, kp_idx_np, ts_values_np, 
+    pair_count = _run_1d_sweep_loop(sorted_ranks_idx, types_np, kp_idx_np, ts_values_np, 
                                             basin_membership_ids, submerged_keypoints, num_keypoints, pairs_out)
     final_pairs = [tuple(pair) for pair in pairs_out[:pair_count]]
     return final_pairs
 
-class OnlineSublevelPersistence:
-    """Maintains a persistent, incrementally updated state in pre-allocated NumPy buffers """
+# =========== 1) streaming case ============
+
+class StreamingSublevelPersistence:
+    """Handles additional updates to the timeseries. Maintains persistent, incrementally updated state in pre-allocated NumPy buffers"""
     def __init__(self, initial_yvals: torch.Tensor, initial_keypoint_idx: torch.Tensor, initial_keypoint_types: torch.Tensor, max_capacity: int = None):
         """initial_yvals = initial timeseries chunk"""
         self.device = initial_yvals.device
@@ -218,13 +252,13 @@ class OnlineSublevelPersistence:
         init_max_pairs        = self.num_keypoints // 2 # no more than half keypoints can be maxima
         init_pairs_scratchpad = np.empty((init_max_pairs, 2), dtype=np.int64)
         # initial_ranks = np.arange(self.num_keypoints, dtype=np.int64)        
-        # _run_streaming_sweep_loop(initial_ranks, self.keypoint_types, self.keypoint_idx_array,
+        # _run_1d_sweep_loop(initial_ranks, self.keypoint_types, self.keypoint_idx_array,
         #                           self.history_values, self.basin_membership_ids, self.submerged_keypoints,
         #                           self.num_keypoints, init_pairs_scratchpad)
 
         initial_heights       = self.history_values[self.keypoint_idx_array[:self.num_keypoints]]
         sorted_initial_ranks  = np.argsort(initial_heights)
-        _run_streaming_sweep_loop(sorted_initial_ranks, self.keypoint_types, self.keypoint_idx_array,
+        _run_1d_sweep_loop(sorted_initial_ranks, self.keypoint_types, self.keypoint_idx_array,
                                 self.history_values, self.basin_membership_ids, self.submerged_keypoints,
                                 self.num_keypoints, init_pairs_scratchpad)
 
@@ -269,31 +303,19 @@ class OnlineSublevelPersistence:
         active_yvals        = self.history_values[self.keypoint_idx_array[ranks_to_process]]
         sorted_stream_ranks = ranks_to_process[np.argsort(active_yvals)]
 
-        pair_count = _run_streaming_sweep_loop(sorted_stream_ranks, self.keypoint_types, self.keypoint_idx_array,
+        pair_count = _run_1d_sweep_loop(sorted_stream_ranks, self.keypoint_types, self.keypoint_idx_array,
                                                self.history_values, self.basin_membership_ids,
                                                self.submerged_keypoints, self.num_keypoints, pairs_out)
         return [tuple(pair) for pair in pairs_out[:pair_count]]
 
-# ========= 2) BATCHING (no streaming) ==========
-
-@njit(fastmath=True)
-def _find_basin_root_batch(basin_membership_ids, row, rank):
-    """Finds root with path compression inside a specific row of a 2D tracking array.
-    This function also works for the online case"""
-    cursor = rank
-    while cursor != basin_membership_ids[row, cursor]:
-        basin_membership_ids[row, cursor] = basin_membership_ids[row, basin_membership_ids[row, cursor]]
-        cursor = basin_membership_ids[row, cursor]
-    return cursor
+# =========== 2) BATCHING (no streaming) ============
 
 @njit(fastmath=True, parallel=True) 
 def _run_batch_sweep_loop(sweep_line_schedules, keypoint_types, keypoint_idx_arrays, timeseries_matrix,
-                          actual_lengths, basin_membership_ids, submerged_keypoints):  # <- Pre-allocated blocks passed here
-    """Processes N independent time series concurrently across CPU cores with ZERO internal allocations"""
-    n_rows              = timeseries_matrix.shape[0]
-    max_keypoints       = sweep_line_schedules.shape[1]
-    batch_pairs_storage = np.full((n_rows, max_keypoints, 2), -1, dtype=np.int64)
-    pair_counts         = np.zeros(n_rows, dtype=np.int64)
+                          actual_lengths, basin_membership_ids, submerged_keypoints, 
+                          batch_pairs_storage, pair_counts):
+    """Processes N independent series concurrently with zero internal allocations."""
+    n_rows = timeseries_matrix.shape[0]
 
     for i in prange(n_rows):
         num_keypoints = actual_lengths[i]
@@ -314,8 +336,8 @@ def _run_batch_sweep_loop(sweep_line_schedules, keypoint_types, keypoint_idx_arr
                 left_rank  = active_sequence_rank - 1
                 right_rank = active_sequence_rank + 1
 
-                left_root  = _find_basin_root_batch(basin_membership_ids, i, left_rank) if left_rank >= 0 else -1
-                right_root = _find_basin_root_batch(basin_membership_ids, i, right_rank) if right_rank < num_keypoints else -1
+                left_root  = _find_basin_root_2d(basin_membership_ids, i, left_rank) if left_rank >= 0 else -1
+                right_root = _find_basin_root_2d(basin_membership_ids, i, right_rank) if right_rank < num_keypoints else -1
 
                 is_left_submerged  = (left_rank >= 0) and submerged_keypoints[i, left_root]
                 is_right_submerged = (right_rank < num_keypoints) and submerged_keypoints[i, right_root]
@@ -331,7 +353,8 @@ def _run_batch_sweep_loop(sweep_line_schedules, keypoint_types, keypoint_idx_arr
                         victim_birth_series_idx = keypoint_idx_arrays[i, right_root]
                         basin_membership_ids[i, right_root] = left_root
                     
-                    batch_pairs_storage[i, p_count] = [victim_birth_series_idx, active_series_idx]
+                    batch_pairs_storage[i, p_count, 0] = victim_birth_series_idx
+                    batch_pairs_storage[i, p_count, 1] = active_series_idx
                     p_count += 1
 
                 elif is_left_submerged:
@@ -342,15 +365,8 @@ def _run_batch_sweep_loop(sweep_line_schedules, keypoint_types, keypoint_idx_arr
                     submerged_keypoints[i, active_sequence_rank] = True
         pair_counts[i] = p_count
 
-    final_output = []
-    for i in range(n_rows):
-        count      = pair_counts[i]
-        pairs_list = [(int(batch_pairs_storage[i, j, 0]), int(batch_pairs_storage[i, j, 1])) for j in range(count)]
-        final_output.append(pairs_list)
-    return final_output
-
 def compute_batch_sublevel_persistence(timeseries_matrix: torch.Tensor, idx_list: list, types_list: list):
-    """Pads different length keypoint tensors dynamically and triggers parallel execution."""
+    """Pads tracking objects, fires parallel Numba loop, and formats output pairs in Python."""
     n_rows         = timeseries_matrix.shape[0]
     actual_lengths = np.array([len(t) for t in idx_list], dtype=np.int64)
     max_len        = int(actual_lengths.max())
@@ -359,16 +375,16 @@ def compute_batch_sublevel_persistence(timeseries_matrix: torch.Tensor, idx_list
     padded_types = np.zeros((n_rows, max_len), dtype=np.int64)
     padded_sweep = np.zeros((n_rows, max_len), dtype=np.int64)
 
-    # 1. Allocate large shared 2D tracking blocks out here in Python space once
+    # 1. Fully allocate tracking arrays out here on the heap
     basin_membership_ids = np.zeros((n_rows, max_len), dtype=np.int64)
-    submerged_keypoints = np.zeros((n_rows, max_len), dtype=np.bool_)
+    submerged_keypoints  = np.zeros((n_rows, max_len), dtype=np.bool_)
+    batch_pairs_storage  = np.full((n_rows, max_len, 2), -1, dtype=np.int64)
+    pair_counts          = np.zeros(n_rows, dtype=np.int64)
 
     for i in range(n_rows):
         length                   = actual_lengths[i]
         padded_idx[i, :length]   = idx_list[i].cpu().numpy()
         padded_types[i, :length] = types_list[i].cpu().numpy()
-        
-        # Initialize tracking arrays row identities
         basin_membership_ids[i, :length] = np.arange(length)
         
         row_heights  = timeseries_matrix[i][idx_list[i]]
@@ -380,17 +396,21 @@ def compute_batch_sublevel_persistence(timeseries_matrix: torch.Tensor, idx_list
 
     ts_matrix_np = timeseries_matrix.cpu().numpy()
 
-    # 2. Pass tracking blocks safely into Numba
-    return _run_batch_sweep_loop(
-        padded_sweep,
-        padded_types,
-        padded_idx,
-        ts_matrix_np,
-        actual_lengths,
-        basin_membership_ids,
-        submerged_keypoints)
+    # 2. Fire the zero-allocation loop
+    _run_batch_sweep_loop(
+        padded_sweep, padded_types, padded_idx, ts_matrix_np, actual_lengths,
+        basin_membership_ids, submerged_keypoints, batch_pairs_storage, pair_counts)
 
-# ========= 3) streaming + BATCHING ========
+    # 3. Parse output pairs efficiently back in standard Python space
+    final_output = []
+    for i in range(n_rows):
+        count = pair_counts[i]
+        final_output.append([
+            (int(batch_pairs_storage[i, j, 0]), int(batch_pairs_storage[i, j, 1])) 
+            for j in range(count)])
+    return final_output
+
+# =========== 3) streaming + BATCHING ===========
 
 def compute_sublevel_persistence(timeseries: torch.Tensor, keypoint_idx, keypoint_types):
     """router that dynamically selects the fastest architecture"""
@@ -474,7 +494,7 @@ def _run_batch_streaming_sweep_loop(start_ranks, end_ranks,          # 1D arrays
         final_output.append(pairs_list)
     return final_output
 
-class BatchOnlineSublevelPersistence:
+class BatchStreamingSublevelPersistence:
     """Manages 2D contiguous state cache blocks for multi-channel streaming arrays."""
     def __init__(self, initial_matrix: torch.Tensor, idx_list: list, types_list: list, max_capacity: int = 10_000_000):
         self.n_rows = initial_matrix.shape[0]
