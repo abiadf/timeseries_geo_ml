@@ -75,72 +75,42 @@ def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tens
     keypoint_idx, keypoint_types = all_idx[mask], all_types[mask]
     return keypoint_idx, keypoint_types
 
-# ========= 0) Base case ========
+# ========= 1) Base + streaming case ========
 
 @njit(fastmath=True)
-def _numba_find_root(basin_membership_ids: np.ndarray, rank: int):
-    """Finds root of the component using path compression
-    rank = current position in the sweep order
-    basin_membership_ids = tracking array where each position points to its current component root"""
+def _find_basin_root(basin_membership_ids: np.ndarray, rank: int):
+    """Finds the ultimate root valley (deepest min) owning the basin at neighbor_rank.
+    Flattens the tracking chain (path compression) for faster future lookups.
+    Called 2x every time the sweep line hits a MAX (once for left neighbor, once for right)
+
+    Params:
+    - basin_membership_ids (np.ndarray): 1D array where index = keypoint rank, value = parent/root rank
+    - neighbor_rank (int): rank of the keypoint immediately to the left or right of the current MAX
+    * root = rank of deepest valley owning water
+
+    Example:
+    Keypoint indices: [5,  9, 13, 18, 23, 27, 33], and take the MAX at idx 18
+    Ranks (positions):[0,  1,  2,  3,  4,  5,  6]
+    basin_membership_ids = [0, 1, 0, 3, 2, 5, 6], this is after a few iterations
+    Since max is at idx 18, we check its neighbors: idx 13 (rank 2) and idx 23 (rank 4)
+    (Rank 4 points to 2; Rank 2 points to 0):
+
+    when rank = 2, basin_membership_ids[2] = 0, cursor -> 0, basin_membership_ids[0] = 0, STOP
+    when rank = 4, basin_membership_ids[4] = 2, cursor -> 2, basin_membership_ids[2] = 0,
+    cursor -> 0, basin_membership_ids[0] = 0, STOP and update rank 4 to point directly to 0.
+    updated basin_membership_ids = [0, 1, 0, 3, 0, 5, 6]
+    For both neighbors, ultimate root = 0"""
     cursor = rank
     while cursor != basin_membership_ids[cursor]:
         basin_membership_ids[cursor] = basin_membership_ids[basin_membership_ids[cursor]]
         cursor = basin_membership_ids[cursor]
     return cursor
 
-# NOTE: TO REMOVE
-@njit(fastmath=True)
-def _run_fast_sweep_loop(sweep_line_schedule: np.ndarray, keypoint_types: np.ndarray, keypoint_idx_array: np.ndarray, timeseries_values: np.ndarray, num_keypoints: int):
-    """Standard full-batch sweep"""
-    basin_membership_ids = np.arange(num_keypoints)
-    submerged_components = np.zeros(num_keypoints, dtype=np.bool_)
-    birth_death_pairs    = []
-
-    for active_sequence_rank in sweep_line_schedule:
-        keypoint_type     = keypoint_types[active_sequence_rank]
-        active_series_idx = keypoint_idx_array[active_sequence_rank]
-
-        if keypoint_type == MIN or keypoint_type == GMIN:
-            submerged_components[active_sequence_rank] = True
-
-        elif keypoint_type == MAX or keypoint_type == GMAX:
-            left_rank  = active_sequence_rank - 1
-            right_rank = active_sequence_rank + 1
-
-            left_root  = _numba_find_root(basin_membership_ids, left_rank) if left_rank >= 0 else -1
-            right_root = _numba_find_root(basin_membership_ids, right_rank) if right_rank < num_keypoints else -1
-
-            has_left   = (left_rank >= 0) and submerged_components[left_root]
-            has_right  = (right_rank < num_keypoints) and submerged_components[right_root]
-
-            if has_left and has_right:
-                left_birth_height  = timeseries_values[keypoint_idx_array[left_root]]
-                right_birth_height = timeseries_values[keypoint_idx_array[right_root]]
-
-                if left_birth_height > right_birth_height:
-                    victim_birth_series_idx = keypoint_idx_array[left_root]
-                    basin_membership_ids[left_root] = right_root
-                else:
-                    victim_birth_series_idx = keypoint_idx_array[right_root]
-                    basin_membership_ids[right_root] = left_root
-                
-                birth_death_pairs.append((int(victim_birth_series_idx), int(active_series_idx)))
-
-            elif has_left:
-                basin_membership_ids[active_sequence_rank] = left_root
-                submerged_components[active_sequence_rank] = True
-            elif has_right:
-                basin_membership_ids[active_sequence_rank] = right_root
-                submerged_components[active_sequence_rank] = True
-    return birth_death_pairs
-
-# ========= 1) streaming case ========
-
 @njit(fastmath=True)
 def _run_streaming_sweep_loop(ranks_to_process: np.ndarray, keypoint_types: np.ndarray, keypoint_idx_array: np.ndarray, 
                               timeseries_values: np.ndarray, basin_membership_ids: np.ndarray,
                               submerged_components: np.ndarray, num_keypoints: int):
-    """Incremental sweep loop"""
+    """sweep loop. Works for the normal case, and the incremental case"""
     heights           = timeseries_values[keypoint_idx_array[ranks_to_process]]
     sorted_ranks_idx  = np.argsort(heights)
     birth_death_pairs = []
@@ -150,35 +120,35 @@ def _run_streaming_sweep_loop(ranks_to_process: np.ndarray, keypoint_types: np.n
         keypoint_type        = keypoint_types[active_sequence_rank]
         active_series_idx    = keypoint_idx_array[active_sequence_rank]
 
-        if keypoint_type == MIN or keypoint_type == GMIN:
+        if keypoint_type == MIN or keypoint_type == GMIN: # we have a valley
             submerged_components[active_sequence_rank] = True
 
-        elif keypoint_type == MAX or keypoint_type == GMAX:
+        elif keypoint_type == MAX or keypoint_type == GMAX: # we have a peak
             left_rank  = active_sequence_rank - 1
             right_rank = active_sequence_rank + 1
 
-            left_root  = _numba_find_root(basin_membership_ids, left_rank) if left_rank >= 0 else -1
-            right_root = _numba_find_root(basin_membership_ids, right_rank) if right_rank < num_keypoints else -1
+            left_root  = _find_basin_root(basin_membership_ids, left_rank) if left_rank >= 0 else -1
+            right_root = _find_basin_root(basin_membership_ids, right_rank) if right_rank < num_keypoints else -1
 
             has_left   = (left_rank >= 0) and submerged_components[left_root]
             has_right  = (right_rank < num_keypoints) and submerged_components[right_root]
 
-            if has_left and has_right:
+            if has_left and has_right: # lakes on both sides of peak => merge basins + record birth-death pair
                 left_birth_height  = timeseries_values[keypoint_idx_array[left_root]]
                 right_birth_height = timeseries_values[keypoint_idx_array[right_root]]
 
-                if left_birth_height > right_birth_height:
-                    victim_birth_series_idx = keypoint_idx_array[left_root]
+                if left_birth_height > right_birth_height: # lower basin is victim (right dies)
+                    victim_birth_series_idx         = keypoint_idx_array[left_root]
                     basin_membership_ids[left_root] = right_root
-                else:
-                    victim_birth_series_idx = keypoint_idx_array[right_root]
+                else: # lower basin (left here) is victim, dies
+                    victim_birth_series_idx          = keypoint_idx_array[right_root]
                     basin_membership_ids[right_root] = left_root
                 birth_death_pairs.append((int(victim_birth_series_idx), int(active_series_idx)))
 
-            elif has_left:
+            elif has_left: # lake only on left side => add to left basin
                 basin_membership_ids[active_sequence_rank] = left_root
                 submerged_components[active_sequence_rank] = True
-            elif has_right:
+            elif has_right: # lake only on right side => add to right basin
                 basin_membership_ids[active_sequence_rank] = right_root
                 submerged_components[active_sequence_rank] = True
     return birth_death_pairs
@@ -187,7 +157,7 @@ def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_se
     """runs the persistence loop on a single timeseries"""
     num_keypoints       = len(keypoint_series_idx)
     keypoint_heights    = timeseries_values[keypoint_series_idx]
-    sweep_line_schedule = torch.argsort(keypoint_heights)
+    sweep_line_schedule = torch.argsort(keypoint_heights) # ascending sort water level by y-height
 
     sweep_list_np   = sweep_line_schedule.cpu().numpy()
     types_np        = keypoint_types.cpu().numpy()
@@ -196,15 +166,14 @@ def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_se
 
     # birth_death_pairs_list = _run_fast_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, num_keypoints)
 
-    # Pre-allocate temporary tracking arrays for the full run
-    basin_membership_ids = np.arange(num_keypoints, dtype=np.int64)
-    submerged_components = np.zeros(num_keypoints, dtype=np.bool_)
+    # Preallocate temporary tracking arrays
+    basin_membership_ids = np.arange(num_keypoints, dtype=np.int64) # initialized here
+    submerged_components = np.zeros(num_keypoints, dtype=np.bool_)  # initialized here
 
     # FIX: Reuses the scenario 1 function to eliminate duplicate logic
     birth_death_pairs_list = _run_streaming_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, 
                                                        basin_membership_ids, submerged_components, num_keypoints)
     return birth_death_pairs_list
-
 
 class OnlineSublevelPersistence:
     """Maintains a persistent, incrementally updated state in pre-allocated NumPy buffers """
