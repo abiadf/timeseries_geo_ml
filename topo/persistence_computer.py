@@ -1,6 +1,5 @@
 """Sublevel Set Persistence of H0 on GPU + numba. Extrema detectino in torch, persistence in numpy+numba (cause its sequential)"""
 from time import perf_counter
-
 import torch
 import numpy as np
 from numba import njit, prange
@@ -30,15 +29,8 @@ def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tens
     min_idx  = torch.nonzero(is_min).flatten() + 1
     max_idx  = torch.nonzero(is_max).flatten() + 1
 
-    gmin_val = y_vals.min()
-    gmax_val = y_vals.max()
-    # gmin_idx = torch.nonzero(y_vals == gmin_val).flatten()
-    # gmax_idx = torch.nonzero(y_vals == gmax_val).flatten()
-
-    # upgrade min/max to gmin/gmax before concat
-    # min_types = torch.where(torch.isin(min_idx, gmin_idx),
-    #                         torch.tensor(GMIN, device=device),
-    #                         torch.tensor(MIN,  device=device))
+    gmin_val  = y_vals.min()
+    gmax_val  = y_vals.max()
     is_gmin   = (y_vals == gmin_val)
     min_types = torch.where(is_gmin[min_idx], GMIN_T.to(y_vals.device), MIN_T.to(y_vals.device))
 
@@ -60,7 +52,6 @@ def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tens
     left_was_gmax  = y_vals[0]  == gmax_val
     right_was_gmax = y_vals[-1] == gmax_val
 
-    # boundary_stole_gmax  = (left_was_gmax or right_was_gmax) and not torch.isin(max_idx, gmax_idx).any()
     boundary_stole_gmax = ((left_was_gmax or right_was_gmax) and not is_gmax[max_idx].any())
 
     if boundary_stole_gmax:
@@ -88,7 +79,6 @@ def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tens
     all_idx   = all_idx[order]
     all_types = all_types[order]
 
-    # mask = torch.cat([torch.tensor([True], device=device), all_idx[1:] != all_idx[:-1]])
     mask     = torch.empty(all_idx.numel(), dtype=torch.bool, device=device)
     mask[0]  = True
     mask[1:] = all_idx[1:] != all_idx[:-1]
@@ -195,44 +185,57 @@ def _run_1d_sweep_loop(sorted_ranks_idx: np.ndarray, keypoint_types: np.ndarray,
                 submerged_keypoints[active_sequence_rank] = True
     return p_count
 
+# # torch, contains MASSIVE memory leak
+# def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_series_idx: torch.Tensor, keypoint_types: torch.Tensor):
+#     """runs the persistence loop on a single timeseries"""
+#     num_keypoints    = len(keypoint_series_idx)
+#     keypoint_heights = timeseries_values[keypoint_series_idx]
+#     types_np         = keypoint_types.cpu().numpy()
+#     kp_idx_np        = keypoint_series_idx.cpu().numpy()
+#     ts_values_np     = timeseries_values.cpu().numpy()
+
+#     # Preallocate temporary tracking arrays
+#     basin_membership_ids = np.arange(num_keypoints, dtype=np.int64) # initialized here
+#     submerged_keypoints  = np.zeros(num_keypoints, dtype=np.bool_)  # initialized here
+
+#     max_possible_pairs = num_keypoints // 2
+#     pairs_out = np.empty((max_possible_pairs, 2), dtype=np.int64)
+
+#     # Compute the sort order safely on the heap before hitting the Numba loop
+#     sorted_ranks_idx = torch.argsort(keypoint_heights).cpu().numpy()
+
+#     # Pass 'sorted_ranks_idx' directly into the updated function
+#     pair_count = _run_1d_sweep_loop(sorted_ranks_idx, types_np, kp_idx_np, ts_values_np, 
+#                                     basin_membership_ids, submerged_keypoints, num_keypoints, pairs_out)
+#     return pairs_out[:pair_count].copy()
+
 def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_series_idx: torch.Tensor, keypoint_types: torch.Tensor):
-    """runs the persistence loop on a single timeseries"""
-    num_keypoints       = len(keypoint_series_idx)
-    keypoint_heights    = timeseries_values[keypoint_series_idx]
-    # sweep_line_schedule = torch.argsort(keypoint_heights) # ascending sort water level by y-height
+    """Zero-copy memory layout mapping directly to NumPy arrays."""
+    num_keypoints = len(keypoint_series_idx)
+    
+    # 1. Cast directly to NumPy arrays instantly
+    types_np      = keypoint_types.cpu().numpy()
+    kp_idx_np     = keypoint_series_idx.cpu().numpy()
+    ts_values_np  = timeseries_values.cpu().numpy()
 
-    # sweep_list_np   = sweep_line_schedule.cpu().numpy()
-    types_np        = keypoint_types.cpu().numpy()
-    kp_idx_np       = keypoint_series_idx.cpu().numpy()
-    ts_values_np    = timeseries_values.cpu().numpy()
+    # 2. Extract heights using NumPy instead of PyTorch (Bypasses Trap B)
+    keypoint_heights = ts_values_np[kp_idx_np]
+    
+    # 3. Use NumPy's highly optimized, raw C-quicksort
+    sorted_ranks_idx = np.argsort(keypoint_heights)
 
-    # Preallocate temporary tracking arrays
-    basin_membership_ids = np.arange(num_keypoints, dtype=np.int64) # initialized here
-    submerged_keypoints  = np.zeros(num_keypoints, dtype=np.bool_)  # initialized here
+    # 4. Preallocate fixed tracking structures
+    basin_membership_ids = np.arange(num_keypoints, dtype=np.int64)
+    submerged_keypoints  = np.zeros(num_keypoints, dtype=np.bool_)
 
     max_possible_pairs = num_keypoints // 2
     pairs_out = np.empty((max_possible_pairs, 2), dtype=np.int64)
 
-    # # # birth_death_pairs_list = _run_fast_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, num_keypoints)
-    # # birth_death_pairs_list = _run_1d_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, 
-    # #                                                    basin_membership_ids, submerged_keypoints, num_keypoints)
-    # # return birth_death_pairs_list
-
-    # pair_count = _run_1d_sweep_loop(sweep_list_np, types_np, kp_idx_np, ts_values_np, 
-    #                                         basin_membership_ids, submerged_keypoints, num_keypoints, pairs_out)
-    # final_pairs = [tuple(pair) for pair in pairs_out[:pair_count]]
-    # return final_pairs
-
-    # Compute the sort order safely on the heap before hitting the Numba loop
-    sorted_ranks_idx = torch.argsort(keypoint_heights).cpu().numpy()
-
-    # Pass 'sorted_ranks_idx' directly into the updated function
+    # 5. Execute Numba engine
     pair_count = _run_1d_sweep_loop(sorted_ranks_idx, types_np, kp_idx_np, ts_values_np, 
-                                            basin_membership_ids, submerged_keypoints, num_keypoints, pairs_out)
-
-    # final_pairs = [tuple(pair) for pair in pairs_out[:pair_count]]
-    # return final_pairs
+                                    basin_membership_ids, submerged_keypoints, num_keypoints, pairs_out)
     return pairs_out[:pair_count].copy()
+
 
 # =========== 1) streaming case ============
 
