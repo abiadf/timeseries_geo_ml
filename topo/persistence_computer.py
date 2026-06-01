@@ -1,4 +1,4 @@
-"""Sublevel Set Persistence of H0 on GPU + numba"""
+"""Sublevel Set Persistence of H0 on GPU + numba. Extrema detectino in torch, persistence in numpy+numba (cause its sequential)"""
 from time import perf_counter
 
 import torch
@@ -7,7 +7,10 @@ from numba import njit, prange
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MIN, MAX, GMIN, GMAX = 1, -1, 2, -2 # types of keypoints
-
+MIN_T  = torch.tensor(MIN, dtype=torch.int64, device=device)
+MAX_T  = torch.tensor(MAX, dtype=torch.int64, device=device)
+GMIN_T = torch.tensor(GMIN, dtype=torch.int64, device=device)
+GMAX_T = torch.tensor(GMAX, dtype=torch.int64, device=device)
 # =========== 0) Base scenario ============
 
 def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tensor]:
@@ -29,16 +32,18 @@ def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tens
 
     gmin_val = y_vals.min()
     gmax_val = y_vals.max()
-    gmin_idx = torch.nonzero(y_vals == gmin_val).flatten()
-    gmax_idx = torch.nonzero(y_vals == gmax_val).flatten()
+    # gmin_idx = torch.nonzero(y_vals == gmin_val).flatten()
+    # gmax_idx = torch.nonzero(y_vals == gmax_val).flatten()
 
     # upgrade min/max to gmin/gmax before concat
-    min_types = torch.where(torch.isin(min_idx, gmin_idx),
-                            torch.tensor(GMIN, device=device),
-                            torch.tensor(MIN,  device=device))
-    max_types = torch.where(torch.isin(max_idx, gmax_idx),
-                            torch.tensor(GMAX, device=device),
-                            torch.tensor(MAX,  device=device))
+    # min_types = torch.where(torch.isin(min_idx, gmin_idx),
+    #                         torch.tensor(GMIN, device=device),
+    #                         torch.tensor(MIN,  device=device))
+    is_gmin   = (y_vals == gmin_val)
+    min_types = torch.where(is_gmin[min_idx], GMIN_T.to(y_vals.device), MIN_T.to(y_vals.device))
+
+    is_gmax   = (y_vals == gmax_val)
+    max_types = torch.where(is_gmax[max_idx], GMAX_T.to(y_vals.device), MAX_T.to(y_vals.device))
 
     # boundaries: keep only if min/gmin, discard if max/gmax
     boundary_indices, boundary_types_list = [], []
@@ -54,12 +59,15 @@ def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tens
     # promote next interior max to GMAX if boundary was gmax and no interior gmax exists
     left_was_gmax  = y_vals[0]  == gmax_val
     right_was_gmax = y_vals[-1] == gmax_val
-    boundary_stole_gmax  = (left_was_gmax or right_was_gmax) and not torch.isin(max_idx, gmax_idx).any()
+
+    # boundary_stole_gmax  = (left_was_gmax or right_was_gmax) and not torch.isin(max_idx, gmax_idx).any()
+    boundary_stole_gmax = ((left_was_gmax or right_was_gmax) and not is_gmax[max_idx].any())
+
     if boundary_stole_gmax:
         interior_max_val = y_vals[1:-1].max()
         promoted_idx     = torch.nonzero(y_vals[1:-1] == interior_max_val).flatten() + 1
         max_types        = torch.where(torch.isin(max_idx, promoted_idx),
-                                        torch.tensor(GMAX, device=device), max_types)
+                                       torch.tensor(GMAX, device=device), max_types)
 
     if boundary_indices:
         b_idx     = torch.tensor(boundary_indices,    device=device)
@@ -70,16 +78,25 @@ def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tens
         all_idx   = torch.cat([min_idx, max_idx])
         all_types = torch.cat([min_types, max_types])
 
+    # Safely catch flat lines or monotonic chunks before sorting/masking
+    if all_idx.numel() == 0:
+        return (torch.empty(0, dtype=torch.int64, device=device), 
+                torch.empty(0, dtype=torch.int64, device=device))
+
     sort_key  = all_idx * 10 - all_types.abs()  # GMIN/GMAX before MIN/MAX at same index. *10 > max type abs val (2), so index dominates
     order     = torch.argsort(sort_key)
     all_idx   = all_idx[order]
     all_types = all_types[order]
 
-    mask = torch.cat([torch.tensor([True], device=device), all_idx[1:] != all_idx[:-1]])
+    # mask = torch.cat([torch.tensor([True], device=device), all_idx[1:] != all_idx[:-1]])
+    mask     = torch.empty(all_idx.numel(), dtype=torch.bool, device=device)
+    mask[0]  = True
+    mask[1:] = all_idx[1:] != all_idx[:-1]
+
     keypoint_idx, keypoint_types = all_idx[mask], all_types[mask]
     return keypoint_idx, keypoint_types
 
-@njit(fastmath=True)
+@njit( cache=True)
 def _find_basin_root_1d(basin_membership_ids: np.ndarray, rank: int):
     """Unified two-pass iterative path compression for both 1D and 2D arrays."""
     """Finds the ultimate root valley (deepest min) owning the basin at neighbor_rank.
@@ -114,7 +131,7 @@ def _find_basin_root_1d(basin_membership_ids: np.ndarray, rank: int):
         cursor = next_node
     return root
 
-@njit(fastmath=True)
+@njit( cache=True)
 def _find_basin_root_2d(basin_membership_ids: np.ndarray, row: int, rank: int):
     """Two-pass iterative path compression preventing C-stack overflow in 2D arrays."""
     cursor = rank
@@ -127,10 +144,10 @@ def _find_basin_root_2d(basin_membership_ids: np.ndarray, row: int, rank: int):
         cursor = next_node
     return root
 
-@njit(fastmath=True)
+@njit( cache=True)
 def _run_1d_sweep_loop(sorted_ranks_idx: np.ndarray, keypoint_types: np.ndarray, keypoint_idx_array: np.ndarray, 
-                              timeseries_values: np.ndarray, basin_membership_ids: np.ndarray,
-                              submerged_keypoints: np.ndarray, num_keypoints: int, pairs_out: np.ndarray):
+                       timeseries_values: np.ndarray, basin_membership_ids: np.ndarray,
+                       submerged_keypoints: np.ndarray, num_keypoints: int, pairs_out: np.ndarray):
     """Zero-allocation inner sweep loop driven by an external pre-sorted schedule."""
     p_count = 0
 
@@ -182,9 +199,9 @@ def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_se
     """runs the persistence loop on a single timeseries"""
     num_keypoints       = len(keypoint_series_idx)
     keypoint_heights    = timeseries_values[keypoint_series_idx]
-    sweep_line_schedule = torch.argsort(keypoint_heights) # ascending sort water level by y-height
+    # sweep_line_schedule = torch.argsort(keypoint_heights) # ascending sort water level by y-height
 
-    sweep_list_np   = sweep_line_schedule.cpu().numpy()
+    # sweep_list_np   = sweep_line_schedule.cpu().numpy()
     types_np        = keypoint_types.cpu().numpy()
     kp_idx_np       = keypoint_series_idx.cpu().numpy()
     ts_values_np    = timeseries_values.cpu().numpy()
@@ -206,16 +223,16 @@ def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_se
     # final_pairs = [tuple(pair) for pair in pairs_out[:pair_count]]
     # return final_pairs
 
-
     # Compute the sort order safely on the heap before hitting the Numba loop
-    keypoint_heights = timeseries_values[keypoint_series_idx]
     sorted_ranks_idx = torch.argsort(keypoint_heights).cpu().numpy()
 
     # Pass 'sorted_ranks_idx' directly into the updated function
     pair_count = _run_1d_sweep_loop(sorted_ranks_idx, types_np, kp_idx_np, ts_values_np, 
                                             basin_membership_ids, submerged_keypoints, num_keypoints, pairs_out)
-    final_pairs = [tuple(pair) for pair in pairs_out[:pair_count]]
-    return final_pairs
+
+    # final_pairs = [tuple(pair) for pair in pairs_out[:pair_count]]
+    # return final_pairs
+    return pairs_out[:pair_count].copy()
 
 # =========== 1) streaming case ============
 

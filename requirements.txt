@@ -52,12 +52,11 @@ torch-geometric
 torch-scatter
 torch-sparse
 torch-cluster
-torch-spline-conv
+#torch-spline-conv
 
 tqdm
 tslearn
 pykeops
-# pykan
 PyYAML
 ts2vec
 umap-learn # not umap
