@@ -1,4 +1,6 @@
-"""Sublevel Set Persistence on GPU + numba"""
+"""Sublevel Set Persistence of H0 on GPU + numba"""
+from time import perf_counter
+
 import torch
 import numpy as np
 from numba import njit, prange
@@ -422,33 +424,29 @@ def compute_sublevel_persistence(timeseries: torch.Tensor, keypoint_idx, keypoin
         return compute_batch_sublevel_persistence(timeseries, keypoint_idx, keypoint_types)
 
 @njit(fastmath=True, parallel=True)
-def _run_batch_streaming_sweep_loop(start_ranks, end_ranks,          # 1D arrays tracking the new slice per row
-    keypoint_types, keypoint_idx_matrix, timeseries_matrix, basin_membership_ids, submerged_keypoints):
-    """Incremental sweep engine executing streaming updates across N channels simultaneously."""
-    n_rows         = timeseries_matrix.shape[0]
-    max_kp_per_row = keypoint_idx_matrix.shape[1]
-    
-    # Pre-allocate output buffers safely for parallel execution threads
-    batch_pairs_storage = np.full((n_rows, max_kp_per_row, 2), -1, dtype=np.int64)
-    pair_counts         = np.zeros(n_rows, dtype=np.int64)
+def _run_batch_streaming_sweep_loop(
+    row_active_counts,          # 1D array: number of valid active keypoints to process per row
+    padded_active_ranks,        # 2D array: pre-sorted active historical + new ranks to sweep
+    keypoint_types, 
+    keypoint_idx_matrix, 
+    timeseries_matrix, 
+    basin_membership_ids, 
+    submerged_keypoints,
+    batch_pairs_storage,        # Passed in to maintain zero-allocation
+    pair_counts):                 # Passed in to maintain zero-allocation
+    """Incremental parallel sweep engine processing N channels simultaneously with ZERO internal allocations."""
+    n_rows = timeseries_matrix.shape[0]
 
     for i in prange(n_rows):
-        kp_start = start_ranks[i]
-        kp_end   = end_ranks[i]
-        
-        if kp_start >= kp_end:
-            continue  # No new keypoints found for this specific channel chunk
-            
-        # Extract and sort only the newly added keypoint span for this row
-        ranks_to_process = np.arange(kp_start, kp_end, dtype=np.int64)
-        heights          = timeseries_matrix[i, keypoint_idx_matrix[i, ranks_to_process]]
-        sorted_ranks_idx = np.argsort(heights)
-        
+        num_to_process = row_active_counts[i]
         p_count = 0
-        for idx in sorted_ranks_idx:
-            active_sequence_rank = ranks_to_process[idx]
-            keypoint_type        = keypoint_types[i, active_sequence_rank]
-            active_series_idx    = keypoint_idx_matrix[i, active_sequence_rank]
+        
+        # Pull out the pre-sorted sequence schedule for this thread's row
+        schedule = padded_active_ranks[i, :num_to_process]
+        
+        for active_sequence_rank in schedule:
+            keypoint_type     = keypoint_types[i, active_sequence_rank]
+            active_series_idx = keypoint_idx_matrix[i, active_sequence_rank]
 
             if keypoint_type == MIN or keypoint_type == GMIN:
                 submerged_keypoints[i, active_sequence_rank] = True
@@ -457,11 +455,12 @@ def _run_batch_streaming_sweep_loop(start_ranks, end_ranks,          # 1D arrays
                 left_rank  = active_sequence_rank - 1
                 right_rank = active_sequence_rank + 1
 
-                left_root  = _find_basin_root_batch(basin_membership_ids, i, left_rank) if left_rank >= 0 else -1
-                right_root = _find_basin_root_batch(basin_membership_ids, i, right_rank) if right_rank < kp_end else -1
+                # Corrected tracking arrays bounds limit lookups
+                left_root  = _find_basin_root_2d(basin_membership_ids, i, left_rank) if left_rank >= 0 else -1
+                right_root = _find_basin_root_2d(basin_membership_ids, i, right_rank) if right_rank < keypoint_idx_matrix.shape[1] else -1
 
                 is_left_submerged  = (left_rank >= 0) and submerged_keypoints[i, left_root]
-                is_right_submerged = (right_rank < kp_end) and submerged_keypoints[i, right_root]
+                is_right_submerged = (right_rank < keypoint_idx_matrix.shape[1]) and submerged_keypoints[i, right_root]
 
                 if is_left_submerged and is_right_submerged:
                     left_birth_height  = timeseries_matrix[i, keypoint_idx_matrix[i, left_root]]
@@ -474,7 +473,8 @@ def _run_batch_streaming_sweep_loop(start_ranks, end_ranks,          # 1D arrays
                         victim_birth_series_idx = keypoint_idx_matrix[i, right_root]
                         basin_membership_ids[i, right_root] = left_root
                     
-                    batch_pairs_storage[i, p_count] = [victim_birth_series_idx, active_series_idx]
+                    batch_pairs_storage[i, p_count, 0] = victim_birth_series_idx
+                    batch_pairs_storage[i, p_count, 1] = active_series_idx
                     p_count += 1
 
                 elif is_left_submerged:
@@ -486,58 +486,63 @@ def _run_batch_streaming_sweep_loop(start_ranks, end_ranks,          # 1D arrays
                     
         pair_counts[i] = p_count
 
-    # Format raw array records into final Python results
-    final_output = []
-    for i in range(n_rows):
-        count      = pair_counts[i]
-        pairs_list = [(int(batch_pairs_storage[i, j, 0]), int(batch_pairs_storage[i, j, 1])) for j in range(count)]
-        final_output.append(pairs_list)
-    return final_output
-
 class BatchStreamingSublevelPersistence:
-    """Manages 2D contiguous state cache blocks for multi-channel streaming arrays."""
+    """Manages 2D contiguous state cache blocks for fast parallel multi-channel streaming."""
     def __init__(self, initial_matrix: torch.Tensor, idx_list: list, types_list: list, max_capacity: int = 10_000_000):
         self.n_rows = initial_matrix.shape[0]
         self.device = initial_matrix.device
+        self.max_capacity = max_capacity
         
-        # Pre-allocate large continuous 2D matrices
+        # Pre-allocate large continuous memory tracking blocks
         self.history_values      = np.zeros((self.n_rows, max_capacity), dtype=np.float32)
         self.keypoint_types      = np.zeros((self.n_rows, max_capacity), dtype=np.int64)
         self.keypoint_idx_matrix = np.zeros((self.n_rows, max_capacity), dtype=np.int64)
+        self.submerged_keypoints = np.zeros((self.n_rows, max_capacity), dtype=np.bool_)
         
-        # Tracking states
         self.basin_membership_ids = np.zeros((self.n_rows, max_capacity), dtype=np.int64)
         for i in range(self.n_rows):
             self.basin_membership_ids[i] = np.arange(max_capacity)
             
-        self.submerged_keypoints = np.zeros((self.n_rows, max_capacity), dtype=np.bool_)
-        
-        # Track individual filled boundary sizes per channel
         self.current_values_lens = np.full(self.n_rows, initial_matrix.shape[1], dtype=np.int64)
         self.num_keypoints       = np.array([len(t) for t in idx_list], dtype=np.int64)
         
-        # Ingest the historical baseline components
+        # Ingest base historical data matrices
         for i in range(self.n_rows):
             self.history_values[i, :self.current_values_lens[i]] = initial_matrix[i].cpu().numpy()
             self.keypoint_types[i, :self.num_keypoints[i]]       = types_list[i].cpu().numpy()
             self.keypoint_idx_matrix[i, :self.num_keypoints[i]]  = idx_list[i].cpu().numpy()
 
-        # Seed initial system states
-        start_ranks = np.zeros(self.n_rows, dtype=np.int64)
-        _run_batch_streaming_sweep_loop(start_ranks, self.num_keypoints, self.keypoint_types, self.keypoint_idx_matrix,
-                                        self.history_values, self.basin_membership_ids, self.submerged_keypoints)
+        # Gather historical baselines schedules
+        row_active_counts   = self.num_keypoints.copy()
+        max_active_elements = int(row_active_counts.max())
+        padded_active_ranks = np.zeros((self.n_rows, max_active_elements), dtype=np.int64)
+        
+        for i in range(self.n_rows):
+            ranks = np.arange(self.num_keypoints[i], dtype=np.int64)
+            heights = self.history_values[i, self.keypoint_idx_matrix[i, ranks]]
+            padded_active_ranks[i, :self.num_keypoints[i]] = ranks[np.argsort(heights)]
+
+        # Allocations scratchpads for the initial baseline run
+        batch_pairs_storage = np.full((self.n_rows, max_active_elements, 2), -1, dtype=np.int64)
+        pair_counts         = np.zeros(self.n_rows, dtype=np.int64)
+
+        _run_batch_streaming_sweep_loop(
+            row_active_counts, padded_active_ranks, self.keypoint_types, self.keypoint_idx_matrix,
+            self.history_values, self.basin_membership_ids, self.submerged_keypoints,
+            batch_pairs_storage, pair_counts)
 
     def append_batch_stream(self, new_chunks_matrix: torch.Tensor, stream_idx_list: list, stream_types_list: list):
-        """Pushes a new chunk matrix (N, Chunk_Size) straight down the parallel streaming pipeline."""
-        start_ranks = self.num_keypoints.copy()
-        end_ranks   = np.zeros(self.n_rows, dtype=np.int64)
+        """Pushes a multi-channel stream frame chunk down the parallel pipeline and resolves persistent structures."""
+        # 1. Update positions, load metrics into shared 2D arrays
+        active_rank_lists = []
+        row_active_counts = np.zeros(self.n_rows, dtype=np.int64)
         
         for i in range(self.n_rows):
             v_start = self.current_values_lens[i]
-            v_end   = v_start + new_chunks_matrix.shape[1] # assumes standard uniform batch step shapes
+            v_end   = v_start + new_chunks_matrix.shape[1]
             self.history_values[i, v_start:v_end] = new_chunks_matrix[i].cpu().numpy()
             
-            kp_start = start_ranks[i]
+            kp_start = self.num_keypoints[i]
             kp_end   = kp_start + len(stream_idx_list[i])
             
             self.keypoint_types[i, kp_start:kp_end]      = stream_types_list[i].cpu().numpy()
@@ -545,10 +550,40 @@ class BatchStreamingSublevelPersistence:
             
             self.current_values_lens[i] = v_end
             self.num_keypoints[i]       = kp_end
-            end_ranks[i]                = kp_end
+            
+            # Combine unsubmerged active history boundaries with the new frame's ranks
+            historical_active = np.where(~self.submerged_keypoints[i, :kp_start])[0]
+            new_ranks         = np.arange(kp_start, kp_end, dtype=np.int64)
+            ranks_to_process  = np.concatenate((historical_active, new_ranks))
+            
+            # Sort individual channel arrays by height
+            heights = self.history_values[i, self.keypoint_idx_matrix[i, ranks_to_process]]
+            sorted_ranks = ranks_to_process[np.argsort(heights)]
+            
+            active_rank_lists.append(sorted_ranks)
+            row_active_counts[i] = len(sorted_ranks)
 
-        # Launch the underlying function across all threads
-        return _run_batch_streaming_sweep_loop(start_ranks, end_ranks, self.keypoint_types,
-                                               self.keypoint_idx_matrix, self.history_values,
-                                               self.basin_membership_ids, self.submerged_keypoints)
+        # 2. Build tracking schedules on the heap before launching the parallel sweep loop
+        max_active_elements = int(row_active_counts.max())
+        padded_active_ranks = np.zeros((self.n_rows, max_active_elements), dtype=np.int64)
+        for i in range(self.n_rows):
+            padded_active_ranks[i, :row_active_counts[i]] = active_rank_lists[i]
+
+        batch_pairs_storage = np.full((self.n_rows, max_active_elements, 2), -1, dtype=np.int64)
+        pair_counts         = np.zeros(self.n_rows, dtype=np.int64)
+
+        # 3. Fire parallel calculation loop
+        _run_batch_streaming_sweep_loop(
+            row_active_counts, padded_active_ranks, self.keypoint_types, self.keypoint_idx_matrix,
+            self.history_values, self.basin_membership_ids, self.submerged_keypoints,
+            batch_pairs_storage, pair_counts)
+
+        # 4. Post-process structural pairs back out securely in Python
+        final_output = []
+        for i in range(self.n_rows):
+            count = pair_counts[i]
+            final_output.append([
+                (int(batch_pairs_storage[i, j, 0]), int(batch_pairs_storage[i, j, 1])) 
+                for j in range(count)])
+        return final_output
 

@@ -14,6 +14,7 @@ lightgbm
 # lttb
 matplotlib
 metasynth
+memory-profiler
 # momentfm
 nixtla
 numpy<2.0.0,>=1.23.5 # numpy
@@ -73,6 +74,7 @@ persim
 stochman
 gudhi
 POT # for Gudhi
+dionysus
 
 # Datasets:
 # ucimlrepo
