@@ -74,7 +74,6 @@ stochman
 gudhi
 POT # for Gudhi
 dionysus
-homcloud
 
 # Datasets:
 # ucimlrepo
