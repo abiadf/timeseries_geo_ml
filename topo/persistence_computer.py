@@ -4,6 +4,7 @@ import torch
 import numpy as np
 from numba import njit, prange
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cpu")
 
 MIN, MAX, GMIN, GMAX = 1, -1, 2, -2 # types of keypoints
 MIN_T  = torch.tensor(MIN, dtype=torch.int64, device=device)
