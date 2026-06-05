@@ -6,8 +6,8 @@ einops
 # fastdtw
 fvcore
 geomstats
-h5py
-huggingface_hub
+# h5py
+# huggingface_hub
 ipykernel
 jupyter
 lightgbm
@@ -16,7 +16,7 @@ matplotlib
 metasynth
 memory-profiler
 # momentfm
-nixtla
+# nixtla
 numpy<2.0.0,>=1.23.5 # numpy
 numba
 numexpr
@@ -36,7 +36,7 @@ optuna
 scikit-learn ==1.4.2 #Giotto is problematic
 scikit-dimension
 seaborn
-shap
+# shap
 statsmodels
 # ==
 # tensorflow==2.15.0; sys_platform == "linux"
@@ -45,13 +45,13 @@ statsmodels
 # ==
 
 torch==2.8.0
-torchvision
-torchaudio
+# torchvision
+# torchaudio
 torchmetrics
-torch-geometric
-torch-scatter
-torch-sparse
-torch-cluster
+# torch-geometric
+# torch-scatter
+# torch-sparse
+# torch-cluster
 #torch-spline-conv
 
 tqdm
@@ -68,6 +68,7 @@ zarr
 
 #TDA
 ripser
+cripser
 persim
 # giotto-tda >= 0.6.1
 stochman

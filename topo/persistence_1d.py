@@ -186,7 +186,7 @@ def _run_1d_sweep_loop(sorted_ranks_idx: np.ndarray, keypoint_types: np.ndarray,
                 submerged_keypoints[active_sequence_rank] = True
     return p_count
 
-# # torch, contains MASSIVE memory leak
+# # torch, contains memory leak
 # def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_series_idx: torch.Tensor, keypoint_types: torch.Tensor):
 #     """runs the persistence loop on a single timeseries"""
 #     num_keypoints    = len(keypoint_series_idx)
