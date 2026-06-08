@@ -235,8 +235,3 @@ def _run_2d_sweep_loop(
                 has_open_loop[r] = False
     return h0_count, h1_count
 
-# =============
-# my way
-
-
-
