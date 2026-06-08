@@ -5,7 +5,6 @@ import torch
 import numpy as np
 from numba import njit, prange
 from dataclasses import dataclass
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 """Optimized for 2D grids by replacing global boundary matrix reduction with a localized
@@ -27,7 +26,7 @@ Optimized for 2D grids by replacing global boundary matrix reduction with a loca
 
 REGULAR, MIN, MAX, SADDLE = 0, 1, 2, 3
 
-# ✅ ====== NEW TRY ========
+# ✅ ====== BASE SCENARIO ========
 
 @njit(cache=True)
 def _root(parent, node):
@@ -71,134 +70,172 @@ def _init_face(f, parent_f, birth_val_f, face_vals, exterior,):
         else:
             birth_val_f[f] = face_vals[f]
 
+# @njit(cache=True)
+# def _sweep_h1_backward(edge_vals, edge_f1, edge_f2, face_vals, num_faces, h1_pairs):
+#     """Compute H1 persistence via backward dual union-find sweep."""
+#     EXTERIOR = num_faces
+#     h1_count = 0
+
+#     parent_f      = np.full(num_faces + 1, -1, dtype=np.int64)
+#     birth_val_f   = np.zeros(num_faces + 1, dtype=np.float32)
+#     reverse_order = np.argsort(edge_vals)[::-1]
+
+#     for idx in reverse_order:
+#         edge_val = edge_vals[idx]
+#         f1 = edge_f1[idx]
+#         f2 = edge_f2[idx]
+
+#         _init_face(f1, parent_f, birth_val_f, face_vals, EXTERIOR)
+#         _init_face(f2, parent_f, birth_val_f, face_vals, EXTERIOR)
+#         root_f1 = _root(parent_f, f1)
+#         root_f2 = _root(parent_f, f2)
+
+#         if root_f1 == root_f2:
+#             continue
+
+#         if birth_val_f[root_f1] >= birth_val_f[root_f2]:
+#             survivor = root_f1
+#             victim   = root_f2
+#         else:
+#             survivor = root_f2
+#             victim   = root_f1
+
+#         if victim != EXTERIOR: # only pair finite regions.
+#             h1_pairs[h1_count, 0] = edge_val # saddle: h1 birth
+#             h1_pairs[h1_count, 1] = birth_val_f[victim] # loop/face: h1 death
+#             h1_count += 1
+
+#         parent_f[victim] = survivor
+#     return h1_count
+
+# def compute_h0_h1(grid: torch.Tensor):
+#     """Compute H0/H1 sublevel persistence of a 2D image."""
+#     R, C       = grid.shape
+#     device     = grid.device
+#     num_pixels = R * C
+#     flat       = torch.arange(num_pixels, device=device).reshape(R, C)
+#     pix_vals   = grid.flatten().cpu().numpy().astype(np.float32)
+
+#     # 1. Edges
+#     h_vals = torch.maximum(grid[:, :-1], grid[:, 1:])
+#     h_idx1 = flat[:, :-1].flatten()
+#     h_idx2 = flat[:, 1:].flatten()
+    
+#     v_vals = torch.maximum(grid[:-1, :], grid[1:, :])
+#     v_idx1 = flat[:-1, :].flatten()
+#     v_idx2 = flat[1:, :].flatten()
+
+#     num_faces = (R - 1) * (C - 1)
+#     f_flat    = torch.arange(num_faces, device=device).reshape(R - 1, C - 1)
+#     f_pad     = torch.full((R + 1, C + 1), num_faces, dtype=torch.long, device=device)
+#     f_pad[1:R, 1:C] = f_flat
+
+#     # Dual mappings
+#     h_row = torch.arange(R, device=device).view(-1, 1).repeat(1, C - 1).flatten()
+#     h_col = torch.arange(C - 1, device=device).view(1, -1).repeat(R, 1).flatten()
+
+#     # above / below
+#     e_h_f1 = f_pad[h_row,     h_col + 1]
+#     e_h_f2 = f_pad[h_row + 1, h_col + 1]
+
+#     v_row = torch.arange(R - 1, device=device).view(-1, 1).repeat(1, C).flatten()
+#     v_col = torch.arange(C, device=device).view(1, -1).repeat(R - 1, 1).flatten()
+
+#     # left / right
+#     e_v_f1 = f_pad[v_row + 1, v_col]
+#     e_v_f2 = f_pad[v_row + 1, v_col + 1]
+
+#     edge_vals = torch.cat([h_vals.flatten(), v_vals.flatten()])
+#     e_idx1    = torch.cat([h_idx1, v_idx1])
+#     e_idx2    = torch.cat([h_idx2, v_idx2])
+#     edge_f1   = torch.cat([e_h_f1, e_v_f1])
+#     edge_f2   = torch.cat([e_h_f2, e_v_f2])
+
+#     e_f1_np = edge_f1.cpu().numpy()
+#     e_f2_np = edge_f2.cpu().numpy()
+
+#     boundary_edges = np.sum(e_f1_np == num_faces) + np.sum(e_f2_np == num_faces)
+#     self_edges     = np.sum(e_f1_np == e_f2_np)
+#     expected_boundary = 2 * (R - 1) + 2 * (C - 1)
+
+#     print("num_faces:", num_faces)
+#     print("boundary incidences:", boundary_edges)
+#     print("self dual edges:", self_edges)
+#     print("expected boundary edges:", expected_boundary)
+
+#     # 2. Faces
+#     face_vals = torch.amax(torch.stack([
+#         grid[:-1, :-1], grid[:-1, 1:],
+#         grid[1:, :-1], grid[1:, 1:],], dim=0), dim=0).flatten().cpu().numpy().astype(np.float32)
+
+#     # Sort primal edges for H0
+#     e_order   = torch.argsort(edge_vals)
+#     e_vals_np = edge_vals[e_order].cpu().numpy().astype(np.float32)
+#     e_idx1_np = e_idx1[e_order].cpu().numpy().astype(np.int64)
+#     e_idx2_np = e_idx2[e_order].cpu().numpy().astype(np.int64)
+
+#     # Allocations
+#     h0_out   = np.empty((len(e_vals_np), 2), dtype=np.float32)
+#     h1_pairs = np.empty((len(e_vals_np), 2), dtype=np.float32)
+
+#     # Pass 1: Forward H0
+#     h0_count = _sweep_h0_forward(e_vals_np, e_idx1_np, e_idx2_np, pix_vals, num_pixels, h0_out)
+    
+#     # Pass 2: Backward H1
+#     h1_count = _sweep_h1_backward(
+#         edge_vals.cpu().numpy().astype(np.float32),
+#         edge_f1.cpu().numpy().astype(np.int64),
+#         edge_f2.cpu().numpy().astype(np.int64), face_vals, num_faces, h1_pairs)
+
+#     h0 = h0_out[:h0_count]
+#     h1 = h1_pairs[:h1_count]
+#     h0 = h0[h0[:, 1] > h0[:, 0]]
+#     h1 = h1[h1[:, 1] > h1[:, 0]]
+
+#     global_min = np.array([[pix_vals.min(), np.inf]], dtype=np.float32)
+#     h0         = np.concatenate([h0, global_min])
+#     return h0, h1
+
 @njit(cache=True)
-def _sweep_h1_backward(edge_vals, edge_f1, edge_f2, face_vals, num_faces, h1_pairs):
-    """Compute H1 persistence via backward dual union-find sweep."""
+def _sweep_h1_backward_surgical(edge_vals, edge_f1, edge_f2, face_vals, num_faces, pre_sorted_order, h1_pairs):
     EXTERIOR = num_faces
     h1_count = 0
+    
+    # Fast native array initialization
+    parent_f = np.arange(num_faces + 1, dtype=np.int64)
+    
+    birth_val_f = np.empty(num_faces + 1, dtype=np.float32)
+    birth_val_f[:num_faces] = face_vals
+    birth_val_f[EXTERIOR] = np.inf
 
-    parent_f      = np.full(num_faces + 1, -1, dtype=np.int64)
-    birth_val_f   = np.zeros(num_faces + 1, dtype=np.float32)
-    reverse_order = np.argsort(edge_vals)[::-1]
-
-    for idx in reverse_order:
+    for idx in pre_sorted_order:
         edge_val = edge_vals[idx]
-        f1 = edge_f1[idx]
-        f2 = edge_f2[idx]
+        f1, f2 = edge_f1[idx], edge_f2[idx]
 
-        _init_face(f1, parent_f, birth_val_f, face_vals, EXTERIOR)
-        _init_face(f2, parent_f, birth_val_f, face_vals, EXTERIOR)
-        root_f1 = _root(parent_f, f1)
-        root_f2 = _root(parent_f, f2)
+        root_f1 = f1
+        while parent_f[root_f1] != root_f1:
+            parent_f[root_f1] = parent_f[parent_f[root_f1]]
+            root_f1 = parent_f[root_f1]
+            
+        root_f2 = f2
+        while parent_f[root_f2] != root_f2:
+            parent_f[root_f2] = parent_f[parent_f[root_f2]]
+            root_f2 = parent_f[root_f2]
 
-        if root_f1 == root_f2:
-            continue
+        if root_f1 != root_f2:
+            if birth_val_f[root_f1] >= birth_val_f[root_f2]:
+                survivor, victim = root_f1, root_f2
+            else:
+                survivor, victim = root_f2, root_f1
 
-        if birth_val_f[root_f1] >= birth_val_f[root_f2]:
-            survivor = root_f1
-            victim   = root_f2
-        else:
-            survivor = root_f2
-            victim   = root_f1
+            if victim != EXTERIOR:
+                h1_pairs[h1_count, 0] = edge_val
+                h1_pairs[h1_count, 1] = birth_val_f[victim]
+                h1_count += 1
 
-        if victim != EXTERIOR: # only pair finite regions.
-            h1_pairs[h1_count, 0] = edge_val # saddle: h1 birth
-            h1_pairs[h1_count, 1] = birth_val_f[victim] # loop/face: h1 death
-            h1_count += 1
-
-        parent_f[victim] = survivor
+            parent_f[victim] = survivor
     return h1_count
 
-def compute_h0_h1(grid: torch.Tensor):
-    """Compute H0/H1 sublevel persistence of a 2D image."""
-    R, C       = grid.shape
-    device     = grid.device
-    num_pixels = R * C
-    flat       = torch.arange(num_pixels, device=device).reshape(R, C)
-    pix_vals   = grid.flatten().cpu().numpy().astype(np.float32)
-
-    # 1. Edges
-    h_vals = torch.maximum(grid[:, :-1], grid[:, 1:])
-    h_idx1 = flat[:, :-1].flatten()
-    h_idx2 = flat[:, 1:].flatten()
-    
-    v_vals = torch.maximum(grid[:-1, :], grid[1:, :])
-    v_idx1 = flat[:-1, :].flatten()
-    v_idx2 = flat[1:, :].flatten()
-
-    num_faces = (R - 1) * (C - 1)
-    f_flat    = torch.arange(num_faces, device=device).reshape(R - 1, C - 1)
-    f_pad     = torch.full((R + 1, C + 1), num_faces, dtype=torch.long, device=device)
-    f_pad[1:R, 1:C] = f_flat
-
-    # Dual mappings
-    h_row = torch.arange(R, device=device).view(-1, 1).repeat(1, C - 1).flatten()
-    h_col = torch.arange(C - 1, device=device).view(1, -1).repeat(R, 1).flatten()
-
-    # above / below
-    e_h_f1 = f_pad[h_row,     h_col + 1]
-    e_h_f2 = f_pad[h_row + 1, h_col + 1]
-
-    v_row = torch.arange(R - 1, device=device).view(-1, 1).repeat(1, C).flatten()
-    v_col = torch.arange(C, device=device).view(1, -1).repeat(R - 1, 1).flatten()
-
-    # left / right
-    e_v_f1 = f_pad[v_row + 1, v_col]
-    e_v_f2 = f_pad[v_row + 1, v_col + 1]
-
-    edge_vals = torch.cat([h_vals.flatten(), v_vals.flatten()])
-    e_idx1    = torch.cat([h_idx1, v_idx1])
-    e_idx2    = torch.cat([h_idx2, v_idx2])
-    edge_f1   = torch.cat([e_h_f1, e_v_f1])
-    edge_f2   = torch.cat([e_h_f2, e_v_f2])
-
-    e_f1_np = edge_f1.cpu().numpy()
-    e_f2_np = edge_f2.cpu().numpy()
-
-    boundary_edges = np.sum(e_f1_np == num_faces) + np.sum(e_f2_np == num_faces)
-    self_edges     = np.sum(e_f1_np == e_f2_np)
-    expected_boundary = 2 * (R - 1) + 2 * (C - 1)
-
-    print("num_faces:", num_faces)
-    print("boundary incidences:", boundary_edges)
-    print("self dual edges:", self_edges)
-    print("expected boundary edges:", expected_boundary)
-
-    # 2. Faces
-    face_vals = torch.amax(torch.stack([
-        grid[:-1, :-1], grid[:-1, 1:],
-        grid[1:, :-1], grid[1:, 1:],], dim=0), dim=0).flatten().cpu().numpy().astype(np.float32)
-
-    # Sort primal edges for H0
-    e_order   = torch.argsort(edge_vals)
-    e_vals_np = edge_vals[e_order].cpu().numpy().astype(np.float32)
-    e_idx1_np = e_idx1[e_order].cpu().numpy().astype(np.int64)
-    e_idx2_np = e_idx2[e_order].cpu().numpy().astype(np.int64)
-
-    # Allocations
-    h0_out   = np.empty((len(e_vals_np), 2), dtype=np.float32)
-    h1_pairs = np.empty((len(e_vals_np), 2), dtype=np.float32)
-
-    # Pass 1: Forward H0
-    h0_count = _sweep_h0_forward(e_vals_np, e_idx1_np, e_idx2_np, pix_vals, num_pixels, h0_out)
-    
-    # Pass 2: Backward H1
-    h1_count = _sweep_h1_backward(
-        edge_vals.cpu().numpy().astype(np.float32),
-        edge_f1.cpu().numpy().astype(np.int64),
-        edge_f2.cpu().numpy().astype(np.int64), face_vals, num_faces, h1_pairs)
-
-    h0 = h0_out[:h0_count]
-    h1 = h1_pairs[:h1_count]
-    h0 = h0[h0[:, 1] > h0[:, 0]]
-    h1 = h1[h1[:, 1] > h1[:, 0]]
-
-    global_min = np.array([[pix_vals.min(), np.inf]], dtype=np.float32)
-    h0         = np.concatenate([h0, global_min])
-    return h0, h1
-
-
-# ===== END OF NEW TRY ======
 def compute_h0_h1_fast(grid: torch.Tensor):
     """Highly optimized H0/H1 sublevel persistence for 2D images."""
     # 1. Force typing on device upfront to allow zero-copy CPU transfers
@@ -271,14 +308,12 @@ def compute_h0_h1_fast(grid: torch.Tensor):
     # Pass 1: Forward H0
     h0_count = _sweep_h0_forward(
         edge_vals_sorted_np, indices_np[0], indices_np[1], 
-        pix_vals_np, num_pixels, h0_out
-    )
+        pix_vals_np, num_pixels, h0_out)
     
     # Pass 2: Surgical Backward H1 Sweep
     h1_count = _sweep_h1_backward_surgical(
         edge_vals_raw_np, edge_f1_np, edge_f2_np, 
-        face_vals_np, num_faces, rev_order_np, h1_pairs
-    )
+        face_vals_np, num_faces, rev_order_np, h1_pairs)
 
     h0 = h0_out[:h0_count]
     h1 = h1_pairs[:h1_count]
@@ -288,43 +323,6 @@ def compute_h0_h1_fast(grid: torch.Tensor):
     global_min = np.array([[pix_vals_np.min(), np.inf]], dtype=np.float32)
     return np.concatenate([h0, global_min]), h1
 
+# ===== STREAMING SCENARIO ======
 
-@njit(cache=True)
-def _sweep_h1_backward_surgical(edge_vals, edge_f1, edge_f2, face_vals, num_faces, pre_sorted_order, h1_pairs):
-    EXTERIOR = num_faces
-    h1_count = 0
-    
-    # Fast native array initialization
-    parent_f = np.arange(num_faces + 1, dtype=np.int64)
-    
-    birth_val_f = np.empty(num_faces + 1, dtype=np.float32)
-    birth_val_f[:num_faces] = face_vals
-    birth_val_f[EXTERIOR] = np.inf
 
-    for idx in pre_sorted_order:
-        edge_val = edge_vals[idx]
-        f1, f2 = edge_f1[idx], edge_f2[idx]
-
-        root_f1 = f1
-        while parent_f[root_f1] != root_f1:
-            parent_f[root_f1] = parent_f[parent_f[root_f1]]
-            root_f1 = parent_f[root_f1]
-            
-        root_f2 = f2
-        while parent_f[root_f2] != root_f2:
-            parent_f[root_f2] = parent_f[parent_f[root_f2]]
-            root_f2 = parent_f[root_f2]
-
-        if root_f1 != root_f2:
-            if birth_val_f[root_f1] >= birth_val_f[root_f2]:
-                survivor, victim = root_f1, root_f2
-            else:
-                survivor, victim = root_f2, root_f1
-
-            if victim != EXTERIOR:
-                h1_pairs[h1_count, 0] = edge_val
-                h1_pairs[h1_count, 1] = birth_val_f[victim]
-                h1_count += 1
-
-            parent_f[victim] = survivor
-    return h1_count
