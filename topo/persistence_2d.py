@@ -202,69 +202,67 @@ def compute_h0_h1(grid: torch.Tensor):
 # ===== END OF NEW TRY ======
 def compute_h0_h1_fast(grid: torch.Tensor):
     """Highly optimized H0/H1 sublevel persistence for 2D images."""
+    # 1. Force typing on device upfront to allow zero-copy CPU transfers
+    grid = grid.to(torch.float32)
     R, C = grid.shape
     device = grid.device
     num_pixels = R * C
     num_faces = (R - 1) * (C - 1)
 
-    # 1. Direct mathematical vectorization for edges (No padding grids)
     r_idx = torch.arange(R, device=device).view(-1, 1)
     c_idx = torch.arange(C, device=device).view(1, -1)
     pixel_ids = r_idx * C + c_idx
 
     # Horizontal Edges
-    h_vals = torch.maximum(grid[:, :-1], grid[:, 1:]).flatten()
-    h_idx1 = pixel_ids[:, :-1].flatten()
-    h_idx2 = pixel_ids[:, 1:].flatten()
+    h_vals = torch.maximum(grid[:, :-1], grid[:, 1:]).reshape(-1)
+    h_idx1 = pixel_ids[:, :-1].reshape(-1)
+    h_idx2 = pixel_ids[:, 1:].reshape(-1)
     
-    h_row = torch.arange(R, device=device).view(-1, 1).expand(R, C - 1).flatten()
-    h_col = torch.arange(C - 1, device=device).view(1, -1).expand(R, C - 1).flatten()
+    h_row = torch.arange(R, device=device).view(-1, 1).expand(R, C - 1).reshape(-1)
+    h_col = torch.arange(C - 1, device=device).view(1, -1).expand(R, C - 1).reshape(-1)
     
     e_h_f1 = torch.where(h_row > 0, (h_row - 1) * (C - 1) + h_col, num_faces)
     e_h_f2 = torch.where(h_row < R - 1, h_row * (C - 1) + h_col, num_faces)
 
     # Vertical Edges
-    v_vals = torch.maximum(grid[:-1, :], grid[1:, :]).flatten()
-    v_idx1 = pixel_ids[:-1, :].flatten()
-    v_idx2 = pixel_ids[1:, :].flatten()
+    v_vals = torch.maximum(grid[:-1, :], grid[1:, :]).reshape(-1)
+    v_idx1 = pixel_ids[:-1, :].reshape(-1)
+    v_idx2 = pixel_ids[1:, :].reshape(-1)
     
-    v_row = torch.arange(R - 1, device=device).view(-1, 1).expand(R - 1, C).flatten()
-    v_col = torch.arange(C, device=device).view(1, -1).expand(R - 1, C).flatten()
+    v_row = torch.arange(R - 1, device=device).view(-1, 1).expand(R - 1, C).reshape(-1)
+    v_col = torch.arange(C, device=device).view(1, -1).expand(R - 1, C).reshape(-1)
     
     e_v_f1 = torch.where(v_col > 0, v_row * (C - 1) + (v_col - 1), num_faces)
     e_v_f2 = torch.where(v_col < C - 1, v_row * (C - 1) + v_col, num_faces)
 
-    # Concatenate structures cleanly on the source device
+    # Concatenate structures on device
     edge_vals = torch.cat([h_vals, v_vals])
-    e_idx1 = torch.cat([h_idx1, v_idx1])
-    e_idx2 = torch.cat([h_idx2, v_idx2])
-    edge_f1 = torch.cat([e_h_f1, e_v_f1])
-    edge_f2 = torch.cat([e_h_f2, e_v_f2])
+    e_idx1 = torch.cat([h_idx1, v_idx1]).to(torch.int64)
+    e_idx2 = torch.cat([h_idx2, v_idx2]).to(torch.int64)
+    edge_f1 = torch.cat([e_h_f1, e_v_f1]).to(torch.int64)
+    edge_f2 = torch.cat([e_h_f2, e_v_f2]).to(torch.int64)
 
-    # 2. Extract 2x2 face values
     face_vals = torch.amax(torch.stack([
         grid[:-1, :-1], grid[:-1, 1:],
         grid[1:, :-1], grid[1:, 1:]
-    ], dim=0), dim=0).flatten()
+    ], dim=0), dim=0).reshape(-1)
 
-    # 3. Parallelized Device Sort (Leveraging GPU Radix Sort if available)
+    # Parallelized Device Sort
     e_order = torch.argsort(edge_vals)
-    rev_e_order = e_order.flip(dims=[0]) # Exact inverse order for H1
+    rev_e_order = e_order.flip(dims=[0]).to(torch.int64)
 
-    # Composite transfer to host CPU memory to reduce bus synchronization overhead
-    # We pack the structural indices together to copy them in one block
     indices_stack = torch.stack([e_idx1[e_order], e_idx2[e_order]], dim=0)
     
-    # Unified Host Migration
-    pix_vals_np = grid.flatten().cpu().numpy().astype(np.float32)
-    face_vals_np = face_vals.cpu().numpy().astype(np.float32)
-    edge_vals_sorted_np = edge_vals[e_order].cpu().numpy().astype(np.float32)
-    indices_np = indices_stack.cpu().numpy().astype(np.int64)
+    # 2. Unified Host Migration (Zero-Copy Transfer)
+    pix_vals_np = grid.reshape(-1).cpu().numpy()
+    face_vals_np = face_vals.cpu().numpy()
+    edge_vals_sorted_np = edge_vals[e_order].cpu().numpy()
+    indices_np = indices_stack.cpu().numpy()
     
-    edge_vals_raw_np = edge_vals.cpu().numpy().astype(np.float32)
-    edge_f1_np = edge_f1.cpu().numpy().astype(np.int64)
-    edge_f2_np = edge_f2.cpu().numpy().astype(np.int64)
-    rev_order_np = rev_e_order.cpu().numpy().astype(np.int64)
+    edge_vals_raw_np = edge_vals.cpu().numpy()
+    edge_f1_np = edge_f1.cpu().numpy()
+    edge_f2_np = edge_f2.cpu().numpy()
+    rev_order_np = rev_e_order.cpu().numpy()
 
     # Allocations
     num_edges = len(edge_vals_sorted_np)
@@ -277,13 +275,12 @@ def compute_h0_h1_fast(grid: torch.Tensor):
         pix_vals_np, num_pixels, h0_out
     )
     
-    # Pass 2: Modified Optimized Backward H1 Sweep (Avoids internal argsort)
-    h1_count = _sweep_h1_backward_fast(
+    # Pass 2: Surgical Backward H1 Sweep
+    h1_count = _sweep_h1_backward_surgical(
         edge_vals_raw_np, edge_f1_np, edge_f2_np, 
         face_vals_np, num_faces, rev_order_np, h1_pairs
     )
 
-    # Extract final outputs
     h0 = h0_out[:h0_count]
     h1 = h1_pairs[:h1_count]
     h0 = h0[h0[:, 1] > h0[:, 0]]
@@ -292,23 +289,32 @@ def compute_h0_h1_fast(grid: torch.Tensor):
     global_min = np.array([[pix_vals_np.min(), np.inf]], dtype=np.float32)
     return np.concatenate([h0, global_min]), h1
 
-# Fast H1 handler that accepts a pre-sorted order array from PyTorch
+
 @njit(cache=True)
-def _sweep_h1_backward_fast(edge_vals, edge_f1, edge_f2, face_vals, num_faces, pre_sorted_order, h1_pairs):
+def _sweep_h1_backward_surgical(edge_vals, edge_f1, edge_f2, face_vals, num_faces, pre_sorted_order, h1_pairs):
     EXTERIOR = num_faces
     h1_count = 0
-    parent_f = np.full(num_faces + 1, -1, dtype=np.int64)
-    birth_val_f = np.zeros(num_faces + 1, dtype=np.float32)
+    
+    # Fast native array initialization
+    parent_f = np.arange(num_faces + 1, dtype=np.int64)
+    
+    birth_val_f = np.empty(num_faces + 1, dtype=np.float32)
+    birth_val_f[:num_faces] = face_vals
+    birth_val_f[EXTERIOR] = np.inf
 
     for idx in pre_sorted_order:
         edge_val = edge_vals[idx]
         f1, f2 = edge_f1[idx], edge_f2[idx]
 
-        _init_face(f1, parent_f, birth_val_f, face_vals, EXTERIOR)
-        _init_face(f2, parent_f, birth_val_f, face_vals, EXTERIOR)
-        
-        root_f1 = _root(parent_f, f1)
-        root_f2 = _root(parent_f, f2)
+        root_f1 = f1
+        while parent_f[root_f1] != root_f1:
+            parent_f[root_f1] = parent_f[parent_f[root_f1]]
+            root_f1 = parent_f[root_f1]
+            
+        root_f2 = f2
+        while parent_f[root_f2] != root_f2:
+            parent_f[root_f2] = parent_f[parent_f[root_f2]]
+            root_f2 = parent_f[root_f2]
 
         if root_f1 != root_f2:
             if birth_val_f[root_f1] >= birth_val_f[root_f2]:
@@ -323,4 +329,3 @@ def _sweep_h1_backward_fast(edge_vals, edge_f1, edge_f2, face_vals, num_faces, p
 
             parent_f[victim] = survivor
     return h1_count
-
