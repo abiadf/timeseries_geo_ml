@@ -26,6 +26,44 @@ Optimized for 2D grids by replacing global boundary matrix reduction with a loca
 
 REGULAR, MIN, MAX, SADDLE = 0, 1, 2, 3
 
+def find_2d_extrema(y_arr: torch.Tensor):
+    n_rows, n_cols = y_arr.shape
+    y_keypoints = torch.zeros_like(y_arr, dtype=torch.int32)
+
+    for row in range(1, n_rows - 1):
+        for col in range(1, n_cols - 1):
+            center_val = y_arr[row, col]
+
+            ring = torch.tensor([
+                y_arr[row-1, col-1], y_arr[row-1, col], y_arr[row-1, col+1],
+                y_arr[row,   col+1],
+                y_arr[row+1, col+1], y_arr[row+1, col], y_arr[row+1, col-1],
+                y_arr[row,   col-1]
+            ], device=y_arr.device)
+
+            greater = ring > center_val
+            lesser  = ring < center_val
+
+            all_ge = torch.all(ring >= center_val).item()  # no neighbor lower
+            all_le = torch.all(ring <= center_val).item()  # no neighbor higher
+            any_gt = torch.any(greater).item()             # at least one strictly higher
+            any_lt = torch.any(lesser).item()              # at least one strictly lower
+
+            # saddle: transitions in the ring
+            not_lower    = ring >= center_val  # True = same or higher
+            ring_closed  = torch.cat([not_lower, not_lower[0].unsqueeze(0)])
+            transitions  = torch.sum(ring_closed[:-1] != ring_closed[1:]).item()
+            num_groups   = transitions // 2
+
+            if any_gt and any_lt and num_groups >= 2:   # has both higher AND lower, with 2+ groups
+                y_keypoints[row, col] = SADDLE
+            elif all_le and any_lt:          # then max
+                y_keypoints[row, col] = MAX
+            elif all_ge and any_gt:          # then min
+                y_keypoints[row, col] = MIN
+    return y_keypoints
+
+
 # ✅ ====== BASE SCENARIO ========
 
 @njit(cache=True)
@@ -59,17 +97,6 @@ def _sweep_h0_forward(edge_vals, e_idx1, e_idx2, pix_vals, num_pixels, h0_out):
             h0_count += 1
             parent[victim] = survivor
     return h0_count
-
-@njit(cache=True)
-def _init_face(f, parent_f, birth_val_f, face_vals, exterior,):
-    """Initialize dual face component on first encounter. Modifies arrays in-place"""
-    if parent_f[f] == -1:
-        parent_f[f] = f
-        if f == exterior:
-            birth_val_f[f] = np.inf
-        else:
-            birth_val_f[f] = face_vals[f]
-
 
 @njit(cache=True)
 def _sweep_h1_backward_surgical(edge_vals, edge_f1, edge_f2, face_vals, num_faces, pre_sorted_order, h1_pairs):
@@ -114,14 +141,14 @@ def _sweep_h1_backward_surgical(edge_vals, edge_f1, edge_f2, face_vals, num_face
 def compute_h0_h1_fast(grid: torch.Tensor):
     """Highly optimized H0/H1 sublevel persistence for 2D images."""
     # 1. Force typing on device upfront to allow zero-copy CPU transfers
-    grid = grid.to(torch.float32)
-    R, C = grid.shape
-    device = grid.device
+    grid       = grid.to(torch.float32)
+    R, C       = grid.shape
+    device     = grid.device
     num_pixels = R * C
-    num_faces = (R - 1) * (C - 1)
+    num_faces  = (R - 1) * (C - 1)
 
-    r_idx = torch.arange(R, device=device).view(-1, 1)
-    c_idx = torch.arange(C, device=device).view(1, -1)
+    r_idx     = torch.arange(R, device=device).view(-1, 1)
+    c_idx     = torch.arange(C, device=device).view(1, -1)
     pixel_ids = r_idx * C + c_idx
 
     # Horizontal Edges
@@ -129,8 +156,8 @@ def compute_h0_h1_fast(grid: torch.Tensor):
     h_idx1 = pixel_ids[:, :-1].reshape(-1)
     h_idx2 = pixel_ids[:, 1:].reshape(-1)
     
-    h_row = torch.arange(R, device=device).view(-1, 1).expand(R, C - 1).reshape(-1)
-    h_col = torch.arange(C - 1, device=device).view(1, -1).expand(R, C - 1).reshape(-1)
+    h_row  = torch.arange(R, device=device).view(-1, 1).expand(R, C - 1).reshape(-1)
+    h_col  = torch.arange(C - 1, device=device).view(1, -1).expand(R, C - 1).reshape(-1)
     
     e_h_f1 = torch.where(h_row > 0, (h_row - 1) * (C - 1) + h_col, num_faces)
     e_h_f2 = torch.where(h_row < R - 1, h_row * (C - 1) + h_col, num_faces)
@@ -140,18 +167,18 @@ def compute_h0_h1_fast(grid: torch.Tensor):
     v_idx1 = pixel_ids[:-1, :].reshape(-1)
     v_idx2 = pixel_ids[1:, :].reshape(-1)
     
-    v_row = torch.arange(R - 1, device=device).view(-1, 1).expand(R - 1, C).reshape(-1)
-    v_col = torch.arange(C, device=device).view(1, -1).expand(R - 1, C).reshape(-1)
+    v_row  = torch.arange(R - 1, device=device).view(-1, 1).expand(R - 1, C).reshape(-1)
+    v_col  = torch.arange(C, device=device).view(1, -1).expand(R - 1, C).reshape(-1)
     
     e_v_f1 = torch.where(v_col > 0, v_row * (C - 1) + (v_col - 1), num_faces)
     e_v_f2 = torch.where(v_col < C - 1, v_row * (C - 1) + v_col, num_faces)
 
     # Concatenate structures on device
     edge_vals = torch.cat([h_vals, v_vals])
-    e_idx1 = torch.cat([h_idx1, v_idx1]).to(torch.int64)
-    e_idx2 = torch.cat([h_idx2, v_idx2]).to(torch.int64)
-    edge_f1 = torch.cat([e_h_f1, e_v_f1]).to(torch.int64)
-    edge_f2 = torch.cat([e_h_f2, e_v_f2]).to(torch.int64)
+    e_idx1    = torch.cat([h_idx1, v_idx1]).to(torch.int64)
+    e_idx2    = torch.cat([h_idx2, v_idx2]).to(torch.int64)
+    edge_f1   = torch.cat([e_h_f1, e_v_f1]).to(torch.int64)
+    edge_f2   = torch.cat([e_h_f2, e_v_f2]).to(torch.int64)
 
     face_vals = torch.amax(torch.stack([
         grid[:-1, :-1], grid[:-1, 1:],
@@ -159,36 +186,32 @@ def compute_h0_h1_fast(grid: torch.Tensor):
     ], dim=0), dim=0).reshape(-1)
 
     # Parallelized Device Sort
-    e_order = torch.argsort(edge_vals)
+    e_order     = torch.argsort(edge_vals)
     rev_e_order = e_order.flip(dims=[0]).to(torch.int64)
 
     indices_stack = torch.stack([e_idx1[e_order], e_idx2[e_order]], dim=0)
     
     # 2. Unified Host Migration (Zero-Copy Transfer)
-    pix_vals_np = grid.reshape(-1).cpu().numpy()
+    pix_vals_np  = grid.reshape(-1).cpu().numpy()
     face_vals_np = face_vals.cpu().numpy()
     edge_vals_sorted_np = edge_vals[e_order].cpu().numpy()
-    indices_np = indices_stack.cpu().numpy()
+    indices_np   = indices_stack.cpu().numpy()
     
     edge_vals_raw_np = edge_vals.cpu().numpy()
-    edge_f1_np = edge_f1.cpu().numpy()
-    edge_f2_np = edge_f2.cpu().numpy()
+    edge_f1_np   = edge_f1.cpu().numpy()
+    edge_f2_np   = edge_f2.cpu().numpy()
     rev_order_np = rev_e_order.cpu().numpy()
 
     # Allocations
     num_edges = len(edge_vals_sorted_np)
-    h0_out = np.empty((num_edges, 2), dtype=np.float32)
-    h1_pairs = np.empty((num_edges, 2), dtype=np.float32)
+    h0_out    = np.empty((num_edges, 2), dtype=np.float32)
+    h1_pairs  = np.empty((num_edges, 2), dtype=np.float32)
 
     # Pass 1: Forward H0
-    h0_count = _sweep_h0_forward(
-        edge_vals_sorted_np, indices_np[0], indices_np[1], 
-        pix_vals_np, num_pixels, h0_out)
+    h0_count = _sweep_h0_forward(edge_vals_sorted_np, indices_np[0], indices_np[1], pix_vals_np, num_pixels, h0_out)
     
     # Pass 2: Surgical Backward H1 Sweep
-    h1_count = _sweep_h1_backward_surgical(
-        edge_vals_raw_np, edge_f1_np, edge_f2_np, 
-        face_vals_np, num_faces, rev_order_np, h1_pairs)
+    h1_count = _sweep_h1_backward_surgical(edge_vals_raw_np, edge_f1_np, edge_f2_np, face_vals_np, num_faces, rev_order_np, h1_pairs)
 
     h0 = h0_out[:h0_count]
     h1 = h1_pairs[:h1_count]
@@ -306,129 +329,132 @@ class StreamingPersistentBasinForest:
             h0 = np.concatenate([h0, global_min]) if len(h0) > 0 else global_min
         return h0, h1
 
-@njit(parallel=True, cache=True)
-def _prepare_streaming_data_numba(grid, split_row):
-    R, C = grid.shape
-    num_pixels = R * C
-    num_faces = (R - 1) * (C - 1)
-    pix_vals = grid.ravel()
+# # old
+# @njit(parallel=True, cache=True)
+# def _prepare_streaming_data_numba(grid, split_row):
+#     R, C = grid.shape
+#     num_pixels = R * C
+#     num_faces = (R - 1) * (C - 1)
+#     pix_vals = grid.ravel()
 
-    # 1. Compute face values
-    face_vals = np.empty(num_faces, dtype=np.float32)
-    for r in prange(R - 1):
-        for c in range(C - 1):
-            f_idx = r * (C - 1) + c
-            v1 = grid[r, c]
-            v2 = grid[r, c + 1]
-            v3 = grid[r + 1, c]
-            v4 = grid[r + 1, c + 1]
-            face_vals[f_idx] = max(max(v1, v2), max(v3, v4))
+#     # 1. Compute face values
+#     face_vals = np.empty(num_faces, dtype=np.float32)
+#     for r in prange(R - 1):
+#         for c in range(C - 1):
+#             f_idx = r * (C - 1) + c
+#             v1 = grid[r, c]
+#             v2 = grid[r, c + 1]
+#             v3 = grid[r + 1, c]
+#             v4 = grid[r + 1, c + 1]
+#             face_vals[f_idx] = max(max(v1, v2), max(v3, v4))
 
-    # 2. Count exact streaming segment allocations
-    c1_h, c2_h, st_h = 0, 0, 0
-    for r in range(R):
-        if r < split_row:
-            c1_h += C - 1
-        elif r > split_row:
-            c2_h += C - 1
-        else:
-            st_h += C - 1
+#     # 2. Count exact streaming segment allocations
+#     c1_h, c2_h, st_h = 0, 0, 0
+#     for r in range(R):
+#         if r < split_row:
+#             c1_h += C - 1
+#         elif r > split_row:
+#             c2_h += C - 1
+#         else:
+#             st_h += C - 1
 
-    c1_v, c2_v, st_v = 0, 0, 0
-    for r in range(R - 1):
-        if r < split_row - 1:
-            c1_v += C
-        elif r >= split_row:
-            c2_v += C
-        else:
-            st_v += C
+#     c1_v, c2_v, st_v = 0, 0, 0
+#     for r in range(R - 1):
+#         if r < split_row - 1:
+#             c1_v += C
+#         elif r >= split_row:
+#             c2_v += C
+#         else:
+#             st_v += C
 
-    total_h0_h1 = (c1_h + c1_v) + (c2_h + c2_v) + (st_h + st_v)
+#     total_h0_h1 = (c1_h + c1_v) + (c2_h + c2_v) + (st_h + st_v)
 
-    # 3. Pre-allocate continuous flat output evaluation matrices
-    stream_h0 = np.empty((total_h0_h1, 3), dtype=np.float32)
-    stream_h1 = np.empty((total_h0_h1, 3), dtype=np.float32)
+#     # 3. Pre-allocate continuous flat output evaluation matrices
+#     stream_h0 = np.empty((total_h0_h1, 3), dtype=np.float32)
+#     stream_h1 = np.empty((total_h0_h1, 3), dtype=np.float32)
 
-    # Offsets for block packing: [Chunk 1 | Chunk 2 | Stitch]
-    c1_ptr = 0
-    c2_ptr = c1_h + c1_v
-    st_ptr = c2_ptr + c2_h + c2_v
+#     # Offsets for block packing: [Chunk 1 | Chunk 2 | Stitch]
+#     c1_ptr = 0
+#     c2_ptr = c1_h + c1_v
+#     st_ptr = c2_ptr + c2_h + c2_v
 
-    # 4. Fill Horizontal Edges in parallel segments safely
-    for r in prange(R):
-        # Calculate destination pointer offsets based on the split row
-        if r < split_row:
-            h0_idx = c1_ptr + r * (C - 1)
-        elif r > split_row:
-            h0_idx = c2_ptr + (r - split_row - 1) * (C - 1)
-        else:
-            h0_idx = st_ptr
+#     # 4. Fill Horizontal Edges in parallel segments safely
+#     for r in prange(R):
+#         # Calculate destination pointer offsets based on the split row
+#         if r < split_row:
+#             h0_idx = c1_ptr + r * (C - 1)
+#         elif r > split_row:
+#             h0_idx = c2_ptr + (r - split_row - 1) * (C - 1)
+#         else:
+#             h0_idx = st_ptr
 
-        for c in range(C - 1):
-            u = r * C + c
-            v = u + 1
-            val = max(grid[r, c], grid[r, c + 1])
+#         for c in range(C - 1):
+#             u = r * C + c
+#             v = u + 1
+#             val = max(grid[r, c], grid[r, c + 1])
 
-            f1 = (r - 1) * (C - 1) + c if r > 0 else num_faces
-            f2 = r * (C - 1) + c if r < R - 1 else num_faces
+#             f1 = (r - 1) * (C - 1) + c if r > 0 else num_faces
+#             f2 = r * (C - 1) + c if r < R - 1 else num_faces
 
-            idx = h0_idx + c
-            stream_h0[idx, 0] = val
-            stream_h0[idx, 1] = float(u)
-            stream_h0[idx, 2] = float(v)
+#             idx = h0_idx + c
+#             stream_h0[idx, 0] = val
+#             stream_h0[idx, 1] = float(u)
+#             stream_h0[idx, 2] = float(v)
 
-            stream_h1[idx, 0] = -val
-            stream_h1[idx, 1] = float(f1)
-            stream_h1[idx, 2] = float(f2)
+#             stream_h1[idx, 0] = -val
+#             stream_h1[idx, 1] = float(f1)
+#             stream_h1[idx, 2] = float(f2)
 
-    # 5. Fill Vertical Edges
-    # Account for horizontal offsets when packing the rest of the layout segments
-    v_c1_start = c1_ptr + c1_h
-    v_c2_start = c2_ptr + c2_h
-    v_st_start = st_ptr + st_h
+#     # 5. Fill Vertical Edges
+#     # Account for horizontal offsets when packing the rest of the layout segments
+#     v_c1_start = c1_ptr + c1_h
+#     v_c2_start = c2_ptr + c2_h
+#     v_st_start = st_ptr + st_h
 
-    for r in prange(R - 1):
-        if r < split_row - 1:
-            v0_idx = v_c1_start + r * C
-        elif r >= split_row:
-            v0_idx = v_c2_start + (r - split_row) * C
-        else:
-            v0_idx = v_st_start
+#     for r in prange(R - 1):
+#         if r < split_row - 1:
+#             v0_idx = v_c1_start + r * C
+#         elif r >= split_row:
+#             v0_idx = v_c2_start + (r - split_row) * C
+#         else:
+#             v0_idx = v_st_start
 
-        for c in range(C):
-            u = r * C + c
-            v = u + C
-            val = max(grid[r, c], grid[r + 1, c])
+#         for c in range(C):
+#             u = r * C + c
+#             v = u + C
+#             val = max(grid[r, c], grid[r + 1, c])
 
-            f1 = r * (C - 1) + (c - 1) if c > 0 else num_faces
-            f2 = r * (C - 1) + c if c < C - 1 else num_faces
+#             f1 = r * (C - 1) + (c - 1) if c > 0 else num_faces
+#             f2 = r * (C - 1) + c if c < C - 1 else num_faces
 
-            idx = v0_idx + c
-            stream_h0[idx, 0] = val
-            stream_h0[idx, 1] = float(u)
-            stream_h0[idx, 2] = float(v)
+#             idx = v0_idx + c
+#             stream_h0[idx, 0] = val
+#             stream_h0[idx, 1] = float(u)
+#             stream_h0[idx, 2] = float(v)
 
-            stream_h1[idx, 0] = -val
-            stream_h1[idx, 1] = float(f1)
-            stream_h1[idx, 2] = float(f2)
-    return num_pixels, num_faces, pix_vals, face_vals, stream_h0, stream_h1
+#             stream_h1[idx, 0] = -val
+#             stream_h1[idx, 1] = float(f1)
+#             stream_h1[idx, 2] = float(f2)
+#     return num_pixels, num_faces, pix_vals, face_vals, stream_h0, stream_h1
 
-def prepare_streaming_data_numba_wrapper(grid_tensor: torch.Tensor, split_row: int):
-    """Python wrapper to clean entry/exit points for Numba engine processing."""
-    grid = grid_tensor.detach().cpu().numpy().astype(np.float32)
+# # old
+# def prepare_streaming_data_numba_wrapper(grid_tensor: torch.Tensor, split_row: int):
+#     """Python wrapper to clean entry/exit points for Numba engine processing."""
+#     grid = grid_tensor.detach().cpu().numpy().astype(np.float32)
 
-    num_pixels, num_faces, pix_vals, face_vals, stream_h0, stream_h1 = (
-        _prepare_streaming_data_numba(grid, split_row))
+#     num_pixels, num_faces, pix_vals, face_vals, stream_h0, stream_h1 = (
+#         _prepare_streaming_data_numba(grid, split_row))
 
-    return {
-        "metadata": {
-            "num_pixels": num_pixels,
-            "num_faces": num_faces,
-            "exterior": num_faces,},
-        "pix_vals": pix_vals,
-        "face_vals": face_vals,
-        "stream_h0": stream_h0,
-        "stream_h1": stream_h1,}
+#     return {
+#         "metadata": {
+#             "num_pixels": num_pixels,
+#             "num_faces": num_faces,
+#             "exterior": num_faces,},
+#         "pix_vals": pix_vals,
+#         "face_vals": face_vals,
+#         "stream_h0": stream_h0,
+#         "stream_h1": stream_h1,}
+
 
 def run_streaming_persistence(data: dict):
     """Ingests pre-allocated array segments instantly without loop iterations.
@@ -447,3 +473,155 @@ def run_streaming_persistence(data: dict):
     stream_engine.flush_accumulated_edges()
     return stream_engine.get_diagrams()
 
+
+
+
+@njit(parallel=True, cache=True)
+def _prepare_multi_chunk_streaming_numba(grid, split_rows):
+    R, C = grid.shape
+    num_pixels = R * C
+    num_faces = (R - 1) * (C - 1)
+    pix_vals = grid.ravel()
+
+    # 1. Compute face values
+    face_vals = np.empty(num_faces, dtype=np.float32)
+    for r in prange(R - 1):
+        for c in range(C - 1):
+            f_idx = r * (C - 1) + c
+            face_vals[f_idx] = max(max(grid[r, c], grid[r, c + 1]), max(grid[r + 1, c], grid[r + 1, c + 1]))
+
+    # Pre-calculate how many chunks we have
+    num_splits = len(split_rows)
+    num_chunks = num_splits + 1
+
+    # Create helper lookup tables for row classifications
+    is_split = np.zeros(R, dtype=np.bool_)
+    for i in range(num_splits):
+        is_split[split_rows[i]] = True
+
+    # Map each row to its respective chunk index
+    row_chunk_idx = np.zeros(R, dtype=np.int64)
+    curr_chunk = 0
+    for r in range(R):
+        row_chunk_idx[r] = curr_chunk
+        if r < R - 1 and is_split[r + 1]:
+            curr_chunk += 1
+
+    # 2. Count exact streaming structural allocations dynamically across all m chunks
+    chunk_h_counts = np.zeros(num_chunks, dtype=np.int64)
+    stitch_h_count = 0
+    for r in range(R):
+        if is_split[r]:
+            stitch_h_count += C - 1
+        else:
+            chunk_h_counts[row_chunk_idx[r]] += C - 1
+
+    chunk_v_counts = np.zeros(num_chunks, dtype=np.int64)
+    stitch_v_count = 0
+    for r in range(R - 1):
+        # A vertical edge is a stitch if it crosses a split row boundary
+        if row_chunk_idx[r] != row_chunk_idx[r + 1]:
+            stitch_v_count += C
+        else:
+            chunk_v_counts[row_chunk_idx[r]] += C
+
+    # Sum total allocations
+    total_edges = np.sum(chunk_h_counts) + np.sum(chunk_v_counts) + stitch_h_count + stitch_v_count
+    stream_h0 = np.empty((total_edges, 3), dtype=np.float32)
+    stream_h1 = np.empty((total_edges, 3), dtype=np.float32)
+
+    # 3. Establish strict segment pointers for packing [Chunk 0 | Chunk 1 | ... | Stitch]
+    chunk_ptrs = np.zeros(num_chunks, dtype=np.int64)
+    running_sum = 0
+    for m in range(num_chunks):
+        chunk_ptrs[m] = running_sum
+        running_sum += chunk_h_counts[m] + chunk_v_counts[m]
+    st_ptr = running_sum
+
+    # Intermediate track offsets to avoid parallel write collisions
+    h_offsets = np.zeros(R, dtype=np.int64)
+    curr_h_offsets = np.zeros(num_chunks, dtype=np.int64)
+    curr_st_h_offset = 0
+    for r in range(R):
+        if is_split[r]:
+            h_offsets[r] = st_ptr + curr_st_h_offset
+            curr_st_h_offset += C - 1
+        else:
+            m = row_chunk_idx[r]
+            h_offsets[r] = chunk_ptrs[m] + curr_h_offsets[m]
+            curr_h_offsets[m] += C - 1
+
+    # 4. Populate Horizontal Structural Arrays safely
+    for r in prange(R):
+        h0_idx = h_offsets[r]
+        for c in range(C - 1):
+            u = r * C + c
+            v = u + 1
+            val = max(grid[r, c], grid[r, c + 1])
+
+            f1 = (r - 1) * (C - 1) + c if r > 0 else num_faces
+            f2 = r * (C - 1) + c if r < R - 1 else num_faces
+
+            idx = h0_idx + c
+            stream_h0[idx, 0] = val
+            stream_h0[idx, 1] = float(u)
+            stream_h0[idx, 2] = float(v)
+
+            stream_h1[idx, 0] = -val
+            stream_h1[idx, 1] = float(f1)
+            stream_h1[idx, 2] = float(f2)
+
+    # Calculate starting point for vertical edges within chunk blocks
+    v_offsets = np.zeros(R - 1, dtype=np.int64)
+    curr_v_offsets = np.copy(chunk_h_counts) # vertical elements sit right after horizontal ones
+    curr_st_v_offset = stitch_h_count
+    for r in range(R - 1):
+        if row_chunk_idx[r] != row_chunk_idx[r + 1]:
+            v_offsets[r] = st_ptr + curr_st_v_offset
+            curr_st_v_offset += C
+        else:
+            m = row_chunk_idx[r]
+            v_offsets[r] = chunk_ptrs[m] + curr_v_offsets[m]
+            curr_v_offsets[m] += C
+
+    # 5. Populate Vertical Structural Arrays safely
+    for r in prange(R - 1):
+        v0_idx = v_offsets[r]
+        for c in range(C):
+            u = r * C + c
+            v = u + C
+            val = max(grid[r, c], grid[r + 1, c])
+
+            f1 = r * (C - 1) + (c - 1) if c > 0 else num_faces
+            f2 = r * (C - 1) + c if c < C - 1 else num_faces
+
+            idx = v0_idx + c
+            stream_h0[idx, 0] = val
+            stream_h0[idx, 1] = float(u)
+            stream_h0[idx, 2] = float(v)
+
+            stream_h1[idx, 0] = -val
+            stream_h1[idx, 1] = float(f1)
+            stream_h1[idx, 2] = float(f2)
+
+    return num_pixels, num_faces, pix_vals, face_vals, stream_h0, stream_h1
+
+
+def prepare_multi_chunk_wrapper(grid_tensor: torch.Tensor, m_chunks: int):
+    grid = grid_tensor.detach().cpu().numpy().astype(np.float32)
+    R, _ = grid.shape
+    
+    # Generate the exact row boundary indices where blocks split
+    split_rows = np.array([i * (R // m_chunks) for i in range(1, m_chunks)], dtype=np.int64)
+
+    num_pixels, num_faces, pix_vals, face_vals, stream_h0, stream_h1 = (
+        _prepare_multi_chunk_streaming_numba(grid, split_rows)
+    )
+
+    return {
+        "metadata": {"num_pixels": num_pixels, "num_faces": num_faces, "exterior": num_faces},
+        "pix_vals": pix_vals,
+        "face_vals": face_vals,
+        "stream_h0": stream_h0,
+        "stream_h1": stream_h1,
+    }
