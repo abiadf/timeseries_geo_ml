@@ -4,13 +4,13 @@ import torch
 import numpy as np
 from numba import njit, prange
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# device = torch.device("cpu")
 
 MIN, MAX, GMIN, GMAX = 1, -1, 2, -2 # types of keypoints
 MIN_T  = torch.tensor(MIN, dtype=torch.int64, device=device)
 MAX_T  = torch.tensor(MAX, dtype=torch.int64, device=device)
 GMIN_T = torch.tensor(GMIN, dtype=torch.int64, device=device)
 GMAX_T = torch.tensor(GMAX, dtype=torch.int64, device=device)
+
 # =========== 0) Base scenario ============
 
 def find_extrema_in_timeseries(y_vals, device) -> tuple[torch.Tensor, torch.Tensor]:
@@ -185,30 +185,6 @@ def _run_1d_sweep_loop(sorted_ranks_idx: np.ndarray, keypoint_types: np.ndarray,
                 basin_membership_ids[active_sequence_rank] = right_root
                 submerged_keypoints[active_sequence_rank] = True
     return p_count
-
-# # torch, contains memory leak
-# def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_series_idx: torch.Tensor, keypoint_types: torch.Tensor):
-#     """runs the persistence loop on a single timeseries"""
-#     num_keypoints    = len(keypoint_series_idx)
-#     keypoint_heights = timeseries_values[keypoint_series_idx]
-#     types_np         = keypoint_types.cpu().numpy()
-#     kp_idx_np        = keypoint_series_idx.cpu().numpy()
-#     ts_values_np     = timeseries_values.cpu().numpy()
-
-#     # Preallocate temporary tracking arrays
-#     basin_membership_ids = np.arange(num_keypoints, dtype=np.int64) # initialized here
-#     submerged_keypoints  = np.zeros(num_keypoints, dtype=np.bool_)  # initialized here
-
-#     max_possible_pairs = num_keypoints // 2
-#     pairs_out = np.empty((max_possible_pairs, 2), dtype=np.int64)
-
-#     # Compute the sort order safely on the heap before hitting the Numba loop
-#     sorted_ranks_idx = torch.argsort(keypoint_heights).cpu().numpy()
-
-#     # Pass 'sorted_ranks_idx' directly into the updated function
-#     pair_count = _run_1d_sweep_loop(sorted_ranks_idx, types_np, kp_idx_np, ts_values_np, 
-#                                     basin_membership_ids, submerged_keypoints, num_keypoints, pairs_out)
-#     return pairs_out[:pair_count].copy()
 
 def compute_1d_sublevel_persistence(timeseries_values: torch.Tensor, keypoint_series_idx: torch.Tensor, keypoint_types: torch.Tensor):
     """Zero-copy memory layout mapping directly to NumPy arrays."""

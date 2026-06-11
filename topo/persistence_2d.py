@@ -70,131 +70,6 @@ def _init_face(f, parent_f, birth_val_f, face_vals, exterior,):
         else:
             birth_val_f[f] = face_vals[f]
 
-# @njit(cache=True)
-# def _sweep_h1_backward(edge_vals, edge_f1, edge_f2, face_vals, num_faces, h1_pairs):
-#     """Compute H1 persistence via backward dual union-find sweep."""
-#     EXTERIOR = num_faces
-#     h1_count = 0
-
-#     parent_f      = np.full(num_faces + 1, -1, dtype=np.int64)
-#     birth_val_f   = np.zeros(num_faces + 1, dtype=np.float32)
-#     reverse_order = np.argsort(edge_vals)[::-1]
-
-#     for idx in reverse_order:
-#         edge_val = edge_vals[idx]
-#         f1 = edge_f1[idx]
-#         f2 = edge_f2[idx]
-
-#         _init_face(f1, parent_f, birth_val_f, face_vals, EXTERIOR)
-#         _init_face(f2, parent_f, birth_val_f, face_vals, EXTERIOR)
-#         root_f1 = _root(parent_f, f1)
-#         root_f2 = _root(parent_f, f2)
-
-#         if root_f1 == root_f2:
-#             continue
-
-#         if birth_val_f[root_f1] >= birth_val_f[root_f2]:
-#             survivor = root_f1
-#             victim   = root_f2
-#         else:
-#             survivor = root_f2
-#             victim   = root_f1
-
-#         if victim != EXTERIOR: # only pair finite regions.
-#             h1_pairs[h1_count, 0] = edge_val # saddle: h1 birth
-#             h1_pairs[h1_count, 1] = birth_val_f[victim] # loop/face: h1 death
-#             h1_count += 1
-
-#         parent_f[victim] = survivor
-#     return h1_count
-
-# def compute_h0_h1(grid: torch.Tensor):
-#     """Compute H0/H1 sublevel persistence of a 2D image."""
-#     R, C       = grid.shape
-#     device     = grid.device
-#     num_pixels = R * C
-#     flat       = torch.arange(num_pixels, device=device).reshape(R, C)
-#     pix_vals   = grid.flatten().cpu().numpy().astype(np.float32)
-
-#     # 1. Edges
-#     h_vals = torch.maximum(grid[:, :-1], grid[:, 1:])
-#     h_idx1 = flat[:, :-1].flatten()
-#     h_idx2 = flat[:, 1:].flatten()
-    
-#     v_vals = torch.maximum(grid[:-1, :], grid[1:, :])
-#     v_idx1 = flat[:-1, :].flatten()
-#     v_idx2 = flat[1:, :].flatten()
-
-#     num_faces = (R - 1) * (C - 1)
-#     f_flat    = torch.arange(num_faces, device=device).reshape(R - 1, C - 1)
-#     f_pad     = torch.full((R + 1, C + 1), num_faces, dtype=torch.long, device=device)
-#     f_pad[1:R, 1:C] = f_flat
-
-#     # Dual mappings
-#     h_row = torch.arange(R, device=device).view(-1, 1).repeat(1, C - 1).flatten()
-#     h_col = torch.arange(C - 1, device=device).view(1, -1).repeat(R, 1).flatten()
-
-#     # above / below
-#     e_h_f1 = f_pad[h_row,     h_col + 1]
-#     e_h_f2 = f_pad[h_row + 1, h_col + 1]
-
-#     v_row = torch.arange(R - 1, device=device).view(-1, 1).repeat(1, C).flatten()
-#     v_col = torch.arange(C, device=device).view(1, -1).repeat(R - 1, 1).flatten()
-
-#     # left / right
-#     e_v_f1 = f_pad[v_row + 1, v_col]
-#     e_v_f2 = f_pad[v_row + 1, v_col + 1]
-
-#     edge_vals = torch.cat([h_vals.flatten(), v_vals.flatten()])
-#     e_idx1    = torch.cat([h_idx1, v_idx1])
-#     e_idx2    = torch.cat([h_idx2, v_idx2])
-#     edge_f1   = torch.cat([e_h_f1, e_v_f1])
-#     edge_f2   = torch.cat([e_h_f2, e_v_f2])
-
-#     e_f1_np = edge_f1.cpu().numpy()
-#     e_f2_np = edge_f2.cpu().numpy()
-
-#     boundary_edges = np.sum(e_f1_np == num_faces) + np.sum(e_f2_np == num_faces)
-#     self_edges     = np.sum(e_f1_np == e_f2_np)
-#     expected_boundary = 2 * (R - 1) + 2 * (C - 1)
-
-#     print("num_faces:", num_faces)
-#     print("boundary incidences:", boundary_edges)
-#     print("self dual edges:", self_edges)
-#     print("expected boundary edges:", expected_boundary)
-
-#     # 2. Faces
-#     face_vals = torch.amax(torch.stack([
-#         grid[:-1, :-1], grid[:-1, 1:],
-#         grid[1:, :-1], grid[1:, 1:],], dim=0), dim=0).flatten().cpu().numpy().astype(np.float32)
-
-#     # Sort primal edges for H0
-#     e_order   = torch.argsort(edge_vals)
-#     e_vals_np = edge_vals[e_order].cpu().numpy().astype(np.float32)
-#     e_idx1_np = e_idx1[e_order].cpu().numpy().astype(np.int64)
-#     e_idx2_np = e_idx2[e_order].cpu().numpy().astype(np.int64)
-
-#     # Allocations
-#     h0_out   = np.empty((len(e_vals_np), 2), dtype=np.float32)
-#     h1_pairs = np.empty((len(e_vals_np), 2), dtype=np.float32)
-
-#     # Pass 1: Forward H0
-#     h0_count = _sweep_h0_forward(e_vals_np, e_idx1_np, e_idx2_np, pix_vals, num_pixels, h0_out)
-    
-#     # Pass 2: Backward H1
-#     h1_count = _sweep_h1_backward(
-#         edge_vals.cpu().numpy().astype(np.float32),
-#         edge_f1.cpu().numpy().astype(np.int64),
-#         edge_f2.cpu().numpy().astype(np.int64), face_vals, num_faces, h1_pairs)
-
-#     h0 = h0_out[:h0_count]
-#     h1 = h1_pairs[:h1_count]
-#     h0 = h0[h0[:, 1] > h0[:, 0]]
-#     h1 = h1[h1[:, 1] > h1[:, 0]]
-
-#     global_min = np.array([[pix_vals.min(), np.inf]], dtype=np.float32)
-#     h0         = np.concatenate([h0, global_min])
-#     return h0, h1
 
 @njit(cache=True)
 def _sweep_h1_backward_surgical(edge_vals, edge_f1, edge_f2, face_vals, num_faces, pre_sorted_order, h1_pairs):
@@ -323,6 +198,252 @@ def compute_h0_h1_fast(grid: torch.Tensor):
     global_min = np.array([[pix_vals_np.min(), np.inf]], dtype=np.float32)
     return np.concatenate([h0, global_min]), h1
 
-# ===== STREAMING SCENARIO ======
+# 🚰 ===== STREAMING SCENARIO ======
 
+@njit(cache=True)
+def _flush_h0_numba(h0_edges, parent, birth_val, pix_vals, h0_pairs_out):
+    h0_count = 0
+    for i in range(len(h0_edges)):
+        val, u, v = h0_edges[i, 0], int(h0_edges[i, 1]), int(h0_edges[i, 2])
+        
+        if parent[u] == -1:
+            parent[u] = u
+            birth_val[u] = pix_vals[u]
+        if parent[v] == -1:
+            parent[v] = v
+            birth_val[v] = pix_vals[v]
+
+        root_u = _root(parent, u)
+        root_v = _root(parent, v)
+
+        if root_u != root_v:
+            if birth_val[root_u] <= birth_val[root_v]:
+                survivor, victim = root_u, root_v
+            else:
+                survivor, victim = root_v, root_u
+
+            h0_pairs_out[h0_count, 0] = birth_val[victim]
+            h0_pairs_out[h0_count, 1] = val
+            h0_count += 1
+            parent[victim] = survivor
+    return h0_count
+
+@njit(cache=True)
+def _flush_h1_numba(h1_edges, parent_f, birth_val_f, face_vals, exterior, h1_pairs_out):
+    h1_count = 0
+    for i in range(len(h1_edges)):
+        neg_val, f1, f2 = h1_edges[i, 0], int(h1_edges[i, 1]), int(h1_edges[i, 2])
+        val = -neg_val
+        
+        if parent_f[f1] == -1:
+            parent_f[f1] = f1
+            birth_val_f[f1] = np.inf if f1 == exterior else face_vals[f1]
+        if parent_f[f2] == -1:
+            parent_f[f2] = f2
+            birth_val_f[f2] = np.inf if f2 == exterior else face_vals[f2]
+
+        root_f1 = _root(parent_f, f1)
+        root_f2 = _root(parent_f, f2)
+
+        if root_f1 != root_f2:
+            if birth_val_f[root_f1] >= birth_val_f[root_f2]:
+                survivor, victim = root_f1, root_f2
+            else:
+                survivor, victim = root_f2, root_f1
+
+            if victim != exterior:
+                h1_pairs_out[h1_count, 0] = val
+                h1_pairs_out[h1_count, 1] = birth_val_f[victim]
+                h1_count += 1
+
+            parent_f[victim] = survivor
+    return h1_count
+
+class StreamingPersistentBasinForest:
+    def __init__(self, num_pixels, num_faces, pix_vals, face_vals):
+        self.num_pixels = num_pixels
+        self.num_faces = num_faces
+        self.exterior = num_faces
+        self.pix_vals = pix_vals
+        self.face_vals = face_vals
+
+        self.parent = np.full(num_pixels, -1, dtype=np.int64)
+        self.birth_val = np.zeros(num_pixels, dtype=np.float32)
+
+        self.parent_f = np.full(num_faces + 1, -1, dtype=np.int64)
+        self.birth_val_f = np.zeros(num_faces + 1, dtype=np.float32)
+
+        self.h0_edges = np.empty((0, 3), dtype=np.float32)
+        self.h1_edges = np.empty((0, 3), dtype=np.float32)
+
+        self.h0_pairs = np.empty((0, 2), dtype=np.float32)
+        self.h1_pairs = np.empty((0, 2), dtype=np.float32)
+
+    def flush_accumulated_edges(self):
+        """Processes collected array states into global topological persistence components."""
+        if len(self.h0_edges) > 0:
+            h0_arr = self.h0_edges[self.h0_edges[:, 0].argsort()]
+            self.h0_edges = np.empty((0, 3), dtype=np.float32)
+            
+            h0_out = np.empty((len(h0_arr), 2), dtype=np.float32)
+            h0_count = _flush_h0_numba(h0_arr, self.parent, self.birth_val, self.pix_vals, h0_out)
+            self.h0_pairs = h0_out[:h0_count]
+
+        if len(self.h1_edges) > 0:
+            h1_arr = self.h1_edges[self.h1_edges[:, 0].argsort()]
+            self.h1_edges = np.empty((0, 3), dtype=np.float32)
+
+            h1_out = np.empty((len(h1_arr), 2), dtype=np.float32)
+            h1_count = _flush_h1_numba(h1_arr, self.parent_f, self.birth_val_f, self.face_vals, self.exterior, h1_out)
+            self.h1_pairs = h1_out[:h1_count]
+
+    def get_diagrams(self):
+        h0, h1 = self.h0_pairs, self.h1_pairs
+        if len(h0) > 0: h0 = h0[h0[:, 1] > h0[:, 0]]
+        if len(h1) > 0: h1 = h1[h1[:, 1] > h1[:, 0]]
+        if len(self.pix_vals) > 0:
+            global_min = np.array([[self.pix_vals.min(), np.inf]], dtype=np.float32)
+            h0 = np.concatenate([h0, global_min]) if len(h0) > 0 else global_min
+        return h0, h1
+
+@njit(parallel=True, cache=True)
+def _prepare_streaming_data_numba(grid, split_row):
+    R, C = grid.shape
+    num_pixels = R * C
+    num_faces = (R - 1) * (C - 1)
+    pix_vals = grid.ravel()
+
+    # 1. Compute face values
+    face_vals = np.empty(num_faces, dtype=np.float32)
+    for r in prange(R - 1):
+        for c in range(C - 1):
+            f_idx = r * (C - 1) + c
+            v1 = grid[r, c]
+            v2 = grid[r, c + 1]
+            v3 = grid[r + 1, c]
+            v4 = grid[r + 1, c + 1]
+            face_vals[f_idx] = max(max(v1, v2), max(v3, v4))
+
+    # 2. Count exact streaming segment allocations
+    c1_h, c2_h, st_h = 0, 0, 0
+    for r in range(R):
+        if r < split_row:
+            c1_h += C - 1
+        elif r > split_row:
+            c2_h += C - 1
+        else:
+            st_h += C - 1
+
+    c1_v, c2_v, st_v = 0, 0, 0
+    for r in range(R - 1):
+        if r < split_row - 1:
+            c1_v += C
+        elif r >= split_row:
+            c2_v += C
+        else:
+            st_v += C
+
+    total_h0_h1 = (c1_h + c1_v) + (c2_h + c2_v) + (st_h + st_v)
+
+    # 3. Pre-allocate continuous flat output evaluation matrices
+    stream_h0 = np.empty((total_h0_h1, 3), dtype=np.float32)
+    stream_h1 = np.empty((total_h0_h1, 3), dtype=np.float32)
+
+    # Offsets for block packing: [Chunk 1 | Chunk 2 | Stitch]
+    c1_ptr = 0
+    c2_ptr = c1_h + c1_v
+    st_ptr = c2_ptr + c2_h + c2_v
+
+    # 4. Fill Horizontal Edges in parallel segments safely
+    for r in prange(R):
+        # Calculate destination pointer offsets based on the split row
+        if r < split_row:
+            h0_idx = c1_ptr + r * (C - 1)
+        elif r > split_row:
+            h0_idx = c2_ptr + (r - split_row - 1) * (C - 1)
+        else:
+            h0_idx = st_ptr
+
+        for c in range(C - 1):
+            u = r * C + c
+            v = u + 1
+            val = max(grid[r, c], grid[r, c + 1])
+
+            f1 = (r - 1) * (C - 1) + c if r > 0 else num_faces
+            f2 = r * (C - 1) + c if r < R - 1 else num_faces
+
+            idx = h0_idx + c
+            stream_h0[idx, 0] = val
+            stream_h0[idx, 1] = float(u)
+            stream_h0[idx, 2] = float(v)
+
+            stream_h1[idx, 0] = -val
+            stream_h1[idx, 1] = float(f1)
+            stream_h1[idx, 2] = float(f2)
+
+    # 5. Fill Vertical Edges
+    # Account for horizontal offsets when packing the rest of the layout segments
+    v_c1_start = c1_ptr + c1_h
+    v_c2_start = c2_ptr + c2_h
+    v_st_start = st_ptr + st_h
+
+    for r in prange(R - 1):
+        if r < split_row - 1:
+            v0_idx = v_c1_start + r * C
+        elif r >= split_row:
+            v0_idx = v_c2_start + (r - split_row) * C
+        else:
+            v0_idx = v_st_start
+
+        for c in range(C):
+            u = r * C + c
+            v = u + C
+            val = max(grid[r, c], grid[r + 1, c])
+
+            f1 = r * (C - 1) + (c - 1) if c > 0 else num_faces
+            f2 = r * (C - 1) + c if c < C - 1 else num_faces
+
+            idx = v0_idx + c
+            stream_h0[idx, 0] = val
+            stream_h0[idx, 1] = float(u)
+            stream_h0[idx, 2] = float(v)
+
+            stream_h1[idx, 0] = -val
+            stream_h1[idx, 1] = float(f1)
+            stream_h1[idx, 2] = float(f2)
+    return num_pixels, num_faces, pix_vals, face_vals, stream_h0, stream_h1
+
+def prepare_streaming_data_numba_wrapper(grid_tensor: torch.Tensor, split_row: int):
+    """Python wrapper to clean entry/exit points for Numba engine processing."""
+    grid = grid_tensor.detach().cpu().numpy().astype(np.float32)
+
+    num_pixels, num_faces, pix_vals, face_vals, stream_h0, stream_h1 = (
+        _prepare_streaming_data_numba(grid, split_row))
+
+    return {
+        "metadata": {
+            "num_pixels": num_pixels,
+            "num_faces": num_faces,
+            "exterior": num_faces,},
+        "pix_vals": pix_vals,
+        "face_vals": face_vals,
+        "stream_h0": stream_h0,
+        "stream_h1": stream_h1,}
+
+def run_streaming_persistence(data: dict):
+    """Ingests pre-allocated array segments instantly without loop iterations.
+    Pure streaming execution path."""
+    meta = data["metadata"]
+    
+    stream_engine = StreamingPersistentBasinForest(
+        num_pixels=meta["num_pixels"], num_faces=meta["num_faces"], 
+        pix_vals=data["pix_vals"], face_vals=data["face_vals"])
+
+    # Load data directly into staging variables
+    stream_engine.h0_edges = data["stream_h0"]
+    stream_engine.h1_edges = data["stream_h1"]
+
+    # Compute persistence pairs and clear the edge arrays
+    stream_engine.flush_accumulated_edges()
+    return stream_engine.get_diagrams()
 
